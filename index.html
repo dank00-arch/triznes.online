@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ru" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#071018" />
+  <title>TRIZNES // SOCHI.OS</title>
+  <meta name="description" content="TRIZNES — интерфейс к реальной жизни. SOCHI // NODE 001." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <style>
+    :root{
+      color-scheme:dark;
+      --bg:#05080d;--bg2:#09111a;--panel:rgba(8,15,24,.72);--panel2:rgba(13,24,36,.82);
+      --line:rgba(255,255,255,.1);--muted:#92a0b1;--text:#f6fbff;--cyan:#67e8f9;--cyan2:#22d3ee;
+      --pink:#ff4aa2;--coral:#ff7d67;--green:#5ee0a0;--gold:#ffd47a;--danger:#ff6b7b;
+      --shadow:0 24px 80px rgba(0,0,0,.32);--radius:24px;--nav:248px;
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:
+      radial-gradient(circle at 15% 10%,rgba(34,211,238,.10),transparent 32%),
+      radial-gradient(circle at 85% 8%,rgba(255,74,162,.10),transparent 30%),
+      linear-gradient(180deg,#05080d 0%,#08111a 55%,#0d1820 100%);color:var(--text);font-family:Inter,system-ui,sans-serif}
+    button,a,input{font:inherit}.mono{font-family:"Space Mono",ui-monospace,monospace}.hidden{display:none!important}
+    .app{display:grid;grid-template-columns:var(--nav) minmax(0,1fr);min-height:100vh}
+    .sidebar{position:sticky;top:0;height:100vh;padding:18px 14px;border-right:1px solid var(--line);background:rgba(5,9,14,.86);backdrop-filter:blur(18px);z-index:30}
+    .brand{display:flex;align-items:center;gap:12px;padding:8px 10px 20px}.mark{width:42px;height:42px;border:1px solid rgba(103,232,249,.4);border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(103,232,249,.12),rgba(255,74,162,.12));box-shadow:0 0 28px rgba(34,211,238,.08)}
+    .brand b{font-size:14px;letter-spacing:.16em}.brand small{display:block;color:var(--cyan);font-size:9px;letter-spacing:.14em;margin-top:3px}
+    .nav{display:grid;gap:6px}.nav button{border:1px solid transparent;background:transparent;color:#a9b5c3;border-radius:14px;padding:11px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;transition:.18s ease}.nav button:hover{background:rgba(255,255,255,.04);color:white}.nav button.active{background:linear-gradient(90deg,rgba(34,211,238,.14),rgba(34,211,238,.03));border-color:rgba(103,232,249,.22);color:white}.nav i{width:24px;height:24px;border:1px solid rgba(255,255,255,.12);border-radius:8px;display:grid;place-items:center;font-style:normal;font-size:11px}.nav .active i{border-color:rgba(103,232,249,.5);color:var(--cyan)}
+    .node-mini{position:absolute;left:14px;right:14px;bottom:16px;border:1px solid rgba(103,232,249,.18);border-radius:16px;padding:13px;background:rgba(255,255,255,.03)}.node-mini .eyebrow{color:var(--cyan);font-size:9px;letter-spacing:.14em}.node-mini strong{display:block;margin-top:5px;font-size:13px}.node-mini span{font-size:10px;color:var(--muted)}
+    .shell{min-width:0}.topbar{position:sticky;top:0;z-index:25;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;border-bottom:1px solid var(--line);background:rgba(5,9,14,.72);backdrop-filter:blur(18px)}
+    .world-state{display:flex;align-items:center;gap:12px}.world-state .pulse{width:9px;height:9px;background:var(--green);border-radius:50%;box-shadow:0 0 18px rgba(94,224,160,.7)}.world-state b{font-size:11px;letter-spacing:.12em}.world-state small{display:block;color:var(--muted);font-size:9px;margin-top:2px}.top-actions{display:flex;gap:8px;align-items:center}.chip,.btn{border:1px solid var(--line);background:rgba(255,255,255,.04);color:white;border-radius:13px;padding:9px 12px;cursor:pointer;text-decoration:none;transition:.18s ease}.chip{font-size:10px}.btn:hover,.chip:hover{transform:translateY(-1px);border-color:rgba(103,232,249,.38)}.btn.primary{border-color:rgba(103,232,249,.45);background:linear-gradient(135deg,rgba(34,211,238,.20),rgba(34,211,238,.08));color:#dffcff}.btn.pink{border-color:rgba(255,74,162,.4);background:rgba(255,74,162,.1);color:#ffd7ea}.btn.ghost{background:transparent}
+    .content{padding:18px;max-width:1500px;margin:0 auto}.view{display:none;animation:fade .28s ease}.view.active{display:block}@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(300px,.7fr);gap:14px}.map-wrap{position:relative;height:clamp(520px,68vh,760px);border-radius:28px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:#08121d}.map{position:absolute;inset:0}.map-wrap:after{content:"";pointer-events:none;position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,8,13,.28),transparent 25%,transparent 65%,rgba(5,8,13,.78))}
+    .map-title{position:absolute;z-index:4;left:22px;top:20px}.eyebrow{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan)}.map-title h1{font-size:clamp(22px,3vw,42px);margin:7px 0 3px;letter-spacing:.08em}.map-title p{margin:0;color:#d5e0eb;font-size:12px}.world-shift{position:absolute;z-index:4;left:22px;bottom:20px;right:22px;display:flex;gap:10px;align-items:center}.shift-line{height:4px;flex:1;max-width:220px;background:linear-gradient(90deg,#142231,var(--cyan2),var(--coral),var(--gold));border-radius:99px}.world-shift small{font-size:9px;color:#d6e4ee;letter-spacing:.1em}
+    .side-stack{display:grid;gap:14px;align-content:start}.panel{border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018));backdrop-filter:blur(18px);border-radius:var(--radius);box-shadow:var(--shadow)}.panel.pad{padding:18px}.panel h2,.panel h3{margin:0}.muted{color:var(--muted)}
+    .ai-card{min-height:250px;position:relative;overflow:hidden}.ai-card:before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-70px;top:-80px;background:rgba(34,211,238,.16);filter:blur(8px)}.ai-icon{width:42px;height:42px;border-radius:14px;border:1px solid rgba(103,232,249,.42);display:grid;place-items:center;color:var(--cyan);background:rgba(34,211,238,.08)}.ai-card h2{font-size:24px;line-height:1.05;margin-top:28px}.ai-card p{font-size:12px;line-height:1.6;color:#b7c4d1}.ai-card .btn{width:100%;margin-top:8px}
+    .status-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.stat{border:1px solid var(--line);border-radius:14px;padding:11px;background:rgba(255,255,255,.025)}.stat small{display:block;color:var(--muted);font-size:9px;text-transform:uppercase}.stat strong{display:block;margin-top:5px;font-size:13px}.zero{color:var(--muted)}
+    .feed{margin-top:14px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.feed-card{min-height:145px;border:1px solid var(--line);border-radius:20px;padding:14px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(160deg,rgba(34,211,238,.08),rgba(255,74,162,.04),rgba(255,255,255,.02));position:relative;overflow:hidden}.feed-card:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(255,212,122,.12),transparent 34%)}.feed-card>*{position:relative}.feed-card small{color:var(--cyan);font-size:9px;letter-spacing:.12em}.feed-card b{margin-top:6px;font-size:13px}.feed-card span{font-size:10px;color:var(--muted);margin-top:3px}
+    .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:14px}.section-head h1{margin:5px 0 0;font-size:32px}.section-head p{margin:6px 0 0;color:var(--muted);font-size:12px}.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.profile-hero{display:grid;grid-template-columns:minmax(240px,.8fr) minmax(0,1.2fr);min-height:500px;overflow:hidden}.profile-art{position:relative;background:linear-gradient(160deg,#0a2430,#10202c 45%,#1f2b24)}.profile-art:after{content:"PLAYER UNKNOWN";position:absolute;left:20px;bottom:20px;font:700 12px "Space Mono";letter-spacing:.16em;color:rgba(255,255,255,.72)}.profile-copy{padding:28px}.profile-copy h1{font-size:36px;margin:10px 0 5px}.profile-copy .quote{font-size:18px;line-height:1.55;color:#d5e2ec;border-left:2px solid var(--cyan);padding-left:14px;margin:26px 0}.path{display:grid;grid-template-columns:1fr 1fr;gap:10px}.path-card{padding:16px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.025)}.path-card small{font-size:9px;color:var(--muted)}.path-card b{display:block;margin-top:7px}.path-card.locked{opacity:.55}
+    .empty{min-height:360px;display:grid;place-items:center;text-align:center;padding:34px}.empty-icon{width:64px;height:64px;border-radius:22px;border:1px solid rgba(103,232,249,.28);display:grid;place-items:center;margin:0 auto 16px;color:var(--cyan);font-size:22px;background:rgba(34,211,238,.06)}.empty h2{margin:0 0 8px}.empty p{max-width:620px;margin:0 auto 18px;color:var(--muted);font-size:13px;line-height:1.65}.actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.role-card{padding:18px;min-height:220px}.role-card .tag{display:inline-block;border:1px solid var(--line);padding:5px 8px;border-radius:999px;font-size:9px;color:var(--muted)}.role-card h3{font-size:20px;margin-top:42px}.role-card p{font-size:12px;line-height:1.55;color:var(--muted)}
+    .level00{min-height:70vh;display:grid;place-items:center}.level-box{width:min(720px,100%);padding:32px;text-align:center;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015));border:1px solid rgba(103,232,249,.22);border-radius:32px}.level-box h1{font-size:48px;letter-spacing:.12em;margin:10px 0}.level-box .flow{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:22px 0}.flow span{padding:8px 10px;border-radius:999px;border:1px solid var(--line);font-size:10px}.flow .on{border-color:rgba(103,232,249,.48);color:var(--cyan);background:rgba(34,211,238,.08)}
+    .mobile-nav{display:none}
+    .notice{padding:12px 14px;border:1px solid rgba(255,212,122,.22);background:rgba(255,212,122,.06);color:#eed9aa;border-radius:14px;font-size:11px;margin-bottom:14px}.legacy-link{font-size:10px;color:var(--muted);text-decoration:none}.legacy-link:hover{color:var(--cyan)}
+    @media(max-width:1050px){:root{--nav:84px}.brand div:last-child,.nav button span,.node-mini{display:none}.brand{justify-content:center}.nav button{justify-content:center;padding:10px}.hero-grid{grid-template-columns:1fr}.side-stack{grid-template-columns:1fr 1fr}.feed{grid-template-columns:1fr 1fr}}
+    @media(max-width:720px){body{padding-bottom:74px}.app{display:block}.sidebar{display:none}.topbar{padding:10px 12px}.top-actions .chip{display:none}.content{padding:10px}.hero-grid{display:block}.map-wrap{height:68vh;border-radius:22px}.side-stack{display:grid;grid-template-columns:1fr;margin-top:10px}.feed{grid-template-columns:1fr 1fr}.feed-card{min-height:120px}.profile-hero{grid-template-columns:1fr}.profile-art{min-height:320px}.profile-copy{padding:20px}.grid-2,.cards{grid-template-columns:1fr}.section-head h1{font-size:27px}.mobile-nav{position:fixed;display:grid;grid-template-columns:repeat(5,1fr);left:8px;right:8px;bottom:max(8px,env(safe-area-inset-bottom));z-index:60;border:1px solid var(--line);background:rgba(5,9,14,.90);backdrop-filter:blur(18px);border-radius:18px;padding:7px}.mobile-nav button{border:0;background:transparent;color:#7f8c9b;font-size:9px;padding:7px 2px;border-radius:12px}.mobile-nav button.active{color:var(--cyan);background:rgba(34,211,238,.08)}.mobile-nav b{display:block;font-size:16px;margin-bottom:2px}.map-title h1{font-size:24px}.level-box{padding:22px 14px}.level-box h1{font-size:36px}}
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="mark mono">3S</div><div><b>TRIZNES</b><small>3SNESS.ONLINE</small></div></div>
+    <nav class="nav" id="desktop-nav">
+      <button data-view="profile"><i>◉</i><span>Мой профиль</span></button>
+      <button data-view="chats"><i>⌁</i><span>Чаты</span></button>
+      <button data-view="characters"><i>◇</i><span>Персонажи</span></button>
+      <button data-view="streams"><i>◌</i><span>Прямые эфиры</span></button>
+      <button data-view="communities"><i>◎</i><span>Сообщества</span></button>
+      <button data-view="staking"><i>↗</i><span>Вклады и пулы</span></button>
+      <button data-view="clubcards"><i>▣</i><span>Клубные карты</span></button>
+      <button data-view="world" class="active"><i>⌖</i><span>Карта Сочи</span></button>
+      <button data-view="music"><i>♪</i><span>Музыка</span></button>
+      <button data-view="realestate"><i>⌂</i><span>Недвижимость</span></button>
+    </nav>
+    <div class="node-mini"><div class="eyebrow mono">SOCHI // NODE 001</div><strong>WORLD STATE: INIT</strong><span>Чистый запуск без фиктивных данных</span></div>
+  </aside>
+
+  <div class="shell">
+    <header class="topbar">
+      <div class="world-state"><span class="pulse"></span><div><b class="mono">SOCHI.OS // STAGING</b><small>REAL LIFE GAME PLATFORM</small></div></div>
+      <div class="top-actions"><span class="chip mono" id="player-chip">PLAYER UNKNOWN</span><a class="btn primary" href="register.html">Войти в игру</a></div>
+    </header>
+
+    <main class="content">
+      <section class="view active" id="view-world">
+        <div class="hero-grid">
+          <div class="map-wrap">
+            <div id="sochi-map" class="map"></div>
+            <div class="map-title"><div class="eyebrow mono">SOCHI // NODE 001</div><h1 class="mono">ЖИВОЙ ИГРОВОЙ ГОРОД</h1><p>Реальные люди • реальные места • реальные действия</p></div>
+            <div class="world-shift"><small class="mono">WORLD 01</small><div class="shift-line"></div><small class="mono">WORLD 02</small></div>
+          </div>
+          <aside class="side-stack">
+            <article class="panel pad ai-card"><div class="ai-icon">✦</div><div class="eyebrow mono" style="margin-top:14px">BEZLIKI // NAVIGATOR</div><h2>ТВОЙ<br>СЛЕДУЮЩИЙ ШАГ</h2><p id="next-step-copy">Сначала создай собственный Player ID. Путь начинается с реального человека, а не с заранее нарисованного профиля.</p><a class="btn primary" href="register.html">Начать LEVEL 00 →</a></article>
+            <article class="panel pad"><div class="eyebrow mono">WORLD STATE</div><div class="status-grid"><div class="stat"><small>LEVEL</small><strong id="hud-level" class="zero">—</strong></div><div class="stat"><small>QUEST</small><strong id="hud-quest" class="zero">—</strong></div><div class="stat"><small>CONNECTIONS</small><strong class="zero">0</strong></div><div class="stat"><small>STORIES</small><strong class="zero">0</strong></div></div></article>
+          </aside>
+        </div>
+        <div class="feed">
+          <article class="feed-card"><small class="mono">WORLD</small><b>Сочи — первый узел</b><span>Карта становится главным интерфейсом мира.</span></article>
+          <article class="feed-card"><small class="mono">PLAYER</small><b>Профили создаются с нуля</b><span>Только реальные участники после регистрации.</span></article>
+          <article class="feed-card"><small class="mono">COMMUNITY</small><b>Реальные пространства</b><span>Сообщества появляются после подтверждённого подключения.</span></article>
+          <article class="feed-card"><small class="mono">STORY</small><b>Жизнь становится кино</b><span>Артефакты и истории рождаются из реальных действий.</span></article>
+        </div>
+      </section>
+
+      <section class="view" id="view-profile">
+        <div class="section-head"><div><div class="eyebrow mono">MY WORLD</div><h1>Мой профиль</h1><p>Профиль не предзаполняется. Всё начинается с регистрации через Аполлона и TRIZNES CORE.</p></div></div>
+        <article class="panel profile-hero"><div class="profile-art"></div><div class="profile-copy"><div class="eyebrow mono" id="profile-state">PLAYER UNKNOWN</div><h1 id="profile-name">Новый игрок</h1><div class="muted mono" id="profile-id">PLAYER ID — НЕ СОЗДАН</div><div class="quote">«Ты не обязан повторять чужой маршрут. Игра начинается с твоей собственной жизни.»</div><div class="path"><div class="path-card"><small class="mono">LEVEL 00</small><b>Подключение</b><span class="muted">Создать Player ID</span></div><div class="path-card locked"><small class="mono">LEVEL 01</small><b>Старт</b><span class="muted">Откроется после LEVEL 00</span></div></div><div style="margin-top:18px"><a class="btn primary" href="register.html">Зарегистрироваться через Аполлона</a></div></div></article>
+      </section>
+
+      <section class="view" id="view-chats"><div class="section-head"><div><div class="eyebrow mono">COMMUNICATION</div><h1>Чаты</h1><p>Никаких фейковых диалогов. История появляется только после реального общения.</p></div></div><article class="panel empty"><div><div class="empty-icon">⌁</div><h2>История чатов пуста</h2><p>После регистрации здесь появятся реальные беседы и системные сообщения. BEZLIKI остаётся навигатором игрока, Аполлон — контуром регистрации и управления.</p><div class="actions"><a class="btn primary" href="register.html">Начать с регистрации</a><a class="btn ghost" href="legacy.html">Текущий функциональный контур</a></div></div></article></section>
+
+      <section class="view" id="view-characters"><div class="section-head"><div><div class="eyebrow mono">CHARACTERS</div><h1>Персонажи</h1><p>На сцену попадают только подтверждённые реальные участники.</p></div></div><article class="panel empty"><div><div class="empty-icon">◇</div><h2>Нет подтверждённых персонажей</h2><p>Мы сознательно убрали демонстрационные лица, придуманные уровни и вымышленные биографии. Новый персонаж появляется только после реальной регистрации, согласия и создания профиля.</p><div class="actions"><a class="btn primary" href="register.html">Создать свой профиль</a></div></div></article></section>
+
+      <section class="view" id="view-streams"><div class="section-head"><div><div class="eyebrow mono">SOCHIWOOD // LIVE</div><h1>Прямые эфиры</h1><p>Эфир отображается только после фактического запуска источника.</p></div></div><article class="panel empty"><div><div class="empty-icon">◌</div><h2>Сейчас нет подтверждённого LIVE</h2><p>Никаких искусственных зрителей, донатов или сообщений. Когда реальный эфир подключится к TRIZNES CORE, он появится здесь автоматически.</p><div class="actions"><a class="btn ghost" href="legacy.html">Открыть текущий модуль эфиров</a></div></div></article></section>
+
+      <section class="view" id="view-communities"><div class="section-head"><div><div class="eyebrow mono">ALLIANCE NODES</div><h1>Сообщества</h1><p>Площадки входят в мир как реальные узлы: люди, события, контент, правила съёмки и квесты.</p></div></div><article class="panel empty"><div><div class="empty-icon">◎</div><h2>Каталог собирается заново</h2><p>Мы не переносим демонстрационные сообщества автоматически. Подтверждённые площадки добавляются через Аполлона и административное одобрение.</p><div class="actions"><button class="btn primary" onclick="showNotice('Запрос сообщества должен пройти через Ассистента Аполлона.')">Подключить сообщество</button></div></div></article></section>
+
+      <section class="view" id="view-staking"><div class="section-head"><div><div class="eyebrow mono">REWARD / FINANCE</div><h1>Вклады и пулы</h1><p>Финансовый слой отделён от человеческой ценности, XP и философии.</p></div></div><div class="notice">На staging-сборке финансовые действия не запускаются. Условия, партнёры, риски и юридическая модель должны быть подтверждены отдельно.</div><article class="panel empty"><div><div class="empty-icon">↗</div><h2>Финансовые продукты не активированы</h2><p>Раздел сохранён как часть существующей архитектуры, но не показывает фиктивную доходность, баланс или обещание прибыли.</p><div class="actions"><a class="btn ghost" href="legacy.html">Посмотреть текущую реализацию</a></div></div></article></section>
+
+      <section class="view" id="view-clubcards"><div class="section-head"><div><div class="eyebrow mono">PLAYER ARTIFACT</div><h1>Клубные карты</h1><p>Карта — визуальный артефакт роли и доступа, а не мера ценности человека.</p></div></div><div class="cards"><article class="panel role-card"><span class="tag mono">PLAYER CARD</span><h3>Чёрная</h3><p>Базовый игровой артефакт. Конкретные условия доступа задаются системой и не подменяют Player ID.</p></article><article class="panel role-card"><span class="tag mono">COMMUNITY</span><h3>Серебряная</h3><p>Для подтверждённых пространств и сообществ после административного подключения.</p></article><article class="panel role-card"><span class="tag mono">SPECIAL ACCESS</span><h3>Золотая</h3><p>Специальный слой доступа. Условия должны быть определены отдельно до публичного запуска.</p></article></div></section>
+
+      <section class="view" id="view-music"><div class="section-head"><div><div class="eyebrow mono">PINK NOIZE</div><h1>Музыка</h1><p>Не отдельная витрина — саундтрек реальных историй и уровней.</p></div></div><article class="panel empty"><div><div class="empty-icon">♪</div><h2>Музыкальный архив подключается</h2><p>В production здесь будут только реальные треки, демо и подтверждённые релизы PINK NOIZE с понятными правами.</p><div class="actions"><a class="btn ghost" href="legacy.html">Открыть текущий музыкальный модуль</a></div></div></article></section>
+
+      <section class="view" id="view-realestate"><div class="section-head"><div><div class="eyebrow mono">CITY LAYER</div><h1>Недвижимость</h1><p>Существующий раздел сохраняется, но данные должны приходить из подтверждённого источника.</p></div></div><article class="panel empty"><div><div class="empty-icon">⌂</div><h2>Нет подтверждённых объектов</h2><p>На staging мы не показываем демонстрационные цены, адреса и фотографии как реальные предложения.</p><div class="actions"><a class="btn ghost" href="legacy.html">Открыть текущий модуль</a></div></div></article></section>
+
+      <section class="view" id="view-level00"><div class="level00"><div class="level-box"><div class="eyebrow mono">TRIZNES // LEVEL 00</div><h1 class="mono">ENTER WORLD</h1><p class="muted">PLAYER UNKNOWN → PLAYER DETECTED → PLAYER CONNECTED</p><div class="flow"><span class="on">Я принимаю себя</span><span>Я люблю себя</span><span>Я выбираю доверие</span><span>Я действую</span></div><p>LEVEL 00 не оценивает убеждения и не выдаёт XP за «правильные» чувства. Он создаёт чистую точку входа в собственный маршрут.</p><a class="btn primary" href="register.html">Начать регистрацию</a></div></div></section>
+    </main>
+  </div>
+</div>
+
+<nav class="mobile-nav" id="mobile-nav"><button data-view="world" class="active"><b>⌖</b>МИР</button><button data-view="characters"><b>◇</b>ГЕРОИ</button><button data-view="level00"><b>✦</b>BEZLIKI</button><button data-view="streams"><b>◌</b>LIVE</button><button data-view="profile"><b>◉</b>ИГРОК</button></nav>
+
+<div id="toast" style="position:fixed;right:16px;bottom:90px;z-index:100;display:none;max-width:340px;border:1px solid rgba(103,232,249,.3);background:#0a121b;color:#eafcff;padding:12px 14px;border-radius:14px;box-shadow:var(--shadow);font-size:12px"></div>
+<script>
+  const navButtons=[...document.querySelectorAll('[data-view]')];
+  const views=[...document.querySelectorAll('.view')];
+  function activate(view){
+    views.forEach(v=>v.classList.toggle('active',v.id===`view-${view}`));
+    navButtons.forEach(b=>b.classList.toggle('active',b.dataset.view===view));
+    history.replaceState(null,'',`#${view}`);
+    if(view==='world'&&window.sochiMap)setTimeout(()=>window.sochiMap.resize(),60);
+  }
+  navButtons.forEach(b=>b.addEventListener('click',()=>activate(b.dataset.view)));
+  const initial=(location.hash||'#world').slice(1);if(document.getElementById(`view-${initial}`))activate(initial);
+  function showNotice(text){const t=document.getElementById('toast');t.textContent=text;t.style.display='block';clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.style.display='none',3600)}
+  window.showNotice=showNotice;
+
+  const playerId=localStorage.getItem('triznes-player-id');
+  const registrationCode=localStorage.getItem('triznes-registration-code');
+  if(playerId){
+    document.getElementById('player-chip').textContent='PLAYER CONNECTED';
+    document.getElementById('profile-state').textContent='PLAYER CONNECTED';
+    document.getElementById('profile-id').textContent=`PLAYER ID • ${playerId.slice(0,8).toUpperCase()}…`;
+    document.getElementById('hud-level').textContent='1';
+    document.getElementById('hud-level').classList.remove('zero');
+    document.getElementById('hud-quest').textContent='СТАРТ';
+    document.getElementById('hud-quest').classList.remove('zero');
+    document.getElementById('next-step-copy').textContent='Player ID найден в этом браузере. Следующий шаг — синхронизировать профиль с TRIZNES CORE и получить первый реальный квест.';
+  }
+
+  if(window.maplibregl){
+    window.sochiMap=new maplibregl.Map({container:'sochi-map',style:'https://tiles.openfreemap.org/styles/liberty',center:[39.7231,43.5855],zoom:11.2,pitch:48,bearing:-10,antialias:true,attributionControl:true});
+    window.sochiMap.addControl(new maplibregl.NavigationControl({visualizePitch:true}),'top-right');
+    window.sochiMap.on('load',()=>{
+      const point={type:'Feature',properties:{label:'SOCHI // NODE 001'},geometry:{type:'Point',coordinates:[39.7231,43.5855]}};
+      window.sochiMap.addSource('node001',{type:'geojson',data:point});
+      window.sochiMap.addLayer({id:'node001-glow',type:'circle',source:'node001',paint:{'circle-radius':20,'circle-color':'#22d3ee','circle-opacity':.14,'circle-blur':.55}});
+      window.sochiMap.addLayer({id:'node001-point',type:'circle',source:'node001',paint:{'circle-radius':7,'circle-color':'#67e8f9','circle-stroke-color':'#ffffff','circle-stroke-width':2}});
+    });
+  }
+</script>
+</body>
+</html>
