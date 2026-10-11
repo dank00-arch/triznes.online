@@ -42,11 +42,13 @@ jobs:
 
       - name: Accept Android licenses
         shell: bash
-        run: yes | "$SDKMANAGER" --licenses >/dev/null || true
+        run: |
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
 
       - name: Install Android 35 SDK
         shell: bash
-        run: "$SDKMANAGER" "platforms;android-35" "build-tools;35.0.0"
+        run: |
+          "$SDKMANAGER" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Gradle 8.7
         uses: gradle/actions/setup-gradle@v4
@@ -55,7 +57,8 @@ jobs:
 
       - name: Build debug APK
         working-directory: android
-        run: gradle --no-daemon assembleDebug
+        run: |
+          gradle --no-daemon assembleDebug
 
       - name: Prepare artifact
         run: |
