@@ -16,6 +16,9 @@ jobs:
   build-apk:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,11 +29,24 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Resolve Android sdkmanager
+        shell: bash
+        run: |
+          SDKMANAGER="$(find /usr/local/lib/android/sdk/cmdline-tools -type f -name sdkmanager 2>/dev/null | head -n 1)"
+          if [ -z "$SDKMANAGER" ]; then
+            echo "sdkmanager not found under /usr/local/lib/android/sdk/cmdline-tools" >&2
+            exit 1
+          fi
+          echo "SDKMANAGER=$SDKMANAGER" >> "$GITHUB_ENV"
+          echo "Using $SDKMANAGER"
+
       - name: Accept Android licenses
-        run: yes | sdkmanager --licenses >/dev/null || true
+        shell: bash
+        run: yes | "$SDKMANAGER" --licenses >/dev/null || true
 
       - name: Install Android 35 SDK
-        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+        shell: bash
+        run: "$SDKMANAGER" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Gradle 8.7
         uses: gradle/actions/setup-gradle@v4
