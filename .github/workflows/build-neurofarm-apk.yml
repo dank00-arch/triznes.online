@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build-apk:
@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Java 17
         uses: actions/setup-java@v5
@@ -38,7 +40,6 @@ jobs:
             exit 1
           fi
           echo "SDKMANAGER=$SDKMANAGER" >> "$GITHUB_ENV"
-          echo "Using $SDKMANAGER"
 
       - name: Accept Android licenses
         shell: bash
@@ -55,21 +56,45 @@ jobs:
         with:
           gradle-version: '8.7'
 
-      - name: Build debug APK
+      - name: Build APK
         working-directory: android
         run: |
           gradle --no-daemon assembleDebug
 
-      - name: Prepare artifact
+      - name: Prepare downloadable beta
+        shell: bash
         run: |
-          mkdir -p dist
+          mkdir -p dist downloads/neurofarm
           cp android/app/build/outputs/apk/debug/app-debug.apk dist/TRIZNES-Neurofarm-v0.1.0.apk
           sha256sum dist/TRIZNES-Neurofarm-v0.1.0.apk > dist/TRIZNES-Neurofarm-v0.1.0.sha256
+          cp dist/TRIZNES-Neurofarm-v0.1.0.apk downloads/neurofarm/TRIZNES-Neurofarm-v0.1.0.apk
+          cp dist/TRIZNES-Neurofarm-v0.1.0.sha256 downloads/neurofarm/TRIZNES-Neurofarm-v0.1.0.sha256
+          cat > downloads/neurofarm/version.json <<'JSON'
+          {
+            "version": "0.1.0",
+            "channel": "alpha",
+            "apk_url": "https://raw.githubusercontent.com/dank00-arch/triznes.online/app/neurofarm-android/downloads/neurofarm/TRIZNES-Neurofarm-v0.1.0.apk",
+            "notes": "TRIZNES NEUROFARM alpha: Idea Drop, APOLLON, TRIZNES Flow, PINK NOIZE mode, local projects and sharing."
+          }
+          JSON
 
-      - name: Upload APK
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: TRIZNES-Neurofarm-v0.1.0-APK
           path: dist/*
           if-no-files-found: error
           retention-days: 30
+
+      - name: Publish direct APK to beta branch
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add downloads/neurofarm
+          if git diff --cached --quiet; then
+            echo "Download files already current"
+          else
+            git commit -m "chore: publish Neurofarm v0.1.0 APK"
+            git push origin HEAD:app/neurofarm-android
+          fi
