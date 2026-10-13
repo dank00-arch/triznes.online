@@ -2,15 +2,15 @@
   "name": "TRIZNES Neuroferma",
   "short_name": "Neuroferma",
   "description": "Персональный контур TRIZNES для владельца карты",
-  "start_url": "/app.html",
-  "scope": "/",
+  "start_url": "./app.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#08090d",
   "theme_color": "#090a0f",
   "lang": "ru",
   "icons": [
     {
-      "src": "/icon.svg",
+      "src": "./icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
