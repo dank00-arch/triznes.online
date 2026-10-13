@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090a0f">
+<meta name="description" content="TRIZNES Neuroferma — персональный контур владельца карты">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>TRIZNES NEUROFERMA</title>
+<style>
+:root{color-scheme:dark;--bg:#08090d;--panel:#11131a;--panel2:#171a22;--text:#f4f6f8;--muted:#9da4ad;--silver:#d9dce1;--silver2:#8e96a3;--cyan:#62efff;--ok:#7fffb2;--danger:#ff8ca7;--line:rgba(255,255,255,.12)}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(200,210,230,.12),transparent 28%),radial-gradient(circle at 90% 18%,rgba(98,239,255,.08),transparent 25%),var(--bg);font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);min-height:100vh}.shell{width:min(1080px,calc(100% - 28px));margin:auto;padding:24px 0 70px}.top{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:28px}.brand{font-weight:950;letter-spacing:.16em;font-size:13px}.brand b{color:var(--cyan)}button,.btn,select,input,textarea{font:inherit}.btn,button{border:1px solid var(--line);background:#171a22;color:white;padding:11px 15px;border-radius:13px;cursor:pointer;font-weight:800}.btn.primary,button.primary{background:linear-gradient(120deg,#e8ebf0,#8d96a4);color:#090a0f;border:0}.btn:disabled,button:disabled{opacity:.55;cursor:wait}.hero{border:1px solid rgba(220,225,235,.22);border-radius:28px;padding:28px;background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025));box-shadow:0 28px 80px rgba(0,0,0,.32)}.eyebrow{font:800 10px ui-monospace,monospace;letter-spacing:.18em;color:var(--cyan)}h1{font-size:clamp(32px,6vw,62px);letter-spacing:-.045em;line-height:.95;margin:12px 0}.sub{color:#c5cad1;max-width:760px;font-size:17px}.statusline{display:flex;gap:9px;align-items:center;color:var(--muted);font-size:13px;margin-top:20px}.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 18px var(--ok)}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}.tile,.panel{border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.035);padding:18px}.tile strong{display:block;font-size:16px}.tile small{color:var(--muted)}.main{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;margin-top:16px}.panel h2{margin:0 0 6px;font-size:22px}.panel p{color:var(--muted);margin:0 0 16px}.field{display:grid;gap:7px;margin-top:12px}.field label{font-size:12px;color:#cbd0d7;font-weight:700}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);background:#0b0d12;color:white;border-radius:13px;padding:12px}.field textarea{min-height:170px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.cardcode{font:800 14px ui-monospace,monospace;color:var(--silver);letter-spacing:.08em}.silver{background:linear-gradient(135deg,#f0f2f5,#959daa 55%,#4b515c);color:#090a0f;border:0}.silver p,.silver small{color:#252932}.request{padding:12px 0;border-top:1px solid var(--line)}.request:first-child{border-top:0}.badge{display:inline-flex;padding:4px 8px;border-radius:999px;border:1px solid var(--line);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#cdd2d8}.hidden{display:none!important}.error{color:var(--danger);font-weight:700}.success{color:var(--ok);font-weight:700}.activation{max-width:650px;margin:12vh auto;border:1px solid var(--line);border-radius:25px;background:var(--panel);padding:28px;text-align:center}.spinner{width:30px;height:30px;border:3px solid rgba(255,255,255,.14);border-top-color:var(--cyan);border-radius:50%;animation:spin 1s linear infinite;margin:18px auto}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:820px){.grid{grid-template-columns:1fr 1fr}.main{grid-template-columns:1fr}.row{grid-template-columns:1fr}}@media(max-width:480px){.grid{grid-template-columns:1fr}.hero{padding:21px}.shell{width:min(100% - 18px,1080px)}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top"><div class="brand">TRIZNES <b>NEUROFERMA</b></div><div><button id="installBtn" class="hidden">Установить приложение</button> <button id="logoutBtn" class="hidden">Выйти</button></div></div>
+
+  <section id="activation" class="activation">
+    <div class="eyebrow">PERSONAL NODE / SECURE ENTRY</div>
+    <h1 style="font-size:38px">Вход в Нейроферму</h1>
+    <div id="activationText">Проверяю персональный доступ…</div>
+    <div class="spinner" id="spinner"></div>
+  </section>
+
+  <main id="app" class="hidden">
+    <section class="hero">
+      <div class="eyebrow">SILVER MEMBER / PERSONAL CREATOR NODE</div>
+      <h1 id="profileName">Андрей Драгунов</h1>
+      <div class="sub" id="profileIntent"></div>
+      <div class="statusline"><i class="dot"></i><span>Личный контур активен. Идеи можно передавать в Нейроферму TRIZNES.</span></div>
+      <div class="grid">
+        <div class="tile"><strong>Идея → Нейроферма</strong><small>Сохраняется как персональная заявка</small></div>
+        <div class="tile"><strong>AI-видео и визуалы</strong><small>Разрешены серебряной картой</small></div>
+        <div class="tile"><strong>Свой Торговый дом</strong><small>Отдельный рабочий контур</small></div>
+        <div class="tile"><strong>Публикация через approval</strong><small>Без административного доступа</small></div>
+      </div>
+    </section>
+
+    <section class="main">
+      <div class="panel">
+        <h2>Передать идею в TRIZNES</h2>
+        <p>Опиши замысел свободно. Нейроферма сохранит его в твоём контуре и подготовит к реализации. До production и публикации права на исходники и финальный запуск подтверждаются отдельно.</p>
+        <form id="ideaForm">
+          <div class="field"><label>Название идеи</label><input id="ideaTitle" maxlength="180" required placeholder="Например: Великий шёлковый путь — новый торговый маршрут"></div>
+          <div class="row">
+            <div class="field"><label>Тип</label><select id="ideaType"><option value="trade">Торговая инициатива</option><option value="video">Ролик / фильм</option><option value="campaign">Кампания</option><option value="product">Продукт</option><option value="event">Событие</option><option value="story">История</option><option value="other">Другое</option></select></div>
+            <div class="field"><label>Формат контента</label><select id="outputFormat"><option value="vertical">Вертикальный</option><option value="horizontal">Горизонтальный</option><option value="square">Квадратный</option></select></div>
+          </div>
+          <div class="field"><label>Что хочешь реализовать?</label><textarea id="ideaText" maxlength="12000" required placeholder="Расскажи идею, для кого она, что должно произойти и какой результат ты хочешь увидеть…"></textarea></div>
+          <div style="display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap"><button id="submitIdea" class="primary" type="submit">Отправить в Нейроферму</button><span id="formStatus"></span></div>
+        </form>
+      </div>
+
+      <div style="display:grid;gap:16px;align-content:start">
+        <section class="panel silver">
+          <div class="eyebrow" style="color:#252932">TRIZNES MEMBERSHIP</div>
+          <h2>SILVER CARD</h2>
+          <div class="cardcode" id="cardCode"></div>
+          <p id="orgName"></p>
+          <small id="cardExpiry"></small>
+        </section>
+        <section class="panel">
+          <h2>Мои заявки</h2>
+          <p>Последние идеи и генерации в твоём контуре.</p>
+          <div id="requests"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+</div>
+<script>
+const API='https://bbxhhtpmbtgfaxamgksf.supabase.co/functions/v1/neurofarm-member-portal';
+const SESSION_KEY='triznes-neuroferma-member-session';
+let session=localStorage.getItem(SESSION_KEY)||'';
+let installPrompt=null;
+const $=id=>document.getElementById(id);
+async function call(action,payload={}){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,session_token:session,...payload})});const d=await r.json().catch(()=>({}));if(!r.ok||!d.ok)throw new Error(d.error||'request_failed');return d}
+function fmtDate(v){if(!v)return 'Без срока';return new Intl.DateTimeFormat('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date(v))}
+function stateLabel(v){return ({draft:'Черновик',submitted:'Передано',awaiting_approval:'Ждёт согласования',approved:'Одобрено',in_production:'В производстве',review:'На просмотре',ready:'Готово',delivered:'Выдано',failed:'Ошибка'})[v]||v||'—'}
+function render(p){const player=p.player||{},card=p.card||{},membership=(p.memberships||[])[0]||{},community=membership.communities||{};$('profileName').textContent=player.creative_alias||player.display_name||'Андрей Драгунов';$('profileIntent').textContent=player.intention||'Реализуй свои идеи через единое пространство TRIZNES — из собственного замысла в действие.';$('cardCode').textContent=card.card_code||'SILVER';$('orgName').textContent=card.organization_name||community.name||'Торговый дом Андрея Драгунова';$('cardExpiry').textContent='Действует до '+fmtDate(card.expires_at);const rows=p.requests||[];$('requests').innerHTML=rows.length?rows.map(x=>`<div class="request"><strong>${esc(x.title||'Идея')}</strong><br><span class="badge">${esc(stateLabel(x.state))}</span> ${x.payment_status==='waived'?'<span class="badge">SILVER · включено</span>':''}<br><small style="color:var(--muted)">${fmtDate(x.created_at)}</small></div>`).join(''):'<div style="color:var(--muted)">Пока нет заявок. Первая идея появится здесь.</div>';$('activation').classList.add('hidden');$('app').classList.remove('hidden');$('logoutBtn').classList.remove('hidden')}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+async function boot(){const params=new URLSearchParams(location.hash.replace(/^#/,''));const invite=params.get('invite');try{if(invite){$('activationText').textContent='Активирую персональный профиль Андрея Драгунова…';const d=await call('redeem_invite',{invite_token:invite});session=d.session_token;localStorage.setItem(SESSION_KEY,session);history.replaceState(null,'',location.pathname);render(d.profile);return}if(!session)throw new Error('activation_required');const d=await call('status');render(d.profile)}catch(e){$('spinner').classList.add('hidden');$('activationText').innerHTML=e.message==='activation_required'?'Для первого входа нужна персональная ссылка активации. Открой её на компьютере, который будет использовать Андрей.':`<span class="error">Доступ не активирован: ${esc(e.message)}</span>`;if(e.message==='session_required'){localStorage.removeItem(SESSION_KEY);session=''}}}
+$('ideaForm').addEventListener('submit',async e=>{e.preventDefault();const btn=$('submitIdea'),st=$('formStatus');btn.disabled=true;st.className='';st.textContent='Передаю…';try{const d=await call('submit_idea',{title:$('ideaTitle').value.trim(),idea:$('ideaText').value.trim(),idea_type:$('ideaType').value,output_format:$('outputFormat').value});const req=d.result?.request||{};st.className='success';st.textContent=req.payment_status==='waived'?'Идея принята. SILVER-доступ применён ✓':'Идея принята ✓';$('ideaForm').reset();const fresh=await call('status');render(fresh.profile)}catch(err){st.className='error';st.textContent=err.message||'Не удалось отправить'}finally{btn.disabled=false}});
+$('logoutBtn').addEventListener('click',async()=>{try{await call('logout')}catch{}localStorage.removeItem(SESSION_KEY);session='';location.reload()});
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('installBtn').classList.remove('hidden')});$('installBtn').addEventListener('click',async()=>{if(!installPrompt)return;installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$('installBtn').classList.add('hidden')});
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+boot();
+</script>
+</body>
+</html>
