@@ -1,34 +1,44 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>ТРИЗНЕС — LEVEL 00</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>TRIZNES — Вход в профиль</title>
 <style>
-:root{color-scheme:dark;--bg:#05070c;--panel:#10101c;--cyan:#00f3ff;--pink:#ff1684;--gold:#ffd56a;--muted:#98a2b3}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 18% 12%,#281540 0,transparent 38%),radial-gradient(circle at 82% 88%,#06363e 0,transparent 38%),var(--bg);font-family:Inter,system-ui,sans-serif;color:white;padding:20px}.card{width:min(620px,100%);padding:30px;border:1px solid rgba(0,243,255,.3);border-radius:28px;background:rgba(16,16,28,.9);box-shadow:0 25px 90px rgba(0,0,0,.5)}.eyebrow{font-size:11px;letter-spacing:.18em;color:var(--cyan);text-transform:uppercase}h1{font-size:32px;margin:10px 0}p{color:#c7cad3;line-height:1.6}.grid{display:grid;gap:12px;margin-top:22px}input,select,button{width:100%;border-radius:14px;padding:13px 14px;font:inherit}input,select{background:#090b13;border:1px solid rgba(255,255,255,.12);color:#fff}button{border:1px solid rgba(255,22,132,.55);background:rgba(255,22,132,.12);color:#ff82be;font-weight:800;cursor:pointer}button.secondary{border-color:rgba(0,243,255,.4);background:rgba(0,243,255,.08);color:var(--cyan)}button:disabled{opacity:.55;cursor:wait}.small{font-size:12px;color:var(--muted)}#result,#level00{display:none;margin-top:18px}.panel{padding:18px;border:1px solid rgba(0,243,255,.24);border-radius:18px;background:rgba(0,243,255,.055)}.statement{font-size:25px;font-weight:850;line-height:1.25;margin:10px 0}.signal{font:700 11px ui-monospace,monospace;color:var(--cyan);letter-spacing:.12em}.code{font-family:ui-monospace,monospace;color:var(--gold);font-weight:800}.error{color:#ff91b9}.progress{height:5px;background:#242633;border-radius:999px;overflow:hidden;margin:16px 0}.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--cyan));width:0;transition:.25s}</style>
+:root{--bg:#05070b;--panel:#0d1018;--line:rgba(255,255,255,.11);--cyan:#7af6ff;--pink:#ff5ca8;--gold:#f4cf7a;--muted:#8f98a8;--text:#f7f9fc}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at 18% 18%,rgba(88,43,137,.35),transparent 32%),radial-gradient(circle at 82% 82%,rgba(0,142,158,.24),transparent 35%),linear-gradient(145deg,#03050a,#080b13 48%,#04070a);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}.shell{width:min(520px,100%)}.brand{display:flex;align-items:center;justify-content:space-between;margin:0 4px 14px}.brand strong{font-size:13px;letter-spacing:.22em}.brand span{font:700 10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;color:var(--cyan)}.card{position:relative;overflow:hidden;padding:30px;border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,rgba(18,21,32,.94),rgba(9,11,18,.96));box-shadow:0 28px 100px rgba(0,0,0,.5)}.card:before{content:"";position:absolute;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),var(--pink),transparent);opacity:.72}.eyebrow{font:700 10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.15em;color:var(--gold);text-transform:uppercase}h1{font-size:36px;line-height:1.02;margin:12px 0 12px;letter-spacing:-.035em}p{margin:0;color:#c4cad4;line-height:1.55}.black{display:inline-flex;gap:8px;align-items:center;margin:18px 0 2px;padding:8px 11px;border:1px solid rgba(244,207,122,.25);border-radius:999px;background:rgba(244,207,122,.06);font:700 11px ui-monospace,monospace;color:var(--gold)}form{display:grid;gap:13px;margin-top:24px}label{display:grid;gap:7px;font-size:12px;color:#b8c0cc}input{width:100%;border:1px solid rgba(255,255,255,.13);border-radius:15px;background:#070a11;color:#fff;padding:14px 15px;font:600 15px inherit;outline:none;transition:.18s}input:focus{border-color:rgba(122,246,255,.6);box-shadow:0 0 0 3px rgba(122,246,255,.07)}input.code{text-transform:uppercase;letter-spacing:.14em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}button{width:100%;margin-top:4px;border:0;border-radius:15px;padding:14px 16px;background:linear-gradient(120deg,#e64291,#7c55d9 58%,#1e9fb0);color:white;font:800 14px inherit;cursor:pointer;box-shadow:0 12px 35px rgba(161,65,165,.22)}button:disabled{opacity:.55;cursor:wait}.hint{margin-top:18px;padding:14px 15px;border:1px solid rgba(122,246,255,.13);border-radius:16px;background:rgba(122,246,255,.035);font-size:12px;color:#aeb7c5;line-height:1.55}.hint strong{color:var(--cyan)}#status{display:none;margin-top:14px;padding:12px 14px;border-radius:14px;font-size:12px;line-height:1.5}.err{display:block!important;background:rgba(255,70,118,.08);border:1px solid rgba(255,70,118,.28);color:#ff9bb9}.ok{display:block!important;background:rgba(87,231,178,.07);border:1px solid rgba(87,231,178,.22);color:#a9f2d6}.foot{margin:14px 5px 0;text-align:center;font-size:11px;color:var(--muted)}a{color:var(--cyan);text-decoration:none}@media(max-width:540px){.card{padding:24px 20px}h1{font-size:31px}}
+</style>
 </head>
-<body><main class="card">
-<div class="eyebrow">TRIZNES / ЖИЗНЬ В ИГРЕ</div><h1>LEVEL 00</h1>
-<p id="lead">Это не курс и не экзамен на правильную веру. Это короткий вход в правила мира. Сначала Аполлон создаёт твою запись в TRIZNES CORE; после LEVEL 00 активируется Player ID и открывается LEVEL 1 — <strong>СТАРТ</strong>.</p>
-<form id="form" class="grid">
-<input name="name" required minlength="2" maxlength="80" autocomplete="name" placeholder="Как тебя называть в Игре?">
-<select name="role"><option>Игрок</option><option>Персонаж</option><option>Сообщество</option></select>
-<input name="email" type="email" autocomplete="email" placeholder="Email — необязательно">
-<input name="phone" type="tel" autocomplete="tel" placeholder="Телефон — необязательно">
-<input name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-10000px" aria-hidden="true">
-<button id="submit" type="submit">Создать вход в TRIZNES CORE</button>
-<div class="small">Контакт можно не оставлять. Он нужен только для будущей привязки входа к подтверждённому аккаунту.</div>
-</form>
-<section id="level00" class="panel"><div class="signal" id="signal"></div><div class="progress"><i id="bar"></i></div><div class="statement" id="statement"></div><p id="meaning"></p><button id="next" class="secondary">Дальше</button></section>
-<section id="result" class="panel"></section>
+<body>
+<main class="shell">
+  <div class="brand"><strong>TRIZNES</strong><span>PLAYER ACCESS</span></div>
+  <section class="card">
+    <div class="eyebrow">Личный профиль</div>
+    <h1>Вход в твой мир</h1>
+    <p>Профиль уже собирается из общей памяти TRIZNES. Введи имя и персональный код, который выдаёт <strong>TRIZNES Assistant</strong>.</p>
+    <div class="black">⬛ ACTIVE BLACK CARD REQUIRED</div>
+    <form id="login">
+      <label>Имя для входа
+        <input id="name" name="name" autocomplete="username" maxlength="100" required placeholder="Например: NEO">
+      </label>
+      <label>Код TRIZNES
+        <input id="code" class="code" name="code" autocomplete="one-time-code" maxlength="32" required placeholder="XXXXXXXXXX">
+      </label>
+      <button id="submit" type="submit">ВОЙТИ В ПРОФИЛЬ</button>
+    </form>
+    <div id="status"></div>
+    <div class="hint"><strong>Где взять имя и код?</strong><br>Открой личный чат с TRIZNES Assistant и отправь команду <b>/profile</b>. Если BLACK CARD уже активна, ассистент сам проверит общую базу и выдаст доступ. Аполлон кодов не выдаёт — он только разговаривает с тобой и собирает информацию для профиля.</div>
+  </section>
+  <div class="foot">TRIZNES.ONLINE · персональный доступ · код не передавай другим</div>
 </main>
 <script>
-const ENDPOINT='https://bbxhhtpmbtgfaxamgksf.supabase.co/functions/v1/apollon-register';
-const form=document.getElementById('form'),submit=document.getElementById('submit'),level00=document.getElementById('level00'),result=document.getElementById('result'),statement=document.getElementById('statement'),meaning=document.getElementById('meaning'),signal=document.getElementById('signal'),bar=document.getElementById('bar'),next=document.getElementById('next');
-let clientId=localStorage.getItem('triznes-player-client-id')||'',steps=[],idx=0;
-async function call(payload){const r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...payload,client_id:clientId})});const d=await r.json();if(!r.ok||!d.ok)throw new Error(d.error||'request_failed');if(d.client_id){clientId=d.client_id;localStorage.setItem('triznes-player-client-id',clientId)}return d}
-form.addEventListener('submit',async e=>{e.preventDefault();submit.disabled=true;submit.textContent='Аполлон создаёт запись…';try{const d=await call({action:'register',name:form.name.value.trim(),role:form.role.value,email:form.email.value.trim(),phone:form.phone.value.trim(),website:form.website.value});steps=d.level00_steps||[];form.style.display='none';document.getElementById('lead').textContent='Запись в TRIZNES CORE создана. Пройди семь шагов LEVEL 00 в своём темпе.';idx=Math.max(0,Number(d.snapshot?.level00?.current_step||1)-1);renderStep()}catch(err){showError(err)}finally{submit.disabled=false;submit.textContent='Создать вход в TRIZNES CORE'}});
-function renderStep(){if(!steps.length){showError(new Error('level00_steps_missing'));return}level00.style.display='block';const s=steps[Math.min(idx,steps.length-1)];signal.textContent=`LEVEL 00 // ${s.visual_state||'SIGNAL'} // ${s.step_no}/7`;statement.textContent=s.statement;meaning.textContent=s.meaning||'';bar.style.width=`${(s.step_no/7)*100}%`;next.textContent=s.step_no===7?'Войти в новый мир':'Дальше'}
-next.addEventListener('click',async()=>{next.disabled=true;try{const s=steps[Math.min(idx,steps.length-1)];await call({action:'level00_step',step:s.step_no});if(s.step_no<7){idx++;renderStep()}else{const d=await call({action:'complete_level00'});level00.style.display='none';const p=d.snapshot.player,g=d.snapshot.game;localStorage.setItem('triznes-player-id',p.id);localStorage.setItem('triznes-registration-code',p.registration_code);result.innerHTML=`<strong>PLAYER CONNECTED ✓</strong><p>Player ID активирован.<br>Код: <span class="code">${esc(p.registration_code)}</span><br>LEVEL ${g.level.level_no}: <strong>${esc(g.level.title)}</strong></p><p>${esc(g.current_mission||g.level.core_task||'')}</p>`;result.style.display='block'}}catch(err){showError(err)}finally{next.disabled=false}});
-function showError(err){result.innerHTML=`<strong class="error">Вход не завершился.</strong><p class="small">${esc(String(err.message||err))}</p>`;result.style.display='block'}
-function esc(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-</script></body></html>
+const API='https://bbxhhtpmbtgfaxamgksf.supabase.co/functions/v1/triznes-platform-access';
+const SESSION_KEY='triznes-platform-session';
+const form=document.getElementById('login'),submit=document.getElementById('submit'),statusBox=document.getElementById('status');
+function status(text,type='err'){statusBox.className=type;statusBox.textContent=text;statusBox.style.display='block'}
+async function call(payload){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});let d={};try{d=await r.json()}catch{}if(!r.ok||!d.ok){const map={invalid_credentials:'Имя или код не совпадают.',black_card_inactive:'BLACK CARD не активна или срок доступа закончился.',name_and_code_required:'Введи имя и код.',platform_access_failed:'Сервис входа временно не ответил.'};throw new Error(map[d.error]||'Не удалось войти. Проверь данные и попробуй снова.')}return d}
+(async()=>{const token=localStorage.getItem(SESSION_KEY);if(!token)return;try{await call({action:'status',session_token:token});location.replace('profile.html')}catch{localStorage.removeItem(SESSION_KEY)}})();
+form.addEventListener('submit',async e=>{e.preventDefault();submit.disabled=true;submit.textContent='ПРОВЕРЯЮ ДОСТУП…';statusBox.style.display='none';try{const d=await call({action:'login',name:form.name.value.trim(),code:form.code.value.trim()});localStorage.setItem(SESSION_KEY,d.session_token);localStorage.removeItem('triznes-player-client-id');localStorage.removeItem('triznes-registration-code');status('Доступ подтверждён. Открываю профиль…','ok');setTimeout(()=>location.replace('profile.html'),250)}catch(e){status(String(e.message||e),'err')}finally{submit.disabled=false;submit.textContent='ВОЙТИ В ПРОФИЛЬ'}});
+</script>
+</body>
+</html>
