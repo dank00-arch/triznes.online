@@ -21,14 +21,14 @@ function fmtDate(v){if(!v)return'—';try{return new Intl.DateTimeFormat('ru-RU'
 function prettyKey(k){const m={dream:'Мечта',goals:'Цели',projects:'Проекты',creative_roles:'Творческие роли',favorite_colors:'Любимые цвета',style_preferences:'Стиль',strengths:'Сильные стороны',next_desired_step:'Следующий желаемый шаг',idea:'Идея',ideas:'Идеи',interests:'Интересы',skills:'Навыки'};return m[k]||String(k).replaceAll('_',' ')}
 function prettyVal(v){if(v==null)return'';if(Array.isArray(v))return v.map(x=>typeof x==='object'?JSON.stringify(x):String(x)).join(' · ');if(typeof v==='object')return Object.entries(v).map(([k,x])=>`${prettyKey(k)}: ${prettyVal(x)}`).join('\n');return String(v)}
 function maskCode(v){const s=String(v||'');return s.length>7?s.slice(0,3)+'•••'+s.slice(-3):s}
-function render(d){const p=d.player||{},c=d.card||{},profile=d.profile||{},st=profile.state&&typeof profile.state==='object'?profile.state:{};const facts=Array.isArray(st.facts)?st.facts:[];const hidden=new Set(['facts','apollon_profile_updated_at','active_protocol','active_protocol_since']);const stateItems=Object.entries(st).filter(([k,v])=>!hidden.has(k)&&v!=null&&v!==''&&!(Array.isArray(v)&&!v.length)).slice(0,20);app.innerHTML=`
+function render(d){const p=d.player||{},c=d.card||{},profile=d.profile||{},st=profile.state&&typeof profile.state==='object'?profile.state:{},confirmation=d.profile_confirmation||{},isConfirmed=confirmation.matches_current===true;const facts=Array.isArray(st.facts)?st.facts:[];const hidden=new Set(['facts','apollon_profile_updated_at','active_protocol','active_protocol_since']);const stateItems=Object.entries(st).filter(([k,v])=>!hidden.has(k)&&v!=null&&v!==''&&!(Array.isArray(v)&&!v.length)).slice(0,20);app.innerHTML=`
 <div class="top"><div class="logo">TRIZNES</div><div class="sys">LIVE PROFILE / APOLLON MEMORY</div></div>
 <section class="hero">
   <div class="kicker">PLAYER PROFILE</div>
   <h1>${esc(p.display_name||c.owner_name||'TRIZNES PLAYER')}</h1>
   ${p.creative_alias?`<div class="alias">${esc(p.creative_alias)}</div>`:''}
   <div class="badges">
-    <div class="badge gold">⬛ BLACK CARD · ACTIVE</div>
+    <div class="badge gold">✦ ${esc(String(c.tier||'BLACK').toUpperCase())} · ACTIVE</div>
     ${p.role?`<div class="badge">${esc(p.role)}</div>`:''}
     ${p.active_node?`<div class="badge">${esc(p.active_node)}</div>`:''}
     <div class="badge green">PROFILE CONNECTED</div>
@@ -41,7 +41,7 @@ function render(d){const p=d.player||{},c=d.card||{},profile=d.profile||{},st=pr
   </section>
   <section class="box">
     <h2>Доступ</h2>
-    <div class="row"><span>Карта</span><span>BLACK CARD</span></div>
+    <div class="row"><span>Карта</span><span>${esc(String(c.tier||'BLACK').toUpperCase())}</span></div>
     <div class="row"><span>Владелец</span><span>${esc(c.owner_name||p.display_name||'—')}</span></div>
     <div class="row"><span>Код карты</span><span>${esc(maskCode(c.card_code))}</span></div>
     <div class="row"><span>Активна до</span><span>${esc(fmtDate(c.expires_at))}</span></div>
@@ -59,12 +59,18 @@ function render(d){const p=d.player||{},c=d.card||{},profile=d.profile||{},st=pr
   </section>
 </div>
 <section class="box" style="margin-top:16px">
-  <h2>Как это работает</h2>
-  <div class="muted">Аполлон только разговаривает с тобой и собирает важную информацию. Он не выдаёт ролики, изображения и документы. TRIZNES Assistant отвечает за системные действия, доступы и производство. Этот профиль обновляется из общей базы — повторно заполнять анкету не нужно.</div>
-  <div class="actions"><button class="primary" id="refresh">Обновить профиль</button><button class="danger" id="logout">Выйти</button></div>
+  <h2>Подтверждение твоего образа</h2>
+  <div class="muted">Аполлон помогает собрать и уточнить твой образ. Проверь имя, описание и структуру персонажа выше. Если всё отражает твой замысел, подтверди образ; если что-то нужно изменить — продолжи разговор с Аполлоном, а затем обнови профиль здесь.</div>
+  <div class="actions"><span class="badge ${isConfirmed?'green':'gold'}">${isConfirmed?'ОБРАЗ ПОДТВЕРЖДЁН':'НУЖНО ПОДТВЕРДИТЬ'}</span>${confirmation.confirmed_at?`<span class="muted">${isConfirmed?'Подтверждён':'После подтверждения обновился'} · ${esc(fmtDate(confirmation.confirmed_at))}</span>`:''}</div>
+  ${isConfirmed?'':`<label class="muted" style="display:flex;gap:9px;align-items:flex-start;margin-top:14px"><input type="checkbox" id="confirm-check" style="accent-color:#78f4ff;margin-top:2px"> Я проверил информацию и подтверждаю, что это мой профиль и мой текущий творческий замысел.</label>`}
+  <div class="actions">${isConfirmed?'':`<button class="primary" id="confirm-profile">Подтвердить мой образ</button>`}<button class="primary" id="refresh">Обновить профиль</button><button class="danger" id="logout">Выйти</button></div>
+  <div id="confirm-status" class="muted" style="margin-top:10px"></div>
+  <div class="muted" style="margin-top:12px">Личный код позволяет возвращаться в свой профиль и открытые разделы платформы. Чужие личные данные, исходники и закрытые проекты доступны только с разрешения владельца. Код можно использовать повторно; выход завершит текущий сеанс.</div>
 </section>`;
-document.getElementById('refresh').onclick=load;document.getElementById('logout').onclick=logout}
+app.insertAdjacentHTML('beforeend',`<section class="box" style="margin-top:16px"><h2>Открытые двери TRIZNES</h2><div class="muted">Общие страницы и публичные профили доступны всем участникам. Личные материалы других людей остаются только у них и у тех, кому они открыли доступ.</div><div class="actions"><a class="btn primary" href="sochi-game.html">Персонажи и ИГРА</a><a class="btn primary" href="sochi-news.html">События и РАЙ</a><a class="btn" href="index.html">Главная TRIZNES</a></div></section>`);
+document.getElementById('refresh').onclick=load;document.getElementById('logout').onclick=logout;const confirmButton=document.getElementById('confirm-profile');if(confirmButton)confirmButton.onclick=confirmProfile}
 async function load(){const token=localStorage.getItem(SESSION_KEY);if(!token){location.replace('register.html');return}try{render(await call({action:'status',session_token:token}))}catch(e){localStorage.removeItem(SESSION_KEY);location.replace('register.html')}}
+async function confirmProfile(){const check=document.getElementById('confirm-check'),status=document.getElementById('confirm-status'),button=document.getElementById('confirm-profile');if(!check?.checked){status.textContent='Сначала отметь подтверждение после проверки своего образа.';return}button.disabled=true;status.textContent='Сохраняю подтверждение…';try{const token=localStorage.getItem(SESSION_KEY);await call({action:'confirm_profile',session_token:token});await load()}catch(e){status.textContent='Не удалось сохранить подтверждение. Попробуй обновить страницу.';button.disabled=false}}
 async function logout(){const token=localStorage.getItem(SESSION_KEY);try{if(token)await call({action:'logout',session_token:token})}catch{}localStorage.removeItem(SESSION_KEY);location.replace('register.html')}
 load();
 </script>

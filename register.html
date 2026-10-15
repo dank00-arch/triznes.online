@@ -15,8 +15,8 @@
   <section class="card">
     <div class="eyebrow">Личный профиль</div>
     <h1>Вход в твой мир</h1>
-    <p>Профиль уже собирается из общей памяти TRIZNES. Введи имя и персональный код, который выдаёт <strong>TRIZNES Assistant</strong>.</p>
-    <div class="black">⬛ ACTIVE BLACK CARD REQUIRED</div>
+    <p>Войди по имени персонажа и его личному коду. После первого входа можно возвращаться на платформу с тем же кодом — он действует, пока доступная карта активна.</p>
+    <div class="black">✦ ЛИЧНЫЙ ДОСТУП · SILVER / BLACK</div>
     <form id="login">
       <label>Имя для входа
         <input id="name" name="name" autocomplete="username" maxlength="100" required placeholder="Например: NEO">
@@ -27,7 +27,8 @@
       <button id="submit" type="submit">ВОЙТИ В ПРОФИЛЬ</button>
     </form>
     <div id="status"></div>
-    <div class="hint"><strong>Где взять имя и код?</strong><br>Открой личный чат с TRIZNES Assistant и отправь команду <b>/profile</b>. Если BLACK CARD уже активна, ассистент сам проверит общую базу и выдаст доступ. Аполлон кодов не выдаёт — он только разговаривает с тобой и собирает информацию для профиля.</div>
+    <div class="hint"><strong>Как получить доступ?</strong><br>Сначала поговори с Аполлоном: он поможет собрать и уточнить твой образ. Затем в личном чате с TRIZNES Assistant отправь <b>/profile</b> — после проверки активной карты ассистент покажет имя для входа и личный код. Код многоразовый: храни его отдельно и не пересылай другим. Если потерял код или доступ, снова напиши <b>/profile</b>.</div>
+    <div class="hint">После входа ты увидишь свой профиль, подтверждение образа и открытые разделы платформы. Чужие личные материалы и закрытые проекты доступны только с разрешения владельца.</div>
   </section>
   <div class="foot">TRIZNES.ONLINE · персональный доступ · код не передавай другим</div>
 </main>
@@ -36,7 +37,7 @@ const API='https://bbxhhtpmbtgfaxamgksf.supabase.co/functions/v1/triznes-platfor
 const SESSION_KEY='triznes-platform-session';
 const form=document.getElementById('login'),submit=document.getElementById('submit'),statusBox=document.getElementById('status');
 function status(text,type='err'){statusBox.className=type;statusBox.textContent=text;statusBox.style.display='block'}
-async function call(payload){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});let d={};try{d=await r.json()}catch{}if(!r.ok||!d.ok){const map={invalid_credentials:'Имя или код не совпадают.',black_card_inactive:'BLACK CARD не активна или срок доступа закончился.',name_and_code_required:'Введи имя и код.',platform_access_failed:'Сервис входа временно не ответил.'};throw new Error(map[d.error]||'Не удалось войти. Проверь данные и попробуй снова.')}return d}
+async function call(payload){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});let d={};try{d=await r.json()}catch{}if(!r.ok||!d.ok){const map={invalid_credentials:'Имя или код не совпадают.',membership_card_inactive:'Активная карта не найдена или срок доступа закончился.',name_and_code_required:'Введи имя и код.',platform_access_failed:'Сервис входа временно не ответил.'};throw new Error(map[d.error]||'Не удалось войти. Проверь данные и попробуй снова.')}return d}
 (async()=>{const token=localStorage.getItem(SESSION_KEY);if(!token)return;try{await call({action:'status',session_token:token});location.replace('profile.html')}catch{localStorage.removeItem(SESSION_KEY)}})();
 form.addEventListener('submit',async e=>{e.preventDefault();submit.disabled=true;submit.textContent='ПРОВЕРЯЮ ДОСТУП…';statusBox.style.display='none';try{const d=await call({action:'login',name:form.name.value.trim(),code:form.code.value.trim()});localStorage.setItem(SESSION_KEY,d.session_token);localStorage.removeItem('triznes-player-client-id');localStorage.removeItem('triznes-registration-code');status('Доступ подтверждён. Открываю профиль…','ok');setTimeout(()=>location.replace('profile.html'),250)}catch(e){status(String(e.message||e),'err')}finally{submit.disabled=false;submit.textContent='ВОЙТИ В ПРОФИЛЬ'}});
 </script>
