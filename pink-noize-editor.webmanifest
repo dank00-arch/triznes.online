@@ -1,0 +1,14 @@
+{
+  "name": "PINK NOIZE — Neuroferma Editor",
+  "short_name": "PINK NOIZE",
+  "id": "/pink-noize-editor.html",
+  "start_url": "/pink-noize-editor.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#08070d",
+  "theme_color": "#08070d",
+  "description": "PINK NOIZE editor workspace inside TRIZNES Neuroferma",
+  "icons": [
+    {"src":"/neuroferma-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
