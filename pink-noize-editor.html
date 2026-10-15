@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08070d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PINK NOIZE">
+<link rel="manifest" href="./pink-noize-editor.webmanifest?v=20261015-1">
+<link rel="icon" href="./neuroferma-icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./neuroferma-icon.svg">
+<title>PINK NOIZE — Neuroferma Editor</title>
+<style>
+:root{color-scheme:dark;--bg:#08070d;--p:#121019;--line:#33273d;--pink:#ff3bc7;--cyan:#50eaff;--lime:#c9ff4a;--mut:#aaa3b6}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 10% 0,#2a0f2c,transparent 34%),radial-gradient(circle at 90% 15%,#072b31,transparent 30%),var(--bg);color:#fff;font:15px/1.45 system-ui,-apple-system,sans-serif}.w{max-width:1120px;margin:auto;padding:20px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-weight:950;letter-spacing:.12em}.brand b{color:var(--pink)}button,input,textarea{font:inherit}button,.btn{border:1px solid var(--line);background:#17131e;color:#fff;padding:11px 13px;border-radius:12px;font-weight:800;text-decoration:none;cursor:pointer}.go{border:0;background:linear-gradient(100deg,var(--pink),var(--lime),var(--cyan));color:#08070d}.hero,.card{border:1px solid var(--line);background:#100e16e8;border-radius:20px}.hero{padding:24px;margin-top:18px}.ey{font:800 10px ui-monospace,monospace;letter-spacing:.18em;color:var(--cyan)}h1{font-size:clamp(36px,7vw,62px);line-height:.95;margin:10px 0}p,.mut{color:var(--mut)}.auth{max-width:620px}.switch{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.switch button.on{border-color:var(--pink);box-shadow:0 0 0 1px var(--pink) inset}.field{display:grid;gap:5px;margin:9px 0}input,textarea{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);background:#08070d;color:#fff}textarea{min-height:100px}.cols{display:grid;grid-template-columns:260px 1fr;gap:14px;margin-top:14px}.card{padding:15px}.tabs button{display:block;width:100%;text-align:left;margin:6px 0}.tabs button.on{border-color:var(--pink);box-shadow:0 0 0 1px var(--pink) inset}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:9px;margin-top:12px}.item{border:1px solid var(--line);border-radius:14px;padding:9px;background:#09080d}.item img,.item video{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:9px;background:#020203}.item a{color:var(--cyan)}.pill{font-size:10px;border:1px solid var(--line);padding:3px 6px;border-radius:99px}.hidden{display:none!important}.ok{color:var(--lime)}.err{color:#ff7994}.install{margin-top:12px}.install ol{padding-left:20px}.tiny{font-size:12px}@media(max-width:760px){.cols{grid-template-columns:1fr}.w{padding:14px}.hero{padding:19px}}
+</style>
+</head>
+<body><div class="w">
+<div class="top"><div class="brand">PINK <b>NOIZE</b> / NEUROFERMA</div><button id="logout" class="hidden">Выйти</button></div>
+<section id="auth" class="hero auth">
+<div class="ey">PINK NOIZE / EDITOR ACCESS</div><h1>Нейроферма</h1><p>Редакторский вход без Telegram. После регистрации входишь по своему e-mail и паролю.</p>
+<div class="switch"><button id="showRegister" class="on">Регистрация</button><button id="showLogin">Вход</button></div>
+<div id="registerBox">
+<div class="field"><label>Персональная ссылка активации PINK NOIZE</label><input id="inviteLink" placeholder="Вставь ссылку, которую тебе прислали в Telegram"></div>
+<div class="field"><label>E-mail</label><input id="regEmail" type="email" autocomplete="email"></div>
+<div class="field"><label>Придумай пароль — минимум 10 символов</label><input id="regPass" type="password" autocomplete="new-password"></div>
+<div class="field"><label>Повтори пароль</label><input id="regPass2" type="password" autocomplete="new-password"></div>
+<button id="registerBtn" class="go">Зарегистрировать e-mail и открыть Нейроферму</button> <span id="rst"></span>
+<p class="mut tiny">Ссылка активации нужна только один раз — чтобы привязать e-mail именно к уже выданному редакторскому профилю PINK NOIZE.</p>
+</div>
+<div id="loginBox" class="hidden">
+<div class="field"><label>E-mail</label><input id="email" type="email" autocomplete="username"></div>
+<div class="field"><label>Пароль</label><input id="pass" type="password" autocomplete="current-password"></div>
+<button id="loginBtn" class="go">Войти</button> <span id="lst"></span>
+</div>
+<div class="card install"><strong>📱 Установить как приложение</strong><ol><li>Открой эту страницу в Safari или Chrome.</li><li>iPhone: «Поделиться» → «На экран Домой».</li><li>Android: меню браузера → «Установить приложение».</li></ol></div>
+</section>
+<main id="app" class="hidden">
+<section class="hero"><div class="ey">EDITOR / NO PUBLICATION</div><h1 id="name">Редактор</h1><p>Загружай фото, видео и аудио, собирай материал, переименовывай и создавай черновики генераций. Публикация и управление чужими доступами отключены.</p></section>
+<div class="cols"><aside class="card"><h3>Коллекции</h3><div id="tabs" class="tabs"></div></aside><section>
+<div class="card"><div class="row"><strong id="ctitle">PINK NOIZE</strong><span id="rights" class="pill"></span><a id="folder" target="_blank" rel="noreferrer" class="hidden">Открыть Drive</a></div><div class="field"><label>Загрузить фото / видео / аудио</label><input id="file" type="file"><button id="upload" class="go">Загрузить</button><span id="ust"></span></div></div>
+<div class="card" style="margin-top:12px"><h3>Черновик генерации</h3><div class="field"><input id="dtitle" placeholder="Название"><textarea id="brief" placeholder="Что собрать / смонтировать / сгенерировать"></textarea><button id="draft" class="go">Создать черновик</button><span id="dst"></span></div></div>
+<div id="items" class="grid"></div>
+</section></div></main>
+</div>
+<script>
+const AUTH='https://bbxhhtpmbtgfaxamgksf.supabase.co/functions/v1/neurofarm-user-invite';
+const MEMBER='https://bbxhhtpmbtgfaxamgksf.supabase.co/functions/v1/neurofarm-member-web?mode=editor';
+const KEY='triznes-pink-editor-session';
+let session=localStorage.getItem(KEY)||'',state=null,current=null;
+const $=x=>document.getElementById(x),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function authCall(action,p={}){const r=await fetch(AUTH,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,...p})});const d=await r.json().catch(()=>({}));if(!r.ok||!d.ok)throw new Error(d.error||'request_failed');return d}
+async function call(action,p={}){const r=await fetch(MEMBER,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,session_token:session,...p})});const d=await r.json().catch(()=>({}));if(!r.ok||!d.ok)throw new Error(d.error||'request_failed');return d}
+function inviteToken(v){v=String(v||'').trim();if(!v)return'';try{const u=new URL(v);const h=new URLSearchParams(u.hash.replace(/^#/,''));return h.get('invite')||u.searchParams.get('invite')||''}catch{}if(/^[A-Za-z0-9_-]{32,220}$/.test(v))return v;return''}
+function enter(d){session=d.session_token||session;if(d.session_token)localStorage.setItem(KEY,session);state=d;$('auth').classList.add('hidden');$('app').classList.remove('hidden');$('logout').classList.remove('hidden');draw()}
+function draw(){const cs=state.collections||[];$('name').textContent=state.identity?.display_name||'Редактор PINK NOIZE';if(!current&&cs[0])current=cs[0].id;$('tabs').innerHTML=cs.map(c=>'<button data-id="'+c.id+'" class="'+(current===c.id?'on':'')+'">'+esc(c.title)+'</button>').join('');document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{current=b.dataset.id;draw()});const c=cs.find(x=>x.id===current);if(!c)return;$('ctitle').textContent=c.title;$('rights').textContent=['view',c.grant.can_upload?'upload':'',c.grant.can_generate?'generate':'',c.grant.can_manage?'manage':''].filter(Boolean).join(' · ');$('folder').classList.toggle('hidden',!c.folder_url);$('folder').href=c.folder_url||'#';$('items').innerHTML=(c.items||[]).map(x=>{let m='<div class="mut">'+esc(x.mime_type||x.source_type||'Файл')+'</div>';if(x.playback_url&&String(x.mime_type||'').startsWith('image/'))m='<img src="'+esc(x.playback_url)+'">';if(x.playback_url&&String(x.mime_type||'').startsWith('video/'))m='<video controls preload="metadata" src="'+esc(x.playback_url)+'"></video>';return '<article class="item">'+m+'<strong>'+esc(x.title||'Без названия')+'</strong><div class="row">'+(x.source_url?'<a href="'+esc(x.source_url)+'" target="_blank" rel="noreferrer">Drive</a>':'')+(c.grant.can_manage?'<button data-rename="'+x.id+'">Переименовать</button>':'')+'</div></article>'}).join('')||'<div class="mut">В этой коллекции пока нет проиндексированных материалов.</div>';document.querySelectorAll('[data-rename]').forEach(b=>b.onclick=async()=>{const title=prompt('Новое название');if(!title)return;try{await call('editor_rename',{item_id:b.dataset.rename,title});await refresh()}catch(e){alert(e.message)}})}
+async function refresh(){const d=await call('editor_status');state=d;draw()}
+async function boot(){if(!session)return;try{const d=await call('editor_status');enter(d)}catch{localStorage.removeItem(KEY);session=''}}
+$('showRegister').onclick=()=>{$('showRegister').classList.add('on');$('showLogin').classList.remove('on');$('registerBox').classList.remove('hidden');$('loginBox').classList.add('hidden')};
+$('showLogin').onclick=()=>{$('showLogin').classList.add('on');$('showRegister').classList.remove('on');$('loginBox').classList.remove('hidden');$('registerBox').classList.add('hidden')};
+$('registerBtn').onclick=async()=>{const s=$('rst'),p=$('regPass').value;if(p!==$('regPass2').value){s.className='err';s.textContent='Пароли не совпадают';return}const token=inviteToken($('inviteLink').value);if(!token){s.className='err';s.textContent='Не вижу invite-токен в ссылке';return}s.textContent='Регистрирую…';try{const d=await authCall('pink_editor_register',{invite_token:token,email:$('regEmail').value.trim(),password:p});session=d.session_token;localStorage.setItem(KEY,session);s.className='ok';s.textContent='Готово ✓';const st=await call('editor_status');enter(st)}catch(e){s.className='err';s.textContent=({invite_expired_or_used:'Ссылка активации уже использована или истекла.',email_already_registered:'Этот e-mail уже зарегистрирован.',already_registered:'Редакторский профиль уже привязан к e-mail.',password_min_10:'Пароль должен быть не короче 10 символов.'})[e.message]||e.message}};
+$('loginBtn').onclick=async()=>{const s=$('lst');s.textContent='Вхожу…';try{const d=await authCall('pink_editor_login',{email:$('email').value.trim(),password:$('pass').value});session=d.session_token;localStorage.setItem(KEY,session);s.className='ok';s.textContent='Готово ✓';const st=await call('editor_status');enter(st)}catch(e){s.className='err';s.textContent=e.message==='invalid_credentials'?'Проверь e-mail и пароль.':e.message}};
+$('upload').onclick=async()=>{const f=$('file').files[0],s=$('ust');if(!f||!current)return;s.textContent='Загрузка…';try{const d=await call('editor_upload_ticket',{collection_id:current,filename:f.name,mime_type:f.type||'application/octet-stream',size_bytes:f.size});const r=await fetch(d.ticket.signed_url,{method:'PUT',headers:{'Content-Type':f.type||'application/octet-stream'},body:f});if(!r.ok)throw new Error('upload_failed');await call('editor_attach',{...d.ticket,original_name:f.name,title:f.name});s.className='ok';s.textContent='Готово ✓';$('file').value='';await refresh()}catch(e){s.className='err';s.textContent=e.message}};
+$('draft').onclick=async()=>{const s=$('dst');s.textContent='Создаю…';try{await call('editor_draft',{collection_id:current,title:$('dtitle').value,brief:$('brief').value});s.className='ok';s.textContent='Черновик создан';$('dtitle').value='';$('brief').value=''}catch(e){s.className='err';s.textContent=e.message}};
+$('logout').onclick=async()=>{try{await call('editor_logout')}catch{}localStorage.removeItem(KEY);session='';location.reload()};
+if('serviceWorker' in navigator)navigator.serviceWorker.register('./neuroferma-sw.js').catch(()=>{});
+const q=new URLSearchParams(location.hash.replace(/^#/,''));if(q.get('invite'))$('inviteLink').value=location.href;
+boot();
+</script>
+</body></html>
