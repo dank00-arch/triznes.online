@@ -14,8 +14,8 @@
   <div class="brand"><strong>TRIZNES</strong><span>PLAYER ACCESS</span></div>
   <section class="card">
     <div class="eyebrow">Личный профиль</div>
-    <h1>Вход в твой мир</h1>
-    <p>Войди по имени персонажа и личному коду входа TRIZNES. Код действует, пока активна твоя карта.</p>
+    <svg viewBox="0 0 320 250" role="img" aria-label="Треугольник TRIZNES с сердцем" style="display:block;width:100%;max-height:230px"><defs><linearGradient id="portal"><stop stop-color="#ff38c9"/><stop offset=".5" stop-color="#9a70ff"/><stop offset="1" stop-color="#43ecff"/></linearGradient></defs><path d="M160 20 295 225H25Z" fill="none" stroke="url(#portal)" stroke-width="2"/><path d="M160 170C80 122 127 90 160 121C193 90 240 122 160 170Z" fill="url(#portal)"/><circle cx="160" cy="20" r="5" fill="#ff38c9"/><circle cx="295" cy="225" r="5" fill="#43ecff"/><circle cx="25" cy="225" r="5" fill="#9a70ff"/></svg><h1>Твой вход в игру</h1>
+    <p>Персонаж, ментор, режиссёр или редактор — твоя роль уже связана с профилем. Введи имя и личный код TRIZNES.</p>
     <div class="black">✦ ЛИЧНЫЙ ДОСТУП · SILVER / BLACK</div>
     <form id="login">
       <label>Имя для входа
@@ -25,7 +25,7 @@
         <input id="code" class="code" name="code" autocomplete="off" minlength="6" maxlength="32" required placeholder="XXXXXXXXXX">
       </label>
       <button id="submit" type="submit">ВОЙТИ В ПРОФИЛЬ</button>
-    </form>
+    </form><a href="watch.html" style="display:block;text-align:center;margin-top:20px;color:var(--cyan)">Я зритель · эфиры и поддержка →</a><p style="font-size:12px;margin-top:12px">Первый вход активирует твой путь: проверь профиль и открой рабочую вкладку. Повторно регистрироваться не нужно.</p>
     <div id="status"></div>
     <div class="warn"><strong>Важно:</strong> короткий код, напечатанный на BLACK / SILVER карте, — это код самой карты. Он <b>не используется для входа</b>. Для входа нужен отдельный личный код, который TRIZNES Assistant выдаёт по команде <b>/profile</b>.</div>
     <div class="hint"><strong>Как получить актуальные данные?</strong><br>Открой личный чат с TRIZNES Assistant и отправь <b>/profile</b>. Бот проверит активную карту и пришлёт точное имя для входа и актуальный личный код. Код многоразовый и предназначен только владельцу профиля.</div>
@@ -39,8 +39,8 @@ const SESSION_KEY='triznes-platform-session';
 const form=document.getElementById('login'),submit=document.getElementById('submit'),statusBox=document.getElementById('status');
 function status(text,type='err'){statusBox.className=type;statusBox.textContent=text;statusBox.style.display='block'}
 async function call(payload){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});let d={};try{d=await r.json()}catch{}if(!r.ok||!d.ok){const map={invalid_credentials:'Имя или код входа не совпадают. Не используй короткий код карты — получи актуальный код через /profile в TRIZNES Assistant.',membership_card_inactive:'Активная карта не найдена или срок доступа закончился.',name_and_code_required:'Введи имя и личный код входа.',platform_access_failed:'Сервис входа временно не ответил.'};throw new Error(map[d.error]||'Не удалось войти. Получи актуальные данные через /profile и попробуй снова.')}return d}
-(async()=>{const token=localStorage.getItem(SESSION_KEY);if(!token)return;try{await call({action:'status',session_token:token});location.replace('profile.html')}catch{localStorage.removeItem(SESSION_KEY)}})();
-form.addEventListener('submit',async e=>{e.preventDefault();submit.disabled=true;submit.textContent='ПРОВЕРЯЮ ДОСТУП…';statusBox.style.display='none';try{const d=await call({action:'login',name:form.name.value.trim(),code:form.code.value.trim()});localStorage.setItem(SESSION_KEY,d.session_token);localStorage.removeItem('triznes-player-client-id');localStorage.removeItem('triznes-registration-code');status('Доступ подтверждён. Открываю профиль…','ok');setTimeout(()=>location.replace('profile.html'),250)}catch(e){status(String(e.message||e),'err')}finally{submit.disabled=false;submit.textContent='ВОЙТИ В ПРОФИЛЬ'}});
+(async()=>{const token=localStorage.getItem(SESSION_KEY);if(!token)return;try{await call({action:'status',session_token:token});location.replace('neuroferma.html')}catch{localStorage.removeItem(SESSION_KEY)}})();
+form.addEventListener('submit',async e=>{e.preventDefault();submit.disabled=true;submit.textContent='ПРОВЕРЯЮ ДОСТУП…';statusBox.style.display='none';try{const d=await call({action:'login',name:form.name.value.trim(),code:form.code.value.trim()});localStorage.setItem(SESSION_KEY,d.session_token);localStorage.removeItem('triznes-player-client-id');localStorage.removeItem('triznes-registration-code');status('Доступ подтверждён. Открываю профиль…','ok');setTimeout(()=>location.replace('neuroferma.html'),250)}catch(e){status(String(e.message||e),'err')}finally{submit.disabled=false;submit.textContent='ВОЙТИ В ПРОФИЛЬ'}});
 </script>
 </body>
 </html>
