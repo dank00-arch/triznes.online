@@ -177,6 +177,22 @@ return async (req:Request)=>{
  const worker=req.headers.get("x-voice-worker");
  if(!(K()&&req.headers.get("Authorization")==="Bearer "+K())&&!(worker&&worker===await setting("global","podcast_worker_secret_v1")))return json({error:"unauthorized"},401);
  const b=await req.json().catch(()=>({}));
+
+ if(b.action==="send_director_voice_setup_notice"){
+  const uid="7511311716",key="director_voice_setup_notice_v1";
+  if(!await entitlement(uid))return json({ok:false,error:"recipient_access_expired"},403);
+  const claimed=await db("telegram_bot_settings?on_conflict=telegram_user_id,setting_key","POST",{telegram_user_id:uid,setting_key:key,setting_value:JSON.stringify({state:"sending",created_at:new Date().toISOString()}),updated_at:new Date().toISOString()},"resolution=ignore-duplicates,return=representation");
+  if(!claimed?.length)return json({ok:true,duplicate:true});
+  try{
+   const sent=await tell(T2(),uid,"Всеволод, привет! 🎬\n\nДля тебя включили режиссёрский контур нашей «кинокомедии» TRIZNES по Серебряной карте.\n\n🎙 Сценарий теперь можно просто наговорить сюда голосовым. Я расшифрую запись, сверю замысел с протоколами TRIZNES и покажу, что услышал. Нажмёшь «Да, передать» — сценарий отправится в твою заявку Нейрофермы. Авторский смысл сохраняется, предложения по доработке идут отдельно.\n\n📅 Архив ТЕАТРА ТУЗ доступен по дням: выбираешь дату, смотришь исходники и задаёшь, какой ролик хочешь сделать. В разделе новых готовых роликов старые версии исключены.\n\n🚀 В «Моих задачах» можно посмотреть состояние сценария. Производственное утверждение — через BEZLIKI; часть исходников ещё нужно подготовить для автоматического монтажа.\n\n📣 Когда новый ролик будет готов, сначала покажу его тебе. Для публикации укажи конкретный канал или чат и подтверди отправку.\n\nНачать можно прямо сейчас: запиши голосом свою идею — что снимаем, какие сцены, настроение и какой день архива используем. До 10 минут и 14 МБ на запись.\n\nТы задаёшь историю — я помогаю довести её до следующего реального шага ✨",{reply_markup:{inline_keyboard:[[{text:"📅 Дни съёмок",callback_data:"tuz:days"},{text:"✍️ Мой сценарий",callback_data:"tuz:script"}]]}});
+   await setSetting(uid,key,JSON.stringify({state:"sent",message_id:sent.message_id,sent_at:new Date().toISOString()}));
+   return json({ok:true,sent:true,telegram_user_id:uid,message_id:sent.message_id});
+  }catch{
+   await setSetting(uid,key,JSON.stringify({state:"delivery_unknown",updated_at:new Date().toISOString()}));
+   return json({ok:false,error:"notice_delivery_unknown"},502);
+  }
+ }
+
  if(b.action==="check_access")return json({eligible:Boolean(await entitlement(String(b.telegram_user_id||"")))});
  if(b.action!=="work")return json({error:"invalid_action"},400);
  return json(await work());
