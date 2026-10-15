@@ -1,12 +1,13 @@
 {
+  "id":"/neuroferma",
   "name":"TRIZNES Neuroferma",
   "short_name":"Neuroferma",
-  "description":"Персональный контур TRIZNES для владельца серебряной карты",
-  "start_url":"./neuroferma.html",
+  "description":"Единая Нейроферма TRIZNES: видеоочередь, PINK NOIZE, персонажи и персональные контуры.",
+  "start_url":"./neuroferma.html?v=20261015-5",
   "scope":"./",
   "display":"standalone",
-  "background_color":"#08090d",
-  "theme_color":"#08090d",
+  "background_color":"#07080c",
+  "theme_color":"#07080c",
   "lang":"ru",
   "icons":[{"src":"./neuroferma-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
