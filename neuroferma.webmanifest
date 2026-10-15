@@ -1,13 +1,13 @@
 {
   "id":"/neuroferma",
   "name":"TRIZNES / PINK NOIZE Neuroferma",
-  "short_name":"Neuroferma",
-  "description":"Единая Нейроферма TRIZNES: PINK NOIZE, видеоочередь, персонажи и персональные контуры.",
-  "start_url":"./neuroferma.html?v=20261015-6",
+  "short_name":"Нейроферма",
+  "description":"Мобильная Нейроферма TRIZNES: PINK NOIZE, видео-лента, персонажи и персональные контуры.",
+  "start_url":"./neuroferma-admin.html?v=20261015-7",
   "scope":"./",
   "display":"standalone",
   "background_color":"#07040b",
   "theme_color":"#09040f",
   "lang":"ru",
-  "icons":[{"src":"./neuroferma-icon.svg?v=20261015-6","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+  "icons":[{"src":"./neuroferma-icon.svg?v=20261015-7","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
