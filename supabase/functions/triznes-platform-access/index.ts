@@ -1,6 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 const BASE=()=>Deno.env.get('SUPABASE_URL')||'';const KEY=()=>Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')||'';const enc=encodeURIComponent;
-const ORIGINS=new Set(['https://triznes.online','https://www.triznes.online','https://3sness.online','https://www.3sness.online']);
+const ORIGINS=new Set(['https://triznes.online','https://www.triznes.online','https://3sness.online','https://www.3sness.online','https://dank00-arch.github.io']);
 const cors=(req:Request)=>{const o=req.headers.get('origin')||'';return {'Access-Control-Allow-Origin':ORIGINS.has(o)?o:'https://triznes.online','Access-Control-Allow-Headers':'content-type','Access-Control-Allow-Methods':'GET,POST,OPTIONS','Vary':'Origin','Cache-Control':'no-store'}};
 const json=(req:Request,b:any,s=200)=>new Response(JSON.stringify(b),{status:s,headers:{'Content-Type':'application/json; charset=utf-8',...cors(req)}});
 async function sha(v:string){const h=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(v));return[...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,'0')).join('')}
