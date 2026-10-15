@@ -1,13 +1,12 @@
 {
-  "name": "TRIZNES Neuroferma Admin",
-  "short_name": "Neuroferma Admin",
-  "start_url": "./neuroferma-admin.html",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#07080c",
-  "theme_color": "#07080c",
-  "description": "Внутренняя админ-Нейроферма TRIZNES: просмотр, правки и выпуск контента.",
-  "icons": [
-    {"src":"./neuroferma-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
-  ]
+  "id":"/neuroferma-admin",
+  "name":"TRIZNES Neuroferma Admin",
+  "short_name":"Neuroferma Admin",
+  "start_url":"./neuroferma-admin.html?v=20261015-5",
+  "scope":"./",
+  "display":"standalone",
+  "background_color":"#07080c",
+  "theme_color":"#07080c",
+  "description":"Админ-пульт TRIZNES: видео на просмотр, одобрение, доработка и отправка на взлёт.",
+  "icons":[{"src":"./neuroferma-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
