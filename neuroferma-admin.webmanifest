@@ -1,12 +1,12 @@
 {
   "id":"/neuroferma-admin",
-  "name":"TRIZNES Neuroferma Admin",
-  "short_name":"Neuroferma Admin",
-  "start_url":"./neuroferma-admin.html?v=20261015-5",
+  "name":"PINK NOIZE / TRIZNES Neuroferma Admin",
+  "short_name":"PN Neuroferma",
+  "start_url":"./neuroferma-admin.html?v=20261015-6",
   "scope":"./",
   "display":"standalone",
-  "background_color":"#07080c",
-  "theme_color":"#07080c",
-  "description":"Админ-пульт TRIZNES: видео на просмотр, одобрение, доработка и отправка на взлёт.",
-  "icons":[{"src":"./neuroferma-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+  "background_color":"#07040b",
+  "theme_color":"#09040f",
+  "description":"PINK NOIZE админ-пульт TRIZNES: видео на просмотр, одобрение, доработка и отправка на взлёт.",
+  "icons":[{"src":"./neuroferma-icon.svg?v=20261015-6","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
