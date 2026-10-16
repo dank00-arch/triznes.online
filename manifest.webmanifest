@@ -2,12 +2,12 @@
   "id":"/triznes-app",
   "name":"TRIZNES — Жизнь в игре",
   "short_name":"TRIZNES",
-  "description":"Главное приложение TRIZNES: Нейроферма, PINK NOIZE и персональный контур.",
-  "start_url":"./app.html?v=20261015-7",
+  "description":"Мобильный вход TRIZNES: профиль, Нейроферма, загрузка контента и живой мир проекта.",
+  "start_url":"./app.html?v=20261016-8",
   "scope":"./",
   "display":"standalone",
   "background_color":"#050408",
   "theme_color":"#07040b",
   "lang":"ru",
-  "icons":[{"src":"./icon.svg?v=20261015-7","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+  "icons":[{"src":"./icon.svg?v=20261016-8","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
