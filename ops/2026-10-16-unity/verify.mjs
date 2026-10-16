@@ -1,0 +1,34 @@
+import fs from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import {stripTypeScriptTypes} from 'node:module';
+import {webcrypto} from 'node:crypto';
+function load(file){
+  const source=fs.readFileSync(file,'utf8').replace(/^import .*;\s*/,'');
+  let handler; const context=vm.createContext({Deno:{env:{get:k=>k==='SUPABASE_URL'?'https://example.test':'test-key'},serve:f=>handler=f},crypto:webcrypto,TextEncoder,Request,Response,AbortSignal,URL,encodeURIComponent,console,btoa,fetch:async()=>{throw new Error('Unexpected network request')}});
+  vm.runInContext(stripTypeScriptTypes(source),context);
+  return {context,handler};
+}
+const {context:c,handler}=load(new URL('./neurofarm-member-portal.ts',import.meta.url));
+load(new URL('./apollon-conversation.ts',import.meta.url));
+let r=await handler(new Request('https://example.test',{method:'POST',headers:{origin:'https://untrusted.test'},body:'{}'}));
+assert.equal(r.status,403);
+r=await handler(new Request('https://example.test',{method:'POST',body:JSON.stringify({action:'status',session_token:''})}));
+assert.equal(r.status,401);
+assert.equal(vm.runInContext("roleFrom({}, {role:'Режиссёр'})",c),'director');
+assert.equal(vm.runInContext("roleFrom({}, {role:'Редактор контента'})",c),'pink_noize_editor');
+assert.equal(vm.runInContext("roleFrom({}, {role:'Проводник Чивурунду'})",c),'community_connector');
+assert.equal(vm.runInContext("roleFrom({}, {role:'Игрок'})",c),'member');
+vm.runInContext(`rest=async p=>{if(p.startsWith('operator_identities?id='))return[{id:'old',channel:'telegram',external_user_id:'123'}];if(p.startsWith('operator_identities?external'))return[{id:'old'},{id:'card-owner'}];if(p.startsWith('triznes_membership_cards?')){if(!p.includes('issued_at=lte.'))throw Error('Future cards not excluded');return[{identity_id:'card-owner'}]};throw Error(p)}`,c);
+assert.equal(await vm.runInContext("canonicalIdentity('old')",c),'card-owner');
+vm.runInContext("rest=async()=>[{id:'web',channel:'web',external_user_id:'123'}]",c);
+assert.equal(await vm.runInContext("canonicalIdentity('web')",c),'web');
+vm.runInContext(`baseContext=async()=>({black_card:true,player:{id:'player'}});rest=async(p,init)=>{if(p.startsWith('apollon_player_game_state'))return[{current_level:1}];if(p.startsWith('triznes_game_levels'))return[{level_no:1}];if(p==='triznes_neuro_collider_sessions'){const v=JSON.parse(init.body);if(v.agent_slug!=='bezliki')throw Error('Wrong guide');return[v]};throw Error(p)}`,c);
+assert.equal((await vm.runInContext("blackColliderStart('id',{mission:'Создать свой первый музыкальный этюд'})",c)).agent_slug,'bezliki');
+vm.runInContext("baseContext=async()=>({black_card:false,player:{id:'player'}})",c);
+await assert.rejects(()=>vm.runInContext("blackColliderStart('id',{mission:'Создать этюд'})",c),/black_card_required/);
+vm.runInContext("baseContext=async()=>({black_card:true,player:{id:'player'}})",c);
+await assert.rejects(()=>vm.runInContext("agentAction('id',{agent:'dionysus',message:'Привет'})",c),/agent_action_invalid/);
+vm.runInContext("baseContext=async()=>({role:'member'})",c);
+await assert.rejects(()=>vm.runInContext("directorAction('id',{})",c),/director_role_required/);
+console.log('PASS: syntax, origin/session rejection, four role mappings, verified-channel canonicalization, future-card filter, BEZLIKI routing, card gate, Dionysus restriction, director gate');
