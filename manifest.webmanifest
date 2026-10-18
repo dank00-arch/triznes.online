@@ -2,12 +2,12 @@
   "id":"/triznes-app",
   "name":"TRIZNES — Жизнь в игре",
   "short_name":"TRIZNES",
-  "description":"TRIZNES / SOCHI: живые истории, персонажи, профиль, Нейроферма и вход в игру.",
-  "start_url":"./app.html?v=20261017-9",
+  "description":"TRIZNES / SOCHI: личный путь, состояние, квесты, достижения, профиль и Нейроферма.",
+  "start_url":"./life.html?v=20261018-life1",
   "scope":"./",
   "display":"standalone",
-  "background_color":"#050408",
-  "theme_color":"#07040b",
+  "background_color":"#05050a",
+  "theme_color":"#06050a",
   "lang":"ru",
-  "icons":[{"src":"./icon.svg?v=20261017-9","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+  "icons":[{"src":"./icon.svg?v=20261018-life1","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
