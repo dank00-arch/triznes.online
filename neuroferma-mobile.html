@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#09040f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta http-equiv="Cache-Control" content="no-store, max-age=0">
+<link rel="manifest" href="./neuroferma-mobile.webmanifest?v=20261019-8">
+<link rel="icon" href="./neuroferma-icon.svg?v=20261015-7" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./neuroferma-icon.svg?v=20261015-7">
+<title>TRIZNES Нейроферма</title>
+<style>
+html,body{margin:0;width:100%;height:100%;background:#07040b;overflow:hidden}iframe{display:block;width:100%;height:100%;border:0;background:#07040b}.badge{position:fixed;z-index:20;right:10px;top:max(8px,env(safe-area-inset-top));padding:5px 8px;border-radius:999px;background:rgba(7,4,11,.76);border:1px solid rgba(66,236,255,.35);color:#42ecff;font:800 9px ui-monospace,monospace;letter-spacing:.08em;pointer-events:none;backdrop-filter:blur(10px)}
+</style>
+</head>
+<body>
+<div class="badge">MOBILE v8 · 19.10.2026</div>
+<iframe id="nf" title="TRIZNES Нейроферма" allow="clipboard-read; clipboard-write; fullscreen"></iframe>
+<script>
+const frame=document.getElementById('nf');
+const invite=location.hash||'';
+frame.src='./neuroferma-admin.html?v=20261019-8'+invite;
+frame.addEventListener('load',()=>{try{const d=frame.contentDocument;if(!d||d.getElementById('nfMobileV8'))return;const s=d.createElement('script');s.id='nfMobileV8';s.src='./neuroferma-mobile-v8.js?v=20261019-8';d.body.appendChild(s);}catch(e){console.warn(e)}});
+if('serviceWorker' in navigator)navigator.serviceWorker.register('./neuroferma-sw.js?v=20261015-8',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
+</script>
+</body>
+</html>
