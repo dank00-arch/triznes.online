@@ -2,11 +2,11 @@
   "id":"./neuroferma-mobile.html",
   "name":"TRIZNES Нейроферма",
   "short_name":"Нейроферма",
-  "start_url":"./neuroferma-mobile.html?v=20261019-8",
+  "start_url":"./neuroferma-mobile.html?v=20261020-9",
   "scope":"./",
   "display":"standalone",
   "background_color":"#07040b",
   "theme_color":"#09040f",
-  "description":"Мобильная Нейроферма TRIZNES: ролики, отправка человеку, подготовка публикации и YouTube.",
+  "description":"Мобильная Нейроферма TRIZNES: задачи на согласование, производство, готовые ролики, архив и публикация.",
   "icons":[{"src":"./neuroferma-icon.svg?v=20261015-7","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
