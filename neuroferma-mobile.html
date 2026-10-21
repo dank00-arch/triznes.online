@@ -17,12 +17,12 @@ html,body{margin:0;width:100%;height:100%;background:#07040b;overflow:hidden}ifr
 </style>
 </head>
 <body>
-<div class="badge">MOBILE v9 · 20.10.2026</div>
+<div class="badge">MOBILE v10 · 21.10.2026</div>
 <iframe id="nf" title="TRIZNES Нейроферма" allow="clipboard-read; clipboard-write; fullscreen"></iframe>
 <script>
 const frame=document.getElementById('nf');
 const invite=location.hash||'';
-frame.src='./neuroferma-admin.html?v=20261020-9'+invite;
+frame.src='./neuroferma-admin.html?v=20261021-17'+invite;
 frame.addEventListener('load',()=>{try{const d=frame.contentDocument;if(!d||d.getElementById('nfMobileV9'))return;const s=d.createElement('script');s.id='nfMobileV9';s.src='./neuroferma-mobile-v9.js?v=20261020-9';d.body.appendChild(s);}catch(e){console.warn(e)}});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./neuroferma-sw.js?v=20261020-10',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
 </script>
