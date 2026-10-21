@@ -1,4 +1,4 @@
-const CACHE='triznes-neuroferma-live-20261021-v11';
+const CACHE='triznes-neuroferma-live-20261021-v12';
 const CORE=['./neuroferma.webmanifest?v=20261015-7','./neuroferma-admin.webmanifest?v=20261015-7','./neuroferma-mobile.webmanifest?v=20261020-9','./neuroferma-mobile.html?v=20261020-9','./neuroferma-mobile-v9.js?v=20261020-9','./pink-noize-editor.webmanifest?v=20261015-1','./pink-noize-editor.html?v=20261015-1','./assets/brand/neuroferma-icon-192.png?v=20261021'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).catch(()=>null).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE&&k.startsWith('triznes-neuroferma')).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
