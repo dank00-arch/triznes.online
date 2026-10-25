@@ -2,7 +2,7 @@
   "id": "/triznes.online/neuroferma-app",
   "name": "Нейроферма · TRIZNES",
   "short_name": "Нейроферма",
-  "start_url": "./neuroferma-app.html?v=20261025-1",
+  "start_url": "./neuroferma-app.html?v=20261025-2",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
