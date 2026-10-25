@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#08040c">
+<title>TRIZNES — Security Center</title>
+<style>
+:root{--bg:#08040c;--panel:#15101d;--line:#362641;--text:#fff;--muted:#b9afc2;--pink:#ff38c9;--violet:#7f5cff;--cyan:#52e9ff;--green:#7df5bd;--red:#ff7f9d;--gold:#ffd36b}*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:calc(20px + env(safe-area-inset-top)) 18px calc(28px + env(safe-area-inset-bottom));background:radial-gradient(circle at 15% 10%,rgba(127,92,255,.18),transparent 34%),radial-gradient(circle at 90% 18%,rgba(255,56,201,.13),transparent 30%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wrap{width:min(720px,100%);margin:0 auto}.brand{display:flex;align-items:center;justify-content:space-between;margin:6px 4px 14px}.brand strong{letter-spacing:.18em}.brand span{font:800 10px ui-monospace,monospace;color:var(--cyan);letter-spacing:.12em}.card{border:1px solid var(--line);border-radius:26px;padding:24px;background:linear-gradient(180deg,rgba(24,17,31,.97),rgba(11,8,15,.98));box-shadow:0 28px 90px rgba(0,0,0,.42);margin-bottom:14px}.eyebrow{font:800 10px ui-monospace,monospace;color:var(--gold);letter-spacing:.14em}h1{font-size:34px;line-height:1.02;margin:10px 0 10px}p{margin:0;color:var(--muted);line-height:1.55}.box{margin-top:16px;padding:16px;border:1px solid var(--line);border-radius:18px;background:rgba(8,5,11,.7)}.row{display:grid;gap:10px;margin-top:12px}input,button,a.btn{width:100%;border-radius:14px;border:1px solid #433150;background:#0d0912;color:#fff;padding:14px;font:600 16px inherit;text-decoration:none;text-align:center}button,a.btn{cursor:pointer;font-weight:800}.primary{background:linear-gradient(110deg,var(--pink),var(--violet));border:0}.secondary{background:#0b0810}.hidden{display:none!important}.msg{font-size:13px;line-height:1.5}.ok{color:var(--green)}.bad{color:var(--red)}.warn{color:var(--gold)}.muted{color:var(--muted)}.qr{display:grid;place-items:center;margin:14px auto;max-width:280px;background:#fff;padding:14px;border-radius:18px}.qr img{width:100%;display:block}.secret{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;word-break:break-all;background:#050307;border:1px dashed #4d3b58;padding:12px;border-radius:12px}.statusline{font-size:13px;color:#d7d0dc;line-height:1.5}.foot{text-align:center;color:#7f7489;font-size:11px;margin:12px 0}.tip{margin-top:10px;font-size:12px;color:#9f94a9}.tip b{color:#fff}@media(max-width:560px){.card{padding:20px 16px}h1{font-size:30px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<div class="brand"><strong>TRIZNES</strong><span>SECURITY CENTER</span></div>
+<section class="card">
+<div class="eyebrow">ЖИЗНЬ В ИГРЕ · AAL2</div>
+<h1>Двухфакторная защита</h1>
+<p>Здесь подключается TOTP для менторов, режиссёров и администраторов. Пароль и одноразовые коды проверяет Supabase Auth.</p>
+<div id="loginBox" class="box">
+<b>1. Войди в аккаунт</b>
+<div class="row">
+<input id="email" type="email" autocomplete="username" placeholder="Email">
+<input id="password" type="password" autocomplete="current-password" placeholder="Пароль">
+<button id="login" class="primary">ВОЙТИ</button>
+</div>
+</div>
+<div id="statusBox" class="box hidden">
+<b>2. Статус защиты</b>
+<div id="status" class="statusline" style="margin-top:10px"></div>
+<div class="row">
+<button id="refresh" class="secondary">ОБНОВИТЬ</button>
+<button id="logout" class="secondary">ВЫЙТИ</button>
+</div>
+</div>
+<div id="enrollBox" class="box hidden">
+<b>3. Подключить TOTP</b>
+<p class="tip">Открой <b>Google Authenticator / 1Password / Authy</b>. На одном iPhone удобнее не сканировать QR, а скопировать секрет ниже вручную.</p>
+<div class="row"><button id="enroll" class="primary">ДОБАВИТЬ TOTP</button></div>
+<div id="qrWrap" class="hidden">
+<div class="qr"><img id="qr" alt="QR для TOTP"></div>
+<div id="secret" class="secret"></div>
+<div class="row">
+<input id="enrollCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6-значный код">
+<button id="verifyEnroll" class="primary">ПОДТВЕРДИТЬ 2FA</button>
+</div>
+</div>
+</div>
+<div id="challengeBox" class="box hidden">
+<b>4. Подтвердить AAL2</b>
+<div class="row">
+<input id="challengeCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6-значный код">
+<button id="verifyChallenge" class="primary">ПОДТВЕРДИТЬ ВХОД</button>
+</div>
+</div>
+<div id="msg" class="box msg muted">Готово к настройке TOTP.</div>
+<div class="row" style="margin-top:16px"><a class="btn secondary" href="register.html">← ВЕРНУТЬСЯ К ВХОДУ TRIZNES</a></div>
+</section>
+<div class="foot">TRIZNES.ONLINE · REAL FIRST / AI AMPLIFIES</div>
+</main>
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.76.1?bundle';
+const SUPABASE_URL='https://bbxhhtpmbtgfaxamgksf.supabase.co';
+const SUPABASE_KEY='sb_publishable_aFTiVGlsJxeeutL_gEZaKA_S9VyKaHS';
+const sb=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const $=id=>document.getElementById(id);
+let factorId=null,challengeId=null;
+function message(text,type='muted'){$('msg').className='box msg '+type;$('msg').textContent=text}
+async function verifiedFactors(){const {data,error}=await sb.auth.mfa.listFactors();if(error)throw error;const all=data?.all||[...(data?.totp||[]),...(data?.phone||[])];return all.filter(f=>f.status==='verified')}
+async function refresh(){const {data:{user}}=await sb.auth.getUser();if(!user){$('loginBox').classList.remove('hidden');$('statusBox').classList.add('hidden');$('enrollBox').classList.add('hidden');$('challengeBox').classList.add('hidden');return}
+$('loginBox').classList.add('hidden');$('statusBox').classList.remove('hidden');$('enrollBox').classList.remove('hidden');
+const {data,error}=await sb.auth.mfa.getAuthenticatorAssuranceLevel();if(error)throw error;const factors=await verifiedFactors();
+$('status').textContent=(user.email||'Аккаунт')+' · текущий уровень: '+(data.currentLevel||'aal1')+' · доступно факторов: '+factors.length;
+if(factors.length&&data.currentLevel!=='aal2'){factorId=factors[0].id;const c=await sb.auth.mfa.challenge({factorId});if(c.error)throw c.error;challengeId=c.data.id;$('challengeBox').classList.remove('hidden');message('Введите код из Authenticator, чтобы активировать AAL2.','warn')}else{$('challengeBox').classList.add('hidden');if(data.currentLevel==='aal2')message('AAL2 активен. Второй фактор подтверждён.','ok')}}
+$('login').onclick=async()=>{try{message('Проверяю вход…');const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;await refresh()}catch(e){message('Ошибка входа: '+(e?.message||e),'bad')}};
+$('refresh').onclick=()=>refresh().catch(e=>message(String(e?.message||e),'bad'));
+$('logout').onclick=async()=>{await sb.auth.signOut();location.reload()};
+$('enroll').onclick=async()=>{try{const factors=await verifiedFactors();if(factors.length){message('TOTP уже подключён. Подтвердите вход кодом ниже.','warn');await refresh();return}const {data,error}=await sb.auth.mfa.enroll({factorType:'totp',friendlyName:'TRIZNES TOTP'});if(error)throw error;factorId=data.id;$('qr').src=data.totp.qr_code;$('secret').textContent='Секрет для ручного ввода: '+data.totp.secret;$('qrWrap').classList.remove('hidden');message('Добавьте этот TOTP в Authenticator и введите свежий 6-значный код.','warn')}catch(e){message(String(e?.message||e),'bad')}};
+$('verifyEnroll').onclick=async()=>{try{const code=$('enrollCode').value.trim();if(!/^\d{6}$/.test(code))throw new Error('Нужен 6-значный код');const c=await sb.auth.mfa.challenge({factorId});if(c.error)throw c.error;const v=await sb.auth.mfa.verify({factorId,challengeId:c.data.id,code});if(v.error)throw v.error;$('qrWrap').classList.add('hidden');message('2FA подключена. Проверяю AAL2…','ok');await refresh()}catch(e){message(String(e?.message||e),'bad')}};
+$('verifyChallenge').onclick=async()=>{try{const code=$('challengeCode').value.trim();if(!/^\d{6}$/.test(code))throw new Error('Нужен 6-значный код');const v=await sb.auth.mfa.verify({factorId,challengeId,code});if(v.error)throw v.error;message('AAL2 активирован.','ok');await refresh()}catch(e){message(String(e?.message||e),'bad')}};
+refresh().catch(e=>message(String(e?.message||e),'bad'));
+</script>
+</body>
+</html>
