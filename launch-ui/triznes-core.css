@@ -219,5 +219,50 @@ img,video{max-width:100%;display:block}
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
 
+/* ---- ENTRY: цепочка ядра ---- */
+.chain{display:flex;flex-direction:column;align-items:center;margin:10px auto;text-align:center}
+.chain .node{position:relative;padding:10px 0;font:600 11px/1 var(--font);letter-spacing:.22em;text-transform:uppercase;color:var(--n-500)}
+.chain .node::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:10px;background:linear-gradient(var(--n-400),transparent);transform:translateX(-50%)}
+.chain .node:last-child::after{display:none}
+.chain .node.core{color:var(--core-light);display:inline-flex;align-items:center;gap:8px;letter-spacing:.14em}
+.chain .node.core::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--core-light);box-shadow:0 0 12px var(--brand-500)}
+
+/* ---- ENTRY: три шага ---- */
+.step{position:relative;display:block;padding:18px;border-radius:var(--r-lg);background:var(--glass);border:1px solid var(--glass-border);margin-top:10px;transition:transform .25s cubic-bezier(.2,.8,.2,1),border-color .2s}
+.step:hover{transform:translateY(-4px);border-color:var(--glass-border-strong)}
+.step .num{font:800 26px/1 var(--font);color:var(--brand-600);letter-spacing:-.02em}
+.step .ico{position:absolute;top:16px;right:16px;color:var(--n-500)}
+.step h3{margin:12px 0 6px;font:700 17px/1.2 var(--font)}
+.step p{margin:0;color:var(--subtext);font-size:13px}
+
+/* ---- ценности ---- */
+.values{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px;color:var(--n-600);font:600 10px/1.6 var(--font);letter-spacing:.16em;text-transform:uppercase;text-align:center}
+.values span{position:relative}
+.values span+span::before{content:"·";position:absolute;left:-10px;color:var(--n-400)}
+
+/* ---- поля ввода (визуал; auth-логика не трогается) ---- */
+.field{display:block;margin-top:12px}
+.field>span{display:block;font:600 10px/1 var(--font);letter-spacing:.18em;text-transform:uppercase;color:var(--subtext);margin-bottom:7px}
+.inp{display:flex;align-items:center;gap:9px;padding:0 14px;height:50px;border-radius:14px;background:var(--n-100);border:1px solid var(--glass-border)}
+.inp:focus-within{border-color:var(--brand-500);box-shadow:var(--sh-glow-brand)}
+.inp svg{color:var(--n-500);flex:0 0 auto}
+.inp input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--fg);font:400 15px var(--font)}
+.inp input::placeholder{color:var(--n-500)}
+.orline{display:flex;align-items:center;gap:10px;color:var(--n-500);font-size:12px;margin:14px 0}
+.orline::before,.orline::after{content:"";flex:1;height:1px;background:var(--border)}
+
+/* ---- карты статусов BLACK/SILVER/GOLD ---- */
+.tiers{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.tier{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:14px;background:var(--glass);border:1px solid var(--glass-border)}
+.tier .sw{width:26px;height:18px;border-radius:5px;background:linear-gradient(135deg,#23232a,#050507);box-shadow:inset 0 0 0 1px rgb(255 255 255 / .08)}
+.tier.silver .sw{background:linear-gradient(135deg,#d7dbe2,#8a8f98)}
+.tier.gold .sw{background:linear-gradient(135deg,var(--gold),#b8842f)}
+.tier b{font:700 11px/1 var(--font);letter-spacing:.08em}
+.tier.gold b{color:var(--gold)}
+.tier small{display:block;color:var(--subtext);font-size:10px;margin-top:2px}
+
+/* ---- footer ---- */
+.foot{text-align:center;color:var(--n-500);font:600 10px/1.8 var(--font);letter-spacing:.14em;text-transform:uppercase;margin-top:28px}
+
 /* ---- адаптив: phone-first, аккуратный рост вверх ---- */
 @media (min-width:431px){ .screen{width:460px} }
