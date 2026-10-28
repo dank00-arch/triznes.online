@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07040b">
+<meta name="description" content="TRIZNES — карта живого кино Сочи: люди, события, съёмки, места и сообщества в двух мирах РАЙ/CYBER.">
+<title>TRIZNES · Карта мира</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="./triznes-core.css">
+<link rel="stylesheet" href="./triznes-visual-v2.css">
+<!-- ПЕРЕНОС ЭКРАНА 04 WORLD MAP (Subframe page 09974e15…) · phone-first (≤430).
+     Карта живого кино Сочи, слои РАЙ/CYBER. Позиции маркеров — стилизованные (не гео).
+     DATA: triznes_city_presence / triznes_events / sochiwood_life_events / communities / places.
+     Реальная гео-карта и координаты подключаются отдельно. Лица — только REAL. Auth/API не трогаются. -->
+</head>
+<body class="tc">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="i-user" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></g>
+<g id="i-search" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="m20 20-4-4"/></g>
+<g id="i-cal" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></g>
+<g id="i-clap" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9Z"/><path d="m4 9 2.5-4 4 1.5M9 9l2.8-4.3 4 1.5M14.5 9l2.8-4.3 4 1.5"/></g>
+<g id="i-pin" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></g>
+<g id="i-book" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2V4Z"/><path d="M5 18a2 2 0 0 1 2-2h11"/></g>
+<g id="i-users" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="3"/><path d="M3.5 19c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5"/><path d="M16 8a3 3 0 0 1 0 5M20.5 19c0-2-1-3.3-2.8-4"/></g>
+<g id="i-film" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M17 9h4M3 15h4M17 15h4"/></g>
+<g id="i-globe" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.5 2.3 2.5 13.7 0 16M12 4c-2.5 2.3-2.5 13.7 0 16"/></g>
+<g id="i-cross" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></g>
+<g id="i-play" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.5 18 12 8 18.5v-13Z"/></g>
+</defs></svg>
+
+<main class="screen" style="padding-bottom:calc(104px + env(safe-area-inset-bottom))">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="brand row" style="gap:8px"><img class="logo-mark" src="./assets/triznes-core-128.png" alt="" width="22" height="22"><span>TRIZNES<br><small class="muted" style="font:600 9px/1 var(--font);letter-spacing:.14em">Карта · Сочи</small></span></div>
+    <div class="row" style="gap:10px">
+      <a class="avatar" href="#" aria-label="Поиск" style="width:40px;height:40px"><svg width="18" height="18"><use href="#i-search"/></svg></a>
+      <span class="avatar ring" aria-label="Мой профиль" style="width:40px;height:40px;font-size:12px">ИФ<i class="presence"></i></span>
+    </div>
+  </header>
+
+  <!-- ФИЛЬТРЫ СЛОЁВ · DATA: включение слоёв карты -->
+  <nav class="filter" style="margin-top:8px">
+    <button class="on"><svg width="15" height="15" style="vertical-align:-2px"><use href="#i-user"/></svg> Люди</button>
+    <button><svg width="15" height="15" style="vertical-align:-2px"><use href="#i-cal"/></svg> События</button>
+    <button style="border-color:rgb(255 43 214 / .4);color:var(--pink)"><svg width="15" height="15" style="vertical-align:-2px"><use href="#i-clap"/></svg> Съёмки</button>
+    <button><svg width="15" height="15" style="vertical-align:-2px"><use href="#i-users"/></svg> Сообщества</button>
+    <button class="on"><svg width="15" height="15" style="vertical-align:-2px"><use href="#i-pin"/></svg> Места</button>
+    <button><svg width="15" height="15" style="vertical-align:-2px"><use href="#i-book"/></svg> Истории</button>
+  </nav>
+
+  <!-- РАЙ / CYBER · два визуальных слоя одного мира -->
+  <div style="display:flex;justify-content:center;margin-top:12px">
+    <div class="seg" role="tablist">
+      <button class="on">✦ РАЙ</button>
+      <button>⚡ CYBER</button>
+    </div>
+  </div>
+
+  <!-- КАРТА · стилизованные позиции (не гео) -->
+  <section class="mapwrap" aria-label="Карта Сочи">
+    <svg class="lines" viewBox="0 0 430 440" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="gl1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b5cff"/><stop offset="1" stop-color="#ff2bd6"/></linearGradient>
+        <linearGradient id="gl2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3b5bff"/><stop offset="1" stop-color="#34e7ff"/></linearGradient>
+        <filter id="blur"><feGaussianBlur stdDeviation="2.4"/></filter>
+      </defs>
+      <g filter="url(#blur)" opacity=".85">
+        <path d="M95 80 C 160 120, 150 200, 140 300" fill="none" stroke="url(#gl1)" stroke-width="2.5"/>
+        <path d="M265 80 C 220 160, 300 190, 360 160" fill="none" stroke="url(#gl2)" stroke-width="2"/>
+        <path d="M225 220 C 180 260, 300 250, 320 230" fill="none" stroke="url(#gl2)" stroke-width="1.6"/>
+        <path d="M140 300 C 220 330, 300 300, 320 230" fill="none" stroke="url(#gl1)" stroke-width="1.4" opacity=".7"/>
+      </g>
+      <g stroke="rgb(255 255 255 / .06)" stroke-width="1" fill="none">
+        <path d="M0 150 C 120 120, 320 180, 430 140"/><path d="M0 300 C 140 280, 300 330, 430 300"/>
+      </g>
+    </svg>
+
+    <span class="maparea" style="left:18px;top:42%">Центр</span>
+    <span class="maparea" style="left:10px;top:62%">Морпорт</span>
+
+    <span class="marker" style="left:22%;top:18%"><span class="dotm"><svg width="18" height="18"><use href="#i-user"/></svg></span><span class="lab">Имя Фамилия</span></span>
+    <span class="marker brand" style="left:60%;top:18%"><span class="dotm">12</span><span class="lab">Центр · персонажи</span></span>
+    <span class="marker pink" style="left:32%;top:38%"><span class="dotm"><svg width="18" height="18"><use href="#i-clap"/></svg></span><span class="lab">Съёмка · сейчас</span></span>
+    <span class="marker" style="left:82%;top:36%"><span class="dotm"><svg width="16" height="16"><use href="#i-book"/></svg></span><span class="lab">Глава города</span></span>
+    <span class="marker cyan" style="left:52%;top:52%"><span class="dotm"><svg width="16" height="16"><use href="#i-cal"/></svg></span><span class="lab">Событие · 19:00</span></span>
+    <span class="marker" style="left:26%;top:66%"><span class="dotm"><svg width="16" height="16"><use href="#i-pin"/></svg></span><span class="lab">Название места</span></span>
+    <span class="marker ghost" style="left:80%;top:66%"><span class="dotm"><svg width="16" height="16"><use href="#i-users"/></svg></span><span class="lab">PINK NOIZE</span></span>
+
+    <button class="recenter" aria-label="Центрировать"><svg width="20" height="20"><use href="#i-cross"/></svg></button>
+  </section>
+
+  <!-- НИЖНИЙ ЛИСТ · деталь места · DATA: выбранное место + идёт ли съёмка + кто здесь -->
+  <section class="sheet">
+    <div class="grab"></div>
+    <div class="row" style="gap:12px;align-items:flex-start">
+      <div class="media ar-landscape" style="width:96px;flex:0 0 auto"><span class="chip real origin" style="top:6px;left:6px"><span class="dot"></span>Real</span><div class="fmt">Видео</div><div class="ph"><svg width="22" height="22"><use href="#i-play"/></svg></div></div>
+      <div style="min-width:0">
+        <div class="t-eyebrow">Место · Морпорт</div>
+        <div class="t-h2" style="margin-top:4px">Название места</div>
+      </div>
+    </div>
+    <div class="statusbar"><span class="l"><span class="pdot"></span>Идёт съёмка · Название сцены</span><span class="r">до 21:00</span></div>
+    <div class="row" style="gap:12px;margin-top:14px">
+      <div class="astack">
+        <span class="avatar ring" style="width:36px;height:36px;font-size:11px">ИФ<i class="presence"></i></span>
+        <span class="avatar" style="width:36px;height:36px;font-size:11px">ИФ</span>
+        <span class="avatar" style="width:36px;height:36px;font-size:11px">ИФ</span>
+        <span class="more" style="width:36px;height:36px">+8</span>
+      </div>
+      <div class="muted t-caption">персонажей здесь</div>
+    </div>
+    <a class="btn primary block" href="#" style="margin-top:14px"><svg width="18" height="18"><use href="#i-clap"/></svg>Начать сцену здесь →</a>
+  </section>
+
+</main>
+
+<nav class="tabbar" aria-label="Основная навигация">
+  <a href="#"><svg width="22" height="22"><use href="#i-user"/></svg>Я</a>
+  <a href="#" class="on"><svg width="22" height="22"><use href="#i-globe"/></svg>Мир</a>
+  <a href="#" aria-label="Создать"><span class="plus">+</span></a>
+  <a href="#"><svg width="22" height="22"><use href="#i-film"/></svg>Кино</a>
+  <a href="#"><img class="logo-mark" src="./assets/triznes-core-128.png" alt="" width="24" height="24">Ядро</a>
+</nav>
+
+<script src="./triznes-shell-v2.js" defer></script>
+<script src="./triznes-data-v2.js" defer></script>
+</body>
+</html>
