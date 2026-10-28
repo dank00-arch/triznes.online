@@ -65,6 +65,16 @@
     const roster = [characters[2], characters[1], characters[3]];
     const cards = document.querySelectorAll('.char-card');
     cards.forEach((card, index) => personCard(card, roster[index] || characters[index]));
+    const scenes = document.querySelectorAll('.film-card .title');
+    ['Первое проявление', 'Голос мечты', 'Встреча у Мелодии'].forEach((title, index) => { if (scenes[index]) scenes[index].textContent = title; });
+    const sceneMeta = document.querySelectorAll('.film-card .meta');
+    ['Квест · можно выполнить сегодня', 'Личная сцена · в своём темпе', 'Городская сцена · маршрут Сочи'].forEach((meta, index) => { if (sceneMeta[index]) sceneMeta[index].textContent = meta; });
+    const projects = document.querySelectorAll('.film-card.wide .title');
+    ['Жизнь в игре · Сезон 00', 'LIBERTY · Свобода', 'SAPHIR · Фиолетовый знак'].forEach((title, index) => { if (projects[index]) projects[index].textContent = title; });
+    const pulse = document.querySelectorAll('.pulse .item');
+    if (pulse[0]) pulse[0].innerHTML = '<span class="pdot"></span><div class="ptxt"><b>SOCHIWOOD собирает истории первой волны</b><div class="muted t-caption">Кино · архив проекта</div></div><span class="chip live" style="height:20px">Процесс</span>';
+    if (pulse[1]) pulse[1].innerHTML = '<span class="pdot" style="background:var(--violet);box-shadow:0 0 10px var(--violet)"></span><div class="ptxt"><b>PINK NOIZE · музыка персонажей</b><div class="muted t-caption">Сообщество · сцены и клипы</div></div><span class="ptime">архив</span>';
+    if (pulse[2]) pulse[2].innerHTML = '<span class="pdot" style="background:var(--gold);box-shadow:0 0 10px var(--gold)"></span><div class="ptxt"><b>Театр ТУЗ · Коллайдер</b><div class="muted t-caption">Восприятие · действие · трансформация</div></div><span class="ptime">путь</span>';
   }
 
   function hydrateCharacter() {
@@ -88,6 +98,76 @@
     switcher.setAttribute('aria-label', 'Персонажи первой волны');
     switcher.innerHTML = characters.map((item) => `<a class="${item.id === character.id ? 'on' : ''}" href="character.html?character=${encodeURIComponent(item.id)}" title="${esc(item.name)}"><span style="--person:${esc(item.color)}">${esc(initials(item.name))}</span><b>${esc(item.name)}</b></a>`).join('');
     document.querySelector('.screen')?.prepend(switcher);
+    const sceneTitles = document.querySelectorAll('.scene .t-h3');
+    ['Улыбка · первый сигнал', 'Голос мечты', 'Присутствие в городе'].forEach((title, index) => { if (sceneTitles[index]) sceneTitles[index].textContent = title; });
+    const sceneMeta = document.querySelectorAll('.scene .meta');
+    ['Мелодия · открытая точка', 'Личная сцена · в своём темпе', 'Медиахаб · маршрут раскрытия'].forEach((meta, index) => { if (sceneMeta[index]) sceneMeta[index].innerHTML = `<svg width="14" height="14"><use href="#i-pin"/></svg>${meta}`; });
+    const films = document.querySelectorAll('.film-card .title');
+    ['Жизнь в игре · Сезон 00', `${character.name} · путь героя`, 'Город говорит'].forEach((title, index) => { if (films[index]) films[index].textContent = title; });
+  }
+
+  function hydrateMap() {
+    const labels = document.querySelectorAll('.marker .lab');
+    ['DANIEL · APOLLON', 'Медиахаб · персонажи', 'Мелодия · живая сцена', 'Великий Шёлковый путь', 'Театр ТУЗ · Коллайдер', 'Морской вокзал', 'PINK NOIZE'].forEach((label, index) => { if (labels[index]) labels[index].textContent = label; });
+    const sheet = document.querySelector('.sheet');
+    const title = sheet?.querySelector('.t-h2'); if (title) title.textContent = 'Морской вокзал · Сочи';
+    const eyebrow = sheet?.querySelector('.t-eyebrow'); if (eyebrow) eyebrow.textContent = 'Реальная локация · Морпорт';
+    const status = sheet?.querySelector('.statusbar'); if (status) status.innerHTML = '<span class="l"><span class="pdot"></span>Точка маршрута · сцена открыта</span><span class="r">квест</span>';
+    const count = sheet?.querySelector('.astack')?.nextElementSibling; if (count) count.textContent = 'герои маршрута';
+  }
+
+  function hydrateSochiwood() {
+    const mainTitle = document.querySelector('.page-sochiwood h1'); if (mainTitle) mainTitle.textContent = 'ЖИЗНЬ В ИГРЕ · СЕЗОН 00';
+    const heroCopy = mainTitle?.parentElement?.querySelector('p'); if (heroCopy) heroCopy.textContent = 'Реальные люди Сочи превращают собственный путь, музыку и встречи в общее кино города.';
+    const titles = document.querySelectorAll('.film-card .title');
+    ['Жизнь в игре', 'Коллайдер ТУЗ', 'LIBERTY · Свобода', 'SAPHIR · Знак', 'Жизнь в игре · Сезон 00', 'PINK NOIZE · Первая волна'].forEach((title, index) => { if (titles[index]) titles[index].textContent = title; });
+    const detail = [...document.querySelectorAll('.page-sochiwood h3')].find((node) => node.textContent.includes('Название фильма')); if (detail) detail.textContent = 'ЖИЗНЬ В ИГРЕ · ПЕРВАЯ ВОЛНА';
+    document.querySelectorAll('.page-sochiwood .char-card').forEach((card, index) => personCard(card, characters[index]));
+    document.querySelectorAll('.page-sochiwood .worldrow small').forEach((node, index) => {
+      node.textContent = ['Город · точки, персонажи и реальные истории', 'Коллайдер · восприятие и актёрский путь', 'Музыка · артисты · сообщество'][index] || node.textContent;
+    });
+    document.querySelectorAll('.page-sochiwood .facet').forEach((facet) => {
+      if (facet.textContent.includes('Имя Фамилия')) facet.innerHTML = facet.innerHTML.replace(/Имя Фамилия/g, 'DANIEL').replace(/АБ/g, 'ВК').replace(/ВГ/g, 'LB');
+      if (facet.textContent.includes('Название проекта')) facet.innerHTML = facet.innerHTML.replace('Название проекта', 'Жизнь в игре · Сезон 00');
+      if (facet.textContent.includes('Название трека')) facet.innerHTML = facet.innerHTML.replace('Название трека', 'PINK NOIZE · музыка фильма');
+      if (facet.textContent.includes('214 материалов')) facet.innerHTML = facet.innerHTML.replace('214 материалов', 'архив собирается');
+    });
+  }
+
+  function hydrateCommunity() {
+    const title = document.querySelector('.page-community h1'); if (title) title.textContent = 'ТЕАТР ТУЗ';
+    const copy = title?.nextElementSibling; if (copy) copy.textContent = 'Театральный игровой Коллайдер: восприятие, действие и трансформация через искусство.';
+    document.querySelectorAll('.page-community .chip.ok').forEach((chip) => { chip.innerHTML = '<span class="dot"></span>первая волна'; });
+    const facets = document.querySelectorAll('.page-community .facets .facet p');
+    if (facets[0]) facets[0].textContent = 'Настроить восприятие человека и оптику видения действия и смысла через искусство и систему образов.';
+    if (facets[1]) facets[1].textContent = 'Провести героя из предлагаемых обстоятельств к осознанному актёрскому и трансформационному опыту.';
+    const events = document.querySelectorAll('.page-community .eventrow .ev');
+    [['Восприятие · шлюз 01','Коллайдер · Медиахаб'],['Двенадцать сюжетов · шлюз 02','Игровой театральный процесс'],['Трансформация · шлюз 03','Путь из тьмы в свет']].forEach(([name, meta], index) => { if (events[index]) events[index].innerHTML = `<b>${name}</b><small>${meta}</small>`; });
+    const projects = document.querySelectorAll('.page-community .film-card .title');
+    ['Коллайдер · Восприятие', 'ТАК–ТИК · путь актёра', 'Театр ТУЗ · кино процесса'].forEach((name, index) => { if (projects[index]) projects[index].textContent = name; });
+    const nearby = document.querySelectorAll('.page-community .section:last-of-type .card b');
+    ['PINK NOIZE', 'ТОРГОВЫЙ ДОМ АНДРЕЯ ДРАГУНОВА', 'SOCHIWOOD'].forEach((name, index) => { if (nearby[index]) nearby[index].textContent = name; });
+    document.querySelectorAll('.page-community .section:last-of-type .muted').forEach((node) => { node.textContent = 'мир проекта · профиль сообщества'; });
+  }
+
+  function hydrateNeurofarm() {
+    document.querySelectorAll('.page-neurofarm *').forEach((node) => {
+      if (node.children.length) return;
+      if (node.textContent.includes('Название проекта')) node.textContent = node.textContent.replace(/Название проекта/g, 'Жизнь в игре · Сезон 00');
+      if (node.textContent.includes('Название сцены')) node.textContent = node.textContent.replace(/Название сцены/g, 'Первое проявление');
+    });
+  }
+
+  function hydrateBoards() {
+    const brand = document.querySelector('.page-boards .brand small'); if (brand) brand.textContent = 'Доска · Жизнь в игре';
+    const board = document.querySelector('.page-boards .bcard');
+    if (board) {
+      const name = board.querySelector('b'); if (name) name.textContent = 'DANIEL · APOLLON';
+      const role = board.querySelector('.muted'); if (role) role.textContent = 'Автор · режиссёр · герой';
+    }
+    const place = [...document.querySelectorAll('.page-boards h3')].find((node) => node.textContent.includes('Название места')); if (place) place.textContent = 'Медиахаб ТРИЗНЕС';
+    const track = [...document.querySelectorAll('.page-boards .muted')].find((node) => node.textContent.includes('Название трека')); if (track) track.textContent = 'PINK NOIZE · музыка сцены';
+    const responsible = [...document.querySelectorAll('.page-boards .muted')].find((node) => node.textContent.includes('ответственный')); if (responsible) responsible.textContent = 'DANIEL · режиссура';
   }
 
   function connectRoutes() {
@@ -122,6 +202,11 @@
     if (page === 'entry') hydrateEntry();
     if (page === 'home') hydrateHome();
     if (page === 'character') hydrateCharacter();
+    if (page === 'world-map') hydrateMap();
+    if (page === 'sochiwood') hydrateSochiwood();
+    if (page === 'community') hydrateCommunity();
+    if (page === 'neurofarm') hydrateNeurofarm();
+    if (page === 'boards') hydrateBoards();
     connectRoutes();
   }
 
