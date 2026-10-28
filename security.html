@@ -53,6 +53,11 @@
 <button id="verifyChallenge" class="primary">ПОДТВЕРДИТЬ ВХОД</button>
 </div>
 </div>
+<div id="pultBox" class="box hidden">
+<b>5. Пульт управления</b>
+<p class="tip">AAL2 подтверждён. Доступ к Пульту выдаётся только оператору аккаунта города.</p>
+<div class="row"><button id="openPult" class="primary">ОТКРЫТЬ ПУЛЬТ</button></div>
+</div>
 <div id="msg" class="box msg muted">Готово к настройке TOTP.</div>
 <div class="row" style="margin-top:16px"><a class="btn secondary" href="register.html">← ВЕРНУТЬСЯ К ВХОДУ TRIZNES</a></div>
 </section>
@@ -71,13 +76,14 @@ async function refresh(){const {data:{user}}=await sb.auth.getUser();if(!user){$
 $('loginBox').classList.add('hidden');$('statusBox').classList.remove('hidden');$('enrollBox').classList.remove('hidden');
 const {data,error}=await sb.auth.mfa.getAuthenticatorAssuranceLevel();if(error)throw error;const factors=await verifiedFactors();
 $('status').textContent=(user.email||'Аккаунт')+' · текущий уровень: '+(data.currentLevel||'aal1')+' · доступно факторов: '+factors.length;
-if(factors.length&&data.currentLevel!=='aal2'){factorId=factors[0].id;const c=await sb.auth.mfa.challenge({factorId});if(c.error)throw c.error;challengeId=c.data.id;$('challengeBox').classList.remove('hidden');message('Введите код из Authenticator, чтобы активировать AAL2.','warn')}else{$('challengeBox').classList.add('hidden');if(data.currentLevel==='aal2')message('AAL2 активен. Второй фактор подтверждён.','ok')}}
+if(factors.length&&data.currentLevel!=='aal2'){factorId=factors[0].id;const c=await sb.auth.mfa.challenge({factorId});if(c.error)throw c.error;challengeId=c.data.id;$('challengeBox').classList.remove('hidden');message('Введите код из Authenticator, чтобы активировать AAL2.','warn')}else{$('challengeBox').classList.add('hidden');if(data.currentLevel==='aal2')message('AAL2 активен. Второй фактор подтверждён.','ok')}$('pultBox').classList.toggle('hidden',data.currentLevel!=='aal2')}
 $('login').onclick=async()=>{try{message('Проверяю вход…');const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;await refresh()}catch(e){message('Ошибка входа: '+(e?.message||e),'bad')}};
 $('refresh').onclick=()=>refresh().catch(e=>message(String(e?.message||e),'bad'));
 $('logout').onclick=async()=>{await sb.auth.signOut();location.reload()};
 $('enroll').onclick=async()=>{try{const factors=await verifiedFactors();if(factors.length){message('TOTP уже подключён. Подтвердите вход кодом ниже.','warn');await refresh();return}const {data,error}=await sb.auth.mfa.enroll({factorType:'totp',friendlyName:'TRIZNES TOTP'});if(error)throw error;factorId=data.id;$('qr').src=data.totp.qr_code;$('secret').textContent='Секрет для ручного ввода: '+data.totp.secret;$('qrWrap').classList.remove('hidden');message('Добавьте этот TOTP в Authenticator и введите свежий 6-значный код.','warn')}catch(e){message(String(e?.message||e),'bad')}};
 $('verifyEnroll').onclick=async()=>{try{const code=$('enrollCode').value.trim();if(!/^\d{6}$/.test(code))throw new Error('Нужен 6-значный код');const c=await sb.auth.mfa.challenge({factorId});if(c.error)throw c.error;const v=await sb.auth.mfa.verify({factorId,challengeId:c.data.id,code});if(v.error)throw v.error;$('qrWrap').classList.add('hidden');message('2FA подключена. Проверяю AAL2…','ok');await refresh()}catch(e){message(String(e?.message||e),'bad')}};
 $('verifyChallenge').onclick=async()=>{try{const code=$('challengeCode').value.trim();if(!/^\d{6}$/.test(code))throw new Error('Нужен 6-значный код');const v=await sb.auth.mfa.verify({factorId,challengeId,code});if(v.error)throw v.error;message('AAL2 активирован.','ok');await refresh()}catch(e){message(String(e?.message||e),'bad')}};
+$('openPult').onclick=async()=>{try{message('Открываю Пульт…','warn');const {data:{session}}=await sb.auth.getSession();const token=session?.access_token;if(!token)throw new Error('Сессия не найдена — войдите заново');const r=await fetch(SUPABASE_URL+'/functions/v1/triznes-platform-access',{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY},body:JSON.stringify({action:'secure_session',access_token:token})});const d=await r.json().catch(()=>({}));if(!r.ok||!d.ok)throw new Error(d.message||d.error||('http_'+r.status));localStorage.setItem('triznes-control-session',d.session_token);message('Доступ выдан. Открываю Пульт…','ok');location.href=d.control_url||'control.html'}catch(e){message('Пульт недоступен: '+(e?.message||e),'bad')}};
 refresh().catch(e=>message(String(e?.message||e),'bad'));
 </script>
 </body>
