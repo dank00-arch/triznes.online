@@ -20,7 +20,7 @@
    ```
 2. **Код экранов** — через Subframe MCP (`get_page_info` по ID ниже) или вкладку Export в Subframe.
    Экраны используют компоненты из шага 1 (`@/ui/components/*`) и иконки (`@/ui/icons/*`).
-3. **Тема без CLI** — `theme/theme.css` (Tailwind v4 `@theme` + варианты `laptop:` / `mobile:`).
+3. **Тема без CLI** — `theme/theme.css` (Tailwind v4 `@theme` + варианты `laptop:` / `mobile:` / `phone:`).
 
 ### Жёсткие ограничения при переносе
 - Не менять Supabase, auth, роли, permissions, API, маршрутизацию, бизнес-логику и production data.
@@ -31,7 +31,7 @@
 
 ---
 
-## Экраны (desktop ≥1440 · laptop 768–1439 · mobile ≤767)
+## Экраны (desktop ≥1440 · laptop 768–1439 · mobile ≤767 · phone ≤430)
 
 | # | Экран | Subframe page ID | PNG |
 |---|---|---|---|
@@ -45,7 +45,7 @@
 | 08 | BOARDS — живая доска | `e719d920-8a9c-49cc-b171-ba3da9b0b2eb` | `screens/08-boards-*.png` |
 | 09 | MOBILE PULT — игровой пульт (mobile-first) | `7a39658c-f8db-4605-abd8-c13fa47ad6b2` | `screens/09-mobile-pult-*.png` |
 
-PNG сняты на 1440 px (desktop) и 767 px (mobile). На реальном телефоне 390 px элементы компактнее.
+Сняты на 1440 px (`*-desktop.png`), 767 px (`*-mobile.png`) и **430 px — телефон** (`*-phone.webp`, полная высота, @2x). Телефонная версия — эталон для переноса mobile-first.
 
 Ранее утверждённые макеты (канвас «Нейроферма — главный экран»): «Ядро — центральный портал» `238f9bcb-df24-43a9-9ab6-b96fdac72253` (реализован в ветке `feat/neuroferma-yadro-20261028`), «Пульт TRIZNES» `3e0e603a-db8b-4d4f-bea5-0e2b7cf5f685`.
 

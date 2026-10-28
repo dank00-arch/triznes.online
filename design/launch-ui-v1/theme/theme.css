@@ -137,3 +137,4 @@
 /* Breakpoints (desktop-first): Desktop ≥1440 · Laptop 768–1439 · Mobile ≤767 */
 @custom-variant laptop (@media (max-width: 1439px));
 @custom-variant mobile (@media (max-width: 767px));
+@custom-variant phone (@media (max-width: 430px));
