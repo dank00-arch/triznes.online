@@ -264,5 +264,29 @@ img,video{max-width:100%;display:block}
 /* ---- footer ---- */
 .foot{text-align:center;color:var(--n-500);font:600 10px/1.8 var(--font);letter-spacing:.14em;text-transform:uppercase;margin-top:28px}
 
+/* ---- CHARACTER: грани ядра ---- */
+.facets{display:grid;gap:16px;margin-top:14px}
+.facet .lab{font:600 10px/1 var(--font);letter-spacing:.18em;text-transform:uppercase;color:var(--cyan)}
+.facet p{margin:6px 0 0;color:var(--n-800);line-height:1.5}
+.facet .tagrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.corefill{position:relative;padding:20px;border-radius:var(--r-lg);border:1px solid var(--glass-border);background:radial-gradient(90% 120% at 50% 0,rgb(59 91 255 / .14),transparent 60%),var(--glass);text-align:center}
+
+/* ---- фильтр-табы ---- */
+.filter{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:2px 16px 6px}
+.filter::-webkit-scrollbar{display:none}
+.filter button{flex:0 0 auto;height:34px;padding:0 14px;border-radius:var(--r-full);border:1px solid var(--glass-border);background:var(--glass);color:var(--subtext);font:600 12px var(--font);cursor:pointer}
+.filter button.on{border-color:var(--brand-500);color:var(--brand-700)}
+
+/* ---- стопка аватаров (связи) ---- */
+.astack{display:flex;align-items:center}
+.astack .avatar,.astack .more{width:42px;height:42px;margin-left:-10px;border:2px solid var(--n-0)}
+.astack .avatar:first-child{margin-left:0}
+.astack .more{border-radius:50%;display:grid;place-items:center;background:var(--glass-strong);color:var(--n-700);font-weight:800;font-size:12px}
+
+/* ---- scene row (следующая сцена) ---- */
+.scene{display:block;padding:15px;border-radius:var(--r-lg);border:1px solid var(--glass-border);background:var(--glass);margin-top:10px}
+.scene.on{border-color:var(--brand-500);box-shadow:var(--sh-glow-brand)}
+.scene .meta{color:var(--subtext);font-size:12px;margin:4px 0 0;display:flex;align-items:center;gap:6px}
+
 /* ---- адаптив: phone-first, аккуратный рост вверх ---- */
 @media (min-width:431px){ .screen{width:460px} }
