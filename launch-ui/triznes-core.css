@@ -414,5 +414,31 @@ img,video{max-width:100%;display:block}
 .mapmini{height:120px;border-radius:12px;margin-top:10px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgb(52 231 255 / .12),transparent 60%),var(--n-100);background-image:radial-gradient(rgb(255 255 255 / .07) 1px,transparent 1px);background-size:16px 16px}
 .mapmini .d{position:absolute;left:50%;top:50%;width:12px;height:12px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan);transform:translate(-50%,-50%)}
 
+/* ---- PULT: KPI ---- */
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+.kpi{padding:16px;border-radius:var(--r-lg);border:1px solid var(--glass-border);background:var(--glass)}
+.kpi .lab{font:700 10px/1 var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--subtext)}
+.kpi b{display:block;font-size:34px;line-height:1;margin:9px 0 6px}
+.kpi .delta{font-size:12px;font-weight:600;color:var(--subtext)}
+.kpi.red{border-color:rgb(255 93 119 / .35)} .kpi.red b,.kpi.red .delta{color:var(--error)}
+.kpi.cyan .delta{color:var(--cyan)}
+.kpi.green .delta{color:var(--success)}
+.kpi.gold{border-color:rgb(255 208 106 / .3)} .kpi.gold b{color:var(--gold)}
+
+/* ---- PULT: поток публикаций ---- */
+.flow{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:10px}
+.flow .sep{color:var(--n-500)}
+
+/* ---- PULT: заявки ---- */
+.reqrow{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid var(--border);flex-wrap:wrap}
+.reqrow:first-child{border-top:0}
+.reqrow .who{flex:1;min-width:120px}
+.reqrow .who b{font-weight:600}
+.reqrow .who small{display:block;color:var(--subtext);font-size:12px}
+
+/* ---- PULT: сигнал-карточка ---- */
+.sigcard{width:252px;padding:15px;border-radius:var(--r-lg);border:1px solid var(--glass-border);background:var(--glass)}
+.sigcard.urgent{border-color:rgb(255 93 119 / .35)}
+
 /* ---- адаптив: phone-first, аккуратный рост вверх ---- */
 @media (min-width:431px){ .screen{width:460px} }
