@@ -1,8 +1,8 @@
-const CACHE = 'triznes-launch-ui-v2-content-20261028';
+const CACHE = 'triznes-launch-ui-v2-spline-ready-20261028';
 const CORE = [
   './', './index.html', './entry.html', './home.html', './character.html', './world-map.html',
   './sochiwood.html', './neurofarm.html', './community.html', './boards.html',
-  './triznes-core.css', './triznes-visual-v2.css', './triznes-shell-v2.js', './triznes-data-v2.js',
+  './triznes-core.css', './triznes-visual-v2.css', './triznes-shell-v2.js', './triznes-data-v2.js', './spline-config.js',
   './assets/triznes-core-128.png', './assets/triznes-core.png', './manifest.webmanifest'
 ];
 

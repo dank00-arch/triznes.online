@@ -23,6 +23,22 @@
     navigator.serviceWorker.register('./sw.js', { scope:'./' }).catch(() => {});
   }
 
+  function mountSpline() {
+    if (!['entry', 'home'].includes(screen) || !window.TRIZNES_SPLINE_PUBLIC_URL) return;
+    let url;
+    try {
+      url = new URL(window.TRIZNES_SPLINE_PUBLIC_URL, location.href);
+      if (url.protocol !== 'https:' || !(url.hostname === 'spline.design' || url.hostname.endsWith('.spline.design'))) return;
+    } catch (_) { return; }
+    const hero = screen === 'entry' ? document.querySelector('.screen>section:first-of-type') : document.querySelector('.hero');
+    if (!hero) return;
+    const stage = document.createElement('div');
+    stage.className = 'tc-spline-live';
+    stage.innerHTML = `<iframe title="Живой 3D-мир TRIZNES" src="${url.href}" loading="eager" allow="fullscreen; autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+    hero.prepend(stage);
+    hero.classList.add('has-spline');
+  }
+
   if (screen !== 'entry') {
     const rail = document.createElement('aside');
     rail.className = 'tc-rail';
@@ -55,6 +71,7 @@
   status.className = 'tc-world-status';
   status.innerHTML = '<i></i><span>TRIZNES WORLD</span><b>ONLINE</b>';
   document.body.appendChild(status);
+  mountSpline();
 
   let scheduled = false;
   window.addEventListener('pointermove', (event) => {
