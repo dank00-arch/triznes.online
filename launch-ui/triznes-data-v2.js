@@ -190,6 +190,23 @@
     });
   }
 
+  function hydratePult() {
+    const people = [characters[2], characters[1], characters[3]];
+    document.querySelectorAll('.reqrow').forEach((row, index) => {
+      const person = people[index] || characters[index];
+      if (!person) return;
+      const avatar = row.querySelector('.avatar'); if (avatar) avatar.textContent = initials(person.name);
+      const name = row.querySelector('.who b'); if (name) name.textContent = person.name;
+      const sub = row.querySelector('.who small'); if (sub) sub.textContent = `${person.role.split('·')[0].trim()} · ${person.community}`;
+    });
+    const signals = document.querySelectorAll('.sigcard .t-h3');
+    ['Нужен тизер к «ЖИЗНЬ В ИГРЕ»', 'Пересобрать сцену проекта LIBERTY', '4 заявки на вход за сутки'].forEach((title, index) => { if (signals[index]) signals[index].textContent = title; });
+    const curators = document.querySelectorAll('.sigcard .muted.t-caption');
+    ['DANIEL · куратор', 'ВСЕВОЛОД КИМ · режиссёр', 'Новые жители города'].forEach((text, index) => { if (curators[index]) curators[index].textContent = text; });
+    const events = document.querySelectorAll('.eventrow .ev b');
+    ['Кинопоказ «ЖИЗНЬ В ИГРЕ»', 'Игровая сессия «Коллайдер ТУЗ»'].forEach((title, index) => { if (events[index]) events[index].textContent = title; });
+  }
+
   function toast(message) {
     document.querySelector('.tc-toast')?.remove();
     const node = document.createElement('div'); node.className = 'tc-toast'; node.textContent = message; document.body.append(node);
@@ -207,6 +224,7 @@
     if (page === 'community') hydrateCommunity();
     if (page === 'neurofarm') hydrateNeurofarm();
     if (page === 'boards') hydrateBoards();
+    if (page === 'pult') hydratePult();
     connectRoutes();
   }
 
