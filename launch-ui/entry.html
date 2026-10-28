@@ -31,24 +31,42 @@
 
 <main class="screen">
 
-  <!-- TOPBAR -->
-  <header class="topbar">
-    <div class="brand row" style="gap:8px"><img class="logo-mark" src="./assets/triznes-core-128.png" alt="" width="22" height="22">TRIZNES</div>
-    <a class="btn secondary sm" href="register.html"><svg width="16" height="16"><use href="#i-user"/></svg>Войти</a>
-  </header>
+  <!-- ГЛАВНЫЙ ЭКРАН · кинематографичный центр · верхний вход убран, знак и ядро — в центре.
+       Голографика + свет за курсором (из shell/visual-v2) сохранены. Видео — реальный публичный ролик каталога. -->
+  <section class="hero-cine">
+    <video id="heroReel" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    <div class="holo"><span class="ring" style="width:280px;height:280px"></span><span class="ring r2" style="width:430px;height:430px"></span><span class="ring r3" style="width:600px;height:600px"></span><span class="scan"></span></div>
+    <div class="veil"></div>
+    <div class="content">
+      <div class="live-ping"><i></i>Сочи · Live · Жизнь в игре</div>
+      <div class="core" role="img" aria-label="TRIZNES — ядро" style="width:116px;height:116px;margin:14px auto 0"><img src="./assets/triznes-core.png" alt="TRIZNES — ядро" width="116" height="116" fetchpriority="high"></div>
+      <h1 class="wordmark" data-word="ТРИЗНЕС">ТРИЗНЕС</h1>
+      <p class="muted" style="max-width:350px;margin:16px auto 0;font-size:16px">Твоя реальная жизнь становится кино, игрой и творчеством. Прямо сейчас, в Сочи.</p>
+      <div style="display:grid;gap:11px;max-width:360px;margin:24px auto 0">
+        <a class="btn primary block" href="#manifest"><svg width="18" height="18"><use href="#i-mask"/></svg>Войти в игру — стать персонажем →</a>
+        <a class="btn secondary block" href="world-map.html"><svg width="18" height="18"><use href="#i-globe"/></svg>Посмотреть мир — как зритель</a>
+      </div>
+      <div class="muted t-caption" style="margin-top:12px;max-width:340px;margin-left:auto;margin-right:auto">Игрок — ты в кадре и в игре. Зритель — смотришь, как живёт мир.</div>
+    </div>
+  </section>
 
-  <!-- HERO · вход в мир -->
-  <section style="text-align:center;padding-top:14px">
-    <div class="core" role="img" aria-label="TRIZNES — ядро" style="width:168px;height:168px">
-      <img src="./assets/triznes-core.png" alt="TRIZNES — ядро" width="168" height="168" fetchpriority="high">
+  <!-- МАНИФЕСТ + СОГЛАСИЯ · после «войти в игру». Текст — черновик ядра (GPT финализирует manifest.md).
+       Чекбоксы — ВИЗУАЛ; фактическая запись согласий (legal_consent_events) подключается отдельным шагом. -->
+  <section class="section" id="manifest">
+    <div class="t-eyebrow" style="text-align:center">Манифест TRIZNES</div>
+    <div class="manifesto" style="margin-top:12px">
+      <p class="big">Каждый человек — главный спецэффект. Реальная жизнь важнее любой генерации.</p>
+      <p>TRIZNES — живое кино города. Ты приходишь собой, со своей идеей и мечтой, выбираешь роль — и твой путь становится сценой, фильмом и частью общего мира. AI только помогает собрать кадр. Автор всегда ты.</p>
+      <p>Любовь · добро · свет · свобода творчества · уникальность каждого — ядро, вокруг которого мы соединяемся.</p>
     </div>
-    <div class="t-eyebrow" style="margin-top:6px">— Жизнь в игре · Игра в жизни —</div>
-    <h1 class="t-display-xl" style="margin-top:12px">TRIZNES</h1>
-    <p class="muted" style="max-width:320px;margin:12px auto 0">Твоя реальная жизнь становится кино, игрой и творчеством.</p>
-    <div style="display:grid;gap:10px;max-width:340px;margin:22px auto 0">
-      <a class="btn primary block" href="#enter"><svg width="18" height="18"><use href="#i-play"/></svg>Войти в игру →</a>
-      <a class="btn secondary block" href="world-map.html"><svg width="18" height="18"><use href="#i-globe"/></svg>Посмотреть мир</a>
+    <h3 class="t-h3" style="margin-top:20px;text-align:center">Согласия перед входом</h3>
+    <div style="margin-top:10px">
+      <label class="consent"><input type="checkbox"><span>Согласен(на), что могу <b>сниматься в кино</b> проекта TRIZNES · SOCHIWOOD.</span></label>
+      <label class="consent"><input type="checkbox"><span>Согласен(на) <b>значиться в кадре</b> — моё реальное изображение может быть частью сцен и фильмов.</span></label>
+      <label class="consent"><input type="checkbox"><span>Принимаю <b>необходимые соглашения</b> участника: правила мира, приватность и условия публикации.</span></label>
     </div>
+    <a class="btn primary block" href="#enter" style="margin-top:16px"><svg width="18" height="18"><use href="#i-play"/></svg>Принять и войти в свой мир →</a>
+    <div class="muted t-caption" style="text-align:center;margin-top:8px">Согласия фиксируются при создании профиля · изменить можно в настройках.</div>
   </section>
 
   <!-- ЦЕПОЧКА ЯДРА · человек → … → общее ядро · DATA: определения звеньев — GPT (GPT-CORE-BRIEF) -->
@@ -143,6 +161,18 @@
   <div class="foot">TRIZNES · Life Cinema Operating System<br>Сочи · 2026</div>
 
 </main>
+<script>
+/* Реальный ролик в hero из публичного видео-каталога (visibility='player', только чтение). */
+(function(){
+  var v = document.getElementById('heroReel'); if (!v) return;
+  var API = 'https://bbxhhtpmbtgfaxamgksf.supabase.co/functions/v1/triznes-media-signed-url?public_watch=1';
+  fetch(API).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+    var items = (d && d.items) || [];
+    var pick = items.find(function(x){ return /^video/i.test(x.mime_type || '') && x.url; }) || items[0];
+    if (pick && pick.url) { v.src = pick.url; var p = v.play && v.play(); if (p && p.catch) p.catch(function(){}); }
+  }).catch(function(){});
+})();
+</script>
 <script src="./spline-config.js" defer></script>
 <script src="./triznes-shell-v2.js" defer></script>
 <script src="./triznes-data-v2.js" defer></script>

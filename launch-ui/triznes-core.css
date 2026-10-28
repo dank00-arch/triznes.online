@@ -440,5 +440,50 @@ img,video{max-width:100%;display:block}
 .sigcard{width:252px;padding:15px;border-radius:var(--r-lg);border:1px solid var(--glass-border);background:var(--glass)}
 .sigcard.urgent{border-color:rgb(255 93 119 / .35)}
 
+/* ======== ГЛАВНЫЙ ЭКРАН · кинематографичный центр ======== */
+.hero-cine{position:relative;min-height:86vh;display:grid;place-items:center;text-align:center;overflow:hidden;border-radius:28px;margin:4px -16px 0;
+  background:radial-gradient(60% 50% at 50% 34%,rgba(91,100,255,.2),transparent 60%),linear-gradient(160deg,#0a0714,#070410)}
+.hero-cine video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5;z-index:0}
+.hero-cine .veil{position:absolute;inset:0;z-index:1;pointer-events:none;background:
+  radial-gradient(62% 58% at 50% 40%,transparent,rgba(7,4,11,.55) 72%,rgba(7,4,11,.94)),
+  linear-gradient(0deg,rgba(7,4,11,.92),transparent 55%)}
+.hero-cine .holo{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.hero-cine .holo .ring{position:absolute;left:50%;top:42%;border:1px solid rgba(120,144,255,.16);border-radius:50%;transform:translate(-50%,-50%);animation:tc-orbit 26s linear infinite}
+.hero-cine .holo .ring.r2{border-color:rgba(255,88,205,.13);animation-duration:18s;animation-direction:reverse}
+.hero-cine .holo .ring.r3{border-color:rgba(52,231,255,.1);animation-duration:34s}
+.hero-cine .holo .scan{position:absolute;inset:0;opacity:.5;mix-blend-mode:screen;
+  background:repeating-linear-gradient(0deg,rgba(120,144,255,.05) 0 1px,transparent 1px 4px);
+  mask-image:linear-gradient(to bottom,transparent,black 40%,transparent 80%);animation:tc-scan 7s linear infinite}
+.hero-cine .content{position:relative;z-index:2;padding:26px 18px;width:100%}
+.hero-cine .live-ping{display:inline-flex;align-items:center;gap:7px;color:var(--cyan);font:700 10px/1 var(--font);letter-spacing:.18em;text-transform:uppercase}
+.hero-cine .live-ping i{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:tc-breathe 2.4s ease-in-out infinite}
+
+/* --- объёмный цветной знак ТРИЗНЕС --- */
+.wordmark{position:relative;display:inline-block;margin:10px 0 0;
+  font:800 clamp(58px,21vw,132px)/.86 var(--font);letter-spacing:-.055em;
+  background:linear-gradient(100deg,#5ff2ff 0%,#7f9bff 24%,#b887ff 46%,#ff5bd8 70%,#ffd473 100%);
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 3px 1px rgba(6,2,14,.75)) drop-shadow(0 0 26px rgba(139,92,255,.5)) drop-shadow(0 0 56px rgba(255,43,214,.3));
+  animation:tc-shine 9s ease-in-out infinite}
+/* цветной объёмный «экструд» под знаком (темнее того же градиента, смещён вниз) */
+.wordmark::before{content:attr(data-word);position:absolute;left:0;top:0;z-index:-1;
+  background:linear-gradient(100deg,#0f2f45,#2a1150 52%,#45103a 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  transform:translateY(5px)}
+@keyframes tc-shine{0%,100%{background-position:0 0}50%{background-position:100% 0}}
+@keyframes tc-scan{to{transform:translateY(40px)}}
+
+/* --- манифест + согласия --- */
+.manifesto{padding:20px;border-radius:var(--r-xl);border:1px solid rgb(52 231 255 / .2);
+  background:radial-gradient(120% 100% at 0 0,rgb(52 231 255 / .08),transparent 60%),var(--glass)}
+.manifesto p{margin:0 0 10px;color:var(--n-800);line-height:1.6}
+.manifesto p:last-child{margin-bottom:0}
+.manifesto .big{font:700 18px/1.4 var(--font);color:var(--n-900)}
+.consent{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border:1px solid var(--glass-border);border-radius:14px;margin-top:10px;background:var(--glass);cursor:pointer}
+.consent input{width:22px;height:22px;flex:0 0 auto;margin:1px 0 0;accent-color:var(--brand-500)}
+.consent span{color:var(--n-800);line-height:1.45}
+.consent b{color:var(--n-900)}
+
 /* ---- адаптив: phone-first, аккуратный рост вверх ---- */
 @media (min-width:431px){ .screen{width:460px} }
