@@ -1,0 +1,292 @@
+/* TRIZNES · Нейроферма · визуальный слой «Ядро» · 2026-10-28
+   Только внешний вид. Логика, данные и API в neuroferma.html не меняются.
+   Включается атрибутом <html data-skin="yadro"> и действует только в тёмной теме:
+   светлая тема «РАЙ» (body.light) остаётся прежней.
+   Откат: убрать <link ... neuroferma-yadro.css> из neuroferma.html (или атрибут data-skin). */
+
+html[data-skin="yadro"]{
+  --yd-bg:#07040b;
+  --yd-panel:rgba(255,255,255,.035);
+  --yd-panel-2:rgba(255,255,255,.06);
+  --yd-line:rgba(255,255,255,.09);
+  --yd-line-2:rgba(255,255,255,.16);
+  --yd-text:#f7f3fb;
+  --yd-mut:#9d91a7;
+  --yd-sapphire:#3b5bff;
+  --yd-cyan:#34e7ff;
+  --yd-pink:#ff2bd6;
+  --yd-lime:#c8ff39;
+  --yd-gold:#ffd06a;
+  --yd-red:#ff5d77;
+  --yd-violet:#8b5cff;
+  --yd-grad:linear-gradient(100deg,#3b5bff,#ff2bd6);
+}
+
+/* ---------- основа ---------- */
+html[data-skin="yadro"] body:not(.light){
+  --text:var(--yd-text);--mut:var(--yd-mut);--line:var(--yd-line);
+  --panel:var(--yd-panel);--panel2:rgba(255,255,255,.045);
+  --pink:var(--yd-pink);--cyan:var(--yd-cyan);--lime:var(--yd-lime);--gold:var(--yd-gold);--red:var(--yd-red);
+  background:
+    radial-gradient(ellipse 70% 45% at 50% -8%,rgba(59,91,255,.30),transparent 70%),
+    radial-gradient(circle at 92% 6%,rgba(255,43,214,.16),transparent 32%),
+    radial-gradient(circle at 4% 40%,rgba(52,231,255,.07),transparent 30%),
+    var(--yd-bg);
+  font-family:Inter,"SF Pro Display",system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+html[data-skin="yadro"] body:not(.light) .gridbg{display:none}
+html[data-skin="yadro"] body:not(.light) .orb{border:0;box-shadow:none;filter:blur(90px);opacity:.55}
+html[data-skin="yadro"] body:not(.light) .orb.a{background:rgba(255,43,214,.22)}
+html[data-skin="yadro"] body:not(.light) .orb.b{background:rgba(59,91,255,.25)}
+
+html[data-skin="yadro"] body:not(.light) .shell{width:min(1180px,calc(100% - 32px))}
+
+/* ---------- верхняя панель ---------- */
+html[data-skin="yadro"] .yd-logo{display:none}
+html[data-skin="yadro"] body:not(.light) .top{
+  margin:0 -16px;padding:10px 16px;border-bottom:1px solid var(--yd-line);
+  background:rgba(7,4,11,.62);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+}
+html[data-skin="yadro"] body:not(.light) .brand{
+  display:flex;align-items:center;gap:10px;
+  font:700 13px/1 Inter,system-ui,sans-serif;letter-spacing:.14em;color:var(--yd-text);
+}
+html[data-skin="yadro"] body:not(.light) .yd-logo{display:block;width:30px;height:30px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(255,43,214,.45))}
+html[data-skin="yadro"] body:not(.light) .brand b{color:var(--yd-cyan);text-shadow:none;font-size:11px;letter-spacing:.22em}
+html[data-skin="yadro"] body:not(.light) .tiny{
+  border:1px solid var(--yd-line);background:var(--yd-panel-2);color:var(--yd-text);
+  font:600 12px Inter,system-ui,sans-serif;padding:8px 12px;transition:background .18s,border-color .18s;
+}
+html[data-skin="yadro"] body:not(.light) .tiny:hover{background:rgba(255,255,255,.1);border-color:var(--yd-line-2)}
+
+/* ---------- общие поверхности (стекло) ---------- */
+html[data-skin="yadro"] body:not(.light) :is(.panel,.workcard,.pipeline){
+  border:1px solid var(--yd-line);background:var(--yd-panel);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+/* ---------- HERO кабинета: смысловой центр ---------- */
+html[data-skin="yadro"] body:not(.light) #app>.hero{
+  border:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;
+  text-align:center;padding:72px 12px 56px;margin-top:0;overflow:visible;isolation:isolate;
+}
+html[data-skin="yadro"] body:not(.light) #app>.hero:before{display:none}
+html[data-skin="yadro"] .yd-core{display:none}
+html[data-skin="yadro"] body:not(.light) .yd-core{
+  display:block;position:absolute;left:50%;top:50%;width:min(560px,94vw);aspect-ratio:9/8;
+  transform:translate(-50%,-50%);z-index:-1;pointer-events:none;
+}
+html[data-skin="yadro"] .yd-core svg{position:absolute;inset:0;width:100%;height:100%;color:rgba(255,255,255,.14)}
+html[data-skin="yadro"] .yd-core i{position:absolute;left:50%;border-radius:50%;transform:translate(-50%,-50%)}
+html[data-skin="yadro"] .yd-core .g1{top:64%;width:52%;aspect-ratio:1;background:rgba(255,43,214,.30);filter:blur(80px)}
+html[data-skin="yadro"] .yd-core .g2{top:64%;width:26%;aspect-ratio:1;background:rgba(59,91,255,.55);filter:blur(42px);animation:yd-pulse 5.5s ease-in-out infinite}
+html[data-skin="yadro"] .yd-core .g3{top:64%;width:10%;aspect-ratio:1;background:rgba(159,177,255,.6);filter:blur(16px);animation:yd-pulse 5.5s ease-in-out infinite .4s}
+@keyframes yd-pulse{0%,100%{opacity:.75;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.12)}}
+
+html[data-skin="yadro"] body:not(.light) #realm{
+  display:inline-flex;align-items:center;gap:12px;
+  font:600 11px/1.4 Inter,system-ui,sans-serif;letter-spacing:.32em;color:var(--yd-cyan);
+}
+html[data-skin="yadro"] body:not(.light) #realm:before,
+html[data-skin="yadro"] body:not(.light) #realm:after{content:"";width:32px;height:1px;background:rgba(52,231,255,.5)}
+
+html[data-skin="yadro"] .yd-title,html[data-skin="yadro"] .yd-sub{display:none}
+html[data-skin="yadro"] body:not(.light) .yd-title{
+  display:block;margin:18px 0 0;
+  font:800 clamp(44px,9.4vw,104px)/.92 Inter,system-ui,sans-serif;letter-spacing:-.045em;color:var(--yd-text);
+  text-wrap:balance;
+}
+html[data-skin="yadro"] body:not(.light) .yd-sub{
+  display:block;margin:18px 0 0;font:300 clamp(22px,3vw,30px)/1.2 Inter,system-ui,sans-serif;letter-spacing:-.01em;color:var(--yd-text);
+}
+/* имя персонажа — личное приветствие под смысловым центром */
+html[data-skin="yadro"] body:not(.light) #name{
+  display:inline-flex;align-items:center;gap:10px;margin:22px 0 0;padding:8px 16px 8px 10px;
+  border:1px solid var(--yd-line);border-radius:999px;background:var(--yd-panel-2);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  font:600 15px/1.3 Inter,system-ui,sans-serif;letter-spacing:0;color:var(--yd-text);
+}
+html[data-skin="yadro"] body:not(.light) #name:before{
+  content:"";width:10px;height:10px;border-radius:50%;background:var(--yd-lime);box-shadow:0 0 12px var(--yd-lime);
+}
+html[data-skin="yadro"] body:not(.light) #app>.hero .lead{
+  margin:16px auto 0;max-width:640px;font-size:16px;line-height:1.55;color:var(--yd-mut);
+}
+html[data-skin="yadro"] body:not(.light) #app>.hero .badges{justify-content:center;margin-top:20px}
+html[data-skin="yadro"] body:not(.light) .badge{
+  border-color:var(--yd-line);background:rgba(255,255,255,.04);padding:6px 10px;
+  font:600 10px/1.2 Inter,system-ui,sans-serif;letter-spacing:.1em;color:var(--yd-text);
+}
+html[data-skin="yadro"] body:not(.light) .badge.hot{border-color:rgba(255,43,214,.45);color:#ff8fe8}
+html[data-skin="yadro"] body:not(.light) .badge.safe{border-color:rgba(200,255,57,.35);color:var(--yd-lime)}
+
+/* ---------- подписи секций ---------- */
+html[data-skin="yadro"] .yd-label{display:none}
+html[data-skin="yadro"] body:not(.light) .yd-label{
+  display:block;margin:8px 0 14px;text-align:center;
+  font:600 11px/1.4 Inter,system-ui,sans-serif;letter-spacing:.3em;color:var(--yd-mut);
+}
+html[data-skin="yadro"] body:not(.light) .pipeline .yd-label{text-align:left;margin:0 0 12px}
+
+/* ---------- ПОРТАЛЫ (быстрые действия роли) ---------- */
+html[data-skin="yadro"] body:not(.light) .quick{gap:14px;margin-top:0}
+html[data-skin="yadro"] body:not(.light) .tile{
+  --hue:59,91,255;
+  position:relative;overflow:hidden;isolation:isolate;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;text-align:center;
+  min-height:240px;padding:20px 16px 22px;border-radius:22px;
+  border:1px solid var(--yd-line);background:rgba(255,255,255,.03);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:none;
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),border-color .25s,box-shadow .25s;
+}
+html[data-skin="yadro"] body:not(.light) .tile:nth-child(4n+2){--hue:52,231,255}
+html[data-skin="yadro"] body:not(.light) .tile:nth-child(4n+3){--hue:139,92,255}
+html[data-skin="yadro"] body:not(.light) .tile:nth-child(4n+4){--hue:255,43,214}
+/* портал: свет поднимается снизу, как из проёма */
+html[data-skin="yadro"] body:not(.light) .tile:before{
+  content:"";position:absolute;left:50%;bottom:-38%;width:90%;height:75%;z-index:-1;
+  transform:translateX(-50%);border-radius:50%;background:rgba(var(--hue),.55);filter:blur(48px);opacity:.75;
+  transition:opacity .3s,transform .3s;
+}
+html[data-skin="yadro"] body:not(.light) .tile:after{
+  content:"";position:absolute;left:12%;right:12%;bottom:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(var(--hue),1),transparent);
+}
+html[data-skin="yadro"] body:not(.light) .tile .ico{
+  position:absolute;top:30px;left:50%;transform:translateX(-50%);
+  font-size:40px;line-height:1;filter:drop-shadow(0 0 18px rgba(var(--hue),.6));
+}
+html[data-skin="yadro"] body:not(.light) .tile strong{margin:0;font:700 19px/1.2 Inter,system-ui,sans-serif;letter-spacing:-.01em;color:var(--yd-text)}
+html[data-skin="yadro"] body:not(.light) .tile small{
+  margin-top:8px;padding:5px 10px;border:1px solid var(--yd-line);border-radius:999px;background:rgba(7,4,11,.45);
+  font:500 11px/1.3 Inter,system-ui,sans-serif;color:#cfc7d5;
+}
+@media(hover:hover){
+  html[data-skin="yadro"] body:not(.light) .tile:hover{transform:translateY(-4px);border-color:rgba(var(--hue),.5);box-shadow:0 18px 50px rgba(var(--hue),.18)}
+  html[data-skin="yadro"] body:not(.light) .tile:hover:before{opacity:1;transform:translateX(-50%) scale(1.08)}
+}
+html[data-skin="yadro"] body:not(.light) .tile:focus-visible{outline:2px solid rgba(var(--hue),.9);outline-offset:3px}
+
+/* ---------- ПРОИЗВОДСТВЕННЫЙ КОНТУР (pipeline) ---------- */
+html[data-skin="yadro"] body:not(.light) .pipeline{margin-top:40px;padding:18px 20px;border-radius:22px;scrollbar-width:none}
+html[data-skin="yadro"] body:not(.light) .pipeline::-webkit-scrollbar{display:none}
+html[data-skin="yadro"] body:not(.light) .pipe{gap:8px}
+html[data-skin="yadro"] body:not(.light) .step{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 13px;
+  border:1px solid var(--yd-line);background:rgba(255,255,255,.04);
+  font:600 11px/1.2 Inter,system-ui,sans-serif;letter-spacing:.08em;color:var(--yd-text);
+}
+html[data-skin="yadro"] body:not(.light) .step:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--yd-cyan);box-shadow:0 0 10px var(--yd-cyan)}
+html[data-skin="yadro"] body:not(.light) .step.admin{border-color:rgba(255,208,106,.45);color:var(--yd-gold)}
+html[data-skin="yadro"] body:not(.light) .step.admin:before{background:var(--yd-gold);box-shadow:0 0 10px var(--yd-gold)}
+html[data-skin="yadro"] body:not(.light) .arrow{color:transparent;width:22px;height:1px;background:linear-gradient(90deg,rgba(52,231,255,.15),rgba(52,231,255,.6));overflow:hidden}
+
+/* ---------- рабочий контур ---------- */
+html[data-skin="yadro"] body:not(.light) .section{margin-top:44px}
+html[data-skin="yadro"] body:not(.light) .head{margin-bottom:16px}
+html[data-skin="yadro"] body:not(.light) .head .ey{font:600 11px/1.4 Inter,system-ui,sans-serif;letter-spacing:.3em;color:var(--yd-mut)}
+html[data-skin="yadro"] body:not(.light) .head h2{margin-top:6px;font:700 30px/1.1 Inter,system-ui,sans-serif;letter-spacing:-.025em}
+html[data-skin="yadro"] body:not(.light) .layout{grid-template-columns:280px minmax(0,1fr);gap:16px}
+html[data-skin="yadro"] body:not(.light) .panel{border-radius:22px;padding:12px}
+html[data-skin="yadro"] body:not(.light) .tab{
+  border:1px solid transparent;background:transparent;color:var(--yd-mut);
+  padding:11px 12px;border-radius:12px;font:600 14px/1.3 Inter,system-ui,sans-serif;transition:background .18s,color .18s;
+}
+html[data-skin="yadro"] body:not(.light) .tab:hover{background:rgba(255,255,255,.05);color:var(--yd-text)}
+html[data-skin="yadro"] body:not(.light) .tab.on{
+  color:var(--yd-text);border-color:rgba(255,255,255,.12);box-shadow:none;
+  background:linear-gradient(110deg,rgba(59,91,255,.22),rgba(255,43,214,.10));
+}
+html[data-skin="yadro"] body:not(.light) .workcard{border-radius:20px;padding:18px;margin-bottom:12px}
+html[data-skin="yadro"] body:not(.light) .workcard h3{font:700 19px/1.25 Inter,system-ui,sans-serif;letter-spacing:-.01em}
+html[data-skin="yadro"] body:not(.light) .workcard .ey{font:600 10px/1.4 Inter,system-ui,sans-serif;letter-spacing:.24em}
+html[data-skin="yadro"] body:not(.light) .video{border-radius:14px;border:1px solid var(--yd-line)}
+html[data-skin="yadro"] body:not(.light) .script{border-color:var(--yd-line);background:rgba(0,0,0,.25);border-radius:12px}
+html[data-skin="yadro"] body:not(.light) .media{border-color:var(--yd-line);background:rgba(255,255,255,.035);border-radius:16px}
+html[data-skin="yadro"] body:not(.light) .agent{border-color:var(--yd-line);border-radius:20px;background:rgba(255,255,255,.035)}
+html[data-skin="yadro"] body:not(.light) .agent.chev{background:linear-gradient(160deg,rgba(200,255,57,.10),rgba(255,255,255,.02))}
+html[data-skin="yadro"] body:not(.light) .agent.bez{background:linear-gradient(160deg,rgba(139,92,255,.16),rgba(255,255,255,.02))}
+html[data-skin="yadro"] body:not(.light) .agent.col{background:linear-gradient(160deg,rgba(59,91,255,.18),rgba(255,43,214,.06))}
+html[data-skin="yadro"] body:not(.light) .empty{border-color:var(--yd-line-2);border-radius:18px;background:rgba(255,255,255,.02)}
+html[data-skin="yadro"] body:not(.light) .channelChecks label{border-color:var(--yd-line);background:rgba(255,255,255,.03)}
+
+/* ---------- формы и кнопки ---------- */
+html[data-skin="yadro"] body:not(.light) :is(input,textarea,select){
+  border:1px solid var(--yd-line);background:rgba(255,255,255,.04);color:var(--yd-text);border-radius:12px;
+}
+html[data-skin="yadro"] body:not(.light) select option{background:#120c18;color:var(--yd-text)}
+html[data-skin="yadro"] body:not(.light) :is(input,textarea,select):focus{border-color:rgba(52,231,255,.6);box-shadow:0 0 0 3px rgba(52,231,255,.12)}
+html[data-skin="yadro"] body:not(.light) .field label{font:600 11px/1.3 Inter,system-ui,sans-serif;letter-spacing:.04em;color:var(--yd-mut)}
+html[data-skin="yadro"] body:not(.light) .btn{
+  border:1px solid var(--yd-line-2);background:rgba(255,255,255,.05);color:var(--yd-text);
+  border-radius:999px;padding:11px 18px;font:600 14px/1.2 Inter,system-ui,sans-serif;
+  transition:background .18s,border-color .18s,filter .18s,box-shadow .18s;
+}
+html[data-skin="yadro"] body:not(.light) .btn:hover{background:rgba(255,255,255,.1)}
+html[data-skin="yadro"] body:not(.light) .btn.primary{
+  border:0;background:var(--yd-grad);color:#fff;box-shadow:0 0 34px rgba(123,91,255,.45);
+}
+html[data-skin="yadro"] body:not(.light) .btn.primary:hover{filter:brightness(1.1)}
+html[data-skin="yadro"] body:not(.light) .btn:disabled{opacity:.45;cursor:default}
+html[data-skin="yadro"] body:not(.light) .btn.good{border-color:rgba(200,255,57,.4);color:var(--yd-lime)}
+html[data-skin="yadro"] body:not(.light) .btn.gold{border-color:rgba(255,208,106,.45);color:var(--yd-gold)}
+html[data-skin="yadro"] body:not(.light) .btn.danger{border-color:rgba(255,93,119,.45);color:#ff9bab}
+html[data-skin="yadro"] body:not(.light) .ok{color:var(--yd-lime)}
+html[data-skin="yadro"] body:not(.light) .err{color:#ff8a9f}
+
+/* ---------- экран входа ---------- */
+html[data-skin="yadro"] body:not(.light) .login .hero{
+  border:1px solid var(--yd-line);border-radius:28px;padding:32px;
+  background:rgba(255,255,255,.035);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  box-shadow:0 30px 90px rgba(0,0,0,.45);
+}
+html[data-skin="yadro"] body:not(.light) .login .hero:before{background:radial-gradient(ellipse 80% 55% at 50% 0,rgba(59,91,255,.22),transparent 70%)}
+html[data-skin="yadro"] body:not(.light) .login .ey{font:600 11px/1.4 Inter,system-ui,sans-serif;letter-spacing:.3em;color:var(--yd-cyan)}
+html[data-skin="yadro"] body:not(.light) .login h1{font:800 clamp(40px,8vw,64px)/.95 Inter,system-ui,sans-serif;letter-spacing:-.045em;margin:12px 0}
+html[data-skin="yadro"] body:not(.light) .login .lead{font-size:15px;line-height:1.55}
+html[data-skin="yadro"] body:not(.light) .login #codeSubmit{width:100%;height:50px;margin-top:6px}
+html[data-skin="yadro"] body:not(.light) .login a.btn{width:100%;margin-top:4px}
+html[data-skin="yadro"] body:not(.light) .spin{border-color:rgba(255,255,255,.1);border-top-color:var(--yd-cyan)}
+
+/* ---------- нижняя навигация ---------- */
+html[data-skin="yadro"] body:not(.light) .bottom{
+  border:1px solid var(--yd-line);border-radius:22px;background:rgba(10,7,16,.72);
+  backdrop-filter:blur(26px) saturate(1.3);-webkit-backdrop-filter:blur(26px) saturate(1.3);box-shadow:0 18px 50px rgba(0,0,0,.5);
+}
+html[data-skin="yadro"] body:not(.light) .bottom button{color:var(--yd-mut);font:600 10px/1.2 Inter,system-ui,sans-serif;letter-spacing:.02em;padding:8px 3px;transition:background .18s,color .18s}
+html[data-skin="yadro"] body:not(.light) .bottom button b{color:inherit;font-size:19px;margin-bottom:3px}
+html[data-skin="yadro"] body:not(.light) .bottom button.on{color:var(--yd-text);background:linear-gradient(135deg,rgba(59,91,255,.30),rgba(255,43,214,.16))}
+
+/* ---------- адаптив ---------- */
+@media(max-width:900px){
+  html[data-skin="yadro"] body:not(.light) .layout{grid-template-columns:1fr}
+  html[data-skin="yadro"] body:not(.light) .tile{min-height:200px}
+}
+@media(max-width:540px){
+  html[data-skin="yadro"] body:not(.light) .shell{width:calc(100% - 24px)}
+  html[data-skin="yadro"] body:not(.light) .top{margin:0 -12px;padding:8px 12px}
+  /* на телефоне: логотип + «НЕЙРОФЕРМА», текст «TRIZNES /» скрыт визуально */
+  html[data-skin="yadro"] body:not(.light) .brand{font-size:0;gap:8px;white-space:nowrap;flex:none}
+  html[data-skin="yadro"] body:not(.light) .brand b{font-size:10px;letter-spacing:.18em}
+  html[data-skin="yadro"] body:not(.light) .yd-logo{width:26px;height:26px}
+  html[data-skin="yadro"] body:not(.light) .topactions{gap:4px;flex-wrap:wrap;justify-content:flex-end}
+  html[data-skin="yadro"] body:not(.light) .tiny{padding:7px 8px;font-size:11px;white-space:nowrap}
+  html[data-skin="yadro"] body:not(.light) #app>.hero{padding:44px 4px 36px}
+  html[data-skin="yadro"] body:not(.light) .yd-title{font-size:clamp(38px,11.5vw,52px)}
+  html[data-skin="yadro"] body:not(.light) #realm{letter-spacing:.24em}
+  html[data-skin="yadro"] body:not(.light) #realm:before,html[data-skin="yadro"] body:not(.light) #realm:after{width:18px}
+  html[data-skin="yadro"] body:not(.light) .quick{gap:10px}
+  html[data-skin="yadro"] body:not(.light) .tile{min-height:172px;padding:16px 10px 16px;border-radius:20px}
+  html[data-skin="yadro"] body:not(.light) .tile .ico{top:24px;font-size:32px}
+  html[data-skin="yadro"] body:not(.light) .tile strong{font-size:16px}
+  html[data-skin="yadro"] body:not(.light) .tile small{font-size:10px;padding:4px 8px}
+  html[data-skin="yadro"] body:not(.light) .pipeline{margin-top:28px;padding:14px}
+  html[data-skin="yadro"] body:not(.light) .section{margin-top:32px}
+  html[data-skin="yadro"] body:not(.light) .head h2{font-size:24px}
+  html[data-skin="yadro"] body:not(.light) .login .hero{padding:24px 18px}
+}
+@media(prefers-reduced-motion:reduce){
+  html[data-skin="yadro"] .yd-core i{animation:none}
+  html[data-skin="yadro"] body:not(.light) .tile:hover{transform:none}
+}
