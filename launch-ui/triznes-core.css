@@ -403,5 +403,16 @@ img,video{max-width:100%;display:block}
 .vpath .vp.cur::before{background:var(--core-light);box-shadow:0 0 0 4px rgb(59 91 255 / .3)}
 .vpath .vp b{font-weight:700}.vpath .vp small{display:block;color:var(--subtext);font-size:12px;margin-top:2px}
 
+/* ---- BOARDS: карточки доски и связи-глаголы ---- */
+.bcard{position:relative;padding:16px;border-radius:var(--r-lg);border:1px solid var(--glass-border);background:var(--glass)}
+.bcard.sel{border-color:var(--brand-500);box-shadow:var(--sh-glow-brand)}
+.bcard.dash{border-style:dashed}
+.bcard .bh{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.btype{display:inline-flex;align-items:center;gap:7px;font:700 10px/1 var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
+.connector{text-align:center;color:var(--subtext);font:600 11px/1 var(--font);letter-spacing:.06em;padding:13px 0 12px;position:relative}
+.connector::before{content:"";position:absolute;left:50%;top:0;width:1px;height:12px;background:var(--n-400);transform:translateX(-50%)}
+.mapmini{height:120px;border-radius:12px;margin-top:10px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgb(52 231 255 / .12),transparent 60%),var(--n-100);background-image:radial-gradient(rgb(255 255 255 / .07) 1px,transparent 1px);background-size:16px 16px}
+.mapmini .d{position:absolute;left:50%;top:50%;width:12px;height:12px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan);transform:translate(-50%,-50%)}
+
 /* ---- адаптив: phone-first, аккуратный рост вверх ---- */
 @media (min-width:431px){ .screen{width:460px} }
