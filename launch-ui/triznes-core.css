@@ -366,5 +366,17 @@ img,video{max-width:100%;display:block}
 .masonry{columns:2;column-gap:12px;margin-top:6px}
 .masonry>*{break-inside:avoid;margin-bottom:12px}
 
+/* ---- SOCHIWOOD: города и сообщества ---- */
+.worldrow{display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid var(--border)}
+.worldrow:first-child{border-top:0}
+.worldrow .wi{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:var(--glass-strong);color:var(--n-700);flex:0 0 auto}
+.worldrow .wt{flex:1;min-width:0}
+.worldrow .wt b{font-weight:700}
+.worldrow .wt small{display:block;color:var(--subtext);font-size:12px;margin-top:2px}
+
+/* ---- трек-строка (музыка) ---- */
+.trackrow{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;background:var(--glass);border:1px solid var(--glass-border);margin-top:8px}
+.trackrow .tp{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,var(--pink),var(--violet));color:#fff;flex:0 0 auto}
+
 /* ---- адаптив: phone-first, аккуратный рост вверх ---- */
 @media (min-width:431px){ .screen{width:460px} }
