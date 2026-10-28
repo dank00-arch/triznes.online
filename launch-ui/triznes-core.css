@@ -378,5 +378,30 @@ img,video{max-width:100%;display:block}
 .trackrow{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;background:var(--glass);border:1px solid var(--glass-border);margin-top:8px}
 .trackrow .tp{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,var(--pink),var(--violet));color:#fff;flex:0 0 auto}
 
+/* ---- COMMUNITY: сетка участников ---- */
+.avgrid{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.avgrid .avatar{width:40px;height:40px;font-size:11px}
+
+/* ---- список событий ---- */
+.eventrow{display:flex;align-items:center;gap:14px;padding:13px 0;border-top:1px solid var(--border)}
+.eventrow:first-child{border-top:0}
+.eventrow .date{width:46px;text-align:center;flex:0 0 auto;border-right:1px solid var(--border)}
+.eventrow .date b{display:block;font-size:20px;line-height:1.1}
+.eventrow .date span{font-size:9px;color:var(--subtext);text-transform:uppercase;letter-spacing:.08em}
+.eventrow .ev{flex:1;min-width:0}
+.eventrow .ev b{font-weight:600}
+.eventrow .ev small{display:block;color:var(--subtext);font-size:12px;margin-top:2px}
+
+/* ---- вертикальный путь (сообщество) ---- */
+.vpath{margin-top:8px}
+.vpath .vp{position:relative;padding:0 0 18px 26px}
+.vpath .vp::before{content:"";position:absolute;left:4px;top:3px;width:11px;height:11px;border-radius:50%;background:var(--n-300);z-index:1}
+.vpath .vp::after{content:"";position:absolute;left:9px;top:12px;bottom:0;width:2px;background:var(--n-300)}
+.vpath .vp:last-child{padding-bottom:0}
+.vpath .vp:last-child::after{display:none}
+.vpath .vp.done::before{background:var(--brand-500)}.vpath .vp.done::after{background:var(--brand-500)}
+.vpath .vp.cur::before{background:var(--core-light);box-shadow:0 0 0 4px rgb(59 91 255 / .3)}
+.vpath .vp b{font-weight:700}.vpath .vp small{display:block;color:var(--subtext);font-size:12px;margin-top:2px}
+
 /* ---- адаптив: phone-first, аккуратный рост вверх ---- */
 @media (min-width:431px){ .screen{width:460px} }

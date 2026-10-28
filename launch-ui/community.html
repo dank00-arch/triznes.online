@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07040b">
+<meta name="description" content="TRIZNES — сообщество как мир: люди, идея и мечта, проекты, сцены, события и путь общего мира.">
+<title>TRIZNES · Сообщество</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="./triznes-core.css">
+<!-- ПЕРЕНОС ЭКРАНА 07 COMMUNITY (Subframe page ac9b8434…) · phone-first (≤430).
+     Сообщество как мир (шаблон). Тексты — шаблоны; реальные люди/факты не выдуманы.
+     Лица только REAL. Блоки помечены DATA:. Auth/API не трогаются. -->
+</head>
+<body class="tc">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="i-user" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></g>
+<g id="i-users" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="3"/><path d="M3.5 19c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5"/><path d="M16 8a3 3 0 0 1 0 5M20.5 19c0-2-1-3.3-2.8-4"/></g>
+<g id="i-play" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.5 18 12 8 18.5v-13Z"/></g>
+<g id="i-film" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M17 9h4M3 15h4M17 15h4"/></g>
+<g id="i-image" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m4 18 5-5 4 4 3-3 4 4"/></g>
+<g id="i-music" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v2M8 9v8M12 5v14M16 9v8M20 12v2"/></g>
+<g id="i-msg" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H9l-4 3v-3H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></g>
+<g id="i-up" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V7M6 11l6-6 6 6M5 20h14"/></g>
+<g id="i-pin" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></g>
+<g id="i-globe" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.5 2.3 2.5 13.7 0 16M12 4c-2.5 2.3-2.5 13.7 0 16"/></g>
+</defs></svg>
+
+<main class="screen" style="padding-top:0">
+
+  <!-- HERO сообщества · DATA: communities (обложка, идея, счётчики) -->
+  <section style="margin:0 -16px;position:relative">
+    <div class="media ar-landscape" style="border-radius:0;height:240px"><span class="chip real origin" style="top:14px;left:14px"><span class="dot"></span>Real</span><div class="fmt">Видео 16:9</div><div class="ph"><svg width="30" height="30"><use href="#i-users"/></svg></div></div>
+  </section>
+  <header class="topbar" style="position:absolute;top:0;left:0;right:0;padding:12px 16px;background:linear-gradient(rgb(7 4 11 / .6),transparent)">
+    <div class="brand row" style="gap:8px"><img class="logo-mark" src="./assets/triznes-core-128.png" alt="" width="20" height="20">TRIZNES</div>
+    <span class="avatar ring" style="width:36px;height:36px;font-size:11px">ИФ</span>
+  </header>
+  <section style="margin-top:-32px;position:relative">
+    <span class="avatar ring-gold" style="width:56px;height:56px"><svg width="26" height="26"><use href="#i-users"/></svg></span>
+    <div class="t-eyebrow" style="margin-top:12px">Сообщество · мир</div>
+    <h1 class="t-display" style="margin-top:6px;font-size:clamp(32px,8.5vw,48px)">Название сообщества</h1>
+    <p style="margin:8px 0 0;color:var(--n-800)">Идея сообщества — одна фраза о том, зачем мы существуем.</p>
+    <div class="row" style="gap:14px;margin-top:10px;flex-wrap:wrap"><span class="chip ok"><span class="dot"></span>48 участников</span><span class="muted t-caption">8 проектов · 3 роли</span></div>
+    <div style="display:grid;gap:10px;margin-top:14px">
+      <a class="btn primary block" href="#"><svg width="18" height="18"><use href="#i-globe"/></svg>Войти в мир →</a>
+      <a class="btn secondary block" href="#"><svg width="18" height="18"><use href="#i-msg"/></svg>Написать координатору</a>
+    </div>
+  </section>
+
+  <!-- ВКЛАДКИ -->
+  <nav class="filter" style="margin-top:16px"><button class="on">Мир</button><button>Люди</button><button>Проекты</button><button>Сцены</button><button>События</button><button>Медиа</button><button>Связи</button></nav>
+
+  <!-- ИДЕЯ И МЕЧТА · DATA: communities (idea/dream) -->
+  <section class="section">
+    <div class="facets">
+      <div class="facet"><div class="lab">Идея и мечта</div><p>Идея сообщества — зачем мы собрались вместе. Две-три фразы о том, что объединяет людей этого мира.</p></div>
+      <div class="facet"><div class="lab">Мечта</div><p>Мечта сообщества — куда ведёт этот путь. Образ будущего: большая сцена, фильм, премьера — то, ради чего стоит идти.</p></div>
+    </div>
+  </section>
+
+  <!-- УЧАСТНИКИ · DATA: community_members (REAL-фото/инициалы) -->
+  <section class="section">
+    <div class="section-head"><h2 class="t-h3">Участники</h2><span class="chip ok"><span class="dot"></span>48 онлайн</span></div>
+    <div class="avgrid">
+      <span class="avatar ring" style="font-size:11px">ТУ<i class="presence"></i></span>
+      <span class="avatar" style="font-size:11px">ИС</span><span class="avatar" style="font-size:11px">АК</span><span class="avatar" style="font-size:11px">РЦ</span>
+      <span class="avatar" style="font-size:11px">ЕВ</span><span class="avatar" style="font-size:11px">СР</span><span class="avatar" style="font-size:11px">ТН</span><span class="more" style="width:40px;height:40px">+41</span>
+    </div>
+    <div class="row" style="justify-content:space-between;gap:10px;margin-top:14px;flex-wrap:wrap">
+      <div class="muted t-caption">Открыт набор в Сцену 2</div>
+      <a class="btn primary sm" href="#"><svg width="16" height="16"><use href="#i-user"/></svg>Присоединиться</a>
+    </div>
+  </section>
+
+  <!-- БЛИЖАЙШИЕ СОБЫТИЯ · DATA: triznes_events -->
+  <section class="section">
+    <div class="section-head"><h2 class="t-h3">Ближайшие события</h2><a class="link" href="#">Все</a></div>
+    <div class="panel" style="padding:4px 16px">
+      <div class="eventrow"><div class="date"><b>14</b><span>нояб</span></div><div class="ev"><b>Название события</b><small>19:32 · место встречи</small></div><span class="link">→</span></div>
+      <div class="eventrow"><div class="date"><b>21</b><span>нояб</span></div><div class="ev"><b>Название события</b><small>12:00 · место встречи</small></div><span class="link">→</span></div>
+      <div class="eventrow"><div class="date"><b>02</b><span>дек</span></div><div class="ev"><b>Премьера · Название</b><small>20:00 · место встречи</small></div><span class="chip gold" style="height:20px">Премьера</span></div>
+    </div>
+  </section>
+
+  <!-- ПРОЕКТЫ · DATA: content_jobs сообщества -->
+  <section class="section">
+    <div class="section-head"><h2 class="t-h2">Что создаёт этот мир</h2><a class="link" href="#">Все проекты</a></div>
+    <div style="display:grid;gap:12px;margin-top:4px">
+      <article class="card film-card wide"><div class="media ar-landscape"><span class="chip ai origin"><span class="dot"></span>Монтаж</span><div class="fmt">Видео 16:9</div><div class="ph"><svg width="26" height="26"><use href="#i-film"/></svg></div></div><div class="title">Название проекта</div><div class="meta">Спектакль · 4 сцены</div><div class="row" style="margin-top:7px"><div class="progress" style="flex:1"><i style="width:62%"></i></div><b class="t-caption">62%</b></div></article>
+      <article class="card film-card wide"><div class="media ar-landscape"><span class="chip gold origin"><span class="dot"></span>Премьера</span><div class="fmt">Видео 16:9</div><div class="ph"><svg width="26" height="26"><use href="#i-play"/></svg></div></div><div class="title">Название проекта</div><div class="meta">Фильм · премьера</div></article>
+      <article class="card film-card wide"><div class="media ar-landscape empty"><span class="chip generated origin"><span class="dot"></span>Генерация</span><div class="fmt">Видео 16:9</div></div><div class="title">Название проекта</div><div class="meta">Клип · идея</div><div class="row" style="margin-top:7px"><div class="progress" style="flex:1"><i style="width:28%"></i></div><b class="t-caption">28%</b></div></article>
+    </div>
+  </section>
+
+  <!-- СЦЕНЫ · DATA: sochiwood_life_events / медиа сообщества -->
+  <section class="section">
+    <div class="section-head"><h2 class="t-h2">Кадры из жизни мира</h2><a class="link" href="#">Все сцены</a></div>
+    <div class="hscroll">
+      <div style="width:120px"><div class="media ar-vertical"><span class="chip real origin"><span class="dot"></span>Real</span><div class="fmt">9:16</div><div class="ph"><svg width="20" height="20"><use href="#i-play"/></svg></div></div><div class="muted t-caption" style="margin-top:6px">Репетиция · 0:42</div></div>
+      <div style="width:120px"><div class="media ar-vertical"><span class="chip real origin"><span class="dot"></span>Real</span><div class="fmt">9:16</div><div class="ph"><svg width="20" height="20"><use href="#i-play"/></svg></div></div><div class="muted t-caption" style="margin-top:6px">За кулисами</div></div>
+      <div style="width:120px"><div class="media ar-vertical empty"><span class="chip ai origin"><span class="dot"></span>AI</span><div class="fmt">9:16</div></div><div class="muted t-caption" style="margin-top:6px">Голос мечты</div></div>
+      <div style="width:120px"><div class="media ar-vertical empty"><span class="chip generated origin"><span class="dot"></span>Gen</span><div class="fmt">9:16</div></div><div class="muted t-caption" style="margin-top:6px">Эскиз сцены</div></div>
+    </div>
+  </section>
+
+  <!-- МЕДИА · DATA: operator_media_items сообщества -->
+  <section class="section">
+    <div class="section-head"><h2 class="t-h2">Материалы сообщества</h2><a class="link" href="#">Весь архив</a></div>
+    <div class="masonry">
+      <div class="media ar-portrait"><span class="chip real origin"><span class="dot"></span>Real</span><div class="fmt">Фото 3:4 · премьера</div><div class="ph"><svg width="24" height="24"><use href="#i-users"/></svg></div></div>
+      <div class="media ar-square"><span class="chip ai origin"><span class="dot"></span>AI</span><div class="fmt">Квадрат 1:1</div><div class="ph"><svg width="22" height="22"><use href="#i-image"/></svg></div></div>
+      <div class="media ar-landscape"><span class="chip archive origin"><span class="dot"></span>Archive</span><div class="fmt">Плёнка</div><div class="ph"><svg width="24" height="24"><use href="#i-play"/></svg></div></div>
+      <div class="media ar-document empty"><div class="fmt" style="color:var(--n-600)"><svg width="20" height="20" style="display:block;margin:0 auto 6px"><use href="#i-up"/></svg>Добавить материал</div></div>
+    </div>
+    <div class="media ar-audio" style="margin-top:12px"><span class="chip real origin"><span class="dot"></span>Real</span><div class="fmt">Голос сообщества · аудио · 4:20</div></div>
+  </section>
+
+  <!-- ПУТЬ СООБЩЕСТВА · DATA: вехи сообщества -->
+  <section class="section">
+    <div class="t-eyebrow">Путь сообщества</div>
+    <div class="panel" style="padding:16px;margin-top:10px">
+      <div class="vpath">
+        <div class="vp done"><b>Основание</b><small>Мир собрался вокруг идеи</small></div>
+        <div class="vp done"><b>Первая сцена</b><small>Первый общий кадр снят</small></div>
+        <div class="vp cur"><b>Первый спектакль · Сцена 2</b><small>Идёт сейчас · открыт набор</small></div>
+        <div class="vp"><b>Фильм</b><small>Премьера общего мира впереди</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- СВЯЗИ С МИРОМ · DATA: связи сообщества с другими мирами -->
+  <section class="section">
+    <div class="t-eyebrow">Связи с миром</div>
+    <div class="panel" style="padding:4px 16px;margin-top:10px">
+      <a class="worldrow" href="#"><span class="wi"><svg width="22" height="22"><use href="#i-film"/></svg></span><div class="wt"><b>SOCHIWOOD</b><small>Кинотеатр мира</small></div><span class="link">→</span></a>
+      <a class="worldrow" href="#"><span class="wi" style="color:var(--pink)"><svg width="22" height="22"><use href="#i-music"/></svg></span><div class="wt"><b>PINK NOIZE</b><small>Музыка мира</small></div><span class="link">→</span></a>
+      <a class="worldrow" href="#"><span class="wi"><svg width="22" height="22"><use href="#i-pin"/></svg></span><div class="wt"><b>Город Сочи</b><small>3 общих проекта с другими мирами</small></div><span class="link">→</span></a>
+    </div>
+  </section>
+
+  <!-- ДРУГИЕ МИРЫ · DATA: communities рядом -->
+  <section class="section">
+    <div class="section-head"><h2 class="t-h2">Сообщества рядом</h2><a class="link" href="#">Все</a></div>
+    <div style="display:grid;gap:12px;margin-top:4px">
+      <a class="card" href="#" style="display:flex;gap:12px;align-items:center"><div class="media ar-square" style="width:60px;flex:0 0 auto"><div class="ph"><svg width="22" height="22"><use href="#i-users"/></svg></div></div><div><b>Название сообщества</b><div class="muted t-caption" style="margin-top:2px">32 участника</div></div></a>
+      <a class="card" href="#" style="display:flex;gap:12px;align-items:center"><div class="media ar-square" style="width:60px;flex:0 0 auto"><div class="ph"><svg width="22" height="22"><use href="#i-users"/></svg></div></div><div><b>Название сообщества</b><div class="muted t-caption" style="margin-top:2px">110 участников</div></div></a>
+      <a class="card" href="#" style="display:flex;gap:12px;align-items:center"><div class="media ar-square" style="width:60px;flex:0 0 auto"><div class="ph"><svg width="22" height="22"><use href="#i-users"/></svg></div></div><div><b>Название сообщества</b><div class="muted t-caption" style="margin-top:2px">14 участников</div></div></a>
+    </div>
+  </section>
+
+</main>
+
+<nav class="tabbar" aria-label="Основная навигация">
+  <a href="#"><svg width="22" height="22"><use href="#i-user"/></svg>Я</a>
+  <a href="#" class="on"><svg width="22" height="22"><use href="#i-globe"/></svg>Мир</a>
+  <a href="#" aria-label="Создать"><span class="plus">+</span></a>
+  <a href="#"><svg width="22" height="22"><use href="#i-film"/></svg>Кино</a>
+  <a href="#"><img class="logo-mark" src="./assets/triznes-core-128.png" alt="" width="24" height="24">Ядро</a>
+</nav>
+
+</body>
+</html>
