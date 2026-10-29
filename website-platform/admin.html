@@ -7,7 +7,7 @@
   <meta name="description" content="ТРИЗНЕС Control Room — пользователи, медиахабы, карта Сочи, контент и финансы.">
   <title>ТРИЗНЕС | Админ-панель</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js" integrity="sha384-TcHRA3zBbn+Lexh5n+Oil4guNPOS3rjNDpGRAN46u/s/mB2IZ50ceC6TYDU2yvgK" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -113,7 +113,7 @@
   <header class="panel sticky top-0 z-10 border-x-0 border-t-0">
     <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-4">
       <div class="flex items-center gap-3">
-        <img src="assets/triznes-emblem-drive.jpg" alt="Логотип ТРИЗНЕС" class="h-12 w-12 rounded-xl border border-cyan-700/30 object-cover">
+        <img src="assets/triznes-v38/triznes-living-core-emblem-v1.png" alt="Единый знак ТРИЗНЕС с живым природным ядром" class="h-12 w-12 object-contain">
         <div><div class="mono text-[10px] font-bold uppercase tracking-[.2em] text-cyan-800">ТРИЗНЕС / CONTROL ROOM</div><h1 class="text-xl font-extrabold">Админ-панель</h1></div>
       </div>
       <div class="flex items-center gap-2"><span id="admin-identity" class="status ready"><span>●</span> SECURE CONTROL</span><button id="admin-logout" type="button" class="rounded-lg border border-pink-700/25 bg-white/70 px-3 py-2 text-xs font-bold text-pink-700">Выйти</button><a href="index.html" class="rounded-lg border border-cyan-700/25 bg-white/70 px-3 py-2 text-xs font-bold text-cyan-800">Открыть сайт</a></div>
@@ -132,6 +132,7 @@
       <button class="nav-item w-full rounded-xl border border-transparent px-3 py-3 text-left text-sm font-bold" data-view="tasks">Задания</button>
       <button class="nav-item w-full rounded-xl border border-transparent px-3 py-3 text-left text-sm font-bold" data-view="bezliki">BEZLIKI</button>
       <button class="nav-item w-full rounded-xl border border-transparent px-3 py-3 text-left text-sm font-bold" data-view="neurofarm">Нейроферма</button>
+      <button class="nav-item w-full rounded-xl border border-transparent px-3 py-3 text-left text-sm font-bold" data-view="conveyor">Конвейер</button>
       <button class="nav-item w-full rounded-xl border border-transparent px-3 py-3 text-left text-sm font-bold" data-view="ai-agent">AI-агент</button>
       <button class="nav-item w-full rounded-xl border border-transparent px-3 py-3 text-left text-sm font-bold" data-view="settings">Настройки</button>
     </aside>
@@ -271,13 +272,84 @@
     });
     document.getElementById('admin-logout').addEventListener('click', async () => { await supabaseClient?.auth.signOut(); window.location.reload(); });
     const storageKey = 'triznes-communities';
-    const titles = { overview: ['Обзор платформы', 'Контроль площадок, медиа и игровых локаций.'], communities: ['Реестр площадок', 'Проверка заявок сообществ и документов.'], map: ['Карта локаций', 'Координаты зарегистрированных медиахабов.'], users: ['Пользователи', 'Профили и данные аккаунтов из Supabase.'], content: ['Контент', 'Управление сообщениями и материалами проекта.'], payments: ['Оплата', 'Контроль тарифа и статуса платёжной интеграции.'], finance: ['Финансы', 'Платежи, доступ и заявки на вывод коинов.'], tasks: ['Задания', 'Маршрут задания от ангела к персонажу через ментора.'], bezliki: ['BEZLIKI', 'Нейро-персонаж платформы: анализ, сценарии и поддержка игроков.'], neurofarm: ['Нейроферма', 'Административная студия генерации ТРИЗНЕС.'], 'ai-agent': ['AI-агент', 'Подготовка изменений сайта через Gemini.'], settings: ['Системные настройки', 'Подготовка панели к публичному запуску.'] };
+    const titles = { overview: ['Обзор платформы', 'Контроль площадок, медиа и игровых локаций.'], communities: ['Реестр площадок', 'Проверка заявок сообществ и документов.'], map: ['Карта локаций', 'Координаты зарегистрированных медиахабов.'], users: ['Пользователи', 'Профили и данные аккаунтов из Supabase.'], content: ['Контент', 'Управление сообщениями и материалами проекта.'], payments: ['Оплата', 'Контроль тарифа и статуса платёжной интеграции.'], finance: ['Финансы', 'Платежи, доступ и заявки на вывод коинов.'], tasks: ['Задания', 'Маршрут задания от ангела к персонажу через ментора.'], bezliki: ['BEZLIKI', 'Нейро-персонаж платформы: анализ, сценарии и поддержка игроков.'], neurofarm: ['Нейроферма', 'Административная студия генерации ТРИЗНЕС.'], conveyor: ['Конвейер', 'Живой статус нейрофермы: приём → сборка → просмотр → выпуск.'], 'ai-agent': ['AI-агент', 'Подготовка изменений сайта через Gemini.'], settings: ['Системные настройки', 'Подготовка панели к публичному запуску.'] };
     const neurofarmView = document.createElement('div');
     neurofarmView.id = 'view-neurofarm';
     neurofarmView.className = 'panel hidden rounded-2xl p-3';
     neurofarmView.innerHTML = '<div class="mb-3 flex flex-wrap items-center justify-between gap-3 px-2 pt-2"><div><div class="mono text-[10px] uppercase tracking-widest text-cyan-800">TRIZNES / PRIVATE AI STUDIO</div><p class="mt-1 text-xs text-slate-500">Данные и ключи фермы обрабатываются backend-ом; ключи не передаются в браузер.</p></div><span class="status ready">SUPABASE ADMIN</span></div><iframe id="neurofarm-app-frame" data-src="./neurofarm/index.html" title="Нейроферма ТРИЗНЕС" class="h-[78vh] min-h-[640px] w-full rounded-xl border border-cyan-300/20 bg-slate-950"></iframe>';
     document.getElementById('view-ai-agent')?.before(neurofarmView);
+
+    // Панель «Конвейер»: единый живой статус нейрофермы (read-only, из neurofarm-pult-status).
+    const conveyorView = document.createElement('div');
+    conveyorView.id = 'view-conveyor';
+    conveyorView.className = 'panel hidden rounded-2xl p-5';
+    conveyorView.innerHTML = '<div class="flex flex-wrap items-center justify-between gap-3"><div><div class="mono text-[10px] uppercase tracking-widest text-cyan-800">TRIZNES / PRODUCTION CONVEYOR</div><p class="mt-1 text-xs text-slate-500">Живые счётчики существующих узлов. Только чтение — ничего не запускается и не публикуется.</p></div><div class="flex items-center gap-3"><span id="conveyor-updated" class="mono text-[10px] text-slate-500"></span><button id="conveyor-refresh" type="button" class="rounded-lg border border-cyan-700/25 bg-cyan-700/10 px-3 py-2 text-[10px] font-bold text-cyan-800">Обновить</button></div></div><div id="conveyor-board" class="mt-5 grid gap-3 sm:grid-cols-3 xl:grid-cols-5"></div><div id="conveyor-attention" class="mt-5"></div><div id="conveyor-detail" class="mt-5 grid gap-5 xl:grid-cols-3"></div>';
+    document.getElementById('view-ai-agent')?.before(conveyorView);
+
     const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[character]));
+
+    async function renderConveyor() {
+      const board = document.getElementById('conveyor-board');
+      const attention = document.getElementById('conveyor-attention');
+      const detail = document.getElementById('conveyor-detail');
+      const updated = document.getElementById('conveyor-updated');
+      if (!board) return;
+      board.innerHTML = '<div class="col-span-full rounded-xl bg-cyan-700/5 px-4 py-6 text-center text-sm text-slate-500">Загружаю живой статус…</div>';
+      attention.innerHTML = '';
+      detail.innerHTML = '';
+      try {
+        // Читаем напрямую через supabaseClient под сессией админа (RLS: is_admin_user). Без отдельной серверной функции.
+        const [qRes, rRes, relRes] = await Promise.all([
+          supabaseClient.from('social_content_queue').select('status,delivery_status,rights_status').limit(5000),
+          supabaseClient.from('content_collider_runs').select('id,title,status,metadata,updated_at').order('updated_at', { ascending: false }).limit(500),
+          supabaseClient.from('triznes_reel_releases').select('status').limit(500),
+        ]);
+        if (qRes.error && rRes.error) throw (qRes.error || rRes.error);
+        const queue = qRes.data || [], runs = rRes.data || [], releases = relRes.data || [];
+        const tally = (rows, field) => rows.reduce((m, row) => { const k = String(row?.[field] ?? '—'); m[k] = (m[k] || 0) + 1; return m; }, {});
+        const nn = (map, ...keys) => keys.reduce((s, k) => s + (map[k] || 0), 0);
+        const queueByStatus = tally(queue, 'status'), queueByDelivery = tally(queue, 'delivery_status'), queueByRights = tally(queue, 'rights_status');
+        const runsByStatus = tally(runs, 'status'), releasesByStatus = tally(releases, 'status');
+        const now = Date.now(), DAY = 86400000;
+        const stuck_generating = runs.filter((r) => r.status === 'generating' && Number.isFinite(Date.parse(r.updated_at)) && now - Date.parse(r.updated_at) > DAY).map((r) => ({ id: r.id, title: String(r.title || '').slice(0, 120), stage: String(r?.metadata?.cinema_stage || '—'), age_hours: Math.round((now - Date.parse(r.updated_at)) / 3600000) }));
+        const failed_runs = runs.filter((r) => r.status === 'partial_failed').map((r) => ({ id: r.id, title: String(r.title || '').slice(0, 120), stage: String(r?.metadata?.cinema_stage || '—'), error: String(r?.metadata?.cinema_error || r?.metadata?.cinema_blocker || '—').slice(0, 200) })).slice(0, 25);
+        const data = {
+          board: [
+            { label: 'Приём / исходник', count: nn(runsByStatus, 'draft') + nn(releasesByStatus, 'awaiting_character'), hint: 'новые сборки и ролики, ждущие хода' },
+            { label: 'Сборка (COLLIDER)', count: nn(runsByStatus, 'generating'), hint: 'рендер у провайдера (Creatomate/нейро-шоты)' },
+            { label: 'Просмотр / одобрение', count: nn(queueByStatus, 'review') + nn(runsByStatus, 'review'), hint: 'ждёт решения человека' },
+            { label: 'Правки / согласие', count: nn(queueByStatus, 'changes_requested') + nn(queueByRights, 'consent_needed'), hint: 'доработка или ждёт согласия персонажа' },
+            { label: 'Выпуск', count: nn(queueByStatus, 'published') + nn(queueByDelivery, 'published', 'delivered'), hint: 'опубликовано в соцсетях' },
+          ],
+          queue: { by_status: queueByStatus },
+          collider_runs: { by_status: runsByStatus },
+          attention: { stuck_generating, failed_runs, delivery_failed: nn(queueByDelivery, 'failed'), queue_failed: nn(queueByStatus, 'failed'), awaiting_review: nn(queueByStatus, 'review') },
+        };
+        updated.textContent = `обновлено ${new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}`;
+        const arrow = '<div class="hidden xl:flex items-center justify-center text-cyan-700/40 text-xl">→</div>';
+        board.innerHTML = (data.board || []).map((stage, index) => `${index ? arrow : ''}<div class="rounded-xl border border-cyan-700/15 bg-cyan-700/5 p-4"><div class="text-3xl font-extrabold text-cyan-800">${Number(stage.count) || 0}</div><div class="mt-1 text-sm font-bold">${escapeHtml(stage.label)}</div><div class="mt-1 text-[11px] leading-4 text-slate-500">${escapeHtml(stage.hint || '')}</div></div>`).join('');
+
+        const a = data.attention || {};
+        const stuck = Array.isArray(a.stuck_generating) ? a.stuck_generating : [];
+        const failed = Array.isArray(a.failed_runs) ? a.failed_runs : [];
+        const alerts = [];
+        if (a.awaiting_review) alerts.push(`<span class="status pending">${a.awaiting_review} ждут одобрения</span>`);
+        if (a.queue_failed) alerts.push(`<span class="status" style="background:rgba(220,38,38,.12);color:#b91c1c">${a.queue_failed} в очереди failed</span>`);
+        if (a.delivery_failed) alerts.push(`<span class="status" style="background:rgba(220,38,38,.12);color:#b91c1c">${a.delivery_failed} провалов доставки</span>`);
+        if (stuck.length) alerts.push(`<span class="status" style="background:rgba(217,119,6,.14);color:#b45309">${stuck.length} застряли в сборке</span>`);
+        if (failed.length) alerts.push(`<span class="status" style="background:rgba(217,119,6,.14);color:#b45309">${failed.length} сборок с ошибкой</span>`);
+        attention.innerHTML = `<div class="flex items-center justify-between gap-3"><h4 class="font-extrabold">Требует внимания</h4><div class="flex flex-wrap gap-2">${alerts.join('') || '<span class="status ready">чисто</span>'}</div></div>`;
+
+        const stuckHtml = stuck.length ? stuck.map((r) => `<div class="table-row py-3"><div class="flex items-start justify-between gap-3"><div><strong>${escapeHtml(r.title || r.id)}</strong><div class="mono mt-1 text-[10px] text-slate-500">${escapeHtml(r.stage || '—')} · ${Number(r.age_hours) || 0} ч</div></div><span class="status" style="background:rgba(217,119,6,.14);color:#b45309">generating</span></div></div>`).join('') : '<p class="text-sm text-slate-500">Нет застрявших сборок.</p>';
+        const failedHtml = failed.length ? failed.map((r) => `<div class="table-row py-3"><strong>${escapeHtml(r.title || r.id)}</strong><div class="mt-1 text-[11px] text-slate-600">${escapeHtml(r.error || '—')}</div><div class="mono mt-1 text-[10px] text-slate-500">${escapeHtml(r.stage || '—')}</div></div>`).join('') : '<p class="text-sm text-slate-500">Нет сборок с ошибкой.</p>';
+        const counters = (title, map) => `<section><h4 class="font-extrabold">${escapeHtml(title)}</h4><div class="mt-2 space-y-1">${Object.entries(map || {}).sort((x, y) => y[1] - x[1]).map(([k, v]) => `<div class="flex items-center justify-between text-sm"><span class="text-slate-600">${escapeHtml(k)}</span><span class="font-bold text-cyan-800">${v}</span></div>`).join('') || '<span class="text-sm text-slate-500">нет данных</span>'}</div></section>`;
+        detail.innerHTML = `<div><div class="flex items-center justify-between gap-3"><h4 class="font-extrabold">Застряли в сборке</h4><span class="status pending">${stuck.length}</span></div><div class="mt-3">${stuckHtml}</div><div class="mt-5 flex items-center justify-between gap-3"><h4 class="font-extrabold">Сборки с ошибкой</h4><span class="status pending">${failed.length}</span></div><div class="mt-3">${failedHtml}</div></div>${counters('Очередь публикации', data.queue?.by_status)}${counters('Сборки COLLIDER', data.collider_runs?.by_status)}`;
+      } catch (error) {
+        board.innerHTML = `<div class="col-span-full rounded-xl bg-amber-500/10 px-4 py-6 text-center text-sm text-amber-700">Не удалось получить статус: ${escapeHtml(error?.message || 'сеть недоступна')}</div>`;
+      }
+    }
+    document.querySelector('.nav-item[data-view="conveyor"]')?.addEventListener('click', renderConveyor);
+    document.getElementById('conveyor-refresh')?.addEventListener('click', renderConveyor);
     const getCommunities = () => { try { return JSON.parse(localStorage.getItem(storageKey) || '[]'); } catch { return []; } };
     let cityMap = null;
     let cityMapLayers = [];
