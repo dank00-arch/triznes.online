@@ -1,9 +1,11 @@
-const CACHE = 'triznes-launch-ui-v3-cinematic-entry-20261029-2';
+const CACHE = 'triznes-launch-ui-v4-real-character-art-20261029';
 const CORE = [
   './', './index.html', './entry.html', './home.html', './character.html', './world-map.html',
   './sochiwood.html', './neurofarm.html', './community.html', './boards.html',
   './triznes-core.css', './triznes-visual-v2.css', './triznes-shell-v2.js', './triznes-data-v2.js', './spline-config.js',
-  './assets/triznes-core-128.png', './assets/triznes-core.png', './manifest.webmanifest'
+  './assets/triznes-core-128.png', './assets/triznes-core.png',
+  './assets/characters-v4/daniel-cinematic-v1.webp', './assets/characters-v4/vsevolod-kim-collider-v1.webp',
+  './assets/characters-v4/liberty-abundance-v1.webp', './manifest.webmanifest'
 ];
 
 self.addEventListener('install', (event) => {

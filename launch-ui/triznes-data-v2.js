@@ -4,9 +4,9 @@
 
   const ASSET = 'https://triznes.online/';
   const characters = [
-    { id:'daniel', name:'DANIEL', alias:'APOLLON', role:'Автор · режиссёр · герой в кадре', card:'PLAYER 001', community:'PINK NOIZE', image:'assets/triznes-v48/daniel-player-0001.webp', origin:'REAL', idea:'Превратить путь города в кино, музыку и пространство для раскрытия людей.', dream:'Живой SOCHIWOOD, где путь каждого становится его фильмом.', color:'#45e9ff' },
-    { id:'vsevolod-kim', name:'ВСЕВОЛОД КИМ', alias:'ТЕАТР ТУЗ', role:'Ментор · режиссёр ТАК/ТИК', card:'MENTOR', community:'ТЕАТР ТУЗ', image:'assets/triznes-v46/vsevolod-kim.webp', origin:'REAL', idea:'Театральный игровой Коллайдер: восприятие, действие и трансформация.', dream:'Театр, в котором человек учится присутствовать и становится актёром своей жизни.', color:'#d7b5ff' },
-    { id:'liberty', name:'LIBERTY', alias:'СВОБОДА', role:'Артистка · персонаж PINK NOIZE', card:'BLACK', community:'PINK NOIZE', image:'assets/triznes-v49/liberty-real-portrait-v1.webp', origin:'REAL', idea:'Свобода быть собой, соединённая с музыкой, образом и личным кино.', dream:'Собственный узнаваемый музыкальный мир и фильм пути.', color:'#ff84cb' },
+    { id:'daniel', name:'DANIEL', alias:'APOLLON', role:'Автор · режиссёр · герой в кадре', card:'PLAYER 001', community:'PINK NOIZE', image:'launch-ui/assets/characters-v4/daniel-cinematic-v1.webp', origin:'REAL · ART', idea:'Превратить путь города в кино, музыку и пространство для раскрытия людей.', dream:'Живой SOCHIWOOD, где путь каждого становится его фильмом.', color:'#45e9ff' },
+    { id:'vsevolod-kim', name:'ВСЕВОЛОД КИМ', alias:'ТЕАТР ТУЗ', role:'Ментор · режиссёр ТАК/ТИК', card:'MENTOR', community:'ТЕАТР ТУЗ', image:'launch-ui/assets/characters-v4/vsevolod-kim-collider-v1.webp', origin:'REAL · ART', idea:'Театральный игровой Коллайдер: восприятие, действие и трансформация.', dream:'Театр, в котором человек учится присутствовать и становится актёром своей жизни.', color:'#d7b5ff' },
+    { id:'liberty', name:'LIBERTY', alias:'СВОБОДА', role:'Артистка · персонаж PINK NOIZE', card:'BLACK', community:'PINK NOIZE', image:'launch-ui/assets/characters-v4/liberty-abundance-v1.webp', origin:'REAL · ART', idea:'Свобода быть собой, соединённая с музыкой, образом и личным кино.', dream:'Собственный узнаваемый музыкальный мир и фильм пути.', color:'#ff84cb' },
     { id:'neo', name:'NEO', alias:'НОВЫЙ ВЗГЛЯД', role:'Игрок · герой кибер-мира', card:'BLACK', community:'PINK NOIZE', image:'assets/triznes-v63/neo-game.png', origin:'AI ASSISTED', idea:'Переход из привычной реальности в яркий образ через действие, музыку и город.', dream:'Раскрыть новый взгляд и вывести его на живую сцену.', color:'#8e7dff' },
     { id:'saphir', name:'SAPHIR', alias:'САПФИР', role:'Артист · герой сцены', card:'BLACK', community:'PINK NOIZE', image:'assets/triznes-v63/saphir-stage.png', origin:'AI ASSISTED', idea:'Сценическая энергия и фиолетовый мир, собранные в музыкальный персонаж.', dream:'Премьера, после которой образ узнают с первого кадра.', color:'#b576ff' },
     { id:'dragunov', name:'АНДРЕЙ ДРАГУНОВ', alias:'ТОРГОВЫЙ ДОМ', role:'Предприниматель · проводник инициатив', card:'BLACK', community:'ТОРГОВЫЙ ДОМ', image:'', origin:'PROFILE', idea:'Соединять людей, торговые инициативы и ресурсы в устойчивые проекты.', dream:'Торговый дом нового мира, в котором ценность создают отношения.', color:'#ffc85c' },
@@ -29,7 +29,7 @@
 
   function personCard(card, character) {
     const media = card.querySelector('.media');
-    if (media) media.innerHTML = `<span class="chip ${character.origin === 'REAL' ? 'real' : 'ai'} origin"><span class="dot"></span>${esc(character.origin)}</span>${image(character)}`;
+    if (media) media.innerHTML = `<span class="chip ${character.origin.startsWith('REAL') ? 'real' : 'ai'} origin"><span class="dot"></span>${esc(character.origin)}</span>${image(character)}`;
     const name = card.querySelector('.name');
     if (name) name.textContent = character.name;
     const role = card.querySelector('.role');
@@ -52,7 +52,7 @@
     const hero = document.querySelector('.hero');
     if (hero) {
       const media = hero.querySelector('.media');
-      if (media) media.innerHTML = `<span class="chip ${character.origin === 'REAL' ? 'real' : 'ai'} origin"><span class="dot"></span>${esc(character.origin)}</span>${image(character)}`;
+      if (media) media.innerHTML = `<span class="chip ${character.origin.startsWith('REAL') ? 'real' : 'ai'} origin"><span class="dot"></span>${esc(character.origin)}</span>${image(character)}`;
       const title = hero.querySelector('h1'); if (title) title.textContent = character.name;
       const alias = title?.nextElementSibling; if (alias) alias.textContent = `@${character.alias.toLowerCase().replace(/\s+/g, '_')}`;
       const facts = hero.querySelectorAll('.idline span');
@@ -81,7 +81,7 @@
     const character = selected();
     localStorage.setItem('triznes-active-character', character.id);
     const cover = document.querySelector('.screen>section:first-of-type .media');
-    if (cover) cover.innerHTML = `<span class="chip ${character.origin === 'REAL' ? 'real' : 'ai'} origin" style="top:14px;left:14px"><span class="dot"></span>${esc(character.origin)}</span>${image(character)}`;
+    if (cover) cover.innerHTML = `<span class="chip ${character.origin.startsWith('REAL') ? 'real' : 'ai'} origin" style="top:14px;left:14px"><span class="dot"></span>${esc(character.origin)}</span>${image(character)}`;
     const identity = document.querySelector('.screen>section:nth-of-type(2)');
     if (identity) {
       const avatar = identity.querySelector('.avatar'); if (avatar) avatar.innerHTML = image(character, true);
