@@ -1,4 +1,4 @@
-const CACHE = 'triznes-launch-ui-v3-cinematic-entry-20261029';
+const CACHE = 'triznes-launch-ui-v3-cinematic-entry-20261029-2';
 const CORE = [
   './', './index.html', './entry.html', './home.html', './character.html', './world-map.html',
   './sochiwood.html', './neurofarm.html', './community.html', './boards.html',
