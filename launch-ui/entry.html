@@ -34,7 +34,7 @@
   <!-- ГЛАВНЫЙ ЭКРАН · кинематографичный центр · верхний вход убран, знак и ядро — в центре.
        Голографика + свет за курсором (из shell/visual-v2) сохранены. Видео — реальный публичный ролик каталога. -->
   <section class="hero-cine">
-    <video id="heroReel" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    <video id="heroReel" autoplay muted loop playsinline preload="metadata" aria-label="TRIZNES · Сочи: город-игра"></video>
     <div class="holo"><span class="ring" style="width:280px;height:280px"></span><span class="ring r2" style="width:430px;height:430px"></span><span class="ring r3" style="width:600px;height:600px"></span><span class="scan"></span></div>
     <div class="veil"></div>
     <div class="content">
@@ -47,6 +47,8 @@
         <a class="btn secondary block" href="world-map.html"><svg width="18" height="18"><use href="#i-globe"/></svg>Посмотреть мир — как зритель</a>
       </div>
       <div class="muted t-caption" style="margin-top:12px;max-width:340px;margin-left:auto;margin-right:auto">Игрок — ты в кадре и в игре. Зритель — смотришь, как живёт мир.</div>
+      <button class="reel-sound" id="reelSound" type="button" aria-pressed="false" aria-label="Включить звук фильма"><span>◖</span><b>Включить звук фильма</b></button>
+      <div class="reel-credit"><span>СЕЙЧАС В КАДРЕ</span><b id="heroReelTitle">СОЧИ · ГОРОД-ИГРА</b></div>
     </div>
   </section>
 
@@ -61,12 +63,12 @@
     </div>
     <h3 class="t-h3" style="margin-top:20px;text-align:center">Согласия перед входом</h3>
     <div style="margin-top:10px">
-      <label class="consent"><input type="checkbox"><span>Согласен(на), что могу <b>сниматься в кино</b> проекта TRIZNES · SOCHIWOOD.</span></label>
-      <label class="consent"><input type="checkbox"><span>Согласен(на) <b>значиться в кадре</b> — моё реальное изображение может быть частью сцен и фильмов.</span></label>
-      <label class="consent"><input type="checkbox"><span>Принимаю <b>необходимые соглашения</b> участника: правила мира, приватность и условия публикации.</span></label>
+      <label class="consent"><input type="checkbox" name="film" required><span>Согласен(на), что могу <b>сниматься в кино</b> проекта TRIZNES · SOCHIWOOD.</span></label>
+      <label class="consent"><input type="checkbox" name="image" required><span>Согласен(на) <b>значиться в кадре</b> — моё реальное изображение может быть частью сцен и фильмов.</span></label>
+      <label class="consent"><input type="checkbox" name="rules" required><span>Принимаю <b>правила мира, приватность и условия публикации</b>. Публичный выпуск личных материалов происходит только с подтверждённым согласием.</span></label>
     </div>
-    <a class="btn primary block" href="#enter" style="margin-top:16px"><svg width="18" height="18"><use href="#i-play"/></svg>Принять и войти в свой мир →</a>
-    <div class="muted t-caption" style="text-align:center;margin-top:8px">Согласия фиксируются при создании профиля · изменить можно в настройках.</div>
+    <button class="btn primary block consent-next" id="consentNext" type="button" disabled style="margin-top:16px"><svg width="18" height="18"><use href="#i-play"/></svg>Принять и войти в свой мир →</button>
+    <div class="muted t-caption consent-note" id="consentNote" role="status" style="text-align:center;margin-top:8px">Отметь три пункта — затем откроется вход в профиль.</div>
   </section>
 
   <!-- ЦЕПОЧКА ЯДРА · человек → … → общее ядро · DATA: определения звеньев — GPT (GPT-CORE-BRIEF) -->
@@ -165,12 +167,47 @@
 /* Реальный ролик в hero из публичного видео-каталога (visibility='player', только чтение). */
 (function(){
   var v = document.getElementById('heroReel'); if (!v) return;
+  var sound = document.getElementById('reelSound');
+  var title = document.getElementById('heroReelTitle');
   var API = 'https://bbxhhtpmbtgfaxamgksf.supabase.co/functions/v1/triznes-media-signed-url?public_watch=1';
   fetch(API).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
     var items = (d && d.items) || [];
-    var pick = items.find(function(x){ return /^video/i.test(x.mime_type || '') && x.url; }) || items[0];
-    if (pick && pick.url) { v.src = pick.url; var p = v.play && v.play(); if (p && p.catch) p.catch(function(){}); }
+    var pick = items.find(function(x){ return /СОЧИ:\s*ГОРОД-ИГРА/i.test(x.title || ''); }) ||
+      items.find(function(x){ return /^FILM/i.test(x.title || '') && /^video/i.test(x.mime_type || '') && x.url; }) || items[0];
+    if (pick && pick.url) {
+      v.src = pick.url;
+      if (title && pick.title) title.textContent = pick.title.replace(/^FILM\s*\d+\s*[—-]\s*/i, '');
+      var p = v.play && v.play(); if (p && p.catch) p.catch(function(){});
+    }
   }).catch(function(){});
+  if (sound) sound.addEventListener('click', function(){
+    v.muted = !v.muted;
+    sound.setAttribute('aria-pressed', String(!v.muted));
+    sound.querySelector('b').textContent = v.muted ? 'Включить звук фильма' : 'Выключить звук';
+    sound.querySelector('span').textContent = v.muted ? '◖' : '◗';
+    if (!v.muted) { var p = v.play && v.play(); if (p && p.catch) p.catch(function(){}); }
+  });
+})();
+
+/* Манифест — честный проход: визуально подтверждаем выбор и только затем открываем вход. */
+(function(){
+  var checks = Array.prototype.slice.call(document.querySelectorAll('#manifest input[type="checkbox"]'));
+  var next = document.getElementById('consentNext');
+  var note = document.getElementById('consentNote');
+  if (!next || !checks.length) return;
+  function sync(){
+    var ready = checks.every(function(input){ return input.checked; });
+    next.disabled = !ready;
+    next.classList.toggle('ready', ready);
+    note.textContent = ready ? 'Манифест принят. Вход в профиль открыт.' : 'Отметь три пункта — затем откроется вход в профиль.';
+  }
+  checks.forEach(function(input){ input.addEventListener('change', sync); });
+  next.addEventListener('click', function(){
+    if (next.disabled) return;
+    try { localStorage.setItem('triznes-manifest-consent-v1', new Date().toISOString()); } catch (_) {}
+    document.getElementById('enter').scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+  sync();
 })();
 </script>
 <script src="./spline-config.js" defer></script>
