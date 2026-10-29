@@ -1,0 +1,50 @@
+name: Firmware v3 Site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/firmware-v3-runtime.js'
+      - 'triznes-firmware.json'
+      - '.github/workflows/firmware-v3-site.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: firmware-v3-site-main
+  cancel-in-progress: true
+
+jobs:
+  inject:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate public firmware
+        run: python3 -m json.tool triznes-firmware.json >/dev/null
+      - name: Inject runtime idempotently
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          tag='<script src="./assets/firmware-v3-runtime.js?v=20261030" defer></script>'
+          if tag not in s:
+              if '</body>' not in s:
+                  raise SystemExit('index.html: no </body>')
+              s=s.replace('</body>',tag+'</body>')
+              p.write_text(s,encoding='utf-8')
+          PY
+      - name: Verify runtime hook
+        run: grep -q 'firmware-v3-runtime.js' index.html
+      - name: Commit generated index
+        run: |
+          git config user.name 'TRIZNES Firmware Build'
+          git config user.email 'actions@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m 'build(site): activate Living World v3 entry'
+          git pull --rebase -q
+          git push
