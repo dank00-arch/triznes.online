@@ -1,0 +1,22 @@
+{
+  "id": "/triznes-pult",
+  "name": "TRIZNES · Пульт",
+  "short_name": "Пульт",
+  "description": "Центр управления TRIZNES: сигналы, люди, контент, игровые сессии. Вход только для оператора аккаунта города (email + пароль + TOTP).",
+  "start_url": "./control.html?v=20261029-pult1",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#07050b",
+  "theme_color": "#07050b",
+  "lang": "ru",
+  "categories": ["productivity", "business"],
+  "icons": [
+    { "src": "./icon.svg?v=20261029-pult1", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "./assets/brand/triznes-smile-256.png?v=20261029-pult1", "sizes": "256x256", "type": "image/png", "purpose": "any" },
+    { "src": "./assets/brand/triznes-smile-128.png?v=20261029-pult1", "sizes": "128x128", "type": "image/png", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Сигналы", "url": "./control.html?v=20261029-pult1#signals" }
+  ]
+}
