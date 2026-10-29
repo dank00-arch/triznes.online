@@ -1,0 +1,25 @@
+{
+  "version": "3.0.0",
+  "name": "TRIZNES LIVING WORLD",
+  "consumer": "TRIZNES_ONLINE_SOCHIWOOD",
+  "canonical_source": "dank00-arch/TRIZNES:docs/core/TRIZNES_FIRMWARE_V3.json",
+  "updated_at": "2026-10-30",
+  "public_kernel": {
+    "axiom": "ТВОЙ МИР ПРИНАДЛЕЖИТ ТЕБЕ.",
+    "first_question": "КТО ТЫ?",
+    "dialogue": ["КТО Я", "ЧТО Я ЛЮБЛЮ", "ЧЕГО Я ХОЧУ", "ЧТО ВО МНЕ УНИКАЛЬНО"],
+    "final_question": "ЧТО МЫ МОЖЕМ СОЗДАТЬ ВМЕСТЕ?",
+    "city_goal": "СОЧИ — ГОРОД КИНО",
+    "loop": ["ПЕРСОНАЖ", "КВЕСТ", "РЕАЛЬНАЯ СЦЕНА", "ЗАГРУЗКА", "НЕЙРОФЕРМА", "PINK NOIZE", "QC + ПРАВА", "MASTER", "SOCHIWOOD", "СЛЕДУЮЩИЙ КВЕСТ"]
+  },
+  "media_gate": {
+    "raw": "TRACK_ONLY_DO_NOT_PUBLISH",
+    "ready_requires": ["final_master", "final_edit", "qc_passed", "approved_soundtrack", "rights_and_consents", "editorial_approval_if_required", "required_formats"],
+    "real_people": "NO_AI_FACE_SUBSTITUTION",
+    "publication_proof": "ACTUAL_DELIVERY_OR_PUBLIC_URL"
+  },
+  "visual": {
+    "direction": "живой мир, море, природа, солнце, яркость, любовь, уникальность и рост персонажа",
+    "avoid": ["центральный глаз", "тотальный чёрный cyberpunk", "культовая эстетика", "неон ради неона"]
+  }
+}
