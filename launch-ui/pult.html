@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07040b">
+<meta name="description" content="TRIZNES Пульт — живой пульт экосистемы: состояние, сигналы, Нейроферма, публикации, заявки, события. Куда направить энергию.">
+<title>TRIZNES · Пульт</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="./triznes-core.css?v=20261029-character-art-v4">
+<link rel="stylesheet" href="./triznes-visual-v2.css?v=20261029-character-art-v4">
+<!-- ПЕРЕНОС ЭКРАНА 09 MOBILE PULT (Subframe page 7a39658c…) · phone-first (≤430).
+     Операторский пульт экосистемы (mobile-first). ТОЛЬКО слой представления.
+     Доступ к живому Пульту остаётся за сервером (operator-права + AAL2) — здесь auth/API не трогаются.
+     Тексты — шаблоны; реальные люди/факты не выдуманы. Лица только REAL. Блоки помечены DATA:. -->
+</head>
+<body class="tc">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="i-user" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></g>
+<g id="i-spark" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></g>
+<g id="i-film" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M17 9h4M3 15h4M17 15h4"/></g>
+<g id="i-play" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.5 18 12 8 18.5v-13Z"/></g>
+<g id="i-check" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></g>
+<g id="i-x" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></g>
+<g id="i-globe" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.5 2.3 2.5 13.7 0 16M12 4c-2.5 2.3-2.5 13.7 0 16"/></g>
+<g id="i-cal" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></g>
+</defs></svg>
+
+<main class="screen">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="brand row" style="gap:8px"><img class="logo-mark" src="./assets/triznes-core-128.png" alt="" width="20" height="20"><span>TRIZNES<br><small class="muted" style="font:700 9px/1 var(--font);letter-spacing:.2em">Пульт</small></span></div>
+    <div class="row" style="gap:8px"><span class="chip ok"><span class="dot"></span>Мир жив</span><span class="avatar ring" style="width:36px;height:36px;font-size:11px">ИФ<i class="presence"></i></span></div>
+  </header>
+
+  <!-- ВКЛАДКИ -->
+  <nav class="filter" style="margin-top:8px"><button class="on">Мир</button><button>Люди</button><button>Идеи</button><button>Кино</button><button>Нейроферма</button><button>Публикации</button><button>События</button><button>Сообщества</button></nav>
+
+  <!-- СОСТОЯНИЕ ЖИВОЙ СИСТЕМЫ · DATA: агрегат статуса (сигналы/очередь/инциденты) -->
+  <section class="section" style="margin-top:14px">
+    <div class="panel" style="padding:16px"><div class="row" style="gap:14px"><div class="core" style="width:52px;height:52px;margin:0"><img src="./assets/triznes-core-128.png" alt="" width="52" height="52"></div><div style="flex:1;min-width:0"><div class="row" style="justify-content:space-between"><b>Состояние живой системы</b><span class="chip live" style="height:20px"><span class="dot"></span>Live</span></div><div class="muted t-caption" style="margin-top:4px">Всё спокойно · <span style="color:var(--error);font-weight:700">3 требуют решения</span></div></div></div></div>
+  </section>
+
+  <!-- BEZLIKI · одно главное действие -->
+  <section class="bezliki">
+    <div class="t-eyebrow">BEZLIKI · сейчас важно только это</div>
+    <h3 class="t-h3" style="margin-top:8px">Контент завис: сцена 4 ждёт 2 ч</h3>
+    <div class="muted t-caption" style="margin-top:4px">Название проекта · модуль Kling не отвечает</div>
+    <a class="btn primary" href="#" style="margin-top:14px"><svg width="18" height="18"><use href="#i-spark"/></svg>Перезапустить →</a>
+  </section>
+
+  <!-- KPI · DATA: triznes_ops_signals / platform_players / content_jobs -->
+  <section class="section">
+    <div class="kpis">
+      <div class="kpi red"><div class="lab">Срочно</div><b>3</b><div class="delta">+1 за час</div></div>
+      <div class="kpi cyan"><div class="lab">Сигналы</div><b>12</b><div class="delta">+4 сегодня</div></div>
+      <div class="kpi green"><div class="lab">Онлайн</div><b>47</b><div class="delta">+8% к вчера</div></div>
+      <div class="kpi gold"><div class="lab">На проверке</div><b>5</b><div class="delta">публикаций</div></div>
+    </div>
+  </section>
+
+  <!-- СИГНАЛЫ И ИМПУЛЬСЫ · DATA: triznes_ops_signals -->
+  <section class="section">
+    <div class="section-head"><div><div class="t-eyebrow">Сигналы и импульсы</div><h2 class="t-h2" style="margin-top:6px">Куда направить энергию</h2></div><a class="link" href="#">Все →</a></div>
+    <div style="display:flex;justify-content:center;margin:4px 0 12px"><div class="seg"><button class="on">Сейчас</button><button>Люди</button><button>Контент</button><button>Игра</button></div></div>
+    <div class="hscroll">
+      <article class="sigcard"><div class="row" style="justify-content:space-between"><span class="chip ok" style="height:20px">Запрос контента</span><span class="muted t-caption">12 мин</span></div><h3 class="t-h3" style="margin-top:10px">Нужен тизер к событию «Название»</h3><div class="row" style="gap:8px;margin-top:8px"><span class="avatar" style="width:26px;height:26px;font-size:10px">ИФ</span><span class="muted t-caption">Имя Ф. · куратор</span></div><div class="row" style="gap:8px;margin-top:12px"><a class="btn secondary sm" href="#" style="flex:1">+ Взять →</a><a class="btn primary sm" href="#" style="flex:1">Решить →</a></div></article>
+      <article class="sigcard"><div class="row" style="justify-content:space-between"><span class="chip violet" style="height:20px;color:var(--violet);border-color:rgb(139 92 255 / .4)">Нейроферма</span><span class="muted t-caption">25 мин</span></div><h3 class="t-h3" style="margin-top:10px">Пересобрать сцену 2 проекта «Название»</h3><div class="row" style="gap:8px;margin-top:8px"><span class="avatar" style="width:26px;height:26px;font-size:10px">ИФ</span><span class="muted t-caption">Имя Ф. · режиссёр</span></div><div class="row" style="gap:8px;margin-top:12px"><a class="btn secondary sm" href="#" style="flex:1">+ Взять →</a><a class="btn primary sm" href="#" style="flex:1">Решить →</a></div></article>
+      <article class="sigcard urgent"><div class="row" style="justify-content:space-between"><span class="chip err" style="height:20px"><span class="dot"></span>Доступ</span><span class="muted t-caption">1 ч</span></div><h3 class="t-h3" style="margin-top:10px">4 заявки на вход за сутки</h3><div class="row" style="gap:8px;margin-top:8px"><span class="muted t-caption">Новые жители города</span></div><div class="row" style="gap:8px;margin-top:12px"><a class="btn secondary sm" href="#" style="flex:1">+ Взять →</a><a class="btn primary sm" href="#" style="flex:1">Решить →</a></div></article>
+    </div>
+    <div class="muted t-caption" style="text-align:center;margin-top:10px">← свайп: отложить</div>
+  </section>
+
+  <!-- НЕЙРОФЕРМА · движок · DATA: статус провайдеров + очередь -->
+  <section class="section">
+    <div class="section-head"><div class="t-eyebrow">Нейроферма</div><span class="chip ok"><span class="dot"></span>5 / 6 OK</span></div>
+    <div class="panel" style="padding:16px;margin-top:10px">
+      <div class="row" style="gap:6px;flex-wrap:wrap"><span class="chip"><span class="dot" style="background:var(--success)"></span>Runway</span><span class="chip warn"><span class="dot"></span>Kling</span><span class="chip"><span class="dot" style="background:var(--success)"></span>ElevenLabs</span><span class="chip"><span class="dot" style="background:var(--success)"></span>Creatomate</span><span class="chip"><span class="dot" style="background:var(--success)"></span>OpusClip</span><span class="chip"><span class="dot" style="background:var(--success)"></span>Gemini</span></div>
+      <div class="row" style="justify-content:space-between;margin-top:14px"><b>Очередь 9 · ~4 мин</b><span style="color:var(--warning);font-weight:600;font-size:13px">Kling: задержка</span></div>
+      <div style="margin-top:10px"><div class="row" style="justify-content:space-between"><span>Название · пролёт над городом</span><span class="t-caption" style="color:var(--cyan)">2 мин</span></div><div class="qline"><i style="width:72%"></i></div></div>
+      <div style="margin-top:12px"><div class="row" style="justify-content:space-between"><span>Название · сцена 4, дубль 3</span><span class="t-caption" style="color:var(--warning)">~6 мин</span></div><div class="qline"><i style="width:24%;background:var(--warning)"></i></div></div>
+    </div>
+  </section>
+
+  <!-- ПУБЛИКАЦИИ · ADMIN GATE · DATA: social_content_queue / social_approval_events -->
+  <section class="section">
+    <div class="section-head"><div class="t-eyebrow">Публикации</div><span class="chip gold"><span class="dot"></span>Без автопоста</span></div>
+    <div class="panel" style="padding:16px;margin-top:10px">
+      <div class="flow"><span class="chip">Идея · 8</span><span class="sep">›</span><span class="chip">Сценарий · 5</span><span class="sep">›</span><span class="chip" style="border-color:var(--brand-500);color:var(--brand-700)">Монтаж · 3</span><span class="sep">›</span><span class="chip gold">ADMIN · 2</span></div>
+      <div class="muted t-caption" style="margin-top:12px">Без автопоста — каждый пакет проходит ADMIN GATE вручную.</div>
+    </div>
+  </section>
+
+  <!-- ЗАЯВКИ · DATA: заявки на вход/роль (approval) -->
+  <section class="section">
+    <div class="section-head"><div class="t-eyebrow">Заявки</div><span class="chip">3</span></div>
+    <div class="panel" style="padding:4px 16px;margin-top:10px">
+      <div class="reqrow"><span class="avatar" style="width:36px;height:36px;font-size:11px">ИФ</span><div class="who"><b>Имя Фамилия</b><small>Роль · Сообщество</small></div><div class="row" style="gap:8px"><a class="btn secondary sm" href="#"><svg width="14" height="14"><use href="#i-check"/></svg>Принять</a><a class="btn ghost sm" href="#"><svg width="14" height="14"><use href="#i-x"/></svg>Отклонить</a></div></div>
+      <div class="reqrow"><span class="avatar" style="width:36px;height:36px;font-size:11px">ИФ</span><div class="who"><b>Имя Фамилия</b><small>Роль · Сообщество</small></div><div class="row" style="gap:8px"><a class="btn secondary sm" href="#"><svg width="14" height="14"><use href="#i-check"/></svg>Принять</a><a class="btn ghost sm" href="#"><svg width="14" height="14"><use href="#i-x"/></svg>Отклонить</a></div></div>
+      <div class="reqrow"><span class="avatar" style="width:36px;height:36px;font-size:11px">ИФ</span><div class="who"><b>Имя Фамилия</b><small>Роль · Сообщество</small></div><div class="row" style="gap:8px"><a class="btn secondary sm" href="#"><svg width="14" height="14"><use href="#i-check"/></svg>Принять</a><a class="btn ghost sm" href="#"><svg width="14" height="14"><use href="#i-x"/></svg>Отклонить</a></div></div>
+    </div>
+  </section>
+
+  <!-- СОБЫТИЯ СЕГОДНЯ · DATA: triznes_events -->
+  <section class="section">
+    <div class="section-head"><div class="t-eyebrow">События сегодня</div><svg width="18" height="18" class="muted"><use href="#i-cal"/></svg></div>
+    <div class="panel" style="padding:4px 16px;margin-top:10px">
+      <div class="eventrow"><div class="date"><b style="font-size:16px">19:00</b></div><div class="ev"><b>Кинопоказ «Название»</b><small>Место · 34 участника</small></div><span class="link">→</span></div>
+      <div class="eventrow"><div class="date"><b style="font-size:16px">21:30</b></div><div class="ev"><b>Игровая сессия «Название»</b><small>Квест · 18 в игре</small></div><span class="link">→</span></div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="tabbar" aria-label="Основная навигация">
+  <a href="#"><svg width="22" height="22"><use href="#i-user"/></svg>Я</a>
+  <a href="#"><svg width="22" height="22"><use href="#i-globe"/></svg>Мир</a>
+  <a href="#" aria-label="Создать"><span class="plus">+</span></a>
+  <a href="#"><svg width="22" height="22"><use href="#i-film"/></svg>Кино</a>
+  <a href="#" class="on"><img class="logo-mark" src="./assets/triznes-core-128.png" alt="" width="24" height="24">Ядро</a>
+</nav>
+
+<script src="./spline-config.js" defer></script>
+<script src="./triznes-shell-v2.js" defer></script>
+<script src="./triznes-data-v2.js?v=20261029-character-art-v4" defer></script>
+</body>
+</html>

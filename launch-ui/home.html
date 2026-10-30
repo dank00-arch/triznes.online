@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07040b">
+<meta name="description" content="TRIZNES — Жизнь в игре. Твоё живое ядро: путь персонажа и общий мир Сочи.">
+<title>TRIZNES · Ты в игре</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="./triznes-core.css?v=20261029-character-art-v4">
+<link rel="stylesheet" href="./triznes-visual-v2.css?v=20261029-character-art-v4">
+<!-- ПЕРЕНОС ЭКРАНА 02 HOME / CORE (Subframe page b44702a3…) · phone-first (≤430).
+     Тексты — шаблоны дизайна («Имя Фамилия», «Название проекта»). Реальные люди/факты не выдумываются.
+     Каждый блок помечен DATA: — какой источник/API его наполняет. Логика/auth/API не трогаются. -->
+</head>
+<body class="tc">
+<!-- SVG-иконки (Lucide-style, штрих 1.5; без эмодзи по дизайн-системе) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="i-user" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></g>
+<g id="i-idea" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 1 4 10.5c-.7.6-1 1.2-1 2H9c0-.8-.3-1.4-1-2A6 6 0 0 1 12 3Z"/></g>
+<g id="i-event" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></g>
+<g id="i-sprout" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-8M12 13c-.5-3-3-4.6-6-4.6.2 3 2.5 5 6 4.6ZM12 12c.4-3 2.8-5 6-5-.2 3-2.6 5-6 5Z"/></g>
+<g id="i-film" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M17 9h4M3 15h4M17 15h4"/></g>
+<g id="i-community" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="3"/><path d="M3.5 19c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5"/><path d="M16 8a3 3 0 0 1 0 5M20.5 19c0-2-1-3.3-2.8-4"/></g>
+<g id="i-game" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="11" rx="4"/><path d="M7 11v3M5.5 12.5h3M15 12h.01M18 14h.01"/></g>
+<g id="i-archive" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="5" rx="1"/><path d="M5 9v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9M10 13h4"/></g>
+<g id="i-city" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></g>
+<g id="i-play" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.5 18 12 8 18.5v-13Z"/></g>
+<g id="i-cam" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.2"/></g>
+<g id="i-home" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 4l8 7M6 10v9h12v-9"/></g>
+<g id="i-globe" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.5 2.3 2.5 13.7 0 16M12 4c-2.5 2.3-2.5 13.7 0 16"/></g>
+</defs></svg>
+
+<main class="screen">
+
+  <!-- TOPBAR · DATA: статус мира (live), аватар текущего игрока (profiles / platform_players) -->
+  <header class="topbar">
+    <div class="brand">TRIZNES<b> / ЯДРО</b></div>
+    <div class="row" style="gap:8px">
+      <span class="chip live"><span class="dot"></span>Мир жив</span>
+      <!-- Avatar: реальное фото игрока или инициалы. Фейковых лиц нет. -->
+      <span class="avatar ring" aria-label="Мой профиль"><svg width="22" height="22"><use href="#i-user"/></svg><i class="presence"></i></span>
+    </div>
+  </header>
+
+  <!-- HERO · персонаж игрока · DATA: platform_players (creative_alias, role, chapter, идея/мечта),
+       карта статуса из triznes_membership_cards (BLACK/SILVER/GOLD + дней), фото профиля (origin REAL) -->
+  <section class="panel hero" style="margin-top:14px">
+    <div class="row" style="align-items:flex-start;gap:14px">
+      <div class="media ar-portrait" style="width:116px;flex:0 0 auto">
+        <span class="chip real origin"><span class="dot"></span>Real</span>
+        <div class="fmt">Фото 3:4</div>
+        <div class="ph"><svg width="30" height="30"><use href="#i-user"/></svg></div>
+      </div>
+      <div style="min-width:0;flex:1">
+        <div class="row" style="flex-wrap:wrap;gap:6px">
+          <span class="chip live">Ты в игре</span>
+          <span class="chip gold">Black · 5 дней</span>
+        </div>
+        <div class="muted t-caption" style="margin-top:8px;text-transform:uppercase;letter-spacing:.06em;font-weight:700">Роль · выбранная тобой</div>
+        <div class="muted t-caption">Глава 2 · Проявление</div>
+      </div>
+    </div>
+    <!-- DATA: имя/ник из профиля. Шаблон до подстановки. -->
+    <h1 class="t-display" style="margin-top:12px">Имя Фамилия</h1>
+    <div class="muted" style="margin-top:2px">@творческий_псевдоним</div>
+    <div class="idline"><b>Идея</b><span>Моя идея — одна фраза…</span></div>
+    <div class="idline"><b>Мечта</b><span>Моя мечта — одна фраза…</span></div>
+    <!-- Одна главная CTA экрана -->
+    <a class="btn primary block" href="#" style="margin-top:14px">Продолжить свою историю →</a>
+  </section>
+
+  <!-- BEZLIKI · одно главное действие дня · DATA: правило «сейчас важно только это» (ядро/BEZLIKI) -->
+  <section class="bezliki">
+    <div class="t-eyebrow">BEZLIKI · сейчас важно только это</div>
+    <p style="margin:8px 0 12px;font-weight:600">Запиши 30 секунд о своей мечте — это станет первой сценой.</p>
+    <a class="btn secondary" href="#"><svg width="18" height="18"><use href="#i-cam"/></svg>Снять сейчас</a>
+  </section>
+
+  <!-- ЖИВОЕ ЯДРО · CoreEmblem (один крупный на экран) · DATA: число «движений рядом» из активности мира -->
+  <section class="section" style="text-align:center">
+    <div class="section-head" style="justify-content:space-between">
+      <div class="t-eyebrow">Живое ядро</div>
+      <a class="link" href="#">7 движений рядом</a>
+    </div>
+    <div class="core" role="img" aria-label="TRIZNES — ядро">
+      <img src="./assets/triznes-core.png" alt="TRIZNES — ядро" width="150" height="150" fetchpriority="high">
+    </div>
+  </section>
+
+  <!-- ICON NAV · разделы мира · DATA: ссылки на существующие экраны/разделы -->
+  <nav class="iconnav" style="margin-top:18px">
+    <a href="#" class="on"><span class="ic"><svg width="22" height="22"><use href="#i-user"/></svg></span>Люди</a>
+    <a href="#"><span class="ic"><svg width="22" height="22"><use href="#i-idea"/></svg></span>Идеи</a>
+    <a href="#"><span class="ic"><svg width="22" height="22"><use href="#i-event"/></svg></span>События</a>
+    <a href="#"><span class="ic"><svg width="22" height="22"><use href="#i-sprout"/></svg></span>Нейроферма</a>
+    <a href="#"><span class="ic"><svg width="22" height="22"><use href="#i-film"/></svg></span>Кино</a>
+    <a href="#"><span class="ic"><svg width="22" height="22"><use href="#i-community"/></svg></span>Сообщества</a>
+    <a href="#"><span class="ic"><svg width="22" height="22"><use href="#i-game"/></svg></span>Игра</a>
+    <a href="#"><span class="ic"><svg width="22" height="22"><use href="#i-archive"/></svg></span>Архив</a>
+    <a href="#"><span class="ic"><svg width="22" height="22"><use href="#i-city"/></svg></span>Город</a>
+  </nav>
+
+  <!-- МОЙ ПУТЬ · 6 глав · DATA: глава игрока + 6 ступеней (названия глав 5–6 уточняет GPT, см. GPT-CORE-BRIEF) -->
+  <section class="section">
+    <div class="section-head"><h2 class="t-h3">Мой путь · Глава 2 из 6</h2><a class="link" href="#">Вся история</a></div>
+    <div class="timeline">
+      <div class="tnode done"><div class="bead"></div><div class="lbl">Вход</div><div class="sub">Пройден</div></div>
+      <div class="tnode current"><div class="bead"></div><div class="lbl">Проявление</div><div class="sub">Ты здесь</div></div>
+      <div class="tnode"><div class="bead"></div><div class="lbl">Сцены</div><div class="sub">Первые кадры</div></div>
+      <div class="tnode"><div class="bead"></div><div class="lbl">Связи</div><div class="sub">Твои люди</div></div>
+      <div class="tnode"><div class="bead"></div><div class="lbl">Проекты</div><div class="sub">Общее дело</div></div>
+      <div class="tnode locked"><div class="bead"></div><div class="lbl">Трансформация</div><div class="sub">Откроется позже</div></div>
+    </div>
+  </section>
+
+  <!-- ТВОЯ СЛЕДУЮЩАЯ СЦЕНА · DATA: сцены игрока (triznes_daily_quests / sochiwood_life_events). Пусто → empty-state -->
+  <section class="section">
+    <div class="section-head"><h2 class="t-h3">Сцены, которые ждут тебя</h2><a class="link" href="#">Все сцены</a></div>
+    <div class="hscroll">
+      <article class="card film-card">
+        <div class="media ar-landscape"><span class="chip real origin"><span class="dot"></span>Real</span><div class="fmt">Видео 16:9</div><div class="ph"><svg width="26" height="26"><use href="#i-film"/></svg></div></div>
+        <div class="title">Первое проявление</div><div class="meta">Сегодня · 19:00 · место съёмки</div>
+        <a class="btn secondary sm" href="#" style="margin-top:10px;width:100%"><svg width="16" height="16"><use href="#i-play"/></svg>Войти в сцену</a>
+      </article>
+      <article class="card film-card">
+        <div class="media ar-landscape empty"><div class="fmt">Видео 16:9</div></div>
+        <div class="title">Голос мечты</div><div class="meta">Завтра · в любое время · дома</div>
+        <a class="btn secondary sm" href="#" style="margin-top:10px;width:100%"><svg width="16" height="16"><use href="#i-play"/></svg>Войти в сцену</a>
+      </article>
+      <article class="card film-card">
+        <div class="media ar-landscape empty"><div class="fmt">Видео 16:9</div></div>
+        <div class="title">Встреча на площади</div><div class="meta">Суббота · 12:00 · город</div>
+        <a class="btn secondary sm" href="#" style="margin-top:10px;width:100%"><svg width="16" height="16"><use href="#i-play"/></svg>Войти в сцену</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- СВЯЗИ · DATA: triznes_city_connections (status accepted) + платформенные профили. Лица только REAL-фото -->
+  <section class="section">
+    <div class="section-head"><h2 class="t-h3">С кем тебя уже соединил мир</h2><a class="link" href="#">Все люди</a></div>
+    <div class="hscroll">
+      <article class="card char-card">
+        <div class="media ar-portrait"><span class="chip real origin"><span class="dot"></span>Real</span><div class="fmt">Фото 3:4</div><div class="ph"><svg width="26" height="26"><use href="#i-user"/></svg></div></div>
+        <div class="name">Имя Фамилия</div><div class="role">Роль</div><div class="muted t-caption" style="margin-top:4px">общее: идея</div>
+      </article>
+      <article class="card char-card">
+        <div class="media ar-portrait"><span class="chip real origin"><span class="dot"></span>Real</span><div class="fmt">Фото 3:4</div><div class="ph"><svg width="26" height="26"><use href="#i-user"/></svg></div></div>
+        <div class="name">Имя Фамилия</div><div class="role">Роль</div><div class="muted t-caption" style="margin-top:4px">общее: мечта</div>
+      </article>
+      <article class="card char-card">
+        <div class="media ar-portrait"><span class="chip real origin"><span class="dot"></span>Real</span><div class="fmt">Фото 3:4</div><div class="ph"><svg width="26" height="26"><use href="#i-user"/></svg></div></div>
+        <div class="name">Имя Фамилия</div><div class="role">Роль</div><div class="muted t-caption" style="margin-top:4px">общее: сцена</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ТВОИ ПРОЕКТЫ И КИНО · DATA: content_jobs / operator_media_items (статус монтаж/генерация/готово + прогресс) -->
+  <section class="section">
+    <div class="section-head"><h2 class="t-h3">То, что уже начало жить</h2><a class="link" href="#">Все проекты</a></div>
+    <div style="display:grid;gap:12px">
+      <article class="card film-card wide">
+        <div class="media ar-landscape"><span class="chip ai origin"><span class="dot"></span>Монтаж</span><div class="fmt">Видео 16:9</div><div class="ph"><svg width="26" height="26"><use href="#i-film"/></svg></div></div>
+        <div class="title">Название проекта</div><div class="meta">Фильм · 3 сцены</div>
+        <div class="row" style="margin-top:8px"><div class="progress" style="flex:1"><i style="width:62%"></i></div><b class="t-caption">62%</b></div>
+      </article>
+      <article class="card film-card wide">
+        <div class="media ar-landscape empty"><span class="chip generated origin"><span class="dot"></span>Генерация</span><div class="fmt">Видео 16:9</div></div>
+        <div class="title">Название проекта</div><div class="meta">Клип · идея</div>
+        <div class="row" style="margin-top:8px"><div class="progress" style="flex:1"><i style="width:28%"></i></div><b class="t-caption">28%</b></div>
+      </article>
+      <article class="card film-card wide">
+        <div class="media ar-landscape"><span class="chip ok origin"><span class="dot"></span>Готово</span><div class="fmt">Видео 16:9</div><div class="ph"><svg width="26" height="26"><use href="#i-play"/></svg></div></div>
+        <div class="title">Название проекта</div><div class="meta">Короткий метр</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- WORLD PULSE · DATA: лента активности мира (sochi_news_items / triznes_ops_signals / сообщества) -->
+  <section class="section">
+    <div class="section-head"><div class="t-eyebrow">World pulse · сейчас происходит</div></div>
+    <div class="panel" style="padding:4px 16px">
+      <div class="pulse">
+        <div class="item"><span class="pdot"></span><div class="ptxt"><b>Новая сцена в SOCHIWOOD</b><div class="muted t-caption">Съёмка идёт прямо сейчас</div></div><span class="chip live" style="height:20px">Сейчас</span></div>
+        <div class="item"><span class="pdot" style="background:var(--violet);box-shadow:0 0 10px var(--violet)"></span><div class="ptxt"><b>PINK NOIZE собирает сессию</b><div class="muted t-caption">Сообщество · 14 участников</div></div><span class="ptime">2 мин</span></div>
+        <div class="item"><span class="pdot" style="background:var(--gold);box-shadow:0 0 10px var(--gold)"></span><div class="ptxt"><b>Открыта новая роль</b><div class="muted t-caption">Город · Сочи</div></div><span class="ptime">12 мин</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- MOBILE TAB BAR · Я · МИР · + · КИНО · ЯДРО -->
+<nav class="tabbar" aria-label="Основная навигация">
+  <a href="#"><svg width="22" height="22"><use href="#i-user"/></svg>Я</a>
+  <a href="#"><svg width="22" height="22"><use href="#i-globe"/></svg>Мир</a>
+  <a href="#" aria-label="Создать"><span class="plus">+</span></a>
+  <a href="#"><svg width="22" height="22"><use href="#i-film"/></svg>Кино</a>
+  <a href="#" class="on"><img class="logo-mark" src="./assets/triznes-core-128.png" alt="" width="24" height="24">Ядро</a>
+</nav>
+
+<script src="./spline-config.js" defer></script>
+<script src="./triznes-shell-v2.js" defer></script>
+<script src="./triznes-data-v2.js?v=20261029-character-art-v4" defer></script>
+</body>
+</html>

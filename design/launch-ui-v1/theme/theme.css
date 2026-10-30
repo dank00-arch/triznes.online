@@ -1,0 +1,140 @@
+/* TRIZNES — система «Ядро» · Launch UI v1 · Tailwind v4 theme (экспорт Subframe, 2026-10-28)
+   Источник правды — проект Subframe 4fc5f50c012f. Не править руками: обновлять через Subframe CLI. */
+@theme {
+  /* sapphire */
+  --color-brand-50: rgb(11 13 43);
+  --color-brand-100: rgb(17 22 74);
+  --color-brand-200: rgb(24 32 107);
+  --color-brand-300: rgb(33 44 146);
+  --color-brand-400: rgb(44 60 196);
+  --color-brand-500: rgb(59 91 255);
+  --color-brand-600: rgb(92 120 255);
+  --color-brand-700: rgb(128 149 255);
+  --color-brand-800: rgb(169 182 255);
+  --color-brand-900: rgb(212 219 255);
+  --color-brand-primary: var(--color-brand-500);
+
+  /* graphite */
+  --color-neutral-0: rgb(7 4 11);
+  --color-neutral-50: rgb(13 8 20);
+  --color-neutral-100: rgb(21 16 29);
+  --color-neutral-200: rgb(31 25 40);
+  --color-neutral-300: rgb(46 39 56);
+  --color-neutral-400: rgb(74 66 85);
+  --color-neutral-500: rgb(109 100 120);
+  --color-neutral-600: rgb(157 145 167);
+  --color-neutral-700: rgb(196 187 204);
+  --color-neutral-800: rgb(226 220 231);
+  --color-neutral-900: rgb(242 238 246);
+  --color-neutral-950: rgb(247 243 251);
+
+  /* semantic */
+  --color-default-background: var(--color-neutral-0);
+  --color-default-font: var(--color-neutral-950);
+  --color-subtext-color: var(--color-neutral-600);
+  --color-neutral-border: rgb(255 255 255 / 0.09);
+
+  /* glass */
+  --color-glass-surface: rgb(255 255 255 / 0.04);
+  --color-glass-surface-strong: rgb(255 255 255 / 0.08);
+  --color-glass-border: rgb(255 255 255 / 0.09);
+  --color-glass-border-strong: rgb(255 255 255 / 0.18);
+  --color-glass-overlay: rgb(7 4 11 / 0.72);
+
+  /* accents */
+  --color-accent-cyan: rgb(52 231 255);
+  --color-accent-pink: rgb(255 43 214);
+  --color-accent-violet: rgb(139 92 255);
+  --color-core-light: rgb(233 237 255);
+
+  /* status */
+  --color-success: rgb(200 255 57);
+  --color-warning: rgb(255 181 71);
+  --color-error: rgb(255 93 119);
+  --color-special-gold: rgb(255 208 106);
+
+  /* origin — REAL / AI ASSISTED / GENERATED / ARCHIVE */
+  --color-origin-real: rgb(247 243 251);
+  --color-origin-ai-assisted: rgb(52 231 255);
+  --color-origin-generated: rgb(169 139 255);
+  --color-origin-archive: rgb(217 179 140);
+
+  /* Fonts */
+  --text-display-xl: 96px;
+  --text-display-xl--font-weight: 800;
+  --text-display-xl--letter-spacing: -0.045em;
+  --text-display-xl--line-height: 88px;
+  --text-display: 64px;
+  --text-display--font-weight: 800;
+  --text-display--letter-spacing: -0.04em;
+  --text-display--line-height: 64px;
+  --text-heading-1: 40px;
+  --text-heading-1--font-weight: 700;
+  --text-heading-1--letter-spacing: -0.03em;
+  --text-heading-1--line-height: 44px;
+  --text-heading-2: 28px;
+  --text-heading-2--font-weight: 700;
+  --text-heading-2--letter-spacing: -0.02em;
+  --text-heading-2--line-height: 34px;
+  --text-heading-3: 20px;
+  --text-heading-3--font-weight: 600;
+  --text-heading-3--letter-spacing: -0.01em;
+  --text-heading-3--line-height: 26px;
+  --text-body: 15px;
+  --text-body--font-weight: 400;
+  --text-body--letter-spacing: 0em;
+  --text-body--line-height: 24px;
+  --text-body-bold: 15px;
+  --text-body-bold--font-weight: 600;
+  --text-body-bold--letter-spacing: 0em;
+  --text-body-bold--line-height: 24px;
+  --text-caption: 13px;
+  --text-caption--font-weight: 400;
+  --text-caption--letter-spacing: 0em;
+  --text-caption--line-height: 18px;
+  --text-caption-bold: 13px;
+  --text-caption-bold--font-weight: 600;
+  --text-caption-bold--letter-spacing: 0em;
+  --text-caption-bold--line-height: 18px;
+  --text-eyebrow: 11px;
+  --text-eyebrow--font-weight: 600;
+  --text-eyebrow--letter-spacing: 0.28em;
+  --text-eyebrow--line-height: 16px;
+
+  /* Font families */
+  --font-display-xl: Inter;
+  --font-display: Inter;
+  --font-heading-1: Inter;
+  --font-heading-2: Inter;
+  --font-heading-3: Inter;
+  --font-body: Inter;
+  --font-body-bold: Inter;
+  --font-caption: Inter;
+  --font-caption-bold: Inter;
+  --font-eyebrow: Inter;
+
+  /* Box shadows */
+  --shadow-elevation-panel: 0px 20px 60px 0px rgb(0 0 0 / 0.35);
+  --shadow-glow-brand: 0px 0px 40px 0px rgb(92 91 255 / 0.45);
+  --shadow-glow-core: 0px 0px 60px 20px rgb(123 140 255 / 0.4);
+  --shadow-glow-success: 0px 0px 10px 0px rgb(200 255 57 / 0.7);
+
+  /* Border radiuses */
+  --radius-corner-sm: 8px;
+  --radius-corner-md: 12px;
+  --radius-corner-lg: 20px;
+  --radius-corner-xl: 28px;
+  --radius-corner-full: 9999px;
+
+  /* Spacing */
+  --spacing-112: 28rem;
+  --spacing-144: 36rem;
+  --spacing-192: 48rem;
+  --spacing-256: 64rem;
+  --spacing-320: 80rem;
+}
+
+/* Breakpoints (desktop-first): Desktop ≥1440 · Laptop 768–1439 · Mobile ≤767 */
+@custom-variant laptop (@media (max-width: 1439px));
+@custom-variant mobile (@media (max-width: 767px));
+@custom-variant phone (@media (max-width: 430px));

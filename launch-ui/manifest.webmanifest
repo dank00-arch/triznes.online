@@ -1,0 +1,16 @@
+{
+  "name": "TRIZNES · Жизнь в игре",
+  "short_name": "TRIZNES",
+  "description": "Персонажи, карта Сочи, квесты, сообщества и кино твоей жизни.",
+  "lang": "ru",
+  "start_url": "./home.html?source=app",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#07040b",
+  "theme_color": "#07040b",
+  "icons": [
+    { "src": "./assets/triznes-core-128.png", "sizes": "128x128", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./assets/triznes-core.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
