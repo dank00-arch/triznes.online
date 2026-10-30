@@ -10,7 +10,7 @@
   window.TRIZNES_WORLD={
     version:'3.0.0',
     load:()=>rpc('get_triznes_world'),
-    liveNews:(limit=100)=>rpc('get_sochi_live_feed',{p_limit:limit}),
-    liveGame:(limit=50)=>rpc('get_sochi_game_feed',{p_limit:limit})
+    liveNews:(limit=100)=>rpc('get_triznes_live_news',{p_limit:limit}),
+    liveGame:(limit=50)=>rpc('get_triznes_game_stories',{p_limit:limit})
   };
 })();
