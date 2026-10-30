@@ -79,6 +79,11 @@
   document.body.appendChild(status);
   mountSpline();
 
+  const ideas = document.createElement('script');
+  ideas.src = './living-ideas.js?v=20261030-1';
+  ideas.defer = true;
+  document.body.appendChild(ideas);
+
   let scheduled = false;
   window.addEventListener('pointermove', (event) => {
     if (scheduled || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
