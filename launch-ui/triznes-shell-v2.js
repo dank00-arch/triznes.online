@@ -20,7 +20,8 @@
     ['./triznes-visual-v4.css?v=20261030-wordmark-harmony-v6','triznes-visual-v4.css'],
     ['./world-themes.css?v=20261030-world-split-v2','world-themes.css'],
     ['./world-themes-polish.css?v=20261030-world-split-v2','world-themes-polish.css'],
-    ['./navigation-v3.css?v=20261030-nav-v4','navigation-v3.css']
+    ['./navigation-v3.css?v=20261030-nav-v4','navigation-v3.css'],
+    ['./paradise-neon-v2.css?v=20261030-paradise-daylight-neon-v1','paradise-neon-v2.css']
   ];
   css.forEach(([href,key]) => {
     if (document.querySelector(`link[href*="${key}"]`)) return;
@@ -77,7 +78,7 @@
 
   function recolorMap(mode){
     const map=document.querySelector('.page-world-map .mapwrap'); if(!map) return;
-    const pairs=mode==='paradise'?[['#78e1bd','#e8c879'],['#b4d88d','#78e1bd']]:[['#2877ff','#ff2ec8'],['#8058ff','#35e9ff']];
+    const pairs=mode==='paradise'?[['#00e7b0','#ffe23f'],['#00dfff','#caff28']]:[['#2877ff','#ff2ec8'],['#8058ff','#35e9ff']];
     ['#gl1','#gl2'].forEach((sel,i)=>{const grad=map.querySelector(sel);const stops=grad?.querySelectorAll('stop');if(stops?.[0])stops[0].setAttribute('stop-color',pairs[i][0]);if(stops?.[1])stops[1].setAttribute('stop-color',pairs[i][1]);});
   }
 
@@ -87,7 +88,7 @@
     if(persist){try{localStorage.setItem(WORLD_KEY,mode)}catch(_){}}
     document.querySelectorAll('[data-world-choice]').forEach(btn=>{const on=btn.dataset.worldChoice===mode;btn.classList.toggle('on',on);btn.setAttribute('aria-pressed',String(on));btn.setAttribute('aria-selected',String(on));});
     const state=document.querySelector('.tc-rail-state b');if(state)state.textContent=`СОЧИ · ${mode==='paradise'?'РАЙ':'CYBER'}`;
-    const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.content=mode==='paradise'?'#07110c':'#02040c';
+    const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.content=mode==='paradise'?'#f7fff9':'#02040c';
     recolorMap(mode);window.dispatchEvent(new CustomEvent('triznes:world-change',{detail:{world:mode}}));
   }
 
@@ -113,7 +114,7 @@
 
   const status=document.createElement('div');status.className='tc-world-status';status.innerHTML='<i></i><span>TRIZNES WORLD</span><b>ONLINE</b>';document.body.appendChild(status);
   const ideas=document.createElement('script');ideas.src='./living-ideas.js?v=20261030-1';ideas.async=false;document.body.appendChild(ideas);
-  if(screen==='world-map'){const mapLive=document.createElement('script');mapLive.src='./map-live-v2.js?v=20261030-1';mapLive.async=false;document.body.appendChild(mapLive)}
+  if(screen==='world-map'){const mapLive=document.createElement('script');mapLive.src='./map-live-v2.js?v=20261030-real-sochi-v3';mapLive.async=false;document.body.appendChild(mapLive)}
   if(screen==='sochiwood'){const cinema=document.createElement('script');cinema.src='./cinema-unify.js?v=20261030-1';cinema.async=false;document.body.appendChild(cinema)}
 
   let scheduled=false;window.addEventListener('pointermove',event=>{if(scheduled||matchMedia('(prefers-reduced-motion: reduce)').matches)return;scheduled=true;requestAnimationFrame(()=>{document.documentElement.style.setProperty('--mx',`${event.clientX}px`);document.documentElement.style.setProperty('--my',`${event.clientY}px`);const nx=(event.clientX/Math.max(innerWidth,1)-.5)*12;const ny=(event.clientY/Math.max(innerHeight,1)-.5)*8;document.documentElement.style.setProperty('--word-x',`${nx}px`);document.documentElement.style.setProperty('--word-y',`${ny}px`);scheduled=false})},{passive:true});
