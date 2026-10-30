@@ -311,7 +311,22 @@
         const queueByStatus = tally(queue, 'status'), queueByDelivery = tally(queue, 'delivery_status'), queueByRights = tally(queue, 'rights_status');
         const runsByStatus = tally(runs, 'status'), releasesByStatus = tally(releases, 'status');
         const now = Date.now(), DAY = 86400000;
-        const stuck_generating = runs.filter((r) => r.status === 'generating' && Number.isFinite(Date.parse(r.updated_at)) && now - Date.parse(r.updated_at) > DAY).map((r) => ({ id: r.id, title: String(r.title || '').slice(0, 120), stage: String(r?.metadata?.cinema_stage || '—'), age_hours: Math.round((now - Date.parse(r.updated_at)) / 3600000) }));
+        const genRuns = runs.filter((r) => r.status === 'generating' && Number.isFinite(Date.parse(r.updated_at)) && now - Date.parse(r.updated_at) > DAY);
+        // Подтягиваем связанные content_jobs, чтобы показать настоящую причину (read-only; при отсутствии доступа просто опускаем).
+        const jobIds = [...new Set(genRuns.map((r) => String(r?.metadata?.content_job_id || '')).filter((v) => /^[0-9a-f-]{36}$/i.test(v)))];
+        const jobsById = {};
+        if (jobIds.length) { try { const jr = await supabaseClient.from('content_jobs').select('id,status,error_code').in('id', jobIds); (jr.data || []).forEach((j) => { jobsById[j.id] = j; }); } catch (_) { /* нет доступа к content_jobs — покажем причину из метаданных run */ } }
+        const reasonFor = (r) => {
+          const m = r?.metadata || {};
+          const pb = m.provider_blockers && typeof m.provider_blockers === 'object' ? Object.entries(m.provider_blockers).map(([k, v]) => `${k}=${v}`).join(', ') : '';
+          const job = jobsById[String(m.content_job_id || '')];
+          if (pb || m.neurofarm_stage === 'provider_funding_required') return { tag: 'нужно пополнение провайдера', detail: pb || 'provider_funding_required' };
+          if (job && ['delivered', 'ready'].includes(String(job.status))) return { tag: 'джоба готова — run не закрыт', detail: `content_job: ${job.status}` };
+          if (job && ['rejected', 'failed', 'error', 'cancelled'].includes(String(job.status))) return { tag: 'джоба закрыта — run не закрыт', detail: `content_job: ${job.status}${job.error_code ? ' · ' + job.error_code : ''}` };
+          if (m.created_via === 'archive_content_farm' || m.autopublish_series_key) return { tag: 'кампания (штатно)', detail: String(m.production_state || m.series || 'кампания') };
+          return { tag: 'нет данных', detail: String(m.neurofarm_stage || m.cinema_stage || '—') };
+        };
+        const stuck_generating = genRuns.map((r) => { const rc = reasonFor(r); return { id: r.id, title: String(r.title || '').slice(0, 120), stage: String(r?.metadata?.cinema_stage || r?.metadata?.neurofarm_stage || '—'), age_hours: Math.round((now - Date.parse(r.updated_at)) / 3600000), reason_tag: rc.tag, reason_detail: rc.detail }; });
         const failed_runs = runs.filter((r) => r.status === 'partial_failed').map((r) => ({ id: r.id, title: String(r.title || '').slice(0, 120), stage: String(r?.metadata?.cinema_stage || '—'), error: String(r?.metadata?.cinema_error || r?.metadata?.cinema_blocker || '—').slice(0, 200) })).slice(0, 25);
         const data = {
           board: [
@@ -340,7 +355,7 @@
         if (failed.length) alerts.push(`<span class="status" style="background:rgba(217,119,6,.14);color:#b45309">${failed.length} сборок с ошибкой</span>`);
         attention.innerHTML = `<div class="flex items-center justify-between gap-3"><h4 class="font-extrabold">Требует внимания</h4><div class="flex flex-wrap gap-2">${alerts.join('') || '<span class="status ready">чисто</span>'}</div></div>`;
 
-        const stuckHtml = stuck.length ? stuck.map((r) => `<div class="table-row py-3"><div class="flex items-start justify-between gap-3"><div><strong>${escapeHtml(r.title || r.id)}</strong><div class="mono mt-1 text-[10px] text-slate-500">${escapeHtml(r.stage || '—')} · ${Number(r.age_hours) || 0} ч</div></div><span class="status" style="background:rgba(217,119,6,.14);color:#b45309">generating</span></div></div>`).join('') : '<p class="text-sm text-slate-500">Нет застрявших сборок.</p>';
+        const stuckHtml = stuck.length ? stuck.map((r) => `<div class="table-row py-3"><div class="flex items-start justify-between gap-3"><div><strong>${escapeHtml(r.title || r.id)}</strong><div class="mono mt-1 text-[10px] text-slate-500">${escapeHtml(r.stage || '—')} · ${Number(r.age_hours) || 0} ч</div><div class="mt-1 text-[11px] text-slate-600">${escapeHtml(r.reason_detail || '')}</div></div><span class="status" style="background:rgba(217,119,6,.14);color:#b45309">${escapeHtml(r.reason_tag || 'generating')}</span></div></div>`).join('') : '<p class="text-sm text-slate-500">Нет застрявших сборок.</p>';
         const failedHtml = failed.length ? failed.map((r) => `<div class="table-row py-3"><strong>${escapeHtml(r.title || r.id)}</strong><div class="mt-1 text-[11px] text-slate-600">${escapeHtml(r.error || '—')}</div><div class="mono mt-1 text-[10px] text-slate-500">${escapeHtml(r.stage || '—')}</div></div>`).join('') : '<p class="text-sm text-slate-500">Нет сборок с ошибкой.</p>';
         const counters = (title, map) => `<section><h4 class="font-extrabold">${escapeHtml(title)}</h4><div class="mt-2 space-y-1">${Object.entries(map || {}).sort((x, y) => y[1] - x[1]).map(([k, v]) => `<div class="flex items-center justify-between text-sm"><span class="text-slate-600">${escapeHtml(k)}</span><span class="font-bold text-cyan-800">${v}</span></div>`).join('') || '<span class="text-sm text-slate-500">нет данных</span>'}</div></section>`;
         detail.innerHTML = `<div><div class="flex items-center justify-between gap-3"><h4 class="font-extrabold">Застряли в сборке</h4><span class="status pending">${stuck.length}</span></div><div class="mt-3">${stuckHtml}</div><div class="mt-5 flex items-center justify-between gap-3"><h4 class="font-extrabold">Сборки с ошибкой</h4><span class="status pending">${failed.length}</span></div><div class="mt-3">${failedHtml}</div></div>${counters('Очередь публикации', data.queue?.by_status)}${counters('Сборки COLLIDER', data.collider_runs?.by_status)}`;
