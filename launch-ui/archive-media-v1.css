@@ -1,0 +1,9 @@
+/* ARCHIVE / REAL media presentation. Documentary media stays visually distinct from GENERATED. */
+.tc-object-cover{position:relative;aspect-ratio:16/7;margin:-18px -18px 14px;overflow:hidden;border-radius:23px 23px 12px 12px;background:var(--n-100);border-bottom:1px solid var(--world-border)}
+.tc-object-cover img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.tc-object-card:hover .tc-object-cover img{transform:scale(1.035)}
+.tc-object-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,color-mix(in srgb,var(--bg) 48%,transparent));pointer-events:none}
+.tc-media-origin{position:absolute;z-index:2;left:9px;top:9px;display:flex;align-items:center;gap:5px;padding:6px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.36);background:rgba(3,7,10,.58);backdrop-filter:blur(12px);color:#fff;font:800 8px/1 ui-monospace,monospace;letter-spacing:.1em}.tc-media-origin i{width:5px;height:5px;border-radius:50%;background:#8dffb2;box-shadow:0 0 9px #8dffb2}
+.tc-place-gallery{display:flex;gap:8px;overflow-x:auto;margin-top:12px;scrollbar-width:none}.tc-place-gallery::-webkit-scrollbar{display:none}.tc-place-gallery img{width:180px;aspect-ratio:16/8;object-fit:cover;flex:0 0 auto;border-radius:14px;border:1px solid var(--world-border)}
+body.tc[data-world="paradise"] .tc-object-cover{background:#ecfff6;border-color:rgba(0,190,145,.18)}
+body.tc[data-world="paradise"] .tc-object-cover::after{background:linear-gradient(180deg,transparent 50%,rgba(236,255,246,.44))}
