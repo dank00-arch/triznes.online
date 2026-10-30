@@ -9,6 +9,13 @@
     visualV4.href = './triznes-visual-v4.css?v=20261030-wordmark-harmony-v6';
     document.head.appendChild(visualV4);
   }
+  if (!document.querySelector('link[href*="world-themes.css"]')) {
+    const worldThemes = document.createElement('link');
+    worldThemes.rel = 'stylesheet';
+    worldThemes.href = './world-themes.css?v=20261030-world-split-v1';
+    document.head.appendChild(worldThemes);
+  }
+
   const pages = [
     ['home', 'Ядро', 'Домой'],
     ['character', 'Персонаж', 'Мой путь'],
@@ -79,15 +86,20 @@
   document.body.appendChild(status);
   mountSpline();
 
+  const themes = document.createElement('script');
+  themes.src = './world-themes.js?v=20261030-world-split-v1';
+  themes.async = false;
+  document.body.appendChild(themes);
+
   const ideas = document.createElement('script');
   ideas.src = './living-ideas.js?v=20261030-1';
-  ideas.defer = true;
+  ideas.async = false;
   document.body.appendChild(ideas);
 
   if (screen === 'sochiwood') {
     const cinemaGuard = document.createElement('script');
     cinemaGuard.src = './cinema-unify.js?v=20261030-1';
-    cinemaGuard.defer = true;
+    cinemaGuard.async = false;
     document.body.appendChild(cinemaGuard);
   }
 
