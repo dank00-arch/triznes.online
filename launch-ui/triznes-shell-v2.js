@@ -6,7 +6,7 @@
   if (!document.querySelector('link[href*="triznes-visual-v4.css"]')) {
     const visualV4 = document.createElement('link');
     visualV4.rel = 'stylesheet';
-    visualV4.href = './triznes-visual-v4.css?v=20261030-world-v4';
+    visualV4.href = './triznes-visual-v4.css?v=20261030-wordmark-3d-v5';
     document.head.appendChild(visualV4);
   }
   const pages = [
