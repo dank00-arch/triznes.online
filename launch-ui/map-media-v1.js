@@ -6,6 +6,7 @@
   let places=[];
   let last='';
   const esc=(v)=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const safeHttp=(v)=>{try{const u=new URL(String(v||''));return /^https?:$/.test(u.protocol)?u.href:''}catch(_){return ''}};
 
   async function load(){
     const r=await fetch(BASE+'get_triznes_map',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:'{}',cache:'no-store'});
@@ -16,12 +17,29 @@
     const sheet=document.querySelector('.page-world-map .sheet');const title=sheet?.querySelector('.t-h2');if(!sheet||!title)return;
     const name=title.textContent.trim();if(!name||name===last)return;last=name;
     const place=places.find(p=>(p.name||'').trim()===name);if(!place)return;
-    const meta=place.metadata||{};const cover=typeof meta.cover_url==='string'&&meta.cover_url.startsWith('/')?meta.cover_url:'';
+    const meta=place.metadata||{};
+    const cover=typeof meta.cover_url==='string'&&meta.cover_url.startsWith('/')?meta.cover_url:'';
     const gallery=Array.isArray(meta.gallery_urls)?meta.gallery_urls.filter(x=>typeof x==='string'&&x.startsWith('/')):[];
+    const published=safeHttp(meta.published_media_url);
     const media=sheet.querySelector('.media');
-    if(media&&cover){media.innerHTML=`<img src="${esc(cover)}" alt="${esc(place.name)}"><span class="tc-media-origin"><i></i>${esc(String(meta.media_provenance||'ARCHIVE/REAL').toUpperCase())}</span>`;}
+
+    if(media){
+      if(cover){
+        media.innerHTML=`<img src="${esc(cover)}" alt="${esc(place.name)}"><span class="tc-media-origin"><i></i>${esc(String(meta.media_provenance||'ARCHIVE/REAL').toUpperCase())}</span>`;
+      }else{
+        media.innerHTML=`<span class="chip real origin" style="top:6px;left:6px"><span class="dot"></span>${esc(String(place.origin_type||'REAL').toUpperCase())}</span><div class="fmt">REAL PLACE</div><div class="ph">⌖</div>`;
+      }
+    }
+
     sheet.querySelector('.tc-place-gallery')?.remove();
-    if(gallery.length){sheet.insertAdjacentHTML('beforeend',`<div class="tc-place-gallery" aria-label="Архивные фотографии объекта">${gallery.map((url,i)=>`<img src="${esc(url)}" loading="lazy" alt="${esc(place.name)} · архив ${i+1}">`).join('')}</div>`);}
+    sheet.querySelector('.tc-place-published')?.remove();
+    if(gallery.length){
+      sheet.insertAdjacentHTML('beforeend',`<div class="tc-place-gallery" aria-label="Архивные фотографии объекта">${gallery.map((url,i)=>`<img src="${esc(url)}" loading="lazy" alt="${esc(place.name)} · архив ${i+1}">`).join('')}</div>`);
+    }
+    if(published){
+      const label=esc(meta.published_media_title||'Опубликованное кино о локации');
+      sheet.insertAdjacentHTML('beforeend',`<a class="btn secondary block tc-place-published" href="${esc(published)}" target="_blank" rel="noopener noreferrer" style="margin-top:10px">▶ ${label} ↗</a>`);
+    }
   }
 
   function boot(){
