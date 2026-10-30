@@ -1,10 +1,11 @@
-const CACHE = 'triznes-launch-ui-v8-city-nav-20261030-1';
+const CACHE = 'triznes-launch-ui-v9-real-sochi-paradise-20261030-1';
 const CORE = [
   './','./index.html','./entry.html','./home.html','./character.html','./world-map.html','./city-objects.html','./communities.html',
   './sochiwood.html','./neurofarm.html','./community.html','./boards.html',
-  './triznes-core.css','./triznes-visual-v2.css','./triznes-visual-v4.css','./world-themes.css','./world-themes-polish.css','./navigation-v3.css',
-  './triznes-shell-v2.js','./triznes-data-v2.js','./city-directory.js','./map-live-v2.js','./living-ideas.js','./cinema-unify.js','./spline-config.js',
-  './assets/triznes-core-128.png','./assets/triznes-core.png','./assets/characters-v4/daniel-cinematic-v1.webp','./assets/characters-v4/vsevolod-kim-collider-v1.webp','./assets/characters-v4/liberty-abundance-v1.webp','./manifest.webmanifest'
+  './triznes-core.css','./triznes-visual-v2.css','./triznes-visual-v4.css','./world-themes.css','./world-themes-polish.css','./navigation-v3.css','./paradise-neon-v2.css','./archive-media-v1.css','./map-v3.css',
+  './triznes-shell-v2.js','./triznes-data-v2.js','./city-directory.js','./map-live-v2.js','./map-media-v1.js','./living-ideas.js','./cinema-unify.js','./spline-config.js',
+  './assets/triznes-core-128.png','./assets/triznes-core.png','./assets/archive/mediahub/mediahub-cover.webp','./assets/archive/mediahub/mediahub-sea-room.webp',
+  './assets/characters-v4/daniel-cinematic-v1.webp','./assets/characters-v4/vsevolod-kim-collider-v1.webp','./assets/characters-v4/liberty-abundance-v1.webp','./manifest.webmanifest'
 ];
 
 self.addEventListener('install',(event)=>{
