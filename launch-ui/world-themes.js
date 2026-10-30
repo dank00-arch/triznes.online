@@ -65,6 +65,17 @@
     }
   }
 
+  function syncChrome(mode){
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', mode === 'paradise' ? '#07110c' : '#02040c');
+
+    const state = document.querySelector('.tc-rail-state b');
+    if (state) state.textContent = mode === 'paradise' ? 'СОЧИ · РАЙ' : 'СОЧИ · CYBER';
+
+    const worldStatus = document.querySelector('.tc-world-status span');
+    if (worldStatus) worldStatus.textContent = mode === 'paradise' ? 'TRIZNES · РАЙ' : 'TRIZNES · CYBER';
+  }
+
   function apply(mode, persist=true){
     if (!MODES.has(mode)) mode = 'paradise';
     body.dataset.world = mode;
@@ -74,6 +85,7 @@
     }
     syncButtons(mode);
     recolorMap(mode);
+    syncChrome(mode);
     window.dispatchEvent(new CustomEvent('triznes:world-change',{detail:{world:mode}}));
   }
 
