@@ -84,6 +84,13 @@
   ideas.defer = true;
   document.body.appendChild(ideas);
 
+  if (screen === 'sochiwood') {
+    const cinemaGuard = document.createElement('script');
+    cinemaGuard.src = './cinema-unify.js?v=20261030-1';
+    cinemaGuard.defer = true;
+    document.body.appendChild(cinemaGuard);
+  }
+
   let scheduled = false;
   window.addEventListener('pointermove', (event) => {
     if (scheduled || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
