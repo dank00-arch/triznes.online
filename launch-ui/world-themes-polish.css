@@ -53,3 +53,14 @@ body.tc[data-world="paradise"] [data-world-preview="cyber"],
 body.tc[data-world="paradise"] .tc-world-lens.cyber{filter:saturate(.08) brightness(.72)!important;opacity:.44!important}
 body.tc[data-world="cyber"] [data-world-preview="paradise"],
 body.tc[data-world="cyber"] .tc-world-lens.paradise{filter:saturate(.08) brightness(.68)!important;opacity:.40!important}
+
+/* Accessibility and mobile collision guard. */
+.tc-world-switch button:focus-visible{outline:2px solid #eef4ff;outline-offset:2px}
+@media(max-width:899px){
+  .tc-world-switch-floating{top:calc(48px + env(safe-area-inset-top))!important;right:8px!important}
+  .page-entry .tc-world-switch-floating{top:calc(52px + env(safe-area-inset-top))!important}
+}
+@media(max-width:430px){
+  .tc-world-switch-floating{width:136px!important}
+  .tc-world-switch-label{font-size:7px!important}
+}
