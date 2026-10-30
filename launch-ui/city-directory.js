@@ -14,15 +14,17 @@
 
   function normKind(place){
     const raw=String(place.category||place.type||'place').toLowerCase();
-    if(/hotel|гост|villa|отел/.test(raw)) return 'hotel';
+    if(/hotel|гост|villa|отел|residence|резид/.test(raw)) return 'hotel';
     if(/restaurant|cafe|coffee|bar|food|ресторан|каф|кофе/.test(raw)) return 'restaurant';
     if(/studio|media|hub|театр|theatre|venue|площад/.test(raw)) return 'venue';
     if(/service|shop|store|сервис|магаз/.test(raw)) return 'service';
-    if(/landmark|park|street|station|port|гора|мор|парк|улиц/.test(raw)) return 'landmark';
+    if(/landmark|park|street|station|port|гора|мор|парк|улиц|district|район/.test(raw)) return 'landmark';
     return 'place';
   }
-  const kindLabel={hotel:'ГОСТИНИЦА',restaurant:'РЕСТОРАН / КАФЕ',venue:'ПЛОЩАДКА',service:'СЕРВИС',landmark:'МЕСТО',place:'ОБЪЕКТ'};
+  const kindLabel={hotel:'ГОСТИНИЦА / РЕЗИДЕНЦИЯ',restaurant:'РЕСТОРАН / КАФЕ',venue:'ПЛОЩАДКА',service:'СЕРВИС',landmark:'МЕСТО',place:'ОБЪЕКТ'};
   function isPartner(p){const m=p.metadata||{};return m.partner===true||m.is_partner===true||/partner|active/i.test(String(m.partner_status||''));}
+  function cover(p){const m=p.metadata||{};return typeof m.cover_url==='string'&&m.cover_url.startsWith('/')?m.cover_url:''}
+  function mediaOrigin(p){return String(p.metadata?.media_provenance||'').toUpperCase()}
 
   function renderPlaces(data){
     const all=arr(data.places);
@@ -33,11 +35,12 @@
     const draw=()=>{
       const list=filter==='all'?all:all.filter(p=>normKind(p)===filter);
       grid.innerHTML=list.length?list.map(p=>{
-        const kind=normKind(p), partner=isPartner(p);
-        const slug=esc(p.slug||'');
+        const kind=normKind(p), partner=isPartner(p), img=cover(p), origin=mediaOrigin(p);
         const desc=esc(p.description||'Реальная точка города в контуре TRIZNES.');
         const addr=p.address?`<div class="foot"><span>${esc(p.address)}</span><span>→</span></div>`:`<div class="foot"><span>${esc(p.city||'Сочи')}</span><span>→</span></div>`;
-        return `<a class="tc-object-card" href="world-map.html?place=${encodeURIComponent(p.slug||'')}"><div class="top"><span class="kind">${partner?'ПАРТНЁР · ':''}${kindLabel[kind]}</span><span class="reality">${esc(p.reality_status||'REAL')}</span></div><h3>${esc(p.name||'Объект Сочи')}</h3><p>${desc}</p>${addr}</a>`;
+        const media=img?`<div class="tc-object-cover"><img src="${esc(img)}" alt="${esc(p.name||'Объект Сочи')}" loading="lazy"><span class="tc-media-origin"><i></i>${esc(origin||'ARCHIVE/REAL')}</span></div>`:'';
+        const geo=p.latitude!=null&&p.longitude!=null?'<span class="reality">GEO ✓</span>':`<span class="reality">${esc(p.reality_status||'REAL')}</span>`;
+        return `<a class="tc-object-card" href="world-map.html?place=${encodeURIComponent(p.slug||'')}">${media}<div class="top"><span class="kind">${partner?'ПАРТНЁР · ':''}${kindLabel[kind]}</span>${geo}</div><h3>${esc(p.name||'Объект Сочи')}</h3><p>${desc}</p>${addr}</a>`;
       }).join(''):'<div class="tc-empty">В этой категории пока нет подтверждённых публичных объектов.</div>';
     };
     document.querySelectorAll('[data-object-filter]').forEach(btn=>btn.addEventListener('click',()=>{
