@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Нейроферма ТРИЗНЕС"
+description = "Личная студия создания контента с Gemini, Kling и Google Drive, с возможностью дальнейшего расширения на команду."
+version = "1.0.0"
+id = "artifacts/neurofarm"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21686
+
+[services.development]
+run = "pnpm --filter @workspace/neurofarm run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/neurofarm", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/neurofarm/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21686"
+BASE_PATH = "/"
