@@ -115,7 +115,10 @@
 
   const status=document.createElement('div');status.className='tc-world-status';status.innerHTML='<i></i><span>TRIZNES WORLD</span><b>ONLINE</b>';document.body.appendChild(status);
   const ideas=document.createElement('script');ideas.src='./living-ideas.js?v=20261030-1';ideas.async=false;document.body.appendChild(ideas);
-  if(screen==='world-map'){const mapLive=document.createElement('script');mapLive.src='./map-live-v2.js?v=20261030-real-sochi-v3';mapLive.async=false;document.body.appendChild(mapLive)}
+  if(screen==='world-map'){
+    const mapLive=document.createElement('script');mapLive.src='./map-live-v2.js?v=20261030-real-sochi-v3';mapLive.async=false;document.body.appendChild(mapLive);
+    const mapMedia=document.createElement('script');mapMedia.src='./map-media-v1.js?v=20261030-archive-real-v1';mapMedia.async=false;document.body.appendChild(mapMedia);
+  }
   if(screen==='sochiwood'){const cinema=document.createElement('script');cinema.src='./cinema-unify.js?v=20261030-1';cinema.async=false;document.body.appendChild(cinema)}
 
   let scheduled=false;window.addEventListener('pointermove',event=>{if(scheduled||matchMedia('(prefers-reduced-motion: reduce)').matches)return;scheduled=true;requestAnimationFrame(()=>{document.documentElement.style.setProperty('--mx',`${event.clientX}px`);document.documentElement.style.setProperty('--my',`${event.clientY}px`);const nx=(event.clientX/Math.max(innerWidth,1)-.5)*12;const ny=(event.clientY/Math.max(innerHeight,1)-.5)*8;document.documentElement.style.setProperty('--word-x',`${nx}px`);document.documentElement.style.setProperty('--word-y',`${ny}px`);scheduled=false})},{passive:true});
