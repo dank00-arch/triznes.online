@@ -21,7 +21,8 @@
     ['./world-themes.css?v=20261030-world-split-v2','world-themes.css'],
     ['./world-themes-polish.css?v=20261030-world-split-v2','world-themes-polish.css'],
     ['./navigation-v3.css?v=20261030-nav-v4','navigation-v3.css'],
-    ['./paradise-neon-v2.css?v=20261030-paradise-daylight-neon-v1','paradise-neon-v2.css']
+    ['./paradise-neon-v2.css?v=20261030-paradise-daylight-neon-v1','paradise-neon-v2.css'],
+    ['./archive-media-v1.css?v=20261030-archive-real-v1','archive-media-v1.css']
   ];
   css.forEach(([href,key]) => {
     if (document.querySelector(`link[href*="${key}"]`)) return;
