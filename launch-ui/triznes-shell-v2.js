@@ -13,7 +13,7 @@
     ['home', 'Ядро', 'Домой'],
     ['character', 'Персонаж', 'Мой путь'],
     ['world-map', 'Мир', 'Карта Сочи'],
-    ['sochiwood', 'Кино', 'SOCHIWOOD'],
+    ['sochiwood', 'Кинотеатр', 'SOCHIWOOD'],
     ['neurofarm', 'Ферма', 'Медиа → кино'],
     ['community', 'Связи', 'Сообщества'],
     ['boards', 'Пульт', 'Соединить мир']
@@ -53,7 +53,6 @@
       <a class="tc-rail-brand" href="home.html"><img src="./assets/triznes-core-128.png" alt=""><span><b>TRIZNES</b><small>ЖИЗНЬ В ИГРЕ</small></span></a>
       <div class="tc-rail-state"><i></i><span>МИР АКТИВЕН</span><b>СОЧИ · 01</b></div>
       <nav>${pages.map(([id, title, copy], index) => `<a href="${id}.html" class="${screen === id ? 'on' : ''}" ${screen === id ? 'aria-current="page"' : ''}><em>0${index + 1}</em><span><b>${title}</b><small>${copy}</small></span></a>`).join('')}</nav>
-      <a class="tc-rail-apollon" href="/watch.html"><i>▶</i><span><b>КИНОТЕАТР</b><small>зрительский слой</small></span></a>
       <a class="tc-rail-apollon" href="https://t.me/danielsassis_bot?start=register" target="_blank" rel="noopener"><i>✦</i><span><b>APOLLON</b><small>начать диалог</small></span></a>
     `;
     document.body.prepend(rail);
@@ -66,7 +65,7 @@
 
   const iconRoutes = {
     'Люди': 'character.html', 'Идеи': 'boards.html', 'События': 'world-map.html',
-    'Нейроферма': 'neurofarm.html', 'Кино': 'sochiwood.html', 'Сообщества': 'community.html',
+    'Нейроферма': 'neurofarm.html', 'Кино': 'sochiwood.html', 'Кинотеатр': 'sochiwood.html', 'Сообщества': 'community.html',
     'Игра': 'world-map.html', 'Архив': 'neurofarm.html', 'Город': 'world-map.html'
   };
   document.querySelectorAll('.iconnav a').forEach((link) => {
