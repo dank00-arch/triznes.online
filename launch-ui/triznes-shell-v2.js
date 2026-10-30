@@ -3,6 +3,12 @@
   'use strict';
 
   const screen = (location.pathname.split('/').pop() || 'home.html').replace('.html', '');
+  if (!document.querySelector('link[href*="triznes-visual-v4.css"]')) {
+    const visualV4 = document.createElement('link');
+    visualV4.rel = 'stylesheet';
+    visualV4.href = './triznes-visual-v4.css?v=20261030-world-v4';
+    document.head.appendChild(visualV4);
+  }
   const pages = [
     ['home', 'Ядро', 'Домой'],
     ['character', 'Персонаж', 'Мой путь'],
@@ -80,6 +86,10 @@
     requestAnimationFrame(() => {
       document.documentElement.style.setProperty('--mx', `${event.clientX}px`);
       document.documentElement.style.setProperty('--my', `${event.clientY}px`);
+      const nx = (event.clientX / Math.max(innerWidth, 1) - .5) * 12;
+      const ny = (event.clientY / Math.max(innerHeight, 1) - .5) * 8;
+      document.documentElement.style.setProperty('--word-x', `${nx}px`);
+      document.documentElement.style.setProperty('--word-y', `${ny}px`);
       scheduled = false;
     });
   }, { passive: true });

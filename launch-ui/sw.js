@@ -1,8 +1,8 @@
-const CACHE = 'triznes-launch-ui-v4-real-character-art-20261029-3';
+const CACHE = 'triznes-launch-ui-v5-world-visual-20261029-1';
 const CORE = [
   './', './index.html', './entry.html', './home.html', './character.html', './world-map.html',
   './sochiwood.html', './neurofarm.html', './community.html', './boards.html',
-  './triznes-core.css', './triznes-visual-v2.css', './triznes-shell-v2.js', './triznes-data-v2.js', './spline-config.js',
+  './triznes-core.css', './triznes-visual-v2.css', './triznes-visual-v4.css', './triznes-shell-v2.js', './triznes-data-v2.js', './spline-config.js',
   './assets/triznes-core-128.png', './assets/triznes-core.png',
   './assets/characters-v4/daniel-cinematic-v1.webp', './assets/characters-v4/vsevolod-kim-collider-v1.webp',
   './assets/characters-v4/liberty-abundance-v1.webp', './manifest.webmanifest'

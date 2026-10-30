@@ -1,0 +1,94 @@
+/* TRIZNES WORLD · visual release v4
+   A cinematic game interface shared by desktop and mobile. */
+:root{
+  --v4-ice:#bff8ff;
+  --v4-blue:#2877ff;
+  --v4-violet:#8c4cff;
+  --v4-pink:#ff2ec8;
+  --v4-gold:#ffd789;
+  --v4-ink:#03030a;
+  --v4-panel:rgba(10,7,20,.62);
+  --word-x:0px;
+  --word-y:0px;
+}
+
+body.tc{background:#030309;isolation:isolate}
+body.tc::after{opacity:.1;background-size:72px 72px;transform:perspective(650px) rotateX(62deg) scale(1.55);transform-origin:50% 100%}
+
+/* The entry is a portal, not a narrow landing page. */
+.page-entry .screen{display:block!important;width:100%;max-width:none;margin:0;padding:0 0 max(74px,env(safe-area-inset-bottom))}
+.page-entry .hero-cine{
+  position:relative!important;height:100svh;min-height:680px;max-height:1040px;display:grid!important;place-items:center;overflow:hidden;border:0!important;border-radius:0!important;
+  background:radial-gradient(circle at 50% 42%,rgba(117,84,255,.28),transparent 27%),#030309;
+}
+.page-entry .hero-cine>video,.page-entry .hero-cine>.holo,.page-entry .hero-cine>.veil{position:absolute!important;inset:0!important}
+.page-entry .hero-cine>video{width:100%;height:100%;object-fit:cover;filter:saturate(1.18) contrast(1.08) brightness(.78)}
+.page-entry .hero-cine>.veil{background:
+  radial-gradient(circle at 50% 43%,transparent 0 18%,rgba(3,3,10,.08) 36%,rgba(3,3,10,.8) 100%),
+  linear-gradient(180deg,rgba(2,2,8,.12),rgba(2,2,8,.08) 48%,rgba(2,2,8,.94) 100%)}
+.page-entry .hero-cine>.content{position:relative!important;z-index:4!important;width:min(900px,calc(100% - 32px));padding:72px 18px 34px;text-align:center}
+.page-entry .live-ping{width:max-content;margin:0 auto 14px;padding:7px 13px;border:1px solid rgba(191,248,255,.22);border-radius:999px;background:rgba(3,3,10,.38);backdrop-filter:blur(15px);font:750 9px/1 var(--font);letter-spacing:.2em;text-transform:uppercase;color:var(--v4-ice)}
+.page-entry .live-ping i{display:inline-block;width:6px;height:6px;margin-right:8px;border-radius:50%;background:#8dff69;box-shadow:0 0 13px #8dff69;animation:v4-pulse 1.8s ease-in-out infinite}
+
+/* Living emblem: chromatic depth + slow impossible rotation. */
+.wordmark-wrap{position:relative;display:grid;place-items:center;width:min(890px,100%);margin:2px auto 0;perspective:900px}
+.wordmark-wrap::before{content:"";position:absolute;width:min(74vw,650px);aspect-ratio:1;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 7%,rgba(40,119,255,.34),transparent 29%,rgba(255,46,200,.3),transparent 58%,rgba(255,215,137,.25),transparent 86%);filter:blur(16px);opacity:.8;animation:v4-halo 16s linear infinite;mask:radial-gradient(circle,transparent 0 56%,#000 58% 61%,transparent 63%)}
+.wordmark{
+  position:relative;margin:0;transform:translate3d(var(--word-x),var(--word-y),0) rotateX(-2deg);transform-style:preserve-3d;
+  font:900 clamp(58px,13.2vw,174px)/.82 var(--font);letter-spacing:-.085em;text-indent:-.04em;text-transform:uppercase;
+  color:transparent;background:linear-gradient(105deg,#fff 1%,var(--v4-ice) 15%,#5ba0ff 28%,#d472ff 46%,var(--v4-pink) 62%,var(--v4-gold) 81%,#fff 98%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
+  filter:drop-shadow(0 5px 0 rgba(12,6,35,.95)) drop-shadow(0 12px 19px rgba(0,0,0,.6)) drop-shadow(0 0 26px rgba(126,93,255,.45));
+  animation:v4-spectrum 7s ease-in-out infinite;
+}
+.wordmark::before,.wordmark::after{content:attr(data-word);position:absolute;inset:0;pointer-events:none;-webkit-text-stroke:1px transparent;color:transparent}
+.wordmark::before{z-index:-1;transform:translate3d(8px,9px,-35px);-webkit-text-stroke:2px rgba(28,226,255,.46);filter:blur(.3px)}
+.wordmark::after{z-index:-2;transform:translate3d(-8px,-4px,-70px);-webkit-text-stroke:2px rgba(255,43,203,.36);filter:blur(1px)}
+.world-subtitle{margin:15px auto 0;color:#fff;font:800 clamp(17px,2vw,24px)/1.2 var(--font);letter-spacing:.18em;text-transform:uppercase;text-shadow:0 5px 24px #000}
+.world-promise{max-width:650px;margin:10px auto 0;color:rgba(241,238,248,.78);font-size:clamp(14px,1.5vw,18px);line-height:1.55;text-wrap:balance}
+.hero-actions{display:flex;justify-content:center;gap:10px;max-width:680px;margin:26px auto 0}
+.hero-actions .btn{width:auto;min-width:250px;min-height:56px;padding:0 24px;background:rgba(8,5,16,.46);backdrop-filter:blur(18px)}
+.hero-actions .btn.primary{border:1px solid rgba(255,255,255,.25);background:linear-gradient(110deg,rgba(38,94,255,.94),rgba(144,69,255,.94) 52%,rgba(255,45,198,.94));box-shadow:0 20px 60px rgba(76,73,255,.38),inset 0 1px rgba(255,255,255,.42)}
+.hero-actions .btn:hover{transform:translateY(-4px) scale(1.02)}
+
+.hero-hud{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:min(640px,100%);margin:22px auto 0}
+.hero-hud a{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:10px;min-height:62px;padding:10px 13px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:rgba(5,4,13,.46);backdrop-filter:blur(18px);text-align:left;transition:.25s}
+.hero-hud a:hover{border-color:rgba(115,230,255,.38);background:rgba(29,18,64,.58);transform:translateY(-3px)}
+.hero-hud i{display:grid;place-items:center;width:34px;height:34px;border-radius:12px;background:linear-gradient(145deg,rgba(62,132,255,.27),rgba(255,46,200,.18));color:var(--v4-ice);font-style:normal;box-shadow:inset 0 1px rgba(255,255,255,.16)}
+.hero-hud b{display:block;font-size:11px;line-height:1.2}.hero-hud small{display:block;margin-top:4px;color:var(--n-600);font-size:9px;line-height:1.15}
+.page-entry .reel-sound{position:absolute;z-index:7;right:20px;bottom:22px;margin:0}
+.page-entry .reel-credit{position:absolute;z-index:7;left:20px;bottom:25px;text-align:left}
+.scroll-signal{position:absolute;z-index:5;left:50%;bottom:16px;width:22px;height:35px;border:1px solid rgba(255,255,255,.26);border-radius:15px;transform:translateX(-50%)}
+.scroll-signal::after{content:"";position:absolute;top:7px;left:50%;width:3px;height:7px;border-radius:3px;background:#fff;transform:translateX(-50%);animation:v4-scroll 1.8s ease-in-out infinite}
+
+/* Sections read as a connected game journal on large displays. */
+.page-entry .screen>.section:not(.hero-cine){width:min(1180px,calc(100% - 36px));margin-left:auto;margin-right:auto}
+.page-entry #manifest{position:relative;padding:clamp(24px,4vw,52px);border:1px solid rgba(255,255,255,.09);border-radius:34px;background:radial-gradient(circle at 15% 5%,rgba(57,116,255,.13),transparent 34%),linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015));box-shadow:0 40px 120px rgba(0,0,0,.25)}
+.page-entry #manifest::before{content:"МАНИФЕСТ · 01";position:absolute;right:28px;top:22px;color:rgba(255,255,255,.16);font:800 10px/1 ui-monospace,monospace;letter-spacing:.2em}
+.page-entry .chain{display:grid;grid-template-columns:repeat(9,1fr);gap:8px;align-items:center}
+.page-entry .chain .node{min-width:0;padding:14px 5px;border:1px solid rgba(255,255,255,.07);border-radius:14px;background:rgba(255,255,255,.025);font-size:8px;letter-spacing:.08em}
+.page-entry .chain .node::after{left:100%;top:50%;width:8px;height:1px;transform:none;background:linear-gradient(90deg,rgba(124,142,255,.7),transparent)}
+.page-entry .chain .node.core{width:auto;height:auto;margin:0;color:#fff;background:linear-gradient(135deg,rgba(52,231,255,.12),rgba(255,43,214,.12));border-color:rgba(120,180,255,.28)}
+
+/* Upgrade the whole application shell, not only the door. */
+.tc-rail{border-color:rgba(255,255,255,.11);background:linear-gradient(180deg,rgba(12,8,24,.84),rgba(5,4,12,.76));box-shadow:0 30px 90px rgba(0,0,0,.46),inset 0 1px rgba(255,255,255,.08)}
+.tc-rail nav a{position:relative;overflow:hidden}.tc-rail nav a::after{content:"";position:absolute;inset:auto 12px 7px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent);transform:scaleX(0);transform-origin:left;transition:.25s}.tc-rail nav a:hover::after,.tc-rail nav a.on::after{transform:scaleX(1)}
+.panel,.card,.portal,.bcard{border-color:rgba(255,255,255,.1);background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.016));backdrop-filter:blur(22px)}
+.btn{position:relative;overflow:hidden}.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 28%,rgba(255,255,255,.24),transparent 72%);transform:translateX(-120%);transition:transform .65s}.btn:hover::after{transform:translateX(120%)}
+
+@keyframes v4-spectrum{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+@keyframes v4-halo{to{transform:rotate(360deg)}}
+@keyframes v4-pulse{50%{opacity:.42;transform:scale(.72)}}
+@keyframes v4-scroll{0%{opacity:0;transform:translate(-50%,0)}40%{opacity:1}100%{opacity:0;transform:translate(-50%,12px)}}
+
+@media(max-width:899px){
+  .page-entry .hero-cine>.content{padding:58px 16px 92px}
+  .wordmark{font-size:clamp(54px,18vw,82px)}
+  .wordmark-wrap::before{width:88vw}
+  .world-subtitle{font-size:14px;letter-spacing:.12em}
+  .hero-actions{display:grid;gap:9px}.hero-actions .btn{width:100%;min-width:0}
+  .hero-hud{grid-template-columns:repeat(3,1fr)}.hero-hud a{display:grid;justify-items:center;text-align:center;padding:9px 5px}.hero-hud small{display:none}
+  .page-entry .reel-sound{right:14px;bottom:16px}.page-entry .reel-credit{left:14px;bottom:19px}.scroll-signal{display:none}
+  .page-entry .chain{display:flex;flex-direction:column}.page-entry .chain .node{width:min(280px,100%)}.page-entry .chain .node::after{left:50%;top:100%;width:1px;height:8px}
+}
+@media(max-width:540px){.page-entry .reel-credit{display:none}.page-entry .hero-cine>.content{padding-bottom:72px}.hero-hud b{font-size:9px}.hero-hud i{width:30px;height:30px}}
+@media(prefers-reduced-motion:reduce){.wordmark,.wordmark-wrap::before,.scroll-signal::after{animation:none!important}.wordmark{transform:none}}

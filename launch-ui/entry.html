@@ -9,8 +9,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="./triznes-core.css?v=20261029-character-art-v4">
-<link rel="stylesheet" href="./triznes-visual-v2.css?v=20261029-character-art-v4">
+<link rel="stylesheet" href="./triznes-core.css?v=20261029-world-v4">
+<link rel="stylesheet" href="./triznes-visual-v2.css?v=20261029-world-v4">
+<link rel="stylesheet" href="./triznes-visual-v4.css?v=20261029-world-v4">
 <!-- ПЕРЕНОС ЭКРАНА 01 ENTRY (Subframe page ff4f4db1…) · phone-first (≤430).
      Дверь в индивидуальный путь: цепочка ядра · 3 шага · вход.
      Тексты — шаблоны дизайна; реальные люди/факты не выдуманы; блоки помечены DATA:.
@@ -40,15 +41,21 @@
     <div class="content">
       <div class="live-ping"><i></i>Сочи · Live · Жизнь в игре</div>
       <div class="core" role="img" aria-label="TRIZNES — ядро" style="width:116px;height:116px;margin:14px auto 0"><img src="./assets/triznes-core.png" alt="TRIZNES — ядро" width="116" height="116" fetchpriority="high"></div>
-      <h1 class="wordmark" data-word="ТРИЗНЕС">ТРИЗНЕС</h1>
-      <p class="muted" style="max-width:350px;margin:16px auto 0;font-size:16px">Твоя реальная жизнь становится кино, игрой и творчеством. Прямо сейчас, в Сочи.</p>
-      <div style="display:grid;gap:11px;max-width:360px;margin:24px auto 0">
+      <div class="wordmark-wrap"><h1 class="wordmark" data-word="ТРИЗНЕС">ТРИЗНЕС</h1></div>
+      <div class="world-subtitle">Сочи · Жизнь в игре</div>
+      <p class="world-promise">Твоя реальная жизнь становится кино, игрой и творчеством. Город отвечает на действие, а путь каждого превращается в его фильм.</p>
+      <div class="hero-actions">
         <a class="btn primary block" href="#manifest"><svg width="18" height="18"><use href="#i-mask"/></svg>Войти в игру — стать персонажем →</a>
         <a class="btn secondary block" href="world-map.html"><svg width="18" height="18"><use href="#i-globe"/></svg>Посмотреть мир — как зритель</a>
       </div>
-      <div class="muted t-caption" style="margin-top:12px;max-width:340px;margin-left:auto;margin-right:auto">Игрок — ты в кадре и в игре. Зритель — смотришь, как живёт мир.</div>
+      <nav class="hero-hud" aria-label="Миры платформы">
+        <a href="character.html"><i>01</i><span><b>ПЕРСОНАЖ</b><small>профиль · путь · квесты</small></span></a>
+        <a href="world-map.html"><i>02</i><span><b>ЖИВОЙ ГОРОД</b><small>карта · сцены · маршруты</small></span></a>
+        <a href="sochiwood.html"><i>03</i><span><b>ТВОЁ КИНО</b><small>архив · фильм · премьера</small></span></a>
+      </nav>
       <button class="reel-sound" id="reelSound" type="button" aria-pressed="false" aria-label="Включить звук фильма"><span>◖</span><b>Включить звук фильма</b></button>
       <div class="reel-credit"><span>СЕЙЧАС В КАДРЕ</span><b id="heroReelTitle">СОЧИ · ГОРОД-ИГРА</b></div>
+      <span class="scroll-signal" aria-hidden="true"></span>
     </div>
   </section>
 
@@ -210,8 +217,8 @@
   sync();
 })();
 </script>
-<script src="./spline-config.js?v=20261029-cinematic-v3" defer></script>
-<script src="./triznes-shell-v2.js?v=20261029-cinematic-v3" defer></script>
-<script src="./triznes-data-v2.js?v=20261029-character-art-v4" defer></script>
+<script src="./spline-config.js?v=20261029-world-v4" defer></script>
+<script src="./triznes-shell-v2.js?v=20261029-world-v4" defer></script>
+<script src="./triznes-data-v2.js?v=20261029-world-v4" defer></script>
 </body>
 </html>
