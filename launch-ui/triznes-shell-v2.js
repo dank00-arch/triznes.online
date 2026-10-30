@@ -15,6 +15,12 @@
     worldThemes.href = './world-themes.css?v=20261030-world-split-v1';
     document.head.appendChild(worldThemes);
   }
+  if (!document.querySelector('link[href*="world-themes-polish.css"]')) {
+    const worldPolish = document.createElement('link');
+    worldPolish.rel = 'stylesheet';
+    worldPolish.href = './world-themes-polish.css?v=20261030-world-split-v1';
+    document.head.appendChild(worldPolish);
+  }
 
   const pages = [
     ['home', 'Ядро', 'Домой'],
