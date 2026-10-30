@@ -1,0 +1,157 @@
+/* TRIZNES WORLD THEMES v1
+   One neutral kernel, two strictly separated visual languages.
+   PARADISE: warm abundance / living light / gold + mint.
+   CYBER: cold system / electric geometry / cyan + violet + magenta.
+   No legacy data logic is changed here. */
+
+:root{
+  --world-bg:#07040b;
+  --world-surface:rgba(255,255,255,.04);
+  --world-surface-strong:rgba(255,255,255,.08);
+  --world-text:#f7f3fb;
+  --world-muted:#9d91a7;
+  --world-border:rgba(255,255,255,.10);
+  --world-accent:#8095ff;
+  --world-accent-2:#b8c4ff;
+  --world-accent-3:#dfe5ff;
+  --world-glow:rgba(128,149,255,.24);
+}
+
+body.tc[data-world="paradise"]{
+  --bg:#07110c; --fg:#f8f4e8; --subtext:#aab9ad;
+  --n-0:#07110c; --n-50:#0b1710; --n-100:#102016; --n-200:#172b1e; --n-300:#254232;
+  --n-400:#456452; --n-500:#718679; --n-600:#aab9ad; --n-700:#ced8cf; --n-800:#e8eee7; --n-900:#f3f5ef; --n-950:#fffaf0;
+  --brand-500:#49b892; --brand-600:#72cfaa; --brand-700:#9be1c2;
+  --cyan:#78e1bd; --pink:#e5c16d; --violet:#8cbd8a; --gold:#e8c879;
+  --success:#9ee7a7; --warning:#e6b765; --error:#ff7f78;
+  --origin-real:#f7f1e2; --origin-ai:#8ed9c0; --origin-generated:#d6bd7c; --origin-archive:#b6aa96;
+  --glass:rgba(247,242,224,.045); --glass-strong:rgba(247,242,224,.085);
+  --glass-border:rgba(230,201,121,.13); --glass-border-strong:rgba(230,201,121,.25); --glass-overlay:rgba(5,15,10,.78);
+  --world-bg:#07110c; --world-surface:rgba(247,242,224,.045); --world-surface-strong:rgba(247,242,224,.085);
+  --world-text:#fff8e8; --world-muted:#afbeb1; --world-border:rgba(230,201,121,.18);
+  --world-accent:#e8c879; --world-accent-2:#78e1bd; --world-accent-3:#f4ead0; --world-glow:rgba(120,225,189,.20);
+  --r-lg:24px; --r-xl:34px;
+  background:
+    radial-gradient(62% 48% at 18% -4%,rgba(232,200,121,.16),transparent 66%),
+    radial-gradient(58% 44% at 88% 12%,rgba(120,225,189,.13),transparent 68%),
+    linear-gradient(180deg,#07110c 0%,#0a1710 52%,#07110c 100%);
+}
+
+body.tc[data-world="cyber"]{
+  --bg:#02040c; --fg:#eff9ff; --subtext:#8995b5;
+  --n-0:#02040c; --n-50:#050816; --n-100:#080c20; --n-200:#0d1330; --n-300:#151d45;
+  --n-400:#26345f; --n-500:#53618a; --n-600:#8995b5; --n-700:#bac7df; --n-800:#dbe8f7; --n-900:#edf7ff; --n-950:#f7fcff;
+  --brand-500:#2877ff; --brand-600:#4d91ff; --brand-700:#7badff;
+  --cyan:#35e9ff; --pink:#ff2ec8; --violet:#8058ff; --gold:#8ca6ff;
+  --success:#6cffd3; --warning:#ff9f5b; --error:#ff537a;
+  --origin-real:#eef9ff; --origin-ai:#35e9ff; --origin-generated:#9b7cff; --origin-archive:#8995b5;
+  --glass:rgba(17,25,55,.34); --glass-strong:rgba(26,37,76,.52);
+  --glass-border:rgba(53,233,255,.13); --glass-border-strong:rgba(53,233,255,.27); --glass-overlay:rgba(2,4,12,.82);
+  --world-bg:#02040c; --world-surface:rgba(17,25,55,.34); --world-surface-strong:rgba(26,37,76,.52);
+  --world-text:#eff9ff; --world-muted:#8995b5; --world-border:rgba(53,233,255,.18);
+  --world-accent:#35e9ff; --world-accent-2:#8058ff; --world-accent-3:#ff2ec8; --world-glow:rgba(53,233,255,.20);
+  --r-lg:12px; --r-xl:18px;
+  background:
+    radial-gradient(62% 44% at 14% -4%,rgba(40,119,255,.19),transparent 62%),
+    radial-gradient(52% 42% at 90% 8%,rgba(128,88,255,.16),transparent 62%),
+    radial-gradient(45% 34% at 74% 74%,rgba(255,46,200,.07),transparent 70%),
+    #02040c;
+}
+
+/* Shared kernel stays neutral: sapphire/white, never borrows either world's secondary palette. */
+body.tc[data-world] .core img,
+body.tc[data-world] .logo-mark{filter:drop-shadow(0 0 10px rgba(145,165,255,.34)) drop-shadow(0 0 22px rgba(84,108,255,.18))}
+body.tc[data-world] .core::before{background:radial-gradient(circle,rgba(165,179,255,.22),rgba(88,108,255,.12) 56%,transparent 72%)}
+
+/* Common world-aware components. */
+body.tc[data-world] .t-eyebrow,
+body.tc[data-world] .section-head .link,
+body.tc[data-world] .link{color:var(--world-accent)}
+body.tc[data-world] .panel,
+body.tc[data-world] .card,
+body.tc[data-world] .portal,
+body.tc[data-world] .bcard{background:var(--world-surface);border-color:var(--world-border)}
+body.tc[data-world] .btn.primary{background:linear-gradient(112deg,var(--world-accent),var(--world-accent-2));box-shadow:0 18px 52px var(--world-glow)}
+body.tc[data-world] .progress>i{background:linear-gradient(90deg,var(--world-accent),var(--world-accent-2))}
+body.tc[data-world] .seg{background:var(--world-surface);border-color:var(--world-border)}
+body.tc[data-world] .seg button.on{background:linear-gradient(112deg,var(--world-accent),var(--world-accent-2));color:var(--n-950)}
+body.tc[data-world] .tc-world-status{border-color:var(--world-border)}
+body.tc[data-world] .tc-legacy-strength{background:var(--world-surface)!important;border-color:var(--world-border)!important}
+body.tc[data-world] .tc-legacy-strength .tc-k{color:var(--world-accent)!important}
+body.tc[data-world] .tc-cycle span,
+body.tc[data-world] .tc-world-lens,
+body.tc[data-world] .tc-signal-rule span{border-color:var(--world-border)!important;background:var(--world-surface)!important}
+body.tc[data-world] .tc-cycle i{color:var(--world-accent)!important}
+
+/* PARADISE language: soft light, organic forms, no magenta/violet decoration. */
+body.tc[data-world="paradise"]::after{opacity:.025!important;background-image:radial-gradient(circle at center,rgba(232,200,121,.55) 0 1px,transparent 1.5px)!important;background-size:38px 38px!important;transform:none!important}
+body.tc[data-world="paradise"] .tc-rail{background:linear-gradient(180deg,rgba(10,24,15,.90),rgba(6,16,10,.84));border-color:rgba(232,200,121,.18);box-shadow:0 30px 90px rgba(0,0,0,.36),inset 0 1px rgba(255,248,225,.06)}
+body.tc[data-world="paradise"] .tc-rail nav a::after{background:linear-gradient(90deg,#78e1bd,#e8c879,transparent)}
+body.tc[data-world="paradise"] .media{background:radial-gradient(110% 90% at 22% 0,rgba(232,200,121,.09),transparent 58%),#0c1b12;border-color:rgba(232,200,121,.14)}
+body.tc[data-world="paradise"] .card:hover{border-color:rgba(120,225,189,.30);box-shadow:0 18px 48px rgba(15,48,31,.24)}
+body.tc[data-world="paradise"] .chip.live,
+body.tc[data-world="paradise"] .chip.ai{color:#78e1bd;border-color:rgba(120,225,189,.28)}
+body.tc[data-world="paradise"] .chip.gold,
+body.tc[data-world="paradise"] .chip.generated{color:#e8c879;border-color:rgba(232,200,121,.30)}
+body.tc[data-world="paradise"] .tc-world-lens.paradise{border-color:rgba(120,225,189,.38)!important;box-shadow:inset 0 0 30px rgba(120,225,189,.055)}
+body.tc[data-world="paradise"] .tc-world-lens.paradise b{color:#8eebc8!important}
+body.tc[data-world="paradise"] .tc-world-lens.cyber{opacity:.48;filter:saturate(.25)}
+body.tc[data-world="paradise"] .mapwrap{background:
+  radial-gradient(54% 42% at 26% 28%,rgba(120,225,189,.14),transparent 68%),
+  radial-gradient(50% 46% at 80% 70%,rgba(232,200,121,.12),transparent 68%),
+  linear-gradient(155deg,#0a1b12,#0e2016 52%,#08140e);border:1px solid rgba(232,200,121,.12)}
+body.tc[data-world="paradise"] .mapwrap::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 55%,rgba(255,247,219,.055),transparent 38%);mix-blend-mode:screen}
+body.tc[data-world="paradise"] .marker .dotm,
+body.tc[data-world="paradise"] .marker .lab{background:rgba(8,22,14,.84);border-color:rgba(232,200,121,.18)}
+body.tc[data-world="paradise"] .marker.pink .dotm{border-color:#e8c879;box-shadow:0 0 18px rgba(232,200,121,.28)}
+body.tc[data-world="paradise"] .marker.cyan .dotm{border-color:#78e1bd;color:#78e1bd}
+body.tc[data-world="paradise"] .recenter{border-color:#78e1bd;color:#78e1bd;background:rgba(8,22,14,.84)}
+
+/* CYBER language: hard geometry, grid, electric contrast, no warm/gold wash. */
+body.tc[data-world="cyber"]::after{opacity:.13!important;background-image:linear-gradient(rgba(53,233,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(53,233,255,.08) 1px,transparent 1px)!important;background-size:44px 44px!important;transform:perspective(650px) rotateX(62deg) scale(1.55)!important;transform-origin:50% 100%!important}
+body.tc[data-world="cyber"] .tc-rail{background:linear-gradient(180deg,rgba(5,8,22,.94),rgba(2,4,13,.90));border-color:rgba(53,233,255,.15);box-shadow:0 30px 90px rgba(0,0,0,.58),inset 0 1px rgba(53,233,255,.05)}
+body.tc[data-world="cyber"] .tc-rail nav a::after{background:linear-gradient(90deg,#35e9ff,#8058ff,#ff2ec8,transparent)}
+body.tc[data-world="cyber"] .panel,
+body.tc[data-world="cyber"] .card,
+body.tc[data-world="cyber"] .portal,
+body.tc[data-world="cyber"] .bcard{box-shadow:inset 0 1px rgba(53,233,255,.035),0 18px 52px rgba(0,0,0,.30)}
+body.tc[data-world="cyber"] .media{background:linear-gradient(155deg,rgba(40,119,255,.08),rgba(128,88,255,.055)),#050817;border-color:rgba(53,233,255,.13)}
+body.tc[data-world="cyber"] .card:hover{border-color:rgba(53,233,255,.32);box-shadow:0 0 0 1px rgba(53,233,255,.05),0 20px 54px rgba(16,45,94,.30)}
+body.tc[data-world="cyber"] .chip.gold{color:#a9b8ff;border-color:rgba(140,166,255,.28)}
+body.tc[data-world="cyber"] .tc-world-lens.cyber{border-color:rgba(53,233,255,.34)!important;box-shadow:inset 0 0 34px rgba(53,233,255,.05)}
+body.tc[data-world="cyber"] .tc-world-lens.cyber b{color:#35e9ff!important}
+body.tc[data-world="cyber"] .tc-world-lens.paradise{opacity:.42;filter:saturate(.15)}
+body.tc[data-world="cyber"] .mapwrap{background:
+  linear-gradient(rgba(53,233,255,.045) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(53,233,255,.045) 1px,transparent 1px),
+  radial-gradient(55% 48% at 25% 24%,rgba(40,119,255,.17),transparent 65%),
+  radial-gradient(45% 42% at 82% 72%,rgba(255,46,200,.10),transparent 65%),#040817;background-size:28px 28px,28px 28px,auto,auto,auto;border:1px solid rgba(53,233,255,.13)}
+body.tc[data-world="cyber"] .marker .dotm,
+body.tc[data-world="cyber"] .marker .lab{background:rgba(2,6,18,.88);border-color:rgba(53,233,255,.16)}
+body.tc[data-world="cyber"] .marker.pink .dotm{border-color:#ff2ec8;box-shadow:0 0 18px rgba(255,46,200,.34)}
+body.tc[data-world="cyber"] .marker.cyan .dotm{border-color:#35e9ff;color:#35e9ff;box-shadow:0 0 16px rgba(53,233,255,.18)}
+body.tc[data-world="cyber"] .recenter{border-color:#35e9ff;color:#35e9ff;background:rgba(2,6,18,.88)}
+
+/* Global world switch. It lives in the neutral shell and does not blend theme colors. */
+.tc-world-switch{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border:1px solid rgba(153,169,210,.20);border-radius:999px;background:rgba(5,7,14,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.tc-world-switch button{min-height:34px;padding:0 12px;border:0;border-radius:999px;background:transparent;color:#9ca8c2;font:800 10px/1 var(--font);letter-spacing:.12em;cursor:pointer;transition:.2s}
+.tc-world-switch button[data-world="paradise"].on{background:linear-gradient(110deg,#446f59,#a9843e);color:#fff8e8;box-shadow:0 0 20px rgba(232,200,121,.13)}
+.tc-world-switch button[data-world="cyber"].on{background:linear-gradient(110deg,#0c5272,#4931a0);color:#eff9ff;box-shadow:0 0 20px rgba(53,233,255,.12)}
+.tc-world-switch-label{margin-bottom:5px;color:#7d879f;font:800 8px/1 var(--font);letter-spacing:.18em;text-transform:uppercase;text-align:center}
+.tc-world-switch-wrap{margin:12px 12px 2px}
+.tc-world-switch-floating{position:fixed;z-index:48;right:14px;top:calc(12px + env(safe-area-inset-top));width:168px}
+.page-entry .tc-world-switch-floating{top:calc(18px + env(safe-area-inset-top))}
+
+/* Keep the entry wordmark neutral even while previewing a world. */
+body.tc[data-world] .wordmark{background:linear-gradient(108deg,#f2f7ff 0%,#c7d3ee 42%,#8799c9 72%,#edf4ff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:1px rgba(221,231,255,.42);text-shadow:0 -1px 0 rgba(255,255,255,.35),0 2px 0 rgba(24,31,61,.78),0 0 18px rgba(104,126,255,.22)}
+body.tc[data-world] .wordmark-wrap::before{background:conic-gradient(from 0deg,transparent 0 14%,rgba(102,141,255,.24),transparent 38%,rgba(190,204,255,.18),transparent 67%,rgba(84,110,255,.20),transparent 88%)}
+body.tc[data-world] .wordmark-wrap::after{background:radial-gradient(ellipse,rgba(154,175,255,.20),rgba(69,84,177,.20) 42%,transparent 74%)}
+
+@media(max-width:899px){
+  .tc-world-switch-floating{top:calc(8px + env(safe-area-inset-top));right:8px;width:148px}
+  .tc-world-switch button{min-height:30px;padding:0 9px;font-size:9px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .tc-world-switch button{transition:none}
+}
