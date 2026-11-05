@@ -15,8 +15,7 @@
 <!-- ПЕРЕНОС ЭКРАНА 01 ENTRY (Subframe page ff4f4db1…) · phone-first (≤430).
      Дверь в индивидуальный путь: цепочка ядра · 3 шага · вход.
      Тексты — шаблоны дизайна; реальные люди/факты не выдуманы; блоки помечены DATA:.
-     Форма входа — ВИЗУАЛ: кнопки ведут на существующие точки входа (register.html, Telegram),
-     auth-логика/Supabase НЕ трогаются. Реальная сессия подключается отдельным согласованным шагом. -->
+     Вход ведёт в существующий авторизационный поток ../register.html; здесь нет имитации полей PIN. -->
 </head>
 <body class="tc">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -54,23 +53,18 @@
     </div>
   </section>
 
-  <!-- МАНИФЕСТ + СОГЛАСИЯ · после «войти в игру». Текст — черновик ядра (GPT финализирует manifest.md).
-       Чекбоксы — ВИЗУАЛ; фактическая запись согласий (legal_consent_events) подключается отдельным шагом. -->
+  <!-- МАНИФЕСТ · эта отметка подтверждает только ознакомление. Съёмка, обработка и публикация требуют отдельных решений. -->
   <section class="section" id="manifest">
     <div class="t-eyebrow" style="text-align:center">Манифест TRIZNES</div>
     <div class="manifesto" style="margin-top:12px">
       <p class="big">Ты — создатель своего мира. Каждый человек — главный спецэффект.</p>
-      <p>TRIZNES соединяет людей, реальные места Сочи, творчество и кино. Ты выбираешь роль, делаешь шаг и решаешь, какими моментами делиться. Из выбранных материалов может родиться твоя сцена или фильм; автором и участником остаёшься ты.</p>
+      <p>TRIZNES соединяет людей, реальные места Сочи, творчество и кино. Ты выбираешь роль, делаешь шаг и сам решаешь, какими моментами делиться. Из выбранных материалов может родиться сцена или фильм; автором и участником остаёшься ты.</p>
       <p>Любовь · добро · свет · свобода творчества · уникальность каждого — ядро, вокруг которого мы соединяемся.</p>
     </div>
-    <h3 class="t-h3" style="margin-top:20px;text-align:center">Согласия перед входом</h3>
-    <div style="margin-top:10px">
-      <label class="consent"><input type="checkbox" name="film" required><span>Согласен(на), что могу <b>сниматься в кино</b> проекта TRIZNES · SOCHIWOOD.</span></label>
-      <label class="consent"><input type="checkbox" name="image" required><span>Согласен(на) <b>значиться в кадре</b> — моё реальное изображение может быть частью сцен и фильмов.</span></label>
-      <label class="consent"><input type="checkbox" name="rules" required><span>Принимаю <b>правила мира, приватность и условия публикации</b>. Публичный выпуск личных материалов происходит только с подтверждённым согласием.</span></label>
-    </div>
-    <button class="btn primary block consent-next" id="consentNext" type="button" disabled style="margin-top:16px"><svg width="18" height="18"><use href="#i-play"/></svg>Принять и войти в свой мир →</button>
-    <div class="muted t-caption consent-note" id="consentNote" role="status" style="text-align:center;margin-top:8px">Отметь три пункта — затем откроется вход в профиль.</div>
+    <label class="consent" style="margin-top:20px"><input type="checkbox" name="manifest_read"><span><b>Я ознакомился(лась) с манифестом TRIZNES.</b></span></label>
+    <p class="muted t-caption" style="margin:10px 2px 0">Согласие на съёмку, обработку и публикацию личных материалов запрашивается отдельно и не является условием просмотра мира.</p>
+    <button class="btn primary block consent-next" id="consentNext" type="button" disabled style="margin-top:16px"><svg width="18" height="18"><use href="#i-play"/></svg>Продолжить ко входу →</button>
+    <div class="muted t-caption consent-note" id="consentNote" role="status" style="text-align:center;margin-top:8px">Отметь ознакомление с манифестом, чтобы перейти ко входу.</div>
   </section>
 
   <!-- ЦЕПОЧКА ЯДРА · человек → … → общее ядро · DATA: определения звеньев — GPT (GPT-CORE-BRIEF) -->
@@ -127,23 +121,16 @@
     </div>
   </section>
 
-  <!-- ВХОД · ВИЗУАЛ · auth не трогается. Кнопки → существующие точки входа -->
+  <!-- ВХОД · переход на существующий backend-flow без имитации неработающей формы -->
   <section class="section panel" id="enter" style="padding:22px;text-align:center">
     <div class="core" role="img" aria-label="TRIZNES — ядро" style="width:76px;height:76px;margin:0 auto">
       <img src="./assets/triznes-core-128.png" alt="" width="76" height="76">
     </div>
     <h2 class="t-h2" style="margin-top:10px">Вход в игру</h2>
-    <p class="muted t-caption">Твой персонаж ждёт тебя там, где ты его оставил.</p>
-    <div style="text-align:left;margin-top:14px">
-      <!-- DATA: имя персонажа + личный PIN проверяет существующий вход (triznes-platform-access). Здесь — визуал. -->
-      <label class="field"><span>Имя персонажа</span><div class="inp"><svg width="18" height="18"><use href="#i-user"/></svg><input type="text" autocomplete="username" placeholder="Например, Лиза Море"></div></label>
-      <label class="field"><span>Личный код TRIZNES</span><div class="inp"><svg width="18" height="18"><use href="#i-key"/></svg><input type="password" inputmode="latin" placeholder="TRZ-0000-0000"></div></label>
-    </div>
-    <a class="btn primary block" href="register.html" style="margin-top:16px"><svg width="18" height="18"><use href="#i-play"/></svg>Войти в свой мир →</a>
-    <div class="orline">или</div>
-    <a class="btn secondary block" href="https://t.me/triznes_bot" target="_blank" rel="noopener"><svg width="18" height="18"><use href="#i-tg"/></svg>Telegram — вход в игру ↗</a>
-    <p class="muted t-caption" style="margin-top:12px">Код приходит от TRIZNES Assistant по /profile.</p>
-    <a class="link" href="https://t.me/danielsassis_bot?start=register" target="_blank" rel="noopener" style="display:inline-block;margin-top:4px">Нет кода? Начать с Аполлона →</a>
+    <p class="muted t-caption">Уже есть профиль? Войди по имени персонажа и своему четырёхзначному PIN.</p>
+    <a class="btn primary block" href="../register.html" style="margin-top:16px"><svg width="18" height="18"><use href="#i-play"/></svg>Войти по имени и PIN →</a>
+    <p class="muted t-caption" style="margin-top:16px">Нет профиля или кода? Начни с разговора с Аполлоном.</p>
+    <a class="btn secondary block" href="https://t.me/danielsassis_bot?start=register" target="_blank" rel="noopener" style="margin-top:8px"><svg width="18" height="18"><use href="#i-msg"/></svg>Начать с Аполлона ↗</a>
   </section>
 
   <!-- КАРТЫ СТАТУСОВ · DATA: triznes_membership_cards (BLACK/SILVER/GOLD) -->
@@ -188,7 +175,7 @@
 
 /* Манифест — честный проход: визуально подтверждаем выбор и только затем открываем вход. */
 (function(){
-  var checks = Array.prototype.slice.call(document.querySelectorAll('#manifest input[type="checkbox"]'));
+  var checks = Array.prototype.slice.call(document.querySelectorAll('#manifest input[name="manifest_read"]'));
   var next = document.getElementById('consentNext');
   var note = document.getElementById('consentNote');
   if (!next || !checks.length) return;
@@ -196,13 +183,13 @@
     var ready = checks.every(function(input){ return input.checked; });
     next.disabled = !ready;
     next.classList.toggle('ready', ready);
-    note.textContent = ready ? 'Манифест принят. Вход в профиль открыт.' : 'Отметь три пункта — затем откроется вход в профиль.';
+    note.textContent = ready ? 'Манифест прочитан. Решения о съёмке и публикации принимаются отдельно.' : 'Отметь ознакомление с манифестом, чтобы перейти ко входу.';
   }
   checks.forEach(function(input){ input.addEventListener('change', sync); });
   next.addEventListener('click', function(){
     if (next.disabled) return;
-    try { localStorage.setItem('triznes-manifest-consent-v1', new Date().toISOString()); } catch (_) {}
-    document.getElementById('enter').scrollIntoView({ behavior:'smooth', block:'start' });
+    try { localStorage.setItem('triznes-manifest-read-v1', new Date().toISOString()); } catch (_) {}
+    document.getElementById('enter').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start' });
   });
   sync();
 })();
