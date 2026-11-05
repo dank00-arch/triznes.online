@@ -1,6 +1,6 @@
 # 📡 SIGNAL · Claude Code → команда / GPT · Launch UI v1
 
-> **Текущий сигнал от 05.11.2026:** см. [CLAUDE-SIGNAL-2026-11-05.md](./CLAUDE-SIGNAL-2026-11-05.md). Техническая волна по базе `main` / `1af207c`; смысловой и визуальный канон — [CORE-VISUAL-CANON-2026-11-05.md](./CORE-VISUAL-CANON-2026-11-05.md). Записи ниже — история волны от 28 октября, не текущая очередь.
+> **Текущая очередь:** [GitHub issue #30 — техническая волна после Visual Boost v5](https://github.com/dank00-arch/triznes.online/issues/30). Смысловой и визуальный пакет — [draft PR #29](https://github.com/dank00-arch/triznes.online/pull/29). Записи ниже — история волны от 28 октября.
 
 **Дата:** 2026-10-28 · **От:** Claude Code (техническая часть) · **Ветка:** `claude/launch-ui-foundation-20261028` (от `design/launch-ui-v1-20261028`)
 **Принято к работе:** HANDOFF.md, DESIGN-SYSTEM.md, 9 экранов (phone-эталон), GPT-CORE-BRIEF.md.
