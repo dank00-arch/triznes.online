@@ -400,6 +400,34 @@ body.tc[data-world="cyber"] .chip.live{
   .marker:hover .dotm{transform:none!important}
 }
 
+/* ═══════════ 22. ТЕЛЕФОН — УПРАВЛЕНИЕ ПУЛЬТОМ ПАЛЬЦЕМ ═══════════ */
+/* Цель: с телефона удобно управлять проектом через Пульт.
+   Увеличиваем зоны нажатия до ≥44px и держим верхнюю навигацию под рукой. */
+@media (max-width:640px){
+  /* тап-цели: фильтры, сегменты, вкладки, переключатель миров, чипы-кнопки */
+  .filter button,
+  .seg button,
+  .tc-citybar a{
+    min-height:44px!important;
+    display:inline-flex!important;
+    align-items:center!important;
+    padding-top:9px!important;padding-bottom:9px!important;
+  }
+  .world-mini button,
+  .tc-world-switch button{
+    min-height:40px!important;
+    padding:8px 15px!important;
+  }
+  /* мелкие кнопки действий в сигнал-картах пульта — крупнее для пальца */
+  .sigcard .btn.sm,
+  .pult .btn.sm,
+  .btn.sm{min-height:40px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
+  /* верхняя навигация остаётся доступной при прокрутке */
+  .tc-citybar{position:sticky!important;top:0!important;z-index:40!important}
+  /* чуть больше воздуха вокруг горизонтальных свайп-рядов */
+  .hscroll{scroll-padding-left:16px;-webkit-overflow-scrolling:touch}
+}
+
 @media(prefers-reduced-motion:reduce){
   .v5-reveal{opacity:1!important;transform:none!important;transition:none!important}
   .uploadbar{animation:none!important}
