@@ -32,7 +32,7 @@
     let w, h, dpr;
     const PARTICLE_COUNT = Math.min(Math.max(Math.floor(innerWidth / 28), 12), 36);
     const palettes = {
-      paradise: [[232, 200, 121], [120, 225, 189], [140, 189, 138]],
+      paradise: [[0, 223, 255], [0, 214, 163], [202, 255, 40], [255, 203, 33]],
       cyber: [[40, 119, 255], [53, 233, 255], [128, 88, 255], [255, 46, 200]]
     };
     let activePalette = palettes[document.body.dataset.world] || palettes.paradise;
@@ -124,15 +124,7 @@
   }
 
   /* ── 3. REAL CHARACTER PHOTOS ── */
-  // Map initials → local photo. Runs after data script creates monograms.
-  const PHOTO_BY_INITIALS = {
-    'D':  './assets/characters-v4/daniel-cinematic-v1.webp',
-    'DA': './assets/characters-v4/daniel-cinematic-v1.webp',
-    'L':  './assets/characters-v4/liberty-abundance-v1.webp',
-    'LA': './assets/characters-v4/liberty-abundance-v1.webp',
-    'ВК': './assets/characters-v4/vsevolod-kim-collider-v1.webp',
-    'VK': './assets/characters-v4/vsevolod-kim-collider-v1.webp',
-  };
+  // Only verified character slugs can select bundled portraits. Never infer identity from initials.
   const PHOTO_BY_SLUG = {
     'daniel':       './assets/characters-v4/daniel-cinematic-v1.webp',
     'liberty':      './assets/characters-v4/liberty-abundance-v1.webp',
@@ -141,16 +133,17 @@
   };
 
   function injectPhotos() {
-    // 1. Inject into monogram containers (.avatar, .media)
+    // Inject only where the containing card identifies the character by a verified slug.
     document.querySelectorAll('.tc-monogram:not([hidden])').forEach(mono => {
-      const text = mono.textContent.trim();
-      const photo = PHOTO_BY_INITIALS[text];
+      const owner = mono.closest('[data-character]');
+      const slug = owner?.getAttribute('data-character');
+      const photo = PHOTO_BY_SLUG[slug];
       if (!photo) return;
       const parent = mono.parentElement;
       if (!parent) return;
       if (parent.querySelector('img.v5-photo')) return;
       const img = document.createElement('img');
-      img.src = photo; img.alt = text; img.className = 'v5-photo';
+      img.src = photo; img.alt = slug; img.className = 'v5-photo';
       img.loading = 'lazy'; img.decoding = 'async';
       // Ensure parent is positioned for absolute fill
       const ps = getComputedStyle(parent).position;
@@ -161,19 +154,7 @@
       mono.hidden = true;
       parent.appendChild(img);
     });
-    // 2. Also inject into hidden-img monogram pairs (portrait() fallback)
-    document.querySelectorAll('img[hidden] + .tc-monogram:not([hidden])').forEach(mono => {
-      const text = mono.textContent.trim();
-      const photo = PHOTO_BY_INITIALS[text];
-      if (!photo) return;
-      const hiddenImg = mono.previousElementSibling;
-      if (hiddenImg && hiddenImg.tagName === 'IMG') {
-        hiddenImg.src = photo;
-        hiddenImg.hidden = false;
-        mono.hidden = true;
-      }
-    });
-    // 3. Inject into .media[data-character] elements (entry page cards)
+    // Inject into explicit media slots on the entry/home pages.
     document.querySelectorAll('.media[data-character]').forEach(media => {
       if (media.querySelector('img.v5-photo')) return;
       const slug = media.getAttribute('data-character');
@@ -218,9 +199,10 @@
     }, { passive: true });
   }
 
-  /* ── 5. HOVER GLOW ON CARDS (follow cursor) ── */
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  /* ── 5. HOVER GLOW ON CARDS (follow cursor, mouse/trackpad only) ── */
+  if (matchMedia('(hover:hover) and (pointer:fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.addEventListener('pointermove', e => {
+      if (e.pointerType !== 'mouse') return;
       const card = e.target.closest('.card, .portal, .bcard, .step');
       if (!card) return;
       const rect = card.getBoundingClientRect();
@@ -228,12 +210,7 @@
       const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
       card.style.setProperty('--glow-x', x + '%');
       card.style.setProperty('--glow-y', y + '%');
-      if (!card.dataset.v5glow) {
-        card.dataset.v5glow = '1';
-        card.style.background = `
-          radial-gradient(400px circle at var(--glow-x) var(--glow-y), rgba(120,150,255,.06), transparent 55%),
-          linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.015))`;
-      }
+      card.classList.add('v5-glow-follow');
     }, { passive: true });
   }
 })();

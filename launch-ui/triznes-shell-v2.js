@@ -24,7 +24,7 @@
     ['./paradise-neon-v2.css?v=20261030-paradise-daylight-neon-v1','paradise-neon-v2.css'],
     ['./archive-media-v1.css?v=20261030-archive-real-v1','archive-media-v1.css'],
     ['./visual-boost-v5.css?v=20261105-boost-v5','visual-boost-v5.css'],
-    ['./world-visual-polish-v6.css?v=20261105-world-polish-v6','world-visual-polish-v6.css']
+    ['./world-visual-polish-v6.css?v=20261105-world-polish-v6-2','world-visual-polish-v6.css']
   ];
   css.forEach(([href,key]) => {
     if (document.querySelector(`link[href*="${key}"]`)) return;
@@ -119,7 +119,7 @@
   const iconRoutes={'Люди':'character.html','Идеи':'boards.html','События':'world-map.html','Нейроферма':'neurofarm.html','Кино':'sochiwood.html','Кинотеатр':'sochiwood.html','Сообщества':'communities.html','Игра':'world-map.html','Архив':'neurofarm.html','Город':'world-map.html','Объекты':'city-objects.html'};
   document.querySelectorAll('.iconnav a').forEach(link=>{const route=iconRoutes[link.textContent.trim()];if(route)link.href=route;});
 
-  const boost=document.createElement('script');boost.src='./visual-boost-v5.js?v=20261105-world-polish-v6';boost.async=false;document.body.appendChild(boost);
+  const boost=document.createElement('script');boost.src='./visual-boost-v5.js?v=20261105-world-polish-v6-2';boost.async=false;document.body.appendChild(boost);
   const ideas=document.createElement('script');ideas.src='./living-ideas.js?v=20261030-1';ideas.async=false;document.body.appendChild(ideas);
   if(screen==='world-map'){
     const mapLive=document.createElement('script');mapLive.src='./map-live-v2.js?v=20261030-real-sochi-v3';mapLive.async=false;document.body.appendChild(mapLive);
