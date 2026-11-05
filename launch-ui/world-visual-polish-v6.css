@@ -1,0 +1,126 @@
+/* TRIZNES visual polish v6 — one coherent palette per world.
+   Facts, identities, media provenance and map coordinates are untouched. */
+
+/* Keep the ambient layer between the page background and interface content. */
+body.tc{isolation:isolate}
+body.tc>.screen{position:relative;z-index:1}
+body.tc>.v5-particles{z-index:0!important;mix-blend-mode:screen;opacity:.34}
+
+/* Replace the mixed-color cursor haze from the shared visual layer. */
+body.tc[data-world="paradise"]::before{
+  background:
+    radial-gradient(430px circle at var(--mx,50vw) var(--my,35vh),rgba(120,225,189,.12),transparent 68%),
+    radial-gradient(620px circle at 18% 78%,rgba(232,200,121,.065),transparent 72%),
+    radial-gradient(520px circle at 84% 16%,rgba(140,189,138,.055),transparent 72%)!important;
+}
+body.tc[data-world="cyber"]::before{
+  background:
+    radial-gradient(430px circle at var(--mx,50vw) var(--my,35vh),rgba(53,233,255,.13),transparent 68%),
+    radial-gradient(620px circle at 18% 78%,rgba(40,119,255,.075),transparent 72%),
+    radial-gradient(520px circle at 84% 16%,rgba(128,88,255,.075),transparent 72%)!important;
+}
+body.tc[data-world="paradise"]>.v5-particles{opacity:.28}
+body.tc[data-world="cyber"]>.v5-particles{opacity:.40}
+
+/* The action color belongs to the active mode, with text contrast preserved. */
+body.tc[data-world="paradise"] .btn.primary{
+  color:#092117!important;
+  border-color:rgba(255,248,232,.42)!important;
+  background:linear-gradient(112deg,#78e1bd 0%,#9bd99d 52%,#e8c879 100%)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.48),0 12px 34px rgba(40,110,75,.24),0 0 28px rgba(232,200,121,.12)!important;
+}
+body.tc[data-world="paradise"] .btn.primary:hover{
+  box-shadow:inset 0 1px rgba(255,255,255,.58),0 18px 44px rgba(40,110,75,.30),0 0 34px rgba(232,200,121,.17)!important;
+}
+body.tc[data-world="cyber"] .btn.primary{
+  color:#f4fbff!important;
+  border-color:rgba(53,233,255,.30)!important;
+  background:linear-gradient(112deg,#176bc7 0%,#6545e5 55%,#d51ba7 100%)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.34),0 14px 38px rgba(40,119,255,.25),0 0 28px rgba(255,46,200,.12)!important;
+}
+body.tc[data-world="cyber"] .btn.primary:hover{
+  box-shadow:inset 0 1px rgba(255,255,255,.46),0 20px 48px rgba(40,119,255,.34),0 0 38px rgba(255,46,200,.18)!important;
+}
+
+/* Shared glass surfaces inherit the active world instead of the old violet wash. */
+body.tc[data-world="paradise"] :is(.panel,.card,.portal,.bcard,.trackrow,.statgrid .s,.kpi,.sigcard,.step,.bezliki){
+  border-color:rgba(232,200,121,.16)!important;
+  background:linear-gradient(145deg,rgba(247,242,224,.065),rgba(120,225,189,.025))!important;
+}
+body.tc[data-world="cyber"] :is(.panel,.card,.portal,.bcard,.trackrow,.statgrid .s,.kpi,.sigcard,.step,.bezliki){
+  border-color:rgba(53,233,255,.15)!important;
+  background:linear-gradient(145deg,rgba(40,119,255,.075),rgba(128,88,255,.035) 58%,rgba(255,46,200,.018))!important;
+}
+body.tc[data-world="paradise"] :is(.card,.portal,.step,.bcard,.sigcard):hover{
+  border-color:rgba(120,225,189,.34)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.62),0 14px 38px rgba(32,94,62,.18),0 0 26px rgba(120,225,189,.08)!important;
+}
+body.tc[data-world="cyber"] :is(.card,.portal,.step,.bcard,.sigcard):hover{
+  border-color:rgba(53,233,255,.34)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.10),0 16px 42px rgba(0,0,0,.28),0 0 26px rgba(53,233,255,.08)!important;
+}
+
+/* Entry title and hologram are recolored as one composition, not separate effects. */
+body.tc[data-world="paradise"] .page-entry .entry-location{
+  color:#fff8e8!important;text-shadow:0 2px 18px rgba(4,24,15,.76),0 0 24px rgba(232,200,121,.18)!important;
+}
+body.tc[data-world="cyber"] .page-entry .entry-location{
+  color:#eff9ff!important;text-shadow:0 2px 18px rgba(2,4,12,.8),0 0 24px rgba(53,233,255,.24)!important;
+}
+body.tc[data-world="paradise"] .page-entry .hero-cine .holo .ring{border-color:rgba(120,225,189,.17)!important}
+body.tc[data-world="paradise"] .page-entry .hero-cine .holo .ring.r2{border-color:rgba(232,200,121,.20)!important}
+body.tc[data-world="paradise"] .page-entry .hero-cine .holo .ring.r3{border-color:rgba(140,189,138,.15)!important}
+body.tc[data-world="paradise"] .page-entry .hero-cine .holo .scan{
+  background:repeating-linear-gradient(0deg,rgba(232,200,121,.035) 0 1px,transparent 1px 4px)!important;
+}
+body.tc[data-world="cyber"] .page-entry .hero-cine .holo .ring{border-color:rgba(53,233,255,.18)!important}
+body.tc[data-world="cyber"] .page-entry .hero-cine .holo .ring.r2{border-color:rgba(128,88,255,.20)!important}
+body.tc[data-world="cyber"] .page-entry .hero-cine .holo .ring.r3{border-color:rgba(255,46,200,.14)!important}
+body.tc[data-world="cyber"] .page-entry .hero-cine .holo .scan{
+  background:repeating-linear-gradient(0deg,rgba(53,233,255,.045) 0 1px,transparent 1px 4px)!important;
+}
+
+body.tc[data-world="paradise"] .page-entry .wordmark-wrap::before{
+  background:conic-gradient(from 0deg,transparent 0 9%,rgba(120,225,189,.30),transparent 30%,rgba(232,200,121,.30),transparent 56%,rgba(140,189,138,.26),transparent 84%)!important;
+}
+body.tc[data-world="paradise"] .page-entry .wordmark-wrap::after{
+  background:radial-gradient(ellipse,rgba(232,200,121,.22),rgba(120,225,189,.20) 42%,transparent 74%)!important;
+}
+body.tc[data-world="paradise"] .page-entry .wordmark{
+  background:linear-gradient(180deg,rgba(255,255,255,.88) 0 7%,transparent 8% 17%,rgba(255,248,228,.24) 18% 21%,transparent 22%),linear-gradient(108deg,#fff8e8 0%,#e8c879 24%,#bde8c3 52%,#78e1bd 78%,#fff8e8 100%)!important;
+  -webkit-background-clip:text!important;background-clip:text!important;
+  background-size:100% 100%,220% 100%!important;
+  -webkit-text-stroke:1.15px rgba(255,248,232,.62)!important;
+  text-shadow:0 -1px 0 rgba(255,255,255,.6),0 2px 0 rgba(7,40,24,.82),0 0 24px rgba(120,225,189,.20)!important;
+  filter:drop-shadow(0 22px 24px rgba(0,0,0,.58)) drop-shadow(0 0 24px rgba(120,225,189,.22))!important;
+}
+body.tc[data-world="paradise"] .page-entry .wordmark::before{
+  color:#103321!important;-webkit-text-stroke:1px rgba(232,200,121,.62)!important;
+  text-shadow:1px 1px 0 #123a28,3px 3px 0 #123a28,5px 5px 0 #173d2a,7px 7px 0 #1b432e,9px 9px 0 #204a34,11px 11px 0 #25523a!important;
+}
+body.tc[data-world="paradise"] .page-entry .wordmark::after{
+  background:linear-gradient(112deg,transparent 16%,rgba(255,248,232,.82) 34%,transparent 46%,rgba(232,200,121,.24) 65%,transparent 74%)!important;
+  -webkit-background-clip:text!important;background-clip:text!important;
+  -webkit-text-stroke:1px rgba(255,248,232,.28)!important;
+}
+
+body.tc[data-world="cyber"] .page-entry .wordmark-wrap::before{
+  background:conic-gradient(from 0deg,transparent 0 9%,rgba(53,233,255,.34),transparent 30%,rgba(128,88,255,.34),transparent 56%,rgba(255,46,200,.28),transparent 84%)!important;
+}
+body.tc[data-world="cyber"] .page-entry .wordmark{
+  background:linear-gradient(180deg,rgba(255,255,255,.78) 0 7%,transparent 8% 17%,rgba(255,255,255,.16) 18% 21%,transparent 22%),linear-gradient(108deg,#e9fbff 0%,#35e9ff 26%,#2877ff 50%,#8058ff 76%,#ff2ec8 100%)!important;
+  -webkit-background-clip:text!important;background-clip:text!important;
+  background-size:100% 100%,220% 100%!important;
+  -webkit-text-stroke:1.15px rgba(213,244,255,.56)!important;
+  text-shadow:0 -1px 0 rgba(255,255,255,.44),0 2px 0 rgba(3,8,28,.86),0 0 24px rgba(53,233,255,.22)!important;
+  filter:drop-shadow(0 22px 24px rgba(0,0,0,.68)) drop-shadow(0 0 26px rgba(40,119,255,.30))!important;
+}
+
+body.tc[data-world="paradise"] .avatar.ring{box-shadow:0 0 0 2px #78e1bd,0 0 14px rgba(120,225,189,.28),0 0 28px rgba(232,200,121,.12)!important}
+body.tc[data-world="cyber"] .avatar.ring{box-shadow:0 0 0 2px #35e9ff,0 0 14px rgba(53,233,255,.32),0 0 28px rgba(128,88,255,.16)!important}
+body.tc[data-world="paradise"] .avatar.ring-gold{box-shadow:0 0 0 2px #e8c879,0 0 14px rgba(232,200,121,.30),0 0 28px rgba(120,225,189,.12)!important}
+body.tc[data-world="cyber"] .avatar.ring-gold{box-shadow:0 0 0 2px #8058ff,0 0 14px rgba(128,88,255,.30),0 0 28px rgba(53,233,255,.12)!important}
+
+@media(prefers-reduced-motion:reduce){
+  body.tc>.v5-particles{display:none!important}
+}
