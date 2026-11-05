@@ -57,7 +57,7 @@
     const localUrl = LOCAL_PORTRAITS[id] || LOCAL_PORTRAITS[id.toLowerCase()];
     const imgUrl = url || localUrl;
     if (imgUrl) {
-      return `<img src="${esc(imgUrl)}" alt="${decorative ? '' : esc(name)}" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="tc-monogram" hidden>${esc(initials(name))}</span>`;
+      return `<img src="${esc(imgUrl)}" alt="${decorative ? '' : esc(name)}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="tc-monogram" hidden>${esc(initials(name))}</span>`;
     }
     return `<span class="tc-monogram">${esc(initials(name))}</span>`;
   }
