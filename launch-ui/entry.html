@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07040b">
-<meta name="description" content="TRIZNES — Жизнь в игре. Твоя реальная жизнь становится кино, игрой и творчеством. Войди в свой путь.">
+<meta name="description" content="TRIZNES — Жизнь в игре: Сочи, реальные места, творчество и личные истории. Исследуй город, выбирай свой путь и делись тем, чем хочешь.">
 <title>TRIZNES · Вход в мир</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,15 +35,15 @@
   <!-- ГЛАВНЫЙ ЭКРАН · кинематографичный центр · верхний вход убран, знак и ядро — в центре.
        Голографика + свет за курсором (из shell/visual-v2) сохранены. Видео — реальный публичный ролик каталога. -->
   <section class="hero-cine">
-    <video id="heroReel" autoplay muted loop playsinline preload="metadata" aria-label="TRIZNES · Сочи: город-игра"></video>
+    <video id="heroReel" muted loop playsinline preload="metadata" aria-label="TRIZNES · Сочи: город-игра"></video>
     <div class="holo"><span class="ring" style="width:280px;height:280px"></span><span class="ring r2" style="width:430px;height:430px"></span><span class="ring r3" style="width:600px;height:600px"></span><span class="scan"></span></div>
     <div class="veil"></div>
     <div class="content">
-      <div class="live-ping"><i></i>Сочи · Live · Жизнь в игре</div>
+      <div class="entry-location">СОЧИ <span aria-hidden="true">·</span> ЖИЗНЬ В ИГРЕ</div>
       <div class="core" role="img" aria-label="TRIZNES — ядро" style="width:116px;height:116px;margin:14px auto 0"><img src="./assets/triznes-core.png" alt="TRIZNES — ядро" width="116" height="116" fetchpriority="high"></div>
       <div class="wordmark-wrap"><h1 class="wordmark" data-word="ТРИЗНЕС">ТРИЗНЕС</h1></div>
       <div class="world-subtitle">Сочи · Жизнь в игре</div>
-      <p class="world-promise">Твоя реальная жизнь становится кино, игрой и творчеством. Город отвечает на действие, а путь каждого превращается в его фильм.</p>
+      <p class="world-promise">Исследуй Сочи, пробуй себя в творчестве и собирай свою историю из моментов, которыми сам решишь поделиться.</p>
       <div class="hero-actions">
         <a class="btn primary block" href="#manifest"><svg width="18" height="18"><use href="#i-mask"/></svg>Войти в игру — стать персонажем →</a>
         <a class="btn secondary block" href="world-map.html"><svg width="18" height="18"><use href="#i-globe"/></svg>Посмотреть мир — как зритель</a>
@@ -64,8 +64,8 @@
   <section class="section" id="manifest">
     <div class="t-eyebrow" style="text-align:center">Манифест TRIZNES</div>
     <div class="manifesto" style="margin-top:12px">
-      <p class="big">Каждый человек — главный спецэффект. Реальная жизнь важнее любой генерации.</p>
-      <p>TRIZNES — живое кино города. Ты приходишь собой, со своей идеей и мечтой, выбираешь роль — и твой путь становится сценой, фильмом и частью общего мира. AI только помогает собрать кадр. Автор всегда ты.</p>
+      <p class="big">Ты — создатель своего мира. Каждый человек — главный спецэффект.</p>
+      <p>TRIZNES соединяет людей, реальные места Сочи, творчество и кино. Ты выбираешь роль, делаешь шаг и решаешь, какими моментами делиться. Из выбранных материалов может родиться твоя сцена или фильм; автором и участником остаёшься ты.</p>
       <p>Любовь · добро · свет · свобода творчества · уникальность каждого — ядро, вокруг которого мы соединяемся.</p>
     </div>
     <h3 class="t-h3" style="margin-top:20px;text-align:center">Согласия перед входом</h3>
@@ -93,30 +93,23 @@
     </div>
   </section>
 
-  <!-- ЛЮДИ УЖЕ В ИГРЕ · DATA: platform_players (зарегистрированные) + онлайн-счётчик. Лица только REAL-фото -->
+  <!-- ПЕРСОНАЖИ МИРА · публичные статусы аккаунтов и согласия должны приходить из проверенного источника. -->
   <section class="section">
-    <div class="t-eyebrow">Люди уже в игре</div>
-    <div class="section-head" style="margin-top:8px"><h2 class="t-h2">Каждый — персонаж общего кино</h2></div>
-    <div class="row" style="gap:8px;margin-bottom:12px">
-      <span class="chip">АК · МС · ЛВ</span>
-      <span class="chip ok"><span class="dot"></span>214 в игре сейчас</span>
-    </div>
+    <div class="t-eyebrow">Персонажи мира</div>
+    <div class="section-head" style="margin-top:8px"><h2 class="t-h2">Люди и истории TRIZNES</h2></div>
+    <p class="muted t-caption" style="margin:0 0 12px">Знакомство с героями проекта. Статусы аккаунтов показываются только после проверки профиля.</p>
     <div class="hscroll">
       <article class="card char-card">
-        <div class="media ar-portrait" data-character="daniel"><span class="chip real origin"><span class="dot"></span>Real</span><div class="fmt">Фото 3:4</div><div class="ph"><svg width="26" height="26"><use href="#i-user"/></svg></div></div>
-        <div class="name">Daniel</div><div class="role">Режиссёр · Автор</div>
+        <div class="media ar-portrait" data-character="daniel"><div class="fmt">Портрет</div><div class="ph"><svg width="26" height="26"><use href="#i-user"/></svg></div></div>
+        <div class="name">Даниэль</div><div class="role">Создатель · Персонаж</div>
       </article>
       <article class="card char-card">
-        <div class="media ar-portrait" data-character="liberty"><span class="chip real origin"><span class="dot"></span>Real</span><div class="fmt">Фото 3:4</div><div class="ph"><svg width="26" height="26"><use href="#i-user"/></svg></div></div>
-        <div class="name">Liberty</div><div class="role">Персонаж · Abundance</div>
+        <div class="media ar-portrait" data-character="liberty"><div class="fmt">Портрет</div><div class="ph"><svg width="26" height="26"><use href="#i-user"/></svg></div></div>
+        <div class="name">Liberty</div><div class="role">Персонаж · Изобилие</div>
       </article>
       <article class="card char-card">
-        <div class="media ar-portrait" data-character="vsevolod"><span class="chip real origin"><span class="dot"></span>Real</span><div class="fmt">Фото 3:4</div><div class="ph"><svg width="26" height="26"><use href="#i-user"/></svg></div></div>
-        <div class="name">Всеволод Ким</div><div class="role">Коллайдер</div>
-      </article>
-      <article class="card char-card">
-        <div class="media ar-portrait"><span class="chip real origin"><span class="dot"></span>Real</span><div class="fmt">Фото 3:4</div><div class="ph"><svg width="26" height="26"><use href="#i-user"/></svg></div></div>
-        <div class="name">Имя Фамилия</div><div class="role">Оператор</div>
+        <div class="media ar-portrait" data-character="vsevolod"><div class="fmt">Портрет</div><div class="ph"><svg width="26" height="26"><use href="#i-user"/></svg></div></div>
+        <div class="name">Всеволод Ким</div><div class="role">Театр ТУЗ · Коллайдер</div>
       </article>
     </div>
   </section>
@@ -126,8 +119,8 @@
     <div class="t-eyebrow">Как войти</div>
     <h2 class="t-h2" style="margin-top:8px">Три шага в свой мир</h2>
     <div style="text-align:left;margin-top:12px">
-      <a class="step" href="https://t.me/danielsassis_bot?start=register" target="_blank" rel="noopener"><span class="ico"><svg width="20" height="20"><use href="#i-msg"/></svg></span><div class="num">01</div><h3>Расскажи о себе Аполлону</h3><p>Проводник мягкого входа — спокойный разговор без анкет.</p></a>
-      <a class="step" href="home.html"><span class="ico"><svg width="20" height="20"><use href="#i-bulb"/></svg></span><div class="num">02</div><h3>Найди свою идею и мечту</h3><p>То, что зажигает тебя, станет первой главой.</p></a>
+      <a class="step" href="https://t.me/danielsassis_bot?start=register" target="_blank" rel="noopener"><span class="ico"><svg width="20" height="20"><use href="#i-msg"/></svg></span><div class="num">01</div><h3>Расскажи о себе Аполлону</h3><p>Начни с разговора о том, что тебе интересно и что хочется попробовать.</p></a>
+      <a class="step" href="home.html"><span class="ico"><svg width="20" height="20"><use href="#i-bulb"/></svg></span><div class="num">02</div><h3>Выбери первый шаг</h3><p>Музыка, сцена, кино или собственная идея — начни с того, что близко тебе.</p></a>
       <a class="step" href="character.html"><span class="ico"><svg width="20" height="20"><use href="#i-mask"/></svg></span><div class="num">03</div><h3>Выбери свою роль в общем кино</h3><p>Персонаж, сцена, путь — и мир начинает отвечать.</p></a>
     </div>
   </section>
@@ -161,9 +154,9 @@
   <!-- КАРТЫ СТАТУСОВ · DATA: triznes_membership_cards (BLACK/SILVER/GOLD) -->
   <section class="section">
     <div class="tiers">
-      <div class="tier"><span class="sw"></span><div><b>BLACK</b><small>7 дней</small></div></div>
-      <div class="tier silver"><span class="sw"></span><div><b>SILVER</b><small>месяц</small></div></div>
-      <div class="tier gold"><span class="sw"></span><div><b>GOLD</b><small>особая роль</small></div></div>
+      <div class="tier"><span class="sw"></span><div><b>BLACK</b><small>свобода творческого пути</small></div></div>
+      <div class="tier silver"><span class="sw"></span><div><b>SILVER</b><small>клубный формат</small></div></div>
+      <div class="tier gold"><span class="sw"></span><div><b>GOLD</b><small>партнёрский формат</small></div></div>
     </div>
   </section>
 
@@ -174,6 +167,7 @@
 /* Реальный ролик в hero из публичного видео-каталога (visibility='player', только чтение). */
 (function(){
   var v = document.getElementById('heroReel'); if (!v) return;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
   var sound = document.getElementById('reelSound');
   var title = document.getElementById('heroReelTitle');
   var API = 'https://bbxhhtpmbtgfaxamgksf.supabase.co/functions/v1/triznes-media-signed-url?public_watch=1';
@@ -184,7 +178,7 @@
     if (pick && pick.url) {
       v.src = pick.url;
       if (title && pick.title) title.textContent = pick.title.replace(/^FILM\s*\d+\s*[—-]\s*/i, '');
-      var p = v.play && v.play(); if (p && p.catch) p.catch(function(){});
+      if (!reduceMotion || !reduceMotion.matches) { var p = v.play && v.play(); if (p && p.catch) p.catch(function(){}); }
     }
   }).catch(function(){});
   if (sound) sound.addEventListener('click', function(){
@@ -194,6 +188,7 @@
     sound.querySelector('span').textContent = v.muted ? '◖' : '◗';
     if (!v.muted) { var p = v.play && v.play(); if (p && p.catch) p.catch(function(){}); }
   });
+  if (reduceMotion && reduceMotion.addEventListener) reduceMotion.addEventListener('change', function(event){ if (event.matches) v.pause(); });
 })();
 
 /* Манифест — честный проход: визуально подтверждаем выбор и только затем открываем вход. */
