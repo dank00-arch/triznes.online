@@ -118,7 +118,7 @@
   const boost=document.createElement('script');boost.src='./visual-boost-v5.js?v=20261105-boost-v5';boost.async=false;document.body.appendChild(boost);
   const ideas=document.createElement('script');ideas.src='./living-ideas.js?v=20261030-1';ideas.async=false;document.body.appendChild(ideas);
   if(screen==='world-map'){
-    const mapLive=document.createElement('script');mapLive.src='./map-live-v2.js?v=20261030-real-sochi-v3';mapLive.async=false;document.body.appendChild(mapLive);
+    const mapLive=document.createElement('script');mapLive.src='./map-live-v2.js?v=20261105-sochi-3d-live-v1';mapLive.async=false;document.body.appendChild(mapLive);
     const mapMedia=document.createElement('script');mapMedia.src='./map-media-v1.js?v=20261030-archive-real-v1';mapMedia.async=false;document.body.appendChild(mapMedia);
   }
   if(screen==='sochiwood'){const cinema=document.createElement('script');cinema.src='./cinema-unify.js?v=20261030-1';cinema.async=false;document.body.appendChild(cinema)}
