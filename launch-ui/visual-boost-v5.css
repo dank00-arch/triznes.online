@@ -1,0 +1,382 @@
+/* TRIZNES VISUAL BOOST v5 — глубина, движение, контраст.
+   Поверх существующего стека, не переписывает, только усиливает.
+   Без JS-зависимостей; scroll-анимации в visual-boost-v5.js. */
+
+/* ═══════════ 1. ФОНОВАЯ АТМОСФЕРА ═══════════ */
+
+/* живой свет: медленно мигрирующие градиенты */
+body.tc::before{
+  background:
+    radial-gradient(430px circle at var(--mx) var(--my), rgba(105,117,255,.13), transparent 68%),
+    radial-gradient(600px circle at 20% 80%, rgba(255,43,214,.04), transparent),
+    radial-gradient(500px circle at 80% 20%, rgba(52,231,255,.04), transparent)!important;
+}
+/* зернистость — кино-плёнка */
+body.tc::after{
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E"),
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px)!important;
+  background-size:256px 256px, 54px 54px, 54px 54px!important;
+  opacity:.24!important;
+}
+
+/* ═══════════ 2. СТЕКЛО И ПАНЕЛИ — РЕАЛЬНАЯ ГЛУБИНА ═══════════ */
+
+.panel,.card,.portal,.bcard,.trackrow,.statgrid .s,.kpi,.sigcard,.step,.bezliki{
+  border:1px solid rgba(255,255,255,.09)!important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.015))!important;
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.09),
+    inset 0 -1px rgba(0,0,0,.15),
+    0 1px 2px rgba(0,0,0,.12),
+    0 8px 24px rgba(0,0,0,.18),
+    0 24px 48px rgba(0,0,0,.12)!important;
+  backdrop-filter:blur(24px) saturate(120%)!important;
+  -webkit-backdrop-filter:blur(24px) saturate(120%)!important;
+}
+
+/* двойное стекло на hover — подъём */
+.card:hover,.portal:hover,.step:hover,.bcard:hover,.sigcard:hover{
+  border-color:rgba(140,160,255,.22)!important;
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.14),
+    inset 0 -1px rgba(0,0,0,.10),
+    0 4px 12px rgba(0,0,0,.15),
+    0 16px 40px rgba(0,0,0,.22),
+    0 40px 80px rgba(0,0,0,.14),
+    0 0 0 1px rgba(120,150,255,.08)!important;
+  transform:translateY(-6px) scale(1.008)!important;
+}
+
+/* ═══════════ 3. КНОПКИ — ОБЪЁМ И СВЕЧЕНИЕ ═══════════ */
+
+.btn.primary{
+  position:relative;
+  background:linear-gradient(105deg, #3158ff 0%, #7657ff 47%, #f22bc7 100%)!important;
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.35),
+    inset 0 -2px rgba(0,0,0,.2),
+    0 4px 12px rgba(59,91,255,.25),
+    0 16px 44px rgba(79,73,255,.3),
+    0 0 32px rgba(255,43,214,.12)!important;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s!important;
+}
+.btn.primary:hover{
+  transform:translateY(-3px) scale(1.02)!important;
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.42),
+    0 6px 20px rgba(59,91,255,.3),
+    0 24px 60px rgba(79,73,255,.4),
+    0 0 48px rgba(255,43,214,.2)!important;
+}
+/* shine sweep on all buttons */
+.btn::after{
+  content:""!important;position:absolute!important;inset:0!important;
+  background:linear-gradient(105deg, transparent 30%, rgba(255,255,255,.22) 48%, transparent 70%)!important;
+  transform:translateX(-120%)!important;
+  transition:transform .7s cubic-bezier(.2,.8,.2,1)!important;
+}
+.btn:hover::after{transform:translateX(120%)!important}
+
+/* ═══════════ 4. МЕДИА-РАМКИ — КИНЕМАТОГРАФИЧНАЯ ГЛУБИНА ═══════════ */
+
+.media{
+  box-shadow:
+    inset 0 0 60px rgba(0,0,0,.35),
+    0 8px 32px rgba(0,0,0,.2)!important;
+  transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .3s!important;
+}
+.media::after{
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.08),
+    inset 0 0 60px rgba(0,0,0,.4)!important;
+}
+/* живой блик при наведении на карточку */
+.media::before{
+  content:""!important;
+  position:absolute!important;z-index:3!important;inset:0!important;
+  background:linear-gradient(115deg, transparent 32%, rgba(255,255,255,.07) 48%, transparent 64%)!important;
+  transform:translateX(-120%)!important;
+  transition:transform .8s cubic-bezier(.2,.8,.2,1)!important;
+  pointer-events:none!important;
+}
+.card:hover .media::before{transform:translateX(120%)!important}
+
+/* ═══════════ 5. АВАТАРЫ — КОЛЬЦО ЭНЕРГИИ ═══════════ */
+
+.avatar{
+  transition:transform .25s, box-shadow .25s!important;
+}
+.avatar.ring{
+  box-shadow:
+    0 0 0 2px var(--brand-500),
+    0 0 14px rgba(59,91,255,.35),
+    0 0 28px rgba(59,91,255,.12)!important;
+}
+.avatar.ring-gold{
+  box-shadow:
+    0 0 0 2px var(--gold),
+    0 0 14px rgba(255,208,106,.35),
+    0 0 28px rgba(255,208,106,.12)!important;
+}
+.avatar:hover{transform:scale(1.08)!important}
+
+/* ═══════════ 6. НАВИГАЦИЯ — ГЛУБИНА И СВЕЧЕНИЕ ═══════════ */
+
+/* sidebar rail */
+.tc-rail{
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.08),
+    0 0 1px rgba(0,0,0,.3),
+    0 16px 48px rgba(0,0,0,.4),
+    0 40px 100px rgba(0,0,0,.25)!important;
+}
+.tc-rail nav a.on{
+  box-shadow:
+    inset 3px 0 var(--cyan),
+    0 0 20px rgba(52,231,255,.08)!important;
+}
+
+/* citybar */
+.tc-citybar{
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.06),
+    0 -1px 0 rgba(0,0,0,.08),
+    0 8px 32px rgba(0,0,0,.2)!important;
+}
+.tc-citybar a.on{
+  box-shadow:inset 0 -2px var(--cyan)!important;
+}
+
+/* mobile dock */
+.tc-mobile-dock{
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.08),
+    0 -8px 32px rgba(0,0,0,.35),
+    0 -24px 60px rgba(0,0,0,.2)!important;
+}
+.tc-mobile-dock a.on i{
+  text-shadow:0 0 14px currentColor!important;
+}
+
+/* ═══════════ 7. CHIPS — NEON GLOW ═══════════ */
+
+.chip.live,.chip.ok{
+  box-shadow:0 0 12px rgba(52,231,255,.12)!important;
+  text-shadow:0 0 8px currentColor!important;
+}
+.chip.err{
+  box-shadow:0 0 12px rgba(255,93,119,.15)!important;
+}
+.chip.gold{
+  text-shadow:0 0 8px rgba(255,208,106,.35)!important;
+}
+
+/* ═══════════ 8. TIMELINE / PATH — ПУЛЬСАЦИЯ УЗЛОВ ═══════════ */
+
+.tnode.current .bead{
+  animation:v5-bead-pulse 3s ease-in-out infinite!important;
+}
+.vpath .vp.cur::before{
+  animation:v5-bead-pulse 3s ease-in-out infinite!important;
+}
+@keyframes v5-bead-pulse{
+  0%,100%{box-shadow:0 0 0 4px rgba(59,91,255,.25), 0 0 14px rgba(59,91,255,.15)}
+  50%{box-shadow:0 0 0 6px rgba(59,91,255,.4), 0 0 22px rgba(59,91,255,.25)}
+}
+
+/* ═══════════ 9. HERO CINEMATIC — БОЛЬШЕ КИНО ═══════════ */
+
+/* гало за ядром */
+.page-entry .hero-cine .core::after{
+  content:""!important;
+  position:absolute!important;inset:-30%!important;
+  border-radius:50%!important;
+  background:radial-gradient(circle, rgba(255,208,106,.14), rgba(139,92,255,.1) 40%, transparent 65%)!important;
+  animation:tc-breathe 5.5s ease-in-out infinite!important;
+  pointer-events:none!important;
+}
+
+/* скан-линии поверх видео — мягче */
+.hero-cine .holo .scan{
+  opacity:.3!important;
+  background:repeating-linear-gradient(0deg,rgba(120,144,255,.04) 0 1px,transparent 1px 3px)!important;
+}
+
+/* ═══════════ 10. SCROLL REVEAL (JS добавляет .v5-visible) ═══════════ */
+
+.v5-reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .65s cubic-bezier(.2,.8,.2,1), transform .65s cubic-bezier(.2,.8,.2,1)!important;
+}
+.v5-reveal.v5-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+/* stagger children */
+.v5-reveal.v5-visible > :nth-child(1){transition-delay:.05s}
+.v5-reveal.v5-visible > :nth-child(2){transition-delay:.10s}
+.v5-reveal.v5-visible > :nth-child(3){transition-delay:.12s}
+.v5-reveal.v5-visible > :nth-child(4){transition-delay:.15s}
+.v5-reveal.v5-visible > :nth-child(5){transition-delay:.18s}
+
+/* ═══════════ 11. PARADISE v2 — ПОДНЯТЬ КОНТРАСТ ═══════════ */
+
+body.tc[data-world="paradise"] .panel,
+body.tc[data-world="paradise"] .card,
+body.tc[data-world="paradise"] .portal,
+body.tc[data-world="paradise"] .bcard{
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.95),
+    inset 0 -1px rgba(0,100,70,.04),
+    0 1px 2px rgba(0,80,60,.06),
+    0 8px 24px rgba(0,80,60,.08),
+    0 24px 60px rgba(0,80,60,.06)!important;
+}
+body.tc[data-world="paradise"] .card:hover,
+body.tc[data-world="paradise"] .portal:hover{
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.98),
+    0 4px 16px rgba(0,190,145,.1),
+    0 20px 60px rgba(0,190,145,.12),
+    0 0 40px rgba(202,255,40,.08)!important;
+}
+body.tc[data-world="paradise"] .media{
+  box-shadow:
+    inset 0 0 50px rgba(0,60,45,.06),
+    0 8px 28px rgba(0,60,45,.1)!important;
+}
+body.tc[data-world="paradise"] .tc-rail{
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.98),
+    0 16px 48px rgba(0,80,60,.12),
+    0 40px 100px rgba(0,80,60,.06)!important;
+}
+
+/* ═══════════ 12. CYBER — ЭЛЕКТРИЧЕСКИЙ КОНТРАСТ ═══════════ */
+
+body.tc[data-world="cyber"] .panel,
+body.tc[data-world="cyber"] .card,
+body.tc[data-world="cyber"] .portal,
+body.tc[data-world="cyber"] .bcard{
+  border-color:rgba(53,233,255,.1)!important;
+  box-shadow:
+    inset 0 1px rgba(53,233,255,.06),
+    inset 0 -1px rgba(0,0,0,.2),
+    0 1px 2px rgba(0,0,0,.15),
+    0 8px 28px rgba(0,0,0,.25),
+    0 24px 56px rgba(0,0,0,.15)!important;
+}
+body.tc[data-world="cyber"] .card:hover{
+  border-color:rgba(53,233,255,.3)!important;
+  box-shadow:
+    inset 0 1px rgba(53,233,255,.1),
+    0 0 0 1px rgba(53,233,255,.06),
+    0 16px 48px rgba(0,0,0,.3),
+    0 0 30px rgba(53,233,255,.06)!important;
+}
+body.tc[data-world="cyber"] .btn.primary{
+  background:linear-gradient(110deg, #0c58e0, #6038e8 50%, #d51ba7)!important;
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.3),
+    0 4px 16px rgba(40,119,255,.3),
+    0 20px 52px rgba(40,119,255,.25),
+    0 0 36px rgba(255,46,200,.12)!important;
+}
+body.tc[data-world="cyber"] .chip.live{
+  box-shadow:0 0 14px rgba(53,233,255,.18)!important;
+  text-shadow:0 0 10px rgba(53,233,255,.5)!important;
+}
+
+/* ═══════════ 13. КИНОТЕАТР — ПОСТЕР-ФРЕЙМ ═══════════ */
+
+.page-sochiwood .media.ar-poster,
+.page-sochiwood .media.ar-landscape{
+  box-shadow:
+    inset 0 0 80px rgba(0,0,0,.5),
+    0 12px 44px rgba(0,0,0,.3),
+    0 0 0 1px rgba(255,255,255,.04)!important;
+}
+
+/* ═══════════ 14. КАРТА — ГЛУБИНА И МАРКЕРЫ ═══════════ */
+
+.mapwrap{
+  box-shadow:
+    inset 0 0 100px rgba(0,0,0,.3),
+    0 12px 48px rgba(0,0,0,.25)!important;
+}
+.marker .dotm{
+  transition:transform .25s, box-shadow .3s!important;
+}
+.marker:hover .dotm{
+  transform:scale(1.15)!important;
+  box-shadow:0 0 20px rgba(52,231,255,.3)!important;
+}
+.marker:hover .lab{
+  background:rgba(5,4,13,.8)!important;
+}
+
+/* ═══════════ 15. ТАБЛИЧНЫЕ ПУЛЬСЫ ═══════════ */
+
+.pulse .pdot{
+  animation:v5-dot-pulse 2.2s ease-in-out infinite!important;
+}
+@keyframes v5-dot-pulse{
+  0%,100%{box-shadow:0 0 8px var(--cyan);transform:scale(1)}
+  50%{box-shadow:0 0 16px var(--cyan), 0 0 28px rgba(52,231,255,.15);transform:scale(1.2)}
+}
+
+/* ═══════════ 16. WORLDMARK — ОБЪЁМНЕЕ ═══════════ */
+
+.wordmark{
+  filter:
+    drop-shadow(0 24px 28px rgba(0,0,0,.75))
+    drop-shadow(0 0 28px rgba(126,93,255,.32))
+    drop-shadow(0 0 56px rgba(255,43,214,.12))!important;
+}
+
+/* ═══════════ 17. ЯДРО В ЦЕНТРЕ — ПУЛЬС ═══════════ */
+
+.core{
+  filter:drop-shadow(0 0 28px rgba(255,208,106,.2)) drop-shadow(0 0 48px rgba(139,92,255,.15))!important;
+}
+
+/* ═══════════ 18. ЗАГРУЗКА ИМПУЛЬСА — АНИМАЦИЯ РАМКИ ═══════════ */
+
+.uploadbar{
+  background:
+    linear-gradient(var(--glass), var(--glass)) padding-box,
+    linear-gradient(135deg, var(--brand-500), var(--violet), var(--pink)) border-box!important;
+  border:1px solid transparent!important;
+  background-size:100% 100%, 300% 300%!important;
+  animation:v5-border-flow 4s linear infinite!important;
+}
+@keyframes v5-border-flow{
+  0%{background-position:0 0, 0% 0%}
+  100%{background-position:0 0, 100% 100%}
+}
+
+/* ═══════════ 19. ACCORDION-СЖАТИЕ ═══════════ */
+
+.section{
+  transition:opacity .4s, transform .4s!important;
+}
+
+/* ═══════════ 20. MOBILE-FIRST МЕЛОЧИ ═══════════ */
+
+/* убрать прыжки при скролле на iOS */
+.screen{-webkit-overflow-scrolling:touch}
+
+/* притушить табличные разделители */
+.pulse .item,.prov,.qrow,.eventrow,.worldrow{
+  border-color:rgba(255,255,255,.05)!important;
+}
+
+@media(prefers-reduced-motion:reduce){
+  .v5-reveal{opacity:1!important;transform:none!important;transition:none!important}
+  .uploadbar{animation:none!important}
+  .pulse .pdot,.tnode.current .bead,.vpath .vp.cur::before{animation:none!important}
+}

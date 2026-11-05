@@ -14,6 +14,14 @@
   const pick = (object, ...keys) => keys.map((key) => object?.[key]).find((value) => value !== undefined && value !== null && value !== '');
   const path = () => (location.pathname.split('/').pop() || 'home.html').replace('.html','');
 
+  /* Local character photos — fallback when API doesn't return portrait_url */
+  const LOCAL_PORTRAITS = {
+    'daniel': './assets/characters-v4/daniel-cinematic-v1.webp',
+    'liberty': './assets/characters-v4/liberty-abundance-v1.webp',
+    'vsevolod-kim': './assets/characters-v4/vsevolod-kim-collider-v1.webp',
+    'vsevolod': './assets/characters-v4/vsevolod-kim-collider-v1.webp'
+  };
+
   async function rpc(name, body={}) {
     const response = await fetch(BASE + name, {
       method:'POST',
@@ -45,8 +53,11 @@
   function portrait(profile, decorative=false){
     const url = pick(profile,'portrait_url','image_url');
     const name = profileName(profile);
-    if (url) {
-      return `<img src="${esc(url)}" alt="${decorative ? '' : esc(name)}" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="tc-monogram" hidden>${esc(initials(name))}</span>`;
+    const id = profileId(profile);
+    const localUrl = LOCAL_PORTRAITS[id] || LOCAL_PORTRAITS[id.toLowerCase()];
+    const imgUrl = url || localUrl;
+    if (imgUrl) {
+      return `<img src="${esc(imgUrl)}" alt="${decorative ? '' : esc(name)}" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="tc-monogram" hidden>${esc(initials(name))}</span>`;
     }
     return `<span class="tc-monogram">${esc(initials(name))}</span>`;
   }
