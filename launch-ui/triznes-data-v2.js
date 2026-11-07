@@ -57,7 +57,7 @@
     const localUrl = LOCAL_PORTRAITS[id] || LOCAL_PORTRAITS[id.toLowerCase()];
     const imgUrl = url || localUrl;
     if (imgUrl) {
-      return `<img src="${esc(imgUrl)}" alt="${decorative ? '' : esc(name)}" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="tc-monogram" hidden>${esc(initials(name))}</span>`;
+      return `<img src="${esc(imgUrl)}" alt="${decorative ? '' : esc(name)}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="tc-monogram" hidden>${esc(initials(name))}</span>`;
     }
     return `<span class="tc-monogram">${esc(initials(name))}</span>`;
   }
@@ -154,7 +154,7 @@
       if (facts[0]) facts[0].textContent = profileIdea(profile);
       if (facts[1]) facts[1].textContent = profileDream(profile);
       const role = hero.querySelector('.t-caption[style*="text-transform"]'); if (role) role.textContent = `Роль · ${profileRole(profile)}`;
-      const cardChip = [...hero.querySelectorAll('.chip')].find((node) => /black|silver|gold|доступ|player/i.test(node.textContent));
+      const cardChip = [...hero.querySelectorAll('.chip')].find((node) => /black|silver|gold|доступ|player|профиль мира/i.test(node.textContent));
       if (cardChip) cardChip.textContent = `${profileCard(profile)} · профиль мира`;
       const cta = hero.querySelector('.btn.primary'); if (cta) cta.href = `character.html?character=${encodeURIComponent(profileId(profile))}`;
     }

@@ -74,16 +74,23 @@
       canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
     }
 
+    let rafId = null;
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(p => { p.update(); p.draw(ctx); });
-      requestAnimationFrame(animate);
+      rafId = requestAnimationFrame(animate);
     }
+    function startAnim() { if (rafId === null && !document.hidden) rafId = requestAnimationFrame(animate); }
+    function stopAnim() { if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; } }
 
     resize();
     for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
     addEventListener('resize', resize, { passive: true });
-    requestAnimationFrame(animate);
+    // Не жечь кадры в скрытой вкладке: ставим анимацию на паузу
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stopAnim(); else startAnim();
+    });
+    startAnim();
   }
 
   // Delay particles so they don't block first paint
@@ -94,15 +101,9 @@
   }
 
   /* ── 3. REAL CHARACTER PHOTOS ── */
-  // Map initials → local photo. Runs after data script creates monograms.
-  const PHOTO_BY_INITIALS = {
-    'D':  './assets/characters-v4/daniel-cinematic-v1.webp',
-    'DA': './assets/characters-v4/daniel-cinematic-v1.webp',
-    'L':  './assets/characters-v4/liberty-abundance-v1.webp',
-    'LA': './assets/characters-v4/liberty-abundance-v1.webp',
-    'ВК': './assets/characters-v4/vsevolod-kim-collider-v1.webp',
-    'VK': './assets/characters-v4/vsevolod-kim-collider-v1.webp',
-  };
+  // Строго по проверенному slug/ID персонажа, НЕ по инициалам: случайный
+  // человек с теми же буквами не должен получить чужое лицо. Неизвестный
+  // slug остаётся с инициалами/нейтральным placeholder.
   const PHOTO_BY_SLUG = {
     'daniel':       './assets/characters-v4/daniel-cinematic-v1.webp',
     'liberty':      './assets/characters-v4/liberty-abundance-v1.webp',
@@ -111,55 +112,30 @@
   };
 
   function injectPhotos() {
-    // 1. Inject into monogram containers (.avatar, .media)
-    document.querySelectorAll('.tc-monogram:not([hidden])').forEach(mono => {
-      const text = mono.textContent.trim();
-      const photo = PHOTO_BY_INITIALS[text];
-      if (!photo) return;
-      const parent = mono.parentElement;
-      if (!parent) return;
-      if (parent.querySelector('img.v5-photo')) return;
-      const img = document.createElement('img');
-      img.src = photo; img.alt = text; img.className = 'v5-photo';
-      img.loading = 'lazy'; img.decoding = 'async';
-      // Ensure parent is positioned for absolute fill
-      const ps = getComputedStyle(parent).position;
-      if (ps === 'static') parent.style.position = 'relative';
-      parent.style.overflow = 'hidden';
-      img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;border-radius:inherit';
-      img.onerror = () => { img.hidden = true; mono.hidden = false; };
-      mono.hidden = true;
-      parent.appendChild(img);
-    });
-    // 2. Also inject into hidden-img monogram pairs (portrait() fallback)
-    document.querySelectorAll('img[hidden] + .tc-monogram:not([hidden])').forEach(mono => {
-      const text = mono.textContent.trim();
-      const photo = PHOTO_BY_INITIALS[text];
-      if (!photo) return;
-      const hiddenImg = mono.previousElementSibling;
-      if (hiddenImg && hiddenImg.tagName === 'IMG') {
-        hiddenImg.src = photo;
-        hiddenImg.hidden = false;
-        mono.hidden = true;
-      }
-    });
-    // 3. Inject into .media[data-character] elements (entry page cards)
-    document.querySelectorAll('.media[data-character]').forEach(media => {
-      if (media.querySelector('img.v5-photo')) return;
-      const slug = media.getAttribute('data-character');
+    // Подставляем портрет ТОЛЬКО там, где разметка несёт точный data-character
+    // и этот slug есть в PHOTO_BY_SLUG. Неизвестный slug — ничего не трогаем,
+    // остаётся нейтральный placeholder/инициалы.
+    document.querySelectorAll('[data-character]').forEach(host => {
+      // Портрет уже есть (адаптер данных при гидратации или готовая разметка) — не дублируем.
+      if (host.querySelector('img:not([hidden])')) return;
+      const slug = host.getAttribute('data-character');
       const photo = PHOTO_BY_SLUG[slug];
       if (!photo) return;
-      // Hide placeholder
-      const ph = media.querySelector('.ph');
+      // спрятать placeholder, подпись формата и иконку-заглушку аватара
+      const ph = host.querySelector('.ph');
       if (ph) ph.style.display = 'none';
-      const fmt = media.querySelector('.fmt');
+      const fmt = host.querySelector('.fmt');
       if (fmt) fmt.style.display = 'none';
+      const icon = host.querySelector(':scope > svg');
+      if (icon) icon.style.display = 'none';
+      if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
+      host.style.overflow = 'hidden';
       const img = document.createElement('img');
       img.src = photo; img.alt = slug; img.className = 'v5-photo';
       img.loading = 'lazy'; img.decoding = 'async';
       img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;border-radius:inherit';
-      img.onerror = () => { img.hidden = true; if(ph) ph.style.display = ''; };
-      media.appendChild(img);
+      img.onerror = () => { img.hidden = true; if (ph) ph.style.display = ''; if (icon) icon.style.display = ''; };
+      host.appendChild(img);
     });
   }
 
@@ -189,7 +165,9 @@
   }
 
   /* ── 5. HOVER GLOW ON CARDS (follow cursor) ── */
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  // Только на устройствах с настоящим hover: на тач это лишняя работа и мешает тапу/свайпу.
+  if (matchMedia('(hover:hover) and (pointer:fine)').matches &&
+      !matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.addEventListener('pointermove', e => {
       const card = e.target.closest('.card, .portal, .bcard, .step');
       if (!card) return;

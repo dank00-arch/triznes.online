@@ -1,4 +1,4 @@
-const CACHE = 'triznes-launch-ui-v9-real-sochi-paradise-20261030-1';
+const CACHE = 'triznes-launch-ui-v10-sochi-3d-live-20261105';
 const CORE = [
   './','./index.html','./entry.html','./home.html','./character.html','./world-map.html','./city-objects.html','./communities.html',
   './sochiwood.html','./neurofarm.html','./community.html','./boards.html',

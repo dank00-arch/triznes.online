@@ -13,6 +13,7 @@
   let map=null;
   let mapData={places:[],layers:[],features:[]};
   let selected=null;
+  let refreshing=false;
   let draft={mode:null,coords:[]};
 
   const esc=(v)=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -22,7 +23,8 @@
   const colors=(mode)=>mode==='cyber'?{place:'#35e9ff',halo:'#8058ff',quest:'#ff2ec8',zone:'#28145c',zoneLine:'#8058ff',scene:'#ff2ec8'}:{place:'#00e5a8',halo:'#fff36d',quest:'#00d4ff',zone:'#d8ff66',zoneLine:'#00e5a8',scene:'#ff5e7a'};
 
   async function rpc(name,body={}){
-    const r=await fetch(`${SUPABASE}/rest/v1/rpc/${name}`,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store'});
+    const controller=new AbortController(),timer=window.setTimeout(()=>controller.abort(),9000);
+    let r;try{r=await fetch(`${SUPABASE}/rest/v1/rpc/${name}`,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store',signal:controller.signal})}finally{clearTimeout(timer)}
     if(!r.ok) throw new Error(`${name}_${r.status}`);
     return r.json();
   }
@@ -32,7 +34,7 @@
       const l=document.createElement('link');l.rel='stylesheet';l.href=`https://unpkg.com/maplibre-gl@${MAPLIBRE}/dist/maplibre-gl.css`;document.head.appendChild(l);
     }
     if(!document.querySelector('link[href*="map-v3.css"]')){
-      const l=document.createElement('link');l.rel='stylesheet';l.href='./map-v3.css?v=20261030-real-sochi-v1';document.head.appendChild(l);
+      const l=document.createElement('link');l.rel='stylesheet';l.href='./map-v3.css?v=20261105-sochi-gamehud-v3';document.head.appendChild(l);
     }
   }
 
@@ -47,6 +49,8 @@
   function mountSources(){
     if(!map||!map.isStyleLoaded()) return;
     const mode=currentWorld(), c=colors(mode);
+    mount3DBuildings(mode);
+    mountGameRoads(mode);
     if(!map.getSource('triznes-places')) map.addSource('triznes-places',{type:'geojson',data:placesGeoJSON()}); else map.getSource('triznes-places').setData(placesGeoJSON());
     if(!map.getSource('triznes-world')) map.addSource('triznes-world',{type:'geojson',data:overlaysGeoJSON()}); else map.getSource('triznes-world').setData(overlaysGeoJSON());
 
@@ -63,13 +67,36 @@
     refreshDraft();
   }
 
+  // Real building footprints from OpenFreeMap / OpenMapTiles, extruded in 3D.
+  function mount3DBuildings(mode=currentWorld()){
+    if(!map?.getSource('openmaptiles')||map.getLayer('triznes-3d-buildings')) return;
+    const firstLabel=map.getStyle()?.layers?.find(layer=>layer.type==='symbol'&&layer.layout?.['text-field'])?.id;
+    map.addLayer({id:'triznes-3d-buildings',type:'fill-extrusion',source:'openmaptiles','source-layer':'building',minzoom:12,paint:{
+      'fill-extrusion-color':['interpolate',['linear'],['coalesce',['get','render_height'],['get','height'],8],0,mode==='cyber'?'#132b50':'#3c8079',18,mode==='cyber'?'#214f7b':'#62aaa0',55,mode==='cyber'?'#3b4f9b':'#b1d984',120,mode==='cyber'?'#7a55a8':'#f5d987'],
+      'fill-extrusion-height':['interpolate',['linear'],['zoom'],12,0,14,['coalesce',['get','render_height'],['get','height'],8]],
+      'fill-extrusion-base':['coalesce',['get','render_min_height'],0],
+      'fill-extrusion-opacity':mode==='cyber'?0.96:0.84,
+      'fill-extrusion-vertical-gradient':true
+    }},firstLabel);
+    try{map.setLight({anchor:'viewport',color:mode==='cyber'?'#9fdcff':'#fff1ce',intensity:0.48,position:[1.15,210,35]})}catch(_){}
+  }
+
+  // Give the real road network a restrained game-map hierarchy without drawing fictional streets.
+  function mountGameRoads(mode=currentWorld()){
+    if(!map?.getSource('openmaptiles')||map.getLayer('triznes-road-glow')) return;
+    const firstLabel=map.getStyle()?.layers?.find(layer=>layer.type==='symbol'&&layer.layout?.['text-field'])?.id;
+    const filter=['in',['get','class'],['literal',['motorway','trunk','primary','secondary']]];
+    map.addLayer({id:'triznes-road-glow',type:'line',source:'openmaptiles','source-layer':'transportation',minzoom:11,filter,paint:{'line-color':mode==='cyber'?'#20dfff':'#00b98d','line-width':['interpolate',['linear'],['zoom'],11,2,15,8],'line-opacity':mode==='cyber'?0.17:0.13,'line-blur':5}},firstLabel);
+    map.addLayer({id:'triznes-road-highlight',type:'line',source:'openmaptiles','source-layer':'transportation',minzoom:11,filter,paint:{'line-color':['match',['get','class'],'motorway',mode==='cyber'?'#ff3dc8':'#ffc857','trunk',mode==='cyber'?'#a66cff':'#ffca66','primary',mode==='cyber'?'#32dfff':'#54c9ad',mode==='cyber'?'#7186b5':'#8ab3a3'],'line-width':['interpolate',['linear'],['zoom'],11,0.6,15,2.2],'line-opacity':mode==='cyber'?0.72:0.68}},firstLabel);
+  }
+
   function pointerOn(){map.getCanvas().style.cursor='pointer'}
   function pointerOff(){map.getCanvas().style.cursor=draft.mode?'crosshair':''}
   function onPlaceClick(e){const slug=e.features?.[0]?.properties?.slug;const p=mapData.places.find(x=>x.slug===slug);if(p) selectPlace(p,true)}
 
   function selectPlace(place,fly=false){
     selected=place;
-    if(fly&&validCoord(place)) map.flyTo({center:[Number(place.longitude),Number(place.latitude)],zoom:14.6,pitch:currentWorld()==='cyber'?50:32,duration:900});
+    if(fly&&validCoord(place)) map.flyTo({center:[Number(place.longitude),Number(place.latitude)],zoom:15,pitch:currentWorld()==='cyber'?62:56,duration:1100});
     const sheet=document.querySelector('.page-world-map .sheet');
     if(sheet){
       const title=sheet.querySelector('.t-h2');if(title)title.textContent=place.name||'Объект Сочи';
@@ -112,7 +139,7 @@
   }
 
   function mountChrome(mapwrap){
-    mapwrap.insertAdjacentHTML('beforeend',`<div class="tc-map-chrome"><label class="tc-map-search">⌕<input type="search" placeholder="Найти объект TRIZNES…" aria-label="Найти объект"></label><div class="tc-map-provider">REAL SOCHI · MAPLIBRE</div></div><div class="tc-map-selected"></div><div class="tc-map-layerbar"><button class="on" data-layer="places">ОБЪЕКТЫ</button><button class="on" data-layer="world-zones">ЗОНЫ МИРА</button><button class="on" data-layer="quests">КВЕСТЫ</button><button class="on" data-layer="scenes">СЦЕНЫ</button>${editMode?'<button class="on" data-open-editor>РЕДАКТОР</button>':''}</div>`);
+    mapwrap.insertAdjacentHTML('beforeend',`<div class="tc-map-chrome"><label class="tc-map-search"><span class="search-glyph">⌕</span><input type="search" placeholder="Найти объект TRIZNES…" aria-label="Найти объект"></label><div class="tc-map-provider"><span class="tc-live-dot"></span><span data-map-sync data-state="loading">REAL SOCHI · 3D LIVE</span></div></div><div class="tc-map-mission"><span class="mission-eyebrow"><i></i> WORLD SIMULATION · SOCHI</span><b>ГОРОД — ТВОЯ ИГРОВАЯ КАРТА</b><span class="mission-meta"><strong data-world-count>0</strong> подтверждённых точек <em>·</em> мир обновляется в реальном времени</span></div><div class="tc-map-coords"><span>ЛОКАЦИЯ</span><b data-map-coords>43.5855° N<br>39.7248° E</b><i>SOCHI · BLACK SEA</i></div><div class="tc-map-selected"></div><div class="tc-map-layerbar"><button class="on" data-layer="places">◉ <span>ОБЪЕКТЫ</span></button><button class="on" data-layer="world-zones">⬡ <span>ЗОНЫ МИРА</span></button><button class="on" data-layer="quests">⌁ <span>КВЕСТЫ</span></button><button class="on" data-layer="scenes">✦ <span>СЦЕНЫ</span></button>${editMode?'<button class="on" data-open-editor>РЕДАКТОР</button>':''}</div>`);
     const input=mapwrap.querySelector('.tc-map-search input');
     input?.addEventListener('input',()=>{const q=input.value.trim().toLowerCase();if(q.length<2)return;const p=mapData.places.find(x=>(x.name||'').toLowerCase().includes(q)||(x.category||'').toLowerCase().includes(q));if(p)selectPlace(p,true)});
     mapwrap.querySelectorAll('[data-layer]').forEach(btn=>btn.addEventListener('click',()=>toggleLayer(btn)));
@@ -122,7 +149,7 @@
   function toggleLayer(btn){
     const key=btn.dataset.layer;const on=!btn.classList.contains('on');btn.classList.toggle('on',on);const vis=on?'visible':'none';
     if(key==='places'){['triznes-place-halo','triznes-place-hit','triznes-place-label'].forEach(id=>map.getLayer(id)&&map.setLayoutProperty(id,'visibility',vis));return}
-    const filterBy={quests:'triznes-world-lines','world-zones':'triznes-zones',scenes':'triznes-world-points'};const id=filterBy[key];if(id&&map.getLayer(id))map.setLayoutProperty(id,'visibility',vis);
+    const filterBy={quests:'triznes-world-lines','world-zones':'triznes-zones',scenes:'triznes-world-points'};const id=filterBy[key];if(id&&map.getLayer(id))map.setLayoutProperty(id,'visibility',vis);
   }
 
   function mountEditor(mapwrap){
@@ -156,21 +183,43 @@
 
   async function loadMapData(){mapData=await rpc('get_triznes_map');mapData.places=Array.isArray(mapData.places)?mapData.places:[];mapData.layers=Array.isArray(mapData.layers)?mapData.layers:[];mapData.features=Array.isArray(mapData.features)?mapData.features:[]}
 
+  async function refreshLiveMap(){
+    if(refreshing||document.hidden)return;refreshing=true;
+    const badge=document.querySelector('[data-map-sync]');
+    try{
+      await loadMapData();mountSources();
+      const count=document.querySelector('[data-world-count]');if(count)count.textContent=String(mapData.places.length).padStart(2,'0');
+      if(selected){const next=mapData.places.find(p=>p.slug===selected.slug);if(next)selected=next}
+      if(badge){badge.textContent=`LIVE · ${new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}`;badge.dataset.state='live'}
+    }catch(error){
+      console.warn('[TRIZNES MAP] live refresh failed',error);
+      if(badge){badge.textContent='СВЯЗЬ ВОССТАНАВЛИВАЕТСЯ';badge.dataset.state='stale'}
+    }finally{refreshing=false}
+  }
+
   function wireFilters(){document.querySelectorAll('.page-world-map .filter button').forEach(btn=>{const t=btn.textContent.toLowerCase();if(/люди/.test(t))btn.onclick=()=>location.href='character.html';if(/сообщ/.test(t))btn.onclick=()=>location.href='communities.html';if(/места/.test(t))btn.onclick=()=>location.href='city-objects.html';if(/событ|истор/.test(t))btn.onclick=()=>location.href='boards.html';if(/съём/.test(t))btn.onclick=()=>location.href='neurofarm.html'})}
 
   async function boot(){
     const wrap=document.querySelector('.page-world-map .mapwrap');if(!wrap)return;
-    loadCss();await loadMapData();
+    loadCss();
+    let dataAvailable=true;
+    try{await loadMapData()}catch(error){dataAvailable=false;mapData={places:[],layers:[],features:[]};console.warn('[TRIZNES MAP] initial data unavailable; starting map in reconnect mode',error)}
+    let maplibregl;
+    try{maplibregl=await import(`https://unpkg.com/maplibre-gl@${MAPLIBRE}/dist/maplibre-gl.mjs`)}catch(error){console.error('[TRIZNES MAP] MapLibre unavailable',error);return}
     wrap.classList.add('tc-real-map');wrap.innerHTML='<div id="triznesRealMap"></div>';mountChrome(wrap);wireFilters();
-    const maplibregl=await import(`https://unpkg.com/maplibre-gl@${MAPLIBRE}/dist/maplibre-gl.mjs`);window.maplibregl=maplibregl;
-    map=new maplibregl.Map({container:'triznesRealMap',style:styleFor(currentWorld()),center:SOCHI,zoom:11.2,pitch:currentWorld()==='cyber'?48:30,bearing:-8,maxBounds:BOUNDS,attributionControl:true,hash:false});
+    window.maplibregl=maplibregl;
+    map=new maplibregl.Map({container:'triznesRealMap',style:styleFor(currentWorld()),center:SOCHI,zoom:14.2,pitch:currentWorld()==='cyber'?67:61,bearing:-8,maxBounds:BOUNDS,attributionControl:true,hash:false});
     map.addControl(new maplibregl.NavigationControl({visualizePitch:true}),'top-right');
     map.addControl(new maplibregl.GeolocateControl({positionOptions:{enableHighAccuracy:true},trackUserLocation:true,showUserHeading:true,showAccuracyCircle:true}),'top-right');
     map.addControl(new maplibregl.ScaleControl({maxWidth:100,unit:'metric'}),'bottom-right');
     map.on('style.load',()=>{mountSources();const requested=new URLSearchParams(location.search).get('place');const p=mapData.places.find(x=>x.slug===requested);if(p)selectPlace(p,true)});
+    const updateCoords=()=>{const node=document.querySelector('[data-map-coords]');if(!node)return;const c=map.getCenter();node.innerHTML=`${Math.abs(c.lat).toFixed(4)}° ${c.lat<0?'S':'N'}<br>${Math.abs(c.lng).toFixed(4)}° ${c.lng<0?'W':'E'}`};
+    map.on('moveend',updateCoords);map.once('load',updateCoords);
     map.on('error',e=>console.warn('[TRIZNES MAP]',e?.error?.message||e));
-    window.addEventListener('triznes:world-change',ev=>{const mode=ev.detail?.world==='cyber'?'cyber':'paradise';map.setStyle(styleFor(mode));map.easeTo({pitch:mode==='cyber'?48:30,duration:500});});
+    window.addEventListener('triznes:world-change',ev=>{const mode=ev.detail?.world==='cyber'?'cyber':'paradise';map.setStyle(styleFor(mode));map.easeTo({pitch:mode==='cyber'?67:61,duration:700});});
     const defaultPlace=mapData.places.find(p=>p.slug==='mediahub-primorskaya'&&validCoord(p))||mapData.places.find(validCoord);if(defaultPlace)selectPlace(defaultPlace,false);
+    if(!dataAvailable){const badge=document.querySelector('[data-map-sync]');if(badge){badge.textContent='ОЖИДАЮ ДАННЫЕ · ПОВТОР';badge.dataset.state='stale'}}
+    refreshLiveMap();window.setInterval(refreshLiveMap,30000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshLiveMap()});
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>boot().catch(err=>console.error('[TRIZNES MAP]',err)),{once:true});else boot().catch(err=>console.error('[TRIZNES MAP]',err));

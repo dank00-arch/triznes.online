@@ -223,7 +223,23 @@ body.tc::after{
 .v5-reveal.v5-visible > :nth-child(4){transition-delay:.15s}
 .v5-reveal.v5-visible > :nth-child(5){transition-delay:.18s}
 
-/* ═══════════ 11. PARADISE v2 — ПОДНЯТЬ КОНТРАСТ ═══════════ */
+/* ═══════════ 11. PARADISE / «ИЗОБИЛИЕ» — ЗАКРЫТЬ ЗАЗОР ДНЕВНОЙ ТЕМЫ ═══════════ */
+/* Дневную тему «Изобилие» целиком задаёт paradise-neon-v2.css (грузится раньше).
+   Не конкурируем с ней за общие панели и атмосферу. Но универсальное холодное
+   стекло v5 выше затрагивает .kpi/.sigcard/.step/.bezliki, которых нет в
+   селекторе paradise-neon-v2, — здесь даём им те же дневные токены темы, чтобы
+   «Изобилие» нигде не проваливалось в тёмное неоновое стекло «Игры». */
+body.tc[data-world="paradise"] .kpi,
+body.tc[data-world="paradise"] .sigcard,
+body.tc[data-world="paradise"] .step,
+body.tc[data-world="paradise"] .bezliki{
+  background:linear-gradient(145deg, var(--glass-strong), var(--glass))!important;
+  border-color:var(--glass-border)!important;
+}
+body.tc[data-world="paradise"] .sigcard:hover,
+body.tc[data-world="paradise"] .step:hover{
+  border-color:var(--glass-border-strong)!important;
+}
 
 body.tc[data-world="paradise"] .panel,
 body.tc[data-world="paradise"] .card,
@@ -373,6 +389,43 @@ body.tc[data-world="cyber"] .chip.live{
 /* притушить табличные разделители */
 .pulse .item,.prov,.qrow,.eventrow,.worldrow{
   border-color:rgba(255,255,255,.05)!important;
+}
+
+/* ═══════════ 21. TOUCH — НЕ ДЕРЖАТЬ HOVER-ПОДЪЁМ ═══════════ */
+/* На устройствах без настоящего hover transform от :hover залипает после тапа
+   и мешает горизонтальным свайп-каруселям и попаданию по элементу. Тени оставляем. */
+@media (hover:none){
+  .card:hover,.portal:hover,.step:hover,.bcard:hover,.sigcard:hover,
+  .btn.primary:hover,.avatar:hover{transform:none!important}
+  .marker:hover .dotm{transform:none!important}
+}
+
+/* ═══════════ 22. ТЕЛЕФОН — УПРАВЛЕНИЕ ПУЛЬТОМ ПАЛЬЦЕМ ═══════════ */
+/* Цель: с телефона удобно управлять проектом через Пульт.
+   Увеличиваем зоны нажатия до ≥44px и держим верхнюю навигацию под рукой. */
+@media (max-width:640px){
+  /* тап-цели: фильтры, сегменты, вкладки, переключатель миров, чипы-кнопки */
+  .filter button,
+  .seg button,
+  .tc-citybar a{
+    min-height:44px!important;
+    display:inline-flex!important;
+    align-items:center!important;
+    padding-top:9px!important;padding-bottom:9px!important;
+  }
+  .world-mini button,
+  .tc-world-switch button{
+    min-height:40px!important;
+    padding:8px 15px!important;
+  }
+  /* мелкие кнопки действий в сигнал-картах пульта — крупнее для пальца */
+  .sigcard .btn.sm,
+  .pult .btn.sm,
+  .btn.sm{min-height:40px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
+  /* верхняя навигация остаётся доступной при прокрутке */
+  .tc-citybar{position:sticky!important;top:0!important;z-index:40!important}
+  /* чуть больше воздуха вокруг горизонтальных свайп-рядов */
+  .hscroll{scroll-padding-left:16px;-webkit-overflow-scrolling:touch}
 }
 
 @media(prefers-reduced-motion:reduce){
