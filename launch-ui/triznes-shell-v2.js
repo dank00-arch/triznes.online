@@ -38,7 +38,7 @@
   const navGroups = [
     {label:'ЛИЧНОЕ',items:[['home','◉','Ядро','Домой'],['character','◎','Персонаж','Мой путь']]},
     {label:'ГОРОД',items:[['world-map','⌖','Карта','Живой Сочи'],['city-objects','◇','Объекты','Партнёры и места'],['communities','◌','Сообщества','Миры людей']]},
-    {label:'СОЗДАНИЕ',items:[['neurofarm','✦','Нейроферма','Медиа → кино'],['boards','⌘','Пульт','Сцены и сигналы'],['sochiwood','▶','Кинотеатр','SOCHIWOOD']]}
+    {label:'СОЗДАНИЕ',items:[['neurofarm','✦','Нейроферма','Медиа → кино'],['pult','⌘','Пульт','Живой мир и сигналы'],['sochiwood','▶','Кинотеатр','SOCHIWOOD']]}
   ];
 
   function navLink(id,icon,title,copy){
@@ -66,7 +66,7 @@
     const root=document.querySelector('.screen'); if(!root) return;
     const routeOn=(id,also=[])=>[id,...also].includes(screen)?'on':'';
     const bar=document.createElement('nav'); bar.className='tc-citybar'; bar.setAttribute('aria-label','Город TRIZNES');
-    bar.innerHTML=`<a class="${routeOn('world-map')}" href="world-map.html"><i>⌖</i>Карта</a><a class="${routeOn('city-objects')}" href="city-objects.html"><i>◇</i>Объекты Сочи</a><a class="${routeOn('communities',['community'])}" href="communities.html"><i>◌</i>Сообщества</a><a class="${routeOn('neurofarm')}" href="neurofarm.html"><i>✦</i>Нейроферма</a><a class="${routeOn('boards')}" href="boards.html"><i>⌘</i>Пульт</a><a class="${routeOn('sochiwood')}" href="sochiwood.html"><i>▶</i>Кино</a><span class="spacer"></span>${modeSwitch()}`;
+    bar.innerHTML=`<a class="${routeOn('world-map')}" href="world-map.html"><i>⌖</i>Карта</a><a class="${routeOn('city-objects')}" href="city-objects.html"><i>◇</i>Объекты Сочи</a><a class="${routeOn('communities',['community'])}" href="communities.html"><i>◌</i>Сообщества</a><a class="${routeOn('neurofarm')}" href="neurofarm.html"><i>✦</i>Нейроферма</a><a class="${routeOn('pult')}" href="pult.html"><i>⌘</i>Пульт</a><a class="${routeOn('sochiwood')}" href="sochiwood.html"><i>▶</i>Кино</a><span class="spacer"></span>${modeSwitch()}`;
     root.prepend(bar);
   }
 
@@ -79,7 +79,7 @@
     if(screen==='entry') return;
     const dock=document.createElement('nav'); dock.className='tc-mobile-dock'; dock.setAttribute('aria-label','Основная навигация');
     const item=(href,id,icon,label,also=[])=>`<a href="${href}" class="${[id,...also].includes(screen)?'on':''}"><i>${icon}</i><span>${label}</span></a>`;
-    dock.innerHTML=[item('character.html','character','◎','Я',['home']),item('world-map.html','world-map','⌖','Карта'),item('city-objects.html','city-objects','◇','Объекты'),item('communities.html','communities','◌','Миры',['community']),item('sochiwood.html','sochiwood','▶','Кино')].join('');
+    dock.innerHTML=[item('character.html','character','◎','Я',['home']),item('world-map.html','world-map','⌖','Карта'),item('city-objects.html','city-objects','◇','Объекты'),item('communities.html','communities','◌','Миры',['community']),item('pult.html','pult','⌘','Пульт'),item('sochiwood.html','sochiwood','▶','Кино')].join('');
     document.body.appendChild(dock);
   }
 
