@@ -23,7 +23,8 @@
     ['./navigation-v3.css?v=20261030-nav-v4','navigation-v3.css'],
     ['./paradise-neon-v2.css?v=20261030-paradise-daylight-neon-v1','paradise-neon-v2.css'],
     ['./archive-media-v1.css?v=20261030-archive-real-v1','archive-media-v1.css'],
-    ['./visual-boost-v5.css?v=20261105-boost-v5','visual-boost-v5.css']
+    ['./visual-boost-v5.css?v=20261105-boost-v5','visual-boost-v5.css'],
+    ['./world-visual-polish-v6.css?v=20261105-world-polish-v6-2','world-visual-polish-v6.css']
   ];
   css.forEach(([href,key]) => {
     if (document.querySelector(`link[href*="${key}"]`)) return;
@@ -48,12 +49,16 @@
   function mountRail(){
     if(screen==='entry') return;
     const rail=document.createElement('aside'); rail.className='tc-rail'; rail.setAttribute('aria-label','Навигация TRIZNES');
-    rail.innerHTML=`<a class="tc-rail-brand" href="home.html"><img src="./assets/triznes-core-128.png" alt=""><span><b>TRIZNES</b><small>ЖИЗНЬ В ИГРЕ</small></span></a><div class="tc-rail-state"><i></i><span>МИР АКТИВЕН</span><b>СОЧИ · ${requestedWorld==='paradise'?'РАЙ':'CYBER'}</b></div><nav>${navGroups.map(group=>`<div class="tc-nav-section">${group.label}</div>${group.items.map(item=>navLink(...item)).join('')}`).join('')}</nav><a class="tc-rail-apollon" href="https://t.me/danielsassis_bot?start=register" target="_blank" rel="noopener"><i>✦</i><span><b>APOLLON</b><small>идея · мечта · вход</small></span></a>`;
+    rail.innerHTML=`
+      <a class="tc-rail-brand" href="home.html"><img src="./assets/triznes-core-128.png" alt=""><span><b>TRIZNES</b><small>ЖИЗНЬ В ИГРЕ</small></span></a>
+      <div class="tc-rail-state"><i></i><span>ТВОЙ МИР</span><b>СОЧИ · ${requestedWorld==='paradise'?'ИЗОБИЛИЕ':'ИГРА'}</b></div>
+      <nav>${navGroups.map(group=>`<div class="tc-nav-section">${group.label}</div>${group.items.map(item=>navLink(...item)).join('')}`).join('')}</nav>
+      <a class="tc-rail-apollon" href="https://t.me/danielsassis_bot?start=register" target="_blank" rel="noopener"><i>✦</i><span><b>APOLLON</b><small>идея · мечта · вход</small></span></a>`;
     document.body.prepend(rail);
   }
 
   function modeSwitch(cls='world-mini'){
-    return `<div class="${cls}" role="group" aria-label="Режим мира"><button type="button" data-world-choice="paradise">РАЙ</button><button type="button" data-world-choice="cyber">CYBER</button></div>`;
+    return `<div class="${cls}" role="group" aria-label="Режим мира"><button type="button" data-world-choice="paradise">ИЗОБИЛИЕ</button><button type="button" data-world-choice="cyber">ИГРА</button></div>`;
   }
 
   function mountCityBar(){
@@ -67,7 +72,7 @@
 
   function mountEntrySwitch(){
     if(screen!=='entry') return;
-    const wrap=document.createElement('div'); wrap.className='tc-entry-world'; wrap.innerHTML=`<span>ОПТИКА МИРА</span>${modeSwitch('world-mini')}`; document.body.appendChild(wrap);
+    const wrap=document.createElement('div'); wrap.className='tc-entry-world'; wrap.innerHTML=`<span>МИР</span>${modeSwitch('world-mini')}`; document.body.appendChild(wrap);
   }
 
   function mountMobileDock(){
@@ -89,14 +94,14 @@
     document.body.dataset.world=mode;document.documentElement.dataset.world=mode;
     if(persist){try{localStorage.setItem(WORLD_KEY,mode)}catch(_){}}
     document.querySelectorAll('[data-world-choice]').forEach(btn=>{const on=btn.dataset.worldChoice===mode;btn.classList.toggle('on',on);btn.setAttribute('aria-pressed',String(on));btn.setAttribute('aria-selected',String(on));});
-    const state=document.querySelector('.tc-rail-state b');if(state)state.textContent=`СОЧИ · ${mode==='paradise'?'РАЙ':'CYBER'}`;
+    const state=document.querySelector('.tc-rail-state b');if(state)state.textContent=`СОЧИ · ${mode==='paradise'?'ИЗОБИЛИЕ':'ИГРА'}`;
     const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.content=mode==='paradise'?'#f7fff9':'#02040c';
     recolorMap(mode);window.dispatchEvent(new CustomEvent('triznes:world-change',{detail:{world:mode}}));
   }
 
   function bindWorldControls(){
     const seg=document.querySelector('.page-world-map .seg');
-    seg?.querySelectorAll('button').forEach(btn=>{const t=btn.textContent.toLowerCase();if(/рай/.test(t))btn.dataset.worldChoice='paradise';if(/cyber/.test(t))btn.dataset.worldChoice='cyber';});
+    seg?.querySelectorAll('button').forEach(btn=>{const t=btn.textContent.toLowerCase();if(/изобилие|рай/.test(t))btn.dataset.worldChoice='paradise';if(/игра|cyber/.test(t))btn.dataset.worldChoice='cyber';});
     document.addEventListener('click',event=>{const btn=event.target.closest('[data-world-choice]');if(!btn)return;event.preventDefault();applyWorld(btn.dataset.worldChoice,true);});
     applyWorld(requestedWorld,false);
   }
@@ -114,8 +119,7 @@
   const iconRoutes={'Люди':'character.html','Идеи':'boards.html','События':'world-map.html','Нейроферма':'neurofarm.html','Кино':'sochiwood.html','Кинотеатр':'sochiwood.html','Сообщества':'communities.html','Игра':'world-map.html','Архив':'neurofarm.html','Город':'world-map.html','Объекты':'city-objects.html'};
   document.querySelectorAll('.iconnav a').forEach(link=>{const route=iconRoutes[link.textContent.trim()];if(route)link.href=route;});
 
-  const status=document.createElement('div');status.className='tc-world-status';status.innerHTML='<i></i><span>TRIZNES WORLD</span><b>ONLINE</b>';document.body.appendChild(status);
-  const boost=document.createElement('script');boost.src='./visual-boost-v5.js?v=20261105-boost-v5';boost.async=false;document.body.appendChild(boost);
+  const boost=document.createElement('script');boost.src='./visual-boost-v5.js?v=20261105-world-polish-v6-2';boost.async=false;document.body.appendChild(boost);
   const ideas=document.createElement('script');ideas.src='./living-ideas.js?v=20261030-1';ideas.async=false;document.body.appendChild(ideas);
   if(screen==='world-map'){
     const mapLive=document.createElement('script');mapLive.src='./map-live-v2.js?v=20261030-real-sochi-v3';mapLive.async=false;document.body.appendChild(mapLive);
