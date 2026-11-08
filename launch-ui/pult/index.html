@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!-- СОБРАНО ИЗ pult-v2.html + firmware-v3 + living runtime; правьте исходники, не index.html -->
+<title>Пульт TRIZNES</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#07050d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Пульт">
+<link rel="apple-touch-icon" href="../assets/triznes-core-128.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/triznes-core-128.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Manrope:wght@500;700;800&family=Share+Tech+Mono&display=swap">
+<style>
+/* Пульт v2 · mobile-first: импульс → результат → один шаг; ниже — миры, сигналы, системы.
+   Один тёмный мир (осознанно), цвета мира приходят из pult/design/tokens.json. */
+:root{
+  --bg:#07050d;--panel:#110c1c;--line:#2e2147;--fg:#f7f3fc;--muted:#a99dc0;
+  --c1:#ff3cc7;--c2:#42efff;--c3:#ffd66b;--c4:#7dffc9;
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --ui:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Share Tech Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+html,body{background:var(--bg);color:var(--fg)}
+body{font:15px/1.5 var(--ui);transition:background .4s}
+.wrap{max-width:620px;margin:0 auto;padding-block:16px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px;position:relative}
+.mono{font:13px/1.4 var(--mono);color:var(--muted);letter-spacing:.04em}
+h1,h2,h3{margin:0;text-wrap:balance}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.mark{font:900 18px var(--display);letter-spacing:.06em}
+.mark{display:grid;grid-template-columns:auto auto;column-gap:10px;align-items:center}
+.mark img{grid-row:span 2;width:44px;height:44px;border-radius:12px;box-shadow:0 0 18px color-mix(in srgb,var(--c2) 40%,transparent)}
+.mark small{display:block;font:700 10px var(--display);letter-spacing:.32em;color:var(--muted);margin-top:2px}
+.worlds{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.worlds::-webkit-scrollbar{display:none}
+.bar{min-width:0}
+.worlds button{flex:none;white-space:nowrap;min-height:44px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);font:700 11px var(--display);letter-spacing:.08em;cursor:pointer}
+.worlds button[aria-pressed="true"]{color:var(--bg);background:var(--c1);border-color:var(--c1)}
+button:focus-visible{outline:2px solid var(--c2);outline-offset:2px}
+
+/* HERO — живой импульс */
+.hero{position:relative;border-radius:22px;padding:20px;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;gap:14px;overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none}
+.st{display:inline-flex;align-items:center;gap:8px;font:700 12px var(--display);letter-spacing:.12em;color:var(--tone,var(--c1))}
+.st i{width:10px;height:10px;border-radius:999px;background:currentColor;box-shadow:0 0 12px currentColor}
+.st[data-motion="pulse"] i{animation:pulse 1.8s ease-in-out infinite}
+.st[data-motion="breathe"] i{animation:breathe 4s ease-in-out infinite;box-shadow:none}
+@keyframes pulse{0%,100%{transform:scale(.8);opacity:.7}50%{transform:scale(1.15);opacity:1}}
+@keyframes breathe{0%,100%{opacity:.35}50%{opacity:.9}}
+.title{font:900 clamp(22px,6.2vw,30px)/1.15 var(--display);letter-spacing:.01em}
+.who{display:flex;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);font:700 12px var(--ui);color:var(--fg)}
+.chip b{color:var(--c2);font-weight:800}
+.result{font:600 16px/1.5 var(--ui);padding:14px 16px;border-radius:14px;background:color-mix(in srgb,var(--c3) 12%,var(--panel));border:1px solid color-mix(in srgb,var(--c3) 40%,var(--line))}
+.result .lab,.next .lab{display:block;font:700 10px var(--display);letter-spacing:.24em;margin-bottom:6px}
+.result .lab{color:var(--c3)}
+.next{padding:16px;border-radius:14px;background:var(--c1);color:#0b0610;font:800 16px/1.4 var(--ui)}
+.next .lab{color:#0b0610;opacity:.75}
+.photo{margin:-20px -20px 0;position:relative;aspect-ratio:16/8;max-width:none;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.05) contrast(1.05)}
+.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,var(--panel) 98%),linear-gradient(90deg,color-mix(in srgb,var(--c1) 18%,transparent),transparent 60%)}
+.photo figcaption{position:absolute;left:12px;right:12px;bottom:6px;z-index:1;font-size:11px;color:var(--muted)}
+[data-world="NEW_WORLD"] .photo{margin:-28px -22px 0}
+[data-world="THEATRE_TUZ"] .photo{margin:-34px -20px 0;align-self:stretch}
+[data-world="PINK_NOIZE"] .photo{filter:hue-rotate(-12deg)}
+.real{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:13px}
+
+/* секции */
+.sec{display:flex;flex-direction:column;gap:10px}
+.sec h2{font:700 12px var(--display);letter-spacing:.22em;color:var(--muted)}
+.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.list li{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:var(--panel);border:1px solid var(--line);min-width:0}
+.list li::before{content:"";flex:none;width:8px;height:8px;margin-top:8px;border-radius:999px;background:var(--dot,var(--c2))}
+.wait li{--dot:var(--c2)}
+.wait li::before{animation:breathe 4s ease-in-out infinite}
+.proof li{font:13px/1.4 var(--mono);color:var(--muted);word-break:break-word}
+.proof li::before{--dot:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.tile{padding:12px;border-radius:12px;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;gap:4px;min-width:0}
+.tile .k{font:700 10px var(--display);letter-spacing:.18em;color:var(--muted)}
+.tile .v{font:800 15px var(--ui)}
+.tile .v.none{color:var(--muted);font-weight:600}
+.tile .v.ok{color:var(--c4,#7dffc9)}.tile .v.down{color:#ff6b7a}
+.num{font:900 28px var(--display);font-variant-numeric:tabular-nums}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.card{aspect-ratio:1.586;max-width:100%;border-radius:12px;padding:10px;display:flex;flex-direction:column;justify-content:space-between;color:#0b0610;font:800 11px var(--display);letter-spacing:.12em;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.card span{font:700 11px var(--ui);letter-spacing:0;opacity:.85}
+.card.dark{color:#f7f3fc}
+.agents{display:flex;gap:8px;flex-wrap:wrap}
+.agent{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font:700 13px var(--ui)}
+.agent svg{width:16px;height:16px;color:var(--c2)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.foot a{display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
+
+/* композиции миров (не только палитра) */
+[data-world="TRIZNES"] .hero::before{background:radial-gradient(circle at 88% 12%,color-mix(in srgb,var(--c2) 30%,transparent) 0 46px,transparent 47px),radial-gradient(circle at 88% 12%,transparent 0 62px,color-mix(in srgb,var(--c2) 35%,transparent) 63px 64px,transparent 65px)}
+[data-world="PINK_NOIZE"] .hero{transform:rotate(-1.2deg);border-radius:6px 26px 6px 26px}
+[data-world="PINK_NOIZE"] .hero > *{transform:rotate(1.2deg)}
+[data-world="PINK_NOIZE"] .hero::before{background:repeating-linear-gradient(90deg,transparent 0 22px,color-mix(in srgb,var(--c1) 22%,transparent) 22px 24px);mask:linear-gradient(0deg,#000,transparent 55%);-webkit-mask:linear-gradient(0deg,#000,transparent 55%)}
+[data-world="PINK_NOIZE"] .title{text-transform:uppercase;letter-spacing:.03em}
+[data-world="PINK_NOIZE"] .eq{display:flex}
+.eq{display:none;gap:3px;align-items:flex-end;height:22px}
+.eq i{width:4px;background:var(--c2);border-radius:2px;animation:eq 1s ease-in-out infinite alternate}
+.eq i:nth-child(2){animation-delay:-.3s;background:var(--c1)}.eq i:nth-child(3){animation-delay:-.6s}.eq i:nth-child(4){animation-delay:-.15s;background:var(--c3)}
+@keyframes eq{from{height:5px}to{height:22px}}
+[data-world="THEATRE_TUZ"] .hero{border-top:3px solid var(--c1);text-align:center;align-items:center;padding-top:34px}
+[data-world="THEATRE_TUZ"] .hero::before{background:radial-gradient(ellipse 55% 75% at 50% -10%,color-mix(in srgb,var(--c1) 38%,transparent),transparent 70%),linear-gradient(90deg,color-mix(in srgb,var(--c3) 30%,transparent),transparent 12%,transparent 88%,color-mix(in srgb,var(--c3) 30%,transparent))}
+[data-world="THEATRE_TUZ"] .who{justify-content:center}
+[data-world="THEATRE_TUZ"] .result,[data-world="THEATRE_TUZ"] .next,[data-world="THEATRE_TUZ"] .real{align-self:stretch;text-align:left}
+[data-world="NEW_WORLD"] .wrap{gap:28px}
+[data-world="NEW_WORLD"] .hero{padding:28px 22px;gap:20px;border-color:transparent;box-shadow:0 0 60px -18px var(--c1)}
+[data-world="NEW_WORLD"] .hero::before{background:radial-gradient(120% 60% at 50% 120%,color-mix(in srgb,var(--c4) 22%,transparent),transparent 70%)}
+[data-world="NEW_WORLD"] .title{font-weight:700;font-size:clamp(24px,7vw,34px)}
+/* ВЫПУСК КОНТЕНТА: режим ручной/авто, ворота, очередь */
+.mode{display:flex;gap:6px;padding:4px;border-radius:999px;border:1px solid var(--line);background:var(--panel)}
+.mode button{flex:1;min-height:48px;border-radius:999px;border:0;background:transparent;color:var(--muted);font:800 12px var(--display);letter-spacing:.12em;cursor:pointer}
+.mode button[aria-pressed="true"]{background:var(--c4);color:#06130e}
+.mode button[data-m="auto"][aria-pressed="true"]{background:var(--c3);color:#1a1200}
+.modehint{padding:10px 12px;border-radius:12px;border:1px dashed var(--line);font-size:13px;color:var(--muted)}
+.pipe{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pipe .tile .num{font-size:26px}
+.gate{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
+.gate i{flex:none;width:10px;height:10px;margin-top:6px;border-radius:99px;background:var(--c3)}
+.gate[data-s="ok"] i{background:var(--c4)}.gate b{display:block;font-size:14px}.gate span{font-size:12px;color:var(--muted)}
+.reel{padding:14px;border-radius:14px;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.reel .row{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+.reel .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.reel .acts button{min-height:48px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--fg);font:800 12px var(--display);letter-spacing:.08em;cursor:pointer}
+.reel .acts button[data-d="ok"]{background:var(--c4);color:#06130e;border-color:var(--c4)}
+.reel .acts button[aria-pressed="true"]{outline:2px solid var(--c2)}
+.canon{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font:700 11px var(--display);letter-spacing:.06em;color:var(--muted)}
+.canon span{padding:4px 8px;border:1px solid var(--line);border-radius:999px}
+.canon span:not(:last-child)::after{content:" →";color:var(--c2)}
+#decision{font:13px/1.4 var(--mono);color:var(--muted);word-break:break-word;padding:10px 12px;border-radius:12px;border:1px solid var(--line);min-height:44px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app" data-world="TRIZNES">
+  <header class="bar">
+    <div class="mark"><img src="../assets/triznes-core-128.png" alt="" width="44" height="44">ПУЛЬТ<small>TRIZNES</small></div>
+    <div class="worlds" role="group" aria-label="Мир Пульта" id="worlds"></div>
+  </header>
+
+  <section class="hero" aria-labelledby="t">
+    <figure class="photo" id="photo"><img src="../assets/archive/mediahub/mediahub-sea-room.webp" alt="Морской вокзал Сочи вечером" width="1280" height="854" onerror="this.closest('figure').hidden=true"><figcaption class="mono">Реальный кадр · Морской вокзал, Сочи · фото А. Байдуков, Wikimedia Commons, CC BY-SA 4.0</figcaption></figure>
+    <div class="bar">
+      <span class="st" id="status" data-motion="pulse"><i></i><span>…</span></span>
+      <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    </div>
+    <h1 class="title" id="t">Загружаю импульс…</h1>
+    <div class="who" id="who"></div>
+    <div class="result" id="result"><span class="lab">РЕЗУЛЬТАТ</span><span>—</span></div>
+    <div class="next" id="next"><span class="lab">ОДИН СЛЕДУЮЩИЙ ШАГ</span><span>—</span></div>
+
+  </section>
+
+  <section class="sec" aria-labelledby="h-rel">
+    <h2 id="h-rel">ВЫПУСК КОНТЕНТА</h2>
+    <div class="mode" role="group" aria-label="Режим выпуска"><button type="button" data-m="manual" aria-pressed="true">РУЧНОЙ</button><button type="button" data-m="auto" aria-pressed="false">АВТО</button></div>
+    <p class="modehint" id="modeHint"></p>
+    <div class="pipe" id="pipe"></div>
+    <div class="canon" id="canon" aria-label="Канон ролика"></div>
+    <div class="sec" id="gates"></div>
+    <div class="sec" id="reels"></div>
+    <div id="decision" aria-live="polite">Решение оператора появится здесь: скопируйте строку и передайте ассистенту.</div>
+    <p class="mono" id="mgraph"></p>
+  </section>
+
+  <section class="sec" aria-labelledby="h-play"><h2 id="h-play">В ИГРЕ</h2><ul class="list" id="ingame"></ul></section>
+  <section class="sec" aria-labelledby="h-wait"><h2 id="h-wait">ЖДЁМ</h2><ul class="list wait" id="waiting"></ul></section>
+
+  <section class="sec" aria-labelledby="h-sig">
+    <h2 id="h-sig">СИГНАЛЫ АССИСТЕНТОВ</h2>
+    <div class="grid2">
+      <div class="tile"><span class="k">АКТИВНЫХ</span><span class="num" id="sigCount">—</span></div>
+      <div class="tile"><span class="k">НАПРАВЛЕНИЕ</span><span class="v" id="sigDir">—</span></div>
+    </div>
+    <ul class="list proof" id="sigList"></ul>
+  </section>
+
+  <section class="sec" aria-labelledby="h-sys">
+    <h2 id="h-sys">СИСТЕМЫ</h2>
+    <div class="grid2" id="systems"><div class="tile"><span class="k">ПРОВЕРКА</span><span class="v none">нет данных в Пульте</span></div></div>
+    <div class="grid2">
+      <div class="tile"><span class="k">CLICKUP · ЗАДАЧИ</span><span class="v none">источник задач — ClickUp</span></div>
+      <div class="tile"><span class="k">BRAIN MAX</span><span class="v none">слой анализа</span></div>
+    </div>
+    <p class="mono" id="sysNote"></p>
+</div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-ag"><h2 id="h-ag">ПРИСУТСТВИЕ</h2><div class="agents" id="agents"></div></section>
+  <section class="sec" aria-labelledby="h-cards"><h2 id="h-cards">КАРТЫ TRIZNES</h2><div class="cards" id="cards"></div></section>
+  <section class="sec" aria-labelledby="h-proof"><h2 id="h-proof">ЧЕМ ПОДТВЕРЖДЕНО</h2><ul class="list proof" id="proof"></ul></section>
+
+  <footer class="foot mono"><span id="upd">—</span><span>Пульт показывает, задачи — в ClickUp · <a href="../pult-legacy.html" style="color:var(--c2)">Пульт v15 (архив)</a></span></footer>
+</div>
+
+<script>
+(function(){
+  var FALLBACK_TOKENS={worlds:{TRIZNES:{label:"TRIZNES",bg:"#07050d",panel:"#110c1c",line:"#2e2147",fg:"#f7f3fc",muted:"#a99dc0",c1:"#ff3cc7",c2:"#42efff",c3:"#ffd66b"}},statuses:{"В ИГРЕ":{motion:"pulse",tone:"c1"},"ЖДЁМ":{motion:"breathe",tone:"c2"}},agents:{},cards:{}};
+  var NAMES={chatgpt:"ChatGPT",claude:"Claude",operator:"Оператор",apollon:"АПОЛЛОН",chivurundu:"ЧИВУРУНДУ",dionysus:"Дионис",bezliki:"BEZLIKI",lubik:"Любик",triznes:"TRIZNES"};
+  var PRES={soft_light:"мягкий свет",structural_mark:"смех и рассылки",motion_quest:"квест в движении",contact_smile:"маршрут",heart_microreaction:"только сердечки",signature:"подпись"};
+  var GLYPH='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="currentColor"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".6"/></svg>';
+  var HEART='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="currentColor"/></svg>';
+  var $=function(id){return document.getElementById(id)};
+  function msk(iso){try{var d=new Date(iso);if(isNaN(d))return String(iso||"");return d.toLocaleString("ru-RU",{timeZone:"Europe/Moscow",day:"numeric",month:"long",hour:"2-digit",minute:"2-digit"})+" МСК"}catch(e){return String(iso||"")}}
+  function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function get(u){return fetch(u,{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()}).catch(function(){return null})}
+  function li(arr,el,empty){el.innerHTML=(arr&&arr.length?arr:[empty]).map(function(x){return"<li><span>"+esc(x)+"</span></li>"}).join("")}
+  var T=FALLBACK_TOKENS, world="TRIZNES";
+  function store(k,v){try{v===undefined?null:localStorage.setItem(k,v);return localStorage.getItem(k)}catch(e){return null}}
+  function applyWorld(w){
+    var W=T.worlds[w]||T.worlds.TRIZNES; world=T.worlds[w]?w:"TRIZNES";
+    var app=$("app"); app.setAttribute("data-world",world);
+    ["bg","panel","line","fg","muted","c1","c2","c3","c4"].forEach(function(k){if(W[k])document.documentElement.style.setProperty("--"+k,W[k])});
+    Array.prototype.forEach.call($("worlds").children,function(b){b.setAttribute("aria-pressed",String(b.dataset.w===world))});
+    store("pult-world",world);
+  }
+  function renderWorlds(){
+    $("worlds").innerHTML=Object.keys(T.worlds).map(function(k){return'<button type="button" data-w="'+k+'" aria-pressed="false">'+esc(T.worlds[k].label||k)+"</button>"}).join("");
+    $("worlds").onclick=function(e){var b=e.target.closest("button");if(b)applyWorld(b.dataset.w)};
+  }
+  function renderImpulse(I){
+    if(!I){$("t").textContent="Импульс не загрузился";return}
+    var s=T.statuses[I.status]||{motion:"none",tone:"c2"}, st=$("status");
+    st.dataset.motion=s.motion; st.style.setProperty("--tone","var(--"+s.tone+")"); st.lastElementChild.textContent=I.status||"";
+    $("t").textContent=I.title||"";
+    $("who").innerHTML='<span class="chip">Ведёт <b>'+esc(NAMES[I.lead]||I.lead)+'</b></span>'+(I.second?'<span class="chip">Проверяет <b>'+esc(NAMES[I.second]||I.second)+"</b></span>":"")+'<span class="chip">Импульс: '+esc(NAMES[I.source_role]||I.source_role)+"</span>";
+    $("result").lastElementChild.textContent=I.result||"Результата пока нет";
+    $("next").lastElementChild.textContent=I.next_step||"Следующий шаг не задан";
+    li(I.in_game,$("ingame"),"Пока ничего");
+    li(I.waiting_for,$("waiting"),"Ничего не ждём");
+    li(I.proof,$("proof"),"Подтверждений пока нет");
+    $("upd").textContent=I.updated_at_utc?"Импульс обновлён "+msk(I.updated_at_utc):"Время обновления неизвестно";
+  }
+  function renderSignals(S){
+    if(!S){$("sigCount").textContent="—";$("sigDir").textContent="нет данных";$("sigList").innerHTML="";return}
+    $("sigCount").textContent=S.active_count;
+    $("sigDir").textContent="к Claude: "+(S.to_claude||0)+" · к ChatGPT: "+(S.to_chatgpt||0);
+    li((S.signals||[]).map(function(x){return x.file}),$("sigList"),"Активных сигналов нет");
+  }
+  function renderSystems(Y){
+    if(!Y||!Y.systems){$("sysNote").textContent="Проверка систем ещё не запускалась.";return}
+    $("systems").innerHTML=Y.systems.map(function(x){var ok=x.state==="ok";
+      return'<div class="tile"><span class="k">'+esc(x.label)+'</span><span class="v '+(ok?"ok":"down")+'">'+(ok?"отвечает":"не отвечает")+'</span><span class="mono">HTTP '+esc(x.http)+" · "+esc(x.ms)+" мс</span></div>"}).join("");
+    $("sysNote").textContent="Без изменений с "+msk(Y.changed_at_utc||Y.checked_at_utc)+" · проверка "+(Y.interval||"раз в час")+"; запись — когда что-то меняется или раз в сутки";
+  }
+  function renderAgents(){
+    var A=T.agents||{}; $("agents").innerHTML=Object.keys(A).map(function(k){var a=A[k];return'<span class="agent">'+(a.presence==="heart_microreaction"?HEART:GLYPH)+esc(NAMES[k]||k)+'<span class="mono">'+esc(PRES[a.presence]||"")+"</span></span>"}).join("")||'<span class="mono">нет данных</span>';
+  }
+  function renderCards(){
+    var C=T.cards||{}; $("cards").innerHTML=Object.keys(C).map(function(k){var c=C[k],dark=k==="BLACK";
+      return'<div class="card'+(dark?" dark":"")+'" style="background:linear-gradient(135deg,'+c.metal+',color-mix(in srgb,'+c.metal+' 70%,'+(dark?"#3a3450":"#ffffff")+'))">'+esc(k)+"<span>"+esc(c.role)+"</span></div>"}).join("")||'<span class="mono">нет данных</span>';
+  }
+
+  var MODE="manual", DEC={};
+  function renderRelease(Q){
+    if(!Q){$("pipe").innerHTML='<div class="tile"><span class="k">ОЧЕРЕДЬ</span><span class="v none">нет данных</span></div>';return}
+    $("pipe").innerHTML=(Q.pipeline||[]).map(function(x){return'<div class="tile"><span class="k">'+esc(x.label)+'</span><span class="num">'+esc(x.count)+'</span><span class="mono">'+esc(x.hint)+"</span></div>"}).join("");
+    $("canon").innerHTML=(Q.canon||[]).map(function(x){return"<span>"+esc(x)+"</span>"}).join("");
+    $("gates").innerHTML=(Q.gates||[]).map(function(g){return'<div class="gate" data-s="'+esc(g.state)+'"><i></i><div><b>'+esc(g.label)+"</b><span>"+esc(g.note)+"</span></div></div>"}).join("");
+    $("reels").innerHTML=(Q.reels||[]).map(function(r){return'<div class="reel" data-id="'+esc(r.id)+'"><div class="row"><b>'+esc(r.id)+'</b><span class="chip">'+esc(r.status)+'</span><span class="mono">'+esc((r.formats||[]).join(" · "))+'</span></div><span class="mono">'+esc(r.blocker||"")+'</span><div class="acts"><button type="button" data-d="ok" aria-pressed="false">ОДОБРИТЬ</button><button type="button" data-d="fix" aria-pressed="false">НА ПРАВКИ</button></div></div>'}).join("")||'<p class="mono">Роликов на решении нет</p>';
+    var g=Q.media_graph; $("mgraph").textContent=g?"Медиа-граф: "+g.items+" материалов · в каталоге "+g.in_catalog+" · персонаж подтверждён у "+g.identity_confirmed+" · объектов в хранилище "+g.storage_objects:"";
+    $("reels").onclick=function(e){var b=e.target.closest("button");if(!b)return;var id=b.closest(".reel").dataset.id;DEC[id]=b.dataset.d;store("pult-dec",JSON.stringify(DEC));showDec()};
+    try{DEC=JSON.parse(store("pult-dec")||"{}")||{}}catch(e){DEC={}} showDec();
+  }
+  function showDec(){
+    Array.prototype.forEach.call(document.querySelectorAll(".reel"),function(el){Array.prototype.forEach.call(el.querySelectorAll("button"),function(b){b.setAttribute("aria-pressed",String(DEC[el.dataset.id]===b.dataset.d))})});
+    var L=Object.keys(DEC).map(function(k){return k+": "+(DEC[k]==="ok"?"УТВЕРЖДЕНО оператором":"НА ПРАВКИ")});
+    $("decision").textContent=L.length?"Решение оператора ("+(MODE==="auto"?"режим АВТО запрошен, отправка не включена":"ручной режим")+"): "+L.join("; "):"Решение оператора появится здесь: скопируйте строку и передайте ассистенту.";
+  }
+  function setMode(m){
+    MODE=m==="auto"?"auto":"manual"; store("pult-mode",MODE);
+    Array.prototype.forEach.call(document.querySelectorAll(".mode button"),function(b){b.setAttribute("aria-pressed",String(b.dataset.m===MODE))});
+    $("modeHint").textContent=MODE==="auto"?"АВТО — заявка на автоматический выпуск. Пульт сам ничего не отправляет: боевой запуск включается на бэкенде отдельным разрешением оператора, и только для роликов, прошедших все ворота.":"РУЧНОЙ — каждый ролик смотрите и решаете сами. Пульт ничего не отправляет: ваше решение передаётся ассистенту строкой ниже.";
+    showDec();
+  }
+  document.addEventListener("click",function(e){var b=e.target.closest(".mode button");if(b)setMode(b.dataset.m)});
+  Promise.all([get("./design/tokens.json"),get("./current-impulse.json"),get("./signal-status.json"),get("./system-status.json"),get("./content-queue.json")]).then(function(r){
+    if(r[0]&&r[0].worlds)T=r[0];
+    renderWorlds(); applyWorld(store("pult-world")||"TRIZNES");
+    renderImpulse(r[1]); renderSignals(r[2]); renderSystems(r[3]); renderRelease(r[4]); setMode(store('pult-mode')||'manual'); renderAgents(); renderCards();
+  });
+})();
+</script>
+<script src="./world-map-overlay.js" defer></script>
+<script src="./characters-overlay.js" defer></script>
+<script src="./runtime-overlay.js" defer></script>
+<script src="./firmware-overlay.js" defer></script>
+</body>
+</html>

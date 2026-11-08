@@ -27,7 +27,7 @@
     if (seg) {
       [...seg.querySelectorAll('button')].forEach((btn) => {
         const text = btn.textContent.toLowerCase();
-        const target = /рай/.test(text) ? 'paradise' : /cyber/.test(text) ? 'cyber' : '';
+        const target = /изобилие|рай/.test(text) ? 'paradise' : /игра|cyber/.test(text) ? 'cyber' : '';
         if (target) {
           const on = target === mode;
           btn.classList.toggle('on', on);
@@ -70,10 +70,7 @@
     if (meta) meta.setAttribute('content', mode === 'paradise' ? '#07110c' : '#02040c');
 
     const state = document.querySelector('.tc-rail-state b');
-    if (state) state.textContent = mode === 'paradise' ? 'СОЧИ · РАЙ' : 'СОЧИ · CYBER';
-
-    const worldStatus = document.querySelector('.tc-world-status span');
-    if (worldStatus) worldStatus.textContent = mode === 'paradise' ? 'TRIZNES · РАЙ' : 'TRIZNES · CYBER';
+    if (state) state.textContent = mode === 'paradise' ? 'СОЧИ · ИЗОБИЛИЕ' : 'СОЧИ · ИГРА';
   }
 
   function apply(mode, persist=true){
@@ -90,7 +87,7 @@
   }
 
   function switchMarkup(extra=''){
-    return `<div class="tc-world-switch-wrap ${extra}"><div class="tc-world-switch-label">Оптика мира</div><div class="tc-world-switch" role="group" aria-label="Оптика мира"><button type="button" data-world-choice="paradise">РАЙ</button><button type="button" data-world-choice="cyber">CYBER</button></div></div>`;
+    return `<div class="tc-world-switch-wrap ${extra}"><div class="tc-world-switch-label">Режим мира</div><div class="tc-world-switch" role="group" aria-label="Режим мира"><button type="button" data-world-choice="paradise">ИЗОБИЛИЕ</button><button type="button" data-world-choice="cyber">ИГРА</button></div></div>`;
   }
 
   function mountGlobalSwitch(){
@@ -116,8 +113,8 @@
     if (seg) {
       [...seg.querySelectorAll('button')].forEach((btn) => {
         const text = btn.textContent.toLowerCase();
-        if (/рай/.test(text)) btn.dataset.worldChoice = 'paradise';
-        if (/cyber/.test(text)) btn.dataset.worldChoice = 'cyber';
+        if (/изобилие|рай/.test(text)) btn.dataset.worldChoice = 'paradise';
+        if (/игра|cyber/.test(text)) btn.dataset.worldChoice = 'cyber';
       });
     }
   }
@@ -129,7 +126,7 @@
 
     if (page === 'world-map') {
       const note = document.querySelector('.tc-map-note');
-      if (note) note.textContent = 'REAL-карта одна. РАЙ и CYBER меняют только художественную оптику и игровой интерфейс, не факты и координаты.';
+      if (note) note.textContent = 'Одна реальная карта. ИГРА и ИЗОБИЛИЕ меняют атмосферу интерфейса, сохраняя факты и координаты.';
     }
   }
 

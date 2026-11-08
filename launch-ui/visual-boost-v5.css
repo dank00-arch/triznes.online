@@ -380,3 +380,48 @@ body.tc[data-world="cyber"] .chip.live{
   .uploadbar{animation:none!important}
   .pulse .pdot,.tnode.current .bead,.vpath .vp.cur::before{animation:none!important}
 }
+
+/* ═══════════ 22. ВИЗУАЛЬНАЯ ИЕРАРХИЯ v6 ═══════════ */
+/* Глубину создают свет и фото; постоянная рамка не должна обводить каждый блок. */
+.panel,.card,.portal,.bcard,.trackrow,.statgrid .s,.kpi,.sigcard,.step,.bezliki{
+  border-color:transparent!important;
+  backdrop-filter:blur(12px) saturate(112%)!important;
+  -webkit-backdrop-filter:blur(12px) saturate(112%)!important;
+}
+body.tc[data-world="paradise"] .panel,
+body.tc[data-world="paradise"] .card,
+body.tc[data-world="paradise"] .portal,
+body.tc[data-world="paradise"] .bcard,
+body.tc[data-world="paradise"] .step,
+body.tc[data-world="paradise"] .bezliki,
+body.tc[data-world="paradise"] .sigcard{
+  box-shadow:0 12px 34px rgba(32,91,73,.10)!important;
+}
+body.tc[data-world="cyber"] .panel,
+body.tc[data-world="cyber"] .card,
+body.tc[data-world="cyber"] .portal,
+body.tc[data-world="cyber"] .bcard,
+body.tc[data-world="cyber"] .step,
+body.tc[data-world="cyber"] .bezliki,
+body.tc[data-world="cyber"] .sigcard{
+  box-shadow:0 12px 34px rgba(0,0,0,.24)!important;
+}
+.page-entry .entry-location{
+  width:max-content;margin:0 auto 8px;color:var(--v4-ice);
+  font:900 clamp(24px,4vw,36px)/1 var(--font);letter-spacing:.2em;text-indent:.2em;text-transform:uppercase;
+  text-shadow:0 2px 18px rgba(0,0,0,.45)
+}
+body.tc[data-world="paradise"] .page-entry .entry-location{color:#104f43;text-shadow:0 1px 14px rgba(255,255,255,.85)}
+.page-entry .world-subtitle{margin-top:6px;font-size:clamp(12px,1.4vw,16px);font-weight:850;letter-spacing:.24em}
+.tc-world-switch button{min-width:0;padding-inline:4px!important;font-size:9px!important;letter-spacing:.04em!important}
+.tc-entry-world .world-mini button,.tc-citybar .world-mini button{min-width:0;padding-inline:6px!important;font-size:8px!important;letter-spacing:.02em!important}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid #35e9ff!important;outline-offset:3px!important
+}
+body.tc[data-world="paradise"] :is(a,button,input,textarea,select,[tabindex]):focus-visible{outline-color:#078b70!important}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+  .v5-reveal,.v5-reveal.v5-visible{opacity:1!important;transform:none!important;transition:none!important}
+  .tnode.current .bead,.vpath .vp.cur::before,.pulse .pdot{animation:none!important}
+}

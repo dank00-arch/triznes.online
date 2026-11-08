@@ -1,0 +1,50 @@
+{
+  "checked_at_utc": "2026-11-07T18:14:53+00:00",
+  "changed_at_utc": "2026-11-06T15:40:12+00:00",
+  "interval": "каждые 15 минут",
+  "systems": [
+    {
+      "id": "site",
+      "label": "Сайт triznes.online",
+      "state": "ok",
+      "http": 200,
+      "ms": 2062
+    },
+    {
+      "id": "smile",
+      "label": "ИМПУЛЬС 01 · ПЕРЕДАЙ УЛЫБКУ",
+      "state": "ok",
+      "http": 200,
+      "ms": 2266
+    },
+    {
+      "id": "neuroferma",
+      "label": "Нейроферма (админка)",
+      "state": "ok",
+      "http": 200,
+      "ms": 1933
+    },
+    {
+      "id": "mirror",
+      "label": "Зеркало сайта · GitHub Pages",
+      "state": "ok",
+      "http": 200,
+      "ms": 159
+    },
+    {
+      "id": "supabase",
+      "label": "Supabase · функции",
+      "state": "ok",
+      "http": 200,
+      "ms": 865
+    },
+    {
+      "id": "observatory",
+      "label": "Pult Observatory · live characters",
+      "state": "ok",
+      "http": 200,
+      "ms": 1227
+    }
+  ],
+  "note": "Только открытые адреса, без ключей. ok = отвечает (HTTP 2xx/3xx); down = ошибка или нет ответа."
+}
