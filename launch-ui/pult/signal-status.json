@@ -1,0 +1,33 @@
+{
+  "updated_at_utc": "2026-11-08T04:35:22.997451+00:00",
+  "active_count": 6,
+  "to_chatgpt": 6,
+  "to_claude": 0,
+  "signals": [
+    {
+      "file": "claude-to-chatgpt-016.md",
+      "direction": "to_chatgpt"
+    },
+    {
+      "file": "claude-to-chatgpt-017.md",
+      "direction": "to_chatgpt"
+    },
+    {
+      "file": "claude-to-chatgpt-018.md",
+      "direction": "to_chatgpt"
+    },
+    {
+      "file": "claude-to-chatgpt-019.md",
+      "direction": "to_chatgpt"
+    },
+    {
+      "file": "claude-to-chatgpt-020.md",
+      "direction": "to_chatgpt"
+    },
+    {
+      "file": "claude-to-chatgpt-021.md",
+      "direction": "to_chatgpt"
+    }
+  ],
+  "note": "Sanitized index only. Signal contents are never copied into Pult status."
+}

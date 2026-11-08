@@ -1,0 +1,103 @@
+{
+  "snapshot_utc": "2026-11-05T03:20:00+00:00",
+  "source": "агрегаты Supabase (SELECT) на 05.11; обезличено, без имён и ссылок на файлы",
+  "mode_note": "Пульт сам ничего не отправляет. Режим АВТО — заявка оператора; серверный автозапуск не включён.",
+  "pipeline": [
+    {
+      "key": "review",
+      "label": "НА ПРОВЕРКЕ",
+      "count": 67,
+      "hint": "ждут решения оператора"
+    },
+    {
+      "key": "changes",
+      "label": "ПРАВКИ",
+      "count": 50,
+      "hint": "возвращены на доработку"
+    },
+    {
+      "key": "ready",
+      "label": "ГОТОВО",
+      "count": 0,
+      "hint": "утверждено и не отправлено: данных нет"
+    },
+    {
+      "key": "published",
+      "label": "ОПУБЛИКОВАНО",
+      "count": 28,
+      "hint": "уже вышли"
+    }
+  ],
+  "gates": [
+    {
+      "id": "rights",
+      "label": "Согласие и права",
+      "state": "wait",
+      "note": "в диалогах согласие уже спрашивается (флаги в 16 из 16 заданий), но юридический журнал выключен и шаблоны в черновике; нужны реквизиты и текст — ЖДЁМ"
+    },
+    {
+      "id": "music",
+      "label": "Музыка PINK NOIZE",
+      "state": "wait",
+      "note": "0 из 22 треков одобрено"
+    },
+    {
+      "id": "hash",
+      "label": "sha256 / дубли",
+      "state": "wait",
+      "note": "колонки и индекс под sha256 добавлены; хэши ещё не посчитаны (0 из 199)"
+    },
+    {
+      "id": "qc",
+      "label": "Технический QC",
+      "state": "ok",
+      "note": "video-quality-gate и cron-проверка работают"
+    }
+  ],
+  "reels": [
+    {
+      "id": "reel-A",
+      "kind": "character",
+      "status": "ЖДЁМ",
+      "blocker": "ждём согласие персонажа",
+      "formats": [
+        "9:16"
+      ]
+    },
+    {
+      "id": "reel-B",
+      "kind": "character",
+      "status": "НА ПРОВЕРКЕ",
+      "blocker": "запрошены правки",
+      "formats": [
+        "9:16"
+      ]
+    }
+  ],
+  "canon": [
+    "TRIZNES INTRO",
+    "CHARACTER",
+    "STORY",
+    "TRANSFORMATION",
+    "TRIZNES END CARD"
+  ],
+  "media_graph": {
+    "items": 199,
+    "in_catalog": 183,
+    "identity_confirmed": 2,
+    "storage_objects": 135
+  },
+  "black_cards": {
+    "active": 2,
+    "pending_asset": 1,
+    "expired": 5,
+    "note": "активным — приватный ролик; истекшим — напоминание о продлении (не отправлено, ждёт текста и «да»)"
+  },
+  "consent_flow": {
+    "in_dialog_flags": "16/16 заданий, 18/18 заявок",
+    "ledger_events": 0,
+    "collection_enabled": false,
+    "templates": "v0.1-draft",
+    "next": "завершить шаблоны, заполнить реквизиты оператора, включить журнал"
+  }
+}

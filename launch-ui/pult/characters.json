@@ -1,0 +1,119 @@
+{
+  "ok": true,
+  "service": "TRIZNES Pult Observatory",
+  "version": 1,
+  "updated_at_utc": "2026-11-07T22:10:32Z",
+  "source": "Supabase live observatory; ClickUp remains task source of truth",
+  "featured": "NEO",
+  "characters": [
+    {
+      "key": "LIBERTY",
+      "label": "LIBERTY",
+      "world": "PINK_NOIZE",
+      "status": "WAITING",
+      "tagline": "Свобода быть собой",
+      "level": 1,
+      "xp": 0,
+      "lubicoin": 0,
+      "card": {
+        "tier": null,
+        "state": "UNKNOWN",
+        "note": ""
+      },
+      "presentation": {
+        "state": "UNKNOWN",
+        "delivered_at": null,
+        "view_state": "UNKNOWN",
+        "note": ""
+      },
+      "media": {
+        "state": "UNKNOWN",
+        "count": 0
+      },
+      "contact": {
+        "state": "CANONICAL_FIXED"
+      },
+      "blocker": "Намерение ещё не подтверждено.",
+      "next_step": "Подтвердить намерение персонажа и открыть первый реальный импульс.",
+      "proof": [
+        "LEVEL 1 · XP 0 · LUBICOIN 0",
+        "artifacts=0 · presentations=0",
+        "presentation=unknown",
+        "membership=unknown"
+      ]
+    },
+    {
+      "key": "NEO",
+      "label": "NEO",
+      "world": "PINK_NOIZE",
+      "status": "IN_GAME",
+      "tagline": "Проводник между деньгами и миром",
+      "level": 1,
+      "xp": 0,
+      "lubicoin": 0,
+      "card": {
+        "tier": "BLACK",
+        "state": "EXPIRED",
+        "note": "Срок карты завершён; отдельное решение оператора не блокирует саму игру."
+      },
+      "presentation": {
+        "state": "DELIVERED",
+        "delivered_at": "2026-10-23T15:47:54.267778+00:00",
+        "view_state": "UNCONFIRMED",
+        "note": "Доставка подтверждена; событие открытия пока отсутствует."
+      },
+      "media": {
+        "state": "OWNER_ARCHIVE_READY",
+        "count": 11
+      },
+      "contact": {
+        "state": "CANONICAL_FIXED"
+      },
+      "blocker": "Доставка подтверждена, событие открытия пока отсутствует.",
+      "next_step": "ИМПУЛЬС 01 · ПЕРЕДАЙ УЛЫБКУ: снять и загрузить первый живой кадр.",
+      "proof": [
+        "LEVEL 1 · XP 0 · LUBICOIN 0",
+        "artifacts=11 · presentations=3",
+        "presentation=delivered",
+        "membership=expired"
+      ]
+    },
+    {
+      "key": "SAPPHIRE",
+      "label": "SAPPHIRE",
+      "world": "PINK_NOIZE",
+      "status": "IN_GAME",
+      "tagline": "Творчество → новая версия персонажа",
+      "level": 1,
+      "xp": 0,
+      "lubicoin": 0,
+      "card": {
+        "tier": "BLACK",
+        "state": "EXPIRED",
+        "note": "Срок карты завершён; отдельное решение оператора не блокирует саму игру."
+      },
+      "presentation": {
+        "state": "UNKNOWN",
+        "delivered_at": null,
+        "view_state": "UNKNOWN",
+        "note": ""
+      },
+      "media": {
+        "state": "OWNER_ARCHIVE_READY",
+        "count": 2
+      },
+      "contact": {
+        "state": "CANONICAL_FIXED"
+      },
+      "blocker": "Срок карты завершён; требуется отдельное решение оператора.",
+      "next_step": "ИМПУЛЬС 01 · ПЕРЕДАЙ УЛЫБКУ: снять и загрузить первый живой кадр.",
+      "proof": [
+        "LEVEL 1 · XP 0 · LUBICOIN 0",
+        "artifacts=2 · presentations=0",
+        "presentation=unknown",
+        "membership=expired"
+      ]
+    }
+  ],
+  "snapshot_mode": "automated_fallback"
+}
