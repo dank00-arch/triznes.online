@@ -3,469 +3,262 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07040B">
+<meta name="theme-color" content="#09051a">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="TRIZNES">
-<title>TRIZNES — Жизнь в игре</title>
+<meta name="description" content="TRIZNES — жизнь в игре. Живой 3D-Сочи, твой персонаж, 13 ступеней и проводники.">
+<title>TRIZNES — жизнь в игре</title>
 <link rel="manifest" href="./manifest.webmanifest">
-<link rel="apple-touch-icon" href="./icons/icon-180.png">
 <link rel="icon" href="./icons/icon-192.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root{--pink:#FF35C8;--cyan:#42ECFF;--lime:#CAFF39;--gold:#F4CF7A;--bg:#07040B;--panel:rgba(18,10,28,.78);--line:rgba(255,255,255,.09);--text:#F6F1FB;--muted:#AFA3C2;--r:22px;--safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px)}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{background:var(--bg);color:var(--text);font:15px/1.45 Manrope,system-ui,-apple-system,sans-serif;min-height:100%;overscroll-behavior-y:none}
-body{padding-top:var(--safe-t)}
-a{color:inherit;text-decoration:none}
-button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
-h1,h2,h3,.u{font-family:Unbounded,Manrope,sans-serif;letter-spacing:-.01em}
-.bgfx{position:fixed;inset:0;z-index:-1;background:radial-gradient(120% 60% at 80% -10%,rgba(255,53,200,.22),transparent 60%),radial-gradient(90% 50% at -10% 30%,rgba(66,236,255,.14),transparent 60%),var(--bg)}
-.bgfx:after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:34px 34px;mask:linear-gradient(#000,transparent 70%)}
-header.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(var(--bg),rgba(7,4,11,.6));backdrop-filter:blur(14px)}
-.logo{font:800 17px Unbounded,sans-serif;letter-spacing:.06em}
-.logo b{color:var(--pink)}
-.chip{font:700 10.5px Manrope;letter-spacing:.12em;text-transform:uppercase;padding:6px 10px;border-radius:99px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--muted);white-space:nowrap}
-.chip.live{color:var(--lime);border-color:rgba(202,255,57,.35)}
-.chip.pink{color:var(--pink);border-color:rgba(255,53,200,.4)}
-.chip.cyan{color:var(--cyan);border-color:rgba(66,236,255,.35)}
-.chip.gold{color:var(--gold);border-color:rgba(244,207,122,.4)}
-main{padding:0 16px calc(96px + var(--safe-b));max-width:560px;margin:0 auto}
-.screen{display:none;animation:in .35s ease}
-.screen.on{display:block}
-@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin:12px 0;backdrop-filter:blur(10px)}
-.ey{font:700 11px Manrope;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.muted{color:var(--muted)}
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px 18px;border-radius:16px;font-weight:800;background:linear-gradient(135deg,var(--pink),#9a3bff);color:#fff;box-shadow:0 10px 30px -10px rgba(255,53,200,.7)}
-.btn.ghost{background:rgba(255,255,255,.06);box-shadow:none;border:1px solid var(--line)}
-.btn.cy{background:linear-gradient(135deg,#1fc8e6,#3a6bff);box-shadow:0 10px 30px -10px rgba(66,236,255,.6)}
-.row{display:flex;gap:10px;align-items:center}
-.sp{flex:1}
-/* hero */
-.hero{position:relative;border-radius:28px;overflow:hidden;margin-top:6px;min-height:360px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line)}
-.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.1)}
-.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,4,11,.05) 20%,rgba(7,4,11,.92) 78%)}
-.hero .in{position:relative;z-index:2;padding:20px}
-.hero h1{font-size:30px;line-height:1.05;margin:8px 0 4px}
-.hero .role{color:var(--cyan);font-weight:700}
-.stats{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;margin-top:16px}
-.ring{--p:0;width:78px;height:78px;border-radius:50%;background:conic-gradient(var(--pink) calc(var(--p)*1%),rgba(255,255,255,.08) 0);display:grid;place-items:center}
-.ring div{width:64px;height:64px;border-radius:50%;background:#0d0716;display:grid;place-items:center;text-align:center;font:800 22px/1 Unbounded}
-.ring small{display:block;font:700 8.5px Manrope;letter-spacing:.14em;color:var(--muted);margin-top:3px}
-.bar{height:8px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden;margin:8px 0 4px}
-.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--lime));border-radius:9px}
-.mission{display:inline-block;margin-top:2px;font:800 12px Unbounded;color:var(--lime);letter-spacing:.04em}
-/* level card */
-.lvl-now h2{font-size:22px;margin:6px 0}
-.task{margin-top:12px;padding:14px;border-radius:16px;background:rgba(66,236,255,.06);border:1px solid rgba(66,236,255,.2)}
-.task b{color:var(--cyan);font:700 11px Manrope;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:4px}
-/* path */
-.path{position:relative;padding-left:8px;margin-top:6px}
-.act{font:800 11px Unbounded;letter-spacing:.08em;color:var(--gold);margin:18px 0 8px 2px;text-transform:uppercase}
-.node{position:relative;display:flex;gap:14px;padding:10px 0 10px 0}
-.node:before{content:"";position:absolute;left:21px;top:0;bottom:0;width:2px;background:rgba(255,255,255,.08)}
-.node.done:before{background:linear-gradient(var(--pink),var(--pink))}
-.dot{position:relative;z-index:1;flex:0 0 44px;height:44px;border-radius:14px;display:grid;place-items:center;font:800 15px Unbounded;background:#140b20;border:1px solid var(--line);color:var(--muted)}
-.node.done .dot{background:linear-gradient(135deg,var(--pink),#7b2cff);color:#fff;border:0}
-.node.cur .dot{background:#0d0716;border:2px solid var(--lime);color:var(--lime);box-shadow:0 0 0 6px rgba(202,255,57,.12),0 0 24px rgba(202,255,57,.4);animation:pulse 2s infinite}
-@keyframes pulse{50%{box-shadow:0 0 0 10px rgba(202,255,57,.06),0 0 34px rgba(202,255,57,.55)}}
-.node .t{flex:1;padding-top:2px}
-.node .t h4{font:700 14px Unbounded;letter-spacing:.02em}
-.node .t p{font-size:13px;color:var(--muted);margin-top:2px}
-.node.lock{opacity:.55}
-.node .open{display:none;margin-top:8px;font-size:13px}
-.node.x .open{display:block}
-/* map */
-.map{position:relative;aspect-ratio:3/4;border-radius:24px;overflow:hidden;border:1px solid var(--line);background:#0a0613}
-.map img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.28;filter:blur(1.5px) saturate(1.2)}
-.map .sea{position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(180deg,transparent,rgba(30,120,200,.35));}
-.pin{position:absolute;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:4px}
-.pin i{width:16px;height:16px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--pink);box-shadow:0 0 16px var(--pink)}
-.pin span{font:700 10.5px Manrope;background:rgba(7,4,11,.8);padding:3px 7px;border-radius:8px;white-space:nowrap;border:1px solid var(--line)}
-.pin.hub i{background:var(--lime);box-shadow:0 0 18px var(--lime)}
-.place{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
-.place:last-child{border:0}
-.place .ic{flex:0 0 40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(255,53,200,.12);font-size:18px}
-/* cells */
-.cells{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.cell{position:relative;border-radius:20px;padding:14px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid var(--line);background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.01));overflow:hidden}
-.cell.wide{grid-column:span 2;min-height:120px}
-.cell .em{font-size:26px}
-.cell h3{font-size:14px;margin-top:8px;line-height:1.15}
-.cell p{font-size:12px;color:var(--muted);margin-top:4px}
-.cell:before{content:"";position:absolute;right:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:var(--glow,rgba(255,53,200,.25));filter:blur(30px)}
-.sheet{position:fixed;inset:0;z-index:50;display:none;align-items:flex-end;background:rgba(0,0,0,.55);backdrop-filter:blur(6px)}
-.sheet.on{display:flex}
-.sheet .box{width:100%;max-width:560px;margin:0 auto;max-height:86vh;overflow:auto;background:#100819;border:1px solid var(--line);border-radius:26px 26px 0 0;padding:20px 18px calc(24px + var(--safe-b));animation:up .3s ease}
-@keyframes up{from{transform:translateY(40px);opacity:0}}
-.sheet .grab{width:42px;height:5px;border-radius:9px;background:rgba(255,255,255,.2);margin:0 auto 14px}
-.sheet h2{font-size:20px;margin:6px 0 10px}
-.sheet p{margin:8px 0}
-.facts{margin:12px 0;padding:0;list-style:none}
-.facts li{padding:8px 0 8px 22px;position:relative;font-size:14px;border-bottom:1px dashed var(--line)}
-.facts li:before{content:"✓";position:absolute;left:0;color:var(--lime);font-weight:800}
-.facts.idea li:before{content:"◇";color:var(--gold)}
-/* media */
-.track{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line);margin:8px 0}
-.track .pl{flex:0 0 46px;height:46px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--pink),#7b2cff);font-size:16px}
-.track.on .pl{background:linear-gradient(135deg,var(--lime),#29c27a);color:#000}
-.track h4{font-size:14px;font-weight:800}
-.track small{color:var(--muted)}
-video{width:100%;border-radius:18px;background:#000;display:block}
-.vert{max-width:300px;margin:0 auto}
-/* profile */
-input{width:100%;padding:15px 16px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--text);font:600 16px Manrope;outline:none}
-input:focus{border-color:var(--pink)}
-label{display:block;margin:12px 0 6px;font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.06em}
-.guide{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
-.guide:last-child{border:0}
-.guide .av{flex:0 0 44px;height:44px;border-radius:14px;display:grid;place-items:center;font:800 15px Unbounded;background:linear-gradient(135deg,rgba(66,236,255,.25),rgba(255,53,200,.25))}
-.guide h4{font:700 13.5px Unbounded}
-.guide p{font-size:13px;color:var(--muted)}
-.status{font-size:13px;color:var(--pink);min-height:18px;margin-top:8px}
-/* nav */
-nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:8px 10px calc(8px + var(--safe-b));background:rgba(10,6,16,.88);backdrop-filter:blur(18px);border-top:1px solid var(--line);display:flex;justify-content:space-around;max-width:100%}
-nav.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;color:var(--muted);font:700 10.5px Manrope;letter-spacing:.04em}
-nav.tabs button svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8}
-nav.tabs button.on{color:var(--text)}
-nav.tabs button.on svg{stroke:var(--pink);filter:drop-shadow(0 0 6px var(--pink))}
-.install{display:none;margin:12px 0;padding:14px;border-radius:18px;border:1px solid rgba(202,255,57,.3);background:rgba(202,255,57,.06)}
-.install.on{display:block}
-.quest{padding:12px 0;border-bottom:1px solid var(--line)}
-.quest:last-child{border:0}
-.xp{color:var(--lime);font-weight:800;font-size:12px}
-.foot{font-size:11.5px;color:var(--muted);text-align:center;margin:18px 0 6px;line-height:1.5}
-.legend{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-</style>
+<link rel="apple-touch-icon" href="./icons/icon-180.png">
+<link rel="preload" href="./fonts/unbounded-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="./vendor/maplibre-gl.css">
+<link rel="stylesheet" href="./css/app.css?v=2.0.0">
+<script>try{var t=localStorage.getItem('triznes-theme')||'auto';if(t==='auto'){var h=new Date().getHours();t=(h>=7&&h<18)?'dawn':'night'}document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='night'}</script>
 </head>
 <body>
-<div class="bgfx"></div>
-<header class="top">
-  <div class="logo">TRIZ<b>NES</b></div>
-  <div class="row" style="gap:6px"><span class="chip live" id="net">● SOCHI // NODE 001</span></div>
-</header>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <defs>
+  <linearGradient id="gNeon" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff3dcb"/><stop offset=".55" stop-color="#8e5bff"/><stop offset="1" stop-color="#33e6ff"/></linearGradient>
+  <symbol id="i-city" viewBox="0 0 24 24"><path class="f" d="M4 21V9l5-3v15M9 21V4l7 3v14"/><path d="M3 21h18M4 21V9l5-3M9 21V4l7 3v14M16 11l4 2v8M12 9v.01M12 12v.01M12 15v.01M6.5 12v.01M6.5 15v.01"/></symbol>
+  <symbol id="i-path" viewBox="0 0 24 24"><path class="f" d="M4 20h5v-5h5v-5h5V5"/><path d="M3 20h6v-5h5v-5h5V4h2M18 4l3 0M7 8.5a2 2 0 1 0 0-.01"/></symbol>
+  <symbol id="i-feed" viewBox="0 0 24 24"><rect class="f" x="3" y="5" width="18" height="12" rx="3"/><rect x="3" y="5" width="18" height="12" rx="3"/><path d="M10.5 8.8v4.4l3.8-2.2zM6 20h12"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path class="f" d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4A8 8 0 1 1 20 12z"/><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4A8 8 0 1 1 20 12zM8.5 12h.01M12 12h.01M15.5 12h.01"/></symbol>
+  <symbol id="i-me" viewBox="0 0 24 24"><ellipse cx="12" cy="3.6" rx="4" ry="1.3"/><circle class="f" cx="12" cy="10" r="4"/><circle cx="12" cy="10" r="4"/><path d="M4.5 21c1.4-3.6 4.2-5.4 7.5-5.4s6.1 1.8 7.5 5.4"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle class="f" cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></symbol>
+  <symbol id="i-locate" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6.5"/><circle class="f" cx="12" cy="12" r="2.5"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path class="f" d="M15.5 8.5l-2 5-5 2 2-5z"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></symbol>
+  <symbol id="i-cube" viewBox="0 0 24 24"><path class="f" d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5"/></symbol>
+  <symbol id="i-walk" viewBox="0 0 24 24"><circle cx="13" cy="4.5" r="1.8"/><path d="M10 21l2-5.5 2.5 2.5V21M8 12l2.5-4 3.5 1.5 2 3.5M10.5 8l-1 5 3 2.5"/></symbol>
+  <symbol id="i-run" viewBox="0 0 24 24"><circle cx="15" cy="4.5" r="1.8"/><path d="M5 21l4-4 2 1.5L13 14l-3-3 3-3 3 3h3M7 9.5L10 7l3 1M4 13h3"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path class="f" d="M4 12l16-8-6 17-3-7z"/><path d="M4 12l16-8-6 17-3-7zM11 14l9-10"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path class="f" d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4M10 16l-4-4 4-4M6 12h10"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path class="f" d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6zM9 12l2 2 4-4"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path class="f" d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.7 1.8 1.8.7-1.8.7L19 21l-.7-1.8-1.8-.7 1.8-.7z"/></symbol>
+  <symbol id="i-coffee" viewBox="0 0 24 24"><path class="f" d="M4 9h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M4 9h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM16 10h1.5a2.5 2.5 0 0 1 0 5H16M8 3.5c0 1 1 1 1 2s-1 1-1 2M12 3.5c0 1 1 1 1 2s-1 1-1 2M3 21h14"/></symbol>
+  <symbol id="i-food" viewBox="0 0 24 24"><path d="M6 3v7a2 2 0 0 0 4 0V3M8 10v11M16 21V3c-2.5 1.5-3.5 4-3.5 8h3.5"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><path class="f" d="M5 8h14l-1 13H6z"/><path d="M5 8h14l-1 13H6zM9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+  <symbol id="i-wave" viewBox="0 0 24 24"><path d="M3 15c2 0 2-1.5 4.5-1.5S10 15 12 15s2-1.5 4.5-1.5S19 15 21 15M3 19c2 0 2-1.5 4.5-1.5S10 19 12 19s2-1.5 4.5-1.5S19 19 21 19"/><circle class="f" cx="16" cy="7" r="3"/><circle cx="16" cy="7" r="3"/></symbol>
+  <symbol id="i-mask" viewBox="0 0 24 24"><path class="f" d="M4 5h16v6a8 8 0 0 1-16 0z"/><path d="M4 5h16v6a8 8 0 0 1-16 0zM8.5 10c.6-.6 1.9-.6 2.5 0M13 10c.6-.6 1.9-.6 2.5 0M9 14.5c1.6 1.4 4.4 1.4 6 0"/></symbol>
+  <symbol id="i-hub" viewBox="0 0 24 24"><path class="f" d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM3 9l2-5 15 2-1 3M8 4.7l-1.5 4M13 5.4l-1.5 3.6M10 13v5l4.3-2.5z"/></symbol>
+  <symbol id="i-bed" viewBox="0 0 24 24"><path d="M3 19V6M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-7v6"/><circle cx="7" cy="11" r="2"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect class="f" x="5" y="10" width="14" height="10" rx="2.5"/><rect x="5" y="10" width="14" height="10" rx="2.5"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path class="f" d="M8 5v14l11-7z" style="opacity:1"/><path d="M8 5v14l11-7z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path class="f" d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.5 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.5 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path class="f" d="M13 2L5 13h6l-1 9 8-11h-6z"/><path d="M13 2L5 13h6l-1 9 8-11h-6z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c1-3.5 3.6-5.5 6.5-5.5s5.5 2 6.5 5.5M16 4.8a3.5 3.5 0 0 1 0 6.4M18.5 14.8c1.5.8 2.6 2.5 3 5.2"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect class="f" x="9" y="3" width="6" height="11" rx="3"/><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6"/></symbol>
+  <symbol id="i-stage" viewBox="0 0 24 24"><path class="f" d="M3 17h18v4H3z"/><path d="M3 17h18v4H3zM3 17V4c3 0 4 4 4 7M21 17V4c-3 0-4 4-4 7M12 8.5a2 2 0 1 0 0-.01M9.5 17c0-2 1-3.5 2.5-3.5s2.5 1.5 2.5 3.5"/></symbol>
+  <symbol id="i-film" viewBox="0 0 24 24"><rect class="f" x="3" y="5" width="18" height="14" rx="2"/><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 5v14M17 5v14M3 9h4M3 15h4M17 9h4M17 15h4"/></symbol>
+  <symbol id="i-hammer" viewBox="0 0 24 24"><path class="f" d="M13 4l5 5-3 3-5-5z"/><path d="M13 4l5 5-3 3-5-5zM10 7L4.5 12.5a1.5 1.5 0 0 0 0 2.1l4.9 4.9a1.5 1.5 0 0 0 2.1 0L17 14"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path class="f" d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15z"/><path d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15zM5 19l8-8"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path class="f" d="M9 4l6 2 6-2v16l-6 2-6-2-6 2V6z"/><path d="M9 4l6 2 6-2v16l-6 2-6-2-6 2V6zM9 4v16M15 6v16"/></symbol>
+  <symbol id="i-crown" viewBox="0 0 24 24"><path class="f" d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5z"/><path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5zM5 19h14"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><path class="f" d="M12 3a9 9 0 0 0 0 18c1.4 0 2-1 1.5-2.2-.6-1.4.3-2.8 1.8-2.8H17a4 4 0 0 0 4-4c0-5-4-9-9-9z"/><path d="M12 3a9 9 0 0 0 0 18c1.4 0 2-1 1.5-2.2-.6-1.4.3-2.8 1.8-2.8H17a4 4 0 0 0 4-4c0-5-4-9-9-9z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24"><rect class="f" x="4" y="10" width="16" height="10" rx="1.5"/><path d="M3 7h18v3H3zM4 10v10h16V10M12 7v13M12 7c-1.5-3-5-3-5-1s3 1 5 1zM12 7c1.5-3 5-3 5-1s-3 1-5 1z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path class="f" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+ </defs>
+</svg>
 
-<main>
-<div id="pvBanner" class="chip gold" style="display:none;margin:4px 0 8px;white-space:normal;line-height:1.4">ПРЕВЬЮ · снимок твоего аккаунта на 11.11.2026. Живые данные — в приложении на triznes.online/app</div>
-<!-- ПУТЬ -->
-<section class="screen on" id="s-path">
-  <div class="hero">
-    <img class="bg" id="heroImg" src="./art/01_keyart_night.webp" alt="">
-    <div class="in">
-      <span class="chip pink" id="heroTag">ЖИЗНЬ В ИГРЕ</span>
-      <h1 id="pName">Твой персонаж</h1>
-      <div class="role" id="pRole">Войди, чтобы открыть свой игровой путь</div>
-      <div class="stats">
-        <div class="ring" id="ring" style="--p:0"><div><span id="pLvl">00</span><small>LEVEL</small></div></div>
-        <div>
-          <div class="row"><span class="ey">Опыт</span><span class="sp"></span><b id="pXp">0 XP</b></div>
-          <div class="bar"><i id="xpBar" style="width:0%"></i></div>
-          <span class="mission" id="pMission">LEVEL 00 · ВХОД В ИГРУ</span>
-        </div>
-      </div>
+<!-- ВХОД: только через Аполлона -->
+<section id="gate">
+ <div class="bg"></div><div class="bg2"></div><div class="veil"></div>
+ <div class="in">
+  <div id="gHello">
+   <div class="apollo-orb"><img src="./img/guide-apollon.webp" alt="Аполлон"></div>
+   <div class="ey gold" style="margin-top:18px">Аполлон · проводник состояния</div>
+   <h1 class="h1">Вход в TRIZNES — <span class="dawn-text">через меня</span></h1>
+   <p>Я встречаю каждого, кто входит в игру. Сначала — ты, твоё состояние и мечта. Потом — город, персонаж и 13 ступеней.</p>
+   <div class="stack" style="margin-top:22px">
+    <button class="btn dawn block" id="gHave"><svg class="i"><use href="#i-sun"/></svg>Я уже в игре</button>
+    <a class="btn ghost block" id="gNew" href="https://t.me/danielsassis_bot?start=app" target="_blank" rel="noopener" style="color:#fff;border-color:rgba(255,255,255,.22)">Я здесь впервые — к Аполлону</a>
+   </div>
+  </div>
+  <form id="gLogin" hidden autocomplete="on">
+   <button type="button" class="ico-btn" id="gBack" aria-label="Назад" style="color:#fff"><svg class="i"><use href="#i-back"/></svg></button>
+   <div class="ey gold" style="margin-top:16px">Аполлон узнаёт тебя</div>
+   <h1 class="h1">Назови своего персонажа</h1>
+   <p>Имя персонажа и 4 цифры кода — те, что тебе дал TRIZNES Assistant.</p>
+   <div class="stack" style="margin-top:18px">
+    <input class="field" id="lName" name="username" autocomplete="username" placeholder="Имя персонажа" required>
+    <div class="pin" id="lPin" aria-label="Код из 4 цифр">
+     <input inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="one-time-code" aria-label="Цифра 1"><input inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Цифра 2"><input inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Цифра 3"><input inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Цифра 4">
     </div>
-  </div>
-
-  <div class="install" id="install">
-    <div class="row"><b>📲 Поставь TRIZNES на телефон</b></div>
-    <p class="muted" id="installText" style="font-size:13px;margin:6px 0 10px">Приложение откроется с иконки, на весь экран и без браузера.</p>
-    <button class="btn cy" id="installBtn" style="display:none">Установить приложение</button>
-  </div>
-
-  <div class="card lvl-now" id="nowCard">
-    <span class="ey" id="nowEy">Твой следующий шаг</span>
-    <h2 id="nowTitle">LEVEL 00 — ВХОД</h2>
-    <p class="muted" id="nowPurpose">Сформулируй мечту вместе с АПОЛЛОНОМ — он хранит её и подводит к первой ступени.</p>
-    <div class="task"><b>Задание</b><span id="nowTask">Войди в игру и назови свою мечту.</span></div>
-    <div class="task" style="background:rgba(255,53,200,.06);border-color:rgba(255,53,200,.22)"><b style="color:var(--pink)">Доказательство</b><span id="nowProof">Твоя мечта, записанная своими словами.</span></div>
-  </div>
-
-  <div class="card" id="questCard" style="display:none">
-    <span class="ey">Квесты дня · ДИОНИС</span>
-    <div id="quests"></div>
-  </div>
-
-  <div class="card">
-    <div class="row"><span class="ey">Игровой путь · 13 ступеней</span><span class="sp"></span><span class="chip" id="pathCount">0 / 13</span></div>
-    <div class="path" id="path"></div>
-  </div>
-  <p class="foot">Уровни, задания и доказательства — из ядра игры TRIZNES. Ступень засчитывается по реальному действию, а не по покупке.</p>
+    <button class="btn primary block" id="lBtn" type="submit">Войти в мир</button>
+   </div>
+   <div class="status" id="lStatus" role="status"></div>
+   <p class="xs" style="color:#9c90b6;margin-top:6px">Забыл код? Напиши <a href="https://t.me/triznes_bot" target="_blank" rel="noopener" style="text-decoration:underline">TRIZNES Assistant</a>.</p>
+  </form>
+  <p class="legal">Оператор данных — ИП Глазунов Д. Л. · <a href="./privacy.html" target="_blank" rel="noopener">Политика</a></p>
+ </div>
 </section>
 
-<!-- ГОРОД -->
-<section class="screen" id="s-city">
-  <div class="row" style="margin:6px 0 10px"><h2 style="font-size:22px">Город-сцена</h2><span class="sp"></span><span class="chip cyan">SOCHIWOOD</span></div>
-  <div class="map" id="map"><img src="./art/04_levels_map.webp" alt=""><div class="sea"></div></div>
-  <a class="btn" href="./game/index.html" style="margin-top:12px">🎮 Войти в 3D-город</a>
-  <div class="card">
-    <span class="ey">Реальные точки мира</span>
-    <div id="places"></div>
-  </div>
-  <div class="card" id="newsCard" style="display:none">
-    <span class="ey">Хроника города</span>
-    <div id="news"></div>
-  </div>
-  <p class="foot">Карта схематичная, не геоточная. Все точки отмечены как REAL — реальные места проекта.</p>
+<div id="app" hidden>
+ <main>
+  <!-- ГОРОД -->
+  <section class="screen city on" id="s-city">
+   <div id="map" aria-label="3D-карта Сочи"></div>
+   <div class="hud">
+    <div class="row">
+     <button class="player-pill" data-go="me" aria-label="Мой персонаж">
+      <div class="lvl-ring" id="hRing"><div class="ava" id="hAva">T</div><b id="hLvl">0</b></div>
+      <div style="text-align:left;min-width:0"><div class="nm" id="hName">PLAYER</div><div class="xpbar"><i id="hXp" style="width:0"></i></div></div>
+     </button>
+     <span class="sp"></span>
+     <button class="ico-btn" id="cSearch" aria-label="Рядом со мной"><svg class="i"><use href="#i-search"/></svg></button>
+    </div>
+    <div class="filters" id="cFilters"></div>
+   </div>
+   <div class="city-tools">
+    <button class="ico-btn" id="cLocate" aria-label="Я здесь"><svg class="i"><use href="#i-locate"/></svg></button>
+    <button class="ico-btn" id="cOverview" aria-label="Весь город"><svg class="i"><use href="#i-compass"/></svg></button>
+    <button class="ico-btn on" id="c3d" aria-label="3D"><svg class="i"><use href="#i-cube"/></svg></button>
+   </div>
+   <div class="joy" id="joy" aria-label="Джойстик прогулки"><div class="knob" id="knob"></div><button class="run" id="run" aria-label="Бег">БЕГ</button></div>
+   <button class="near" id="near"><div class="pic"><svg class="i"><use href="#i-hub"/></svg></div><div class="t" style="text-align:left;min-width:0"><b id="nearName">Media Hub TRIZNES</b><span id="nearDist">Приморская, 6/4</span></div><span class="sp"></span><svg class="i" style="color:var(--dim)"><use href="#i-chev"/></svg></button>
+  </section>
+
+  <!-- ПУТЬ -->
+  <section class="screen" id="s-path"><div class="wrap">
+   <div class="top"><div><div class="ey pink">13 ступеней · 3 акта</div><h1 class="h1">Путь</h1></div><span class="sp"></span><span class="chip gold" id="pathCount">0 / 13</span></div>
+   <div class="now">
+    <div class="ey" style="color:#ffd36e" id="nowEy">Следующая ступень</div>
+    <h2 class="h2" id="nowTitle">LEVEL 01 — СЛОВО</h2>
+    <p id="nowPurpose"></p>
+    <div class="taskbox"><b>Задание</b><span id="nowTask"></span></div>
+    <div class="taskbox" style="border-color:rgba(255,61,203,.35)"><b style="color:#ff8ee3">Доказательство</b><span id="nowProof"></span></div>
+    <div class="row" style="margin-top:14px;gap:8px;flex-wrap:wrap">
+     <a class="btn primary sm" id="proofBtn" href="https://bbxhhtpmbtgfaxamgksf.supabase.co/functions/v1/telegram-delete-once" target="_blank" rel="noopener"><svg class="i"><use href="#i-upload"/></svg>Сдать доказательство</a>
+     <button class="btn ghost sm" id="askLevel" style="color:#fff;border-color:rgba(255,255,255,.25)"><svg class="i"><use href="#i-spark"/></svg>Спросить ассистента</button>
+    </div>
+   </div>
+   <div class="ey">Квесты дня</div>
+   <div class="daily" id="daily"></div>
+   <div class="track" id="track"></div>
+  </div></section>
+
+  <!-- ЛЕНТА -->
+  <section class="screen" id="s-feed"><div class="wrap">
+   <div class="top"><div><div class="ey cyan">Сочи · TRIZNES · PINK NOIZE</div><h1 class="h1">Лента</h1></div></div>
+   <div class="seg" id="feedSeg"><button class="on" data-f="all">Всё</button><button data-f="sochi">Сочи</button><button data-f="triznes">TRIZNES</button><button data-f="video">Видео</button><button data-f="audio">Аудио</button></div>
+   <div id="feedVideo" class="stack"></div>
+   <div id="feedList" class="stack"></div>
+   <div class="ey" style="margin-top:6px">Каналы мира</div>
+   <div class="channels">
+    <a href="https://t.me/triznes" target="_blank" rel="noopener"><i style="background:linear-gradient(135deg,#2aa1ff,#33e6ff)">TG</i>@triznes</a>
+    <a href="https://www.youtube.com/channel/UCNntbuhLKAdDvCZcDuFYc4g" target="_blank" rel="noopener"><i style="background:linear-gradient(135deg,#ff3d3d,#ff8a3d)">YT</i>PINK NOIZE</a>
+    <a href="https://vk.com/pinknoizenewworld" target="_blank" rel="noopener"><i style="background:linear-gradient(135deg,#2787f5,#6aa8ff)">VK</i>ВКонтакте</a>
+    <a href="https://t.me/triznes_bot" target="_blank" rel="noopener"><i style="background:var(--neon)">AI</i>Ассистент</a>
+   </div>
+   <div class="ey" style="margin-top:6px">Сообщества мира</div>
+   <div class="stack" id="comms"></div>
+  </div></section>
+
+  <!-- ЧАТ -->
+  <section class="screen" id="s-chat"><div class="wrap">
+   <div class="top"><div><div class="ey pink">Проводники и игроки</div><h1 class="h1">Чат</h1></div></div>
+   <button class="guide-row" data-open="apollon" style="--gc:#ffd36e"><div class="gp"><img src="./img/guide-apollon.webp" alt=""></div><div><b>Аполлон</b><div class="sub">Состояние, мечта и следующий шаг</div></div><svg class="i chev"><use href="#i-chev"/></svg></button>
+   <button class="guide-row" data-open="guide" style="--gc:#33e6ff"><div class="gp"><img src="./img/guide-triznes.webp" alt=""></div><div><b>TRIZNES Assistant</b><div class="sub">Как устроен мир, игра и приложение</div></div><svg class="i chev"><use href="#i-chev"/></svg></button>
+   <div class="row" style="margin-top:8px"><div class="ey">Игроки</div><span class="sp"></span><span class="xs dim" id="rfState"></span></div>
+   <div id="threads"></div>
+   <div id="players"></div>
+  </div></section>
+
+  <!-- Я -->
+  <section class="screen" id="s-me"><div class="wrap">
+   <div class="hero-card" id="heroCard">
+    <div class="row" style="align-items:flex-end">
+     <div class="big-ava"><div class="in" id="meAva">T</div><button class="cam" id="photoBtn" aria-label="Фото персонажа"><svg class="i"><use href="#i-camera"/></svg></button></div>
+     <span class="sp"></span>
+     <div style="text-align:right"><span class="chip" id="meCard" style="background:transparent;border-color:currentColor;opacity:.85">карта</span><div class="xs" style="opacity:.7;margin-top:8px" id="meArchTag"></div></div>
+    </div>
+    <div class="nm" id="meName">PLAYER</div>
+    <div class="rl" id="meRole">Игрок</div>
+    <div class="rl" id="meMotto" style="font-style:italic;opacity:.9"></div>
+    <div class="kpis"><div><b id="kLvl">0</b><span>ступень</span></div><div><b id="kXp">0</b><span>XP</span></div><div><b id="kQ">0</b><span>квестов</span></div></div>
+   </div>
+   <input type="file" id="photoInput" accept="image/*" hidden>
+
+   <div class="card"><div class="row"><div class="ey">Характеристики</div><span class="sp"></span><span class="xs dim">растут с каждой ступенью</span></div><div class="stats" id="stats" style="margin-top:14px"></div></div>
+
+   <div class="card" id="dreamCard" hidden><div class="ey gold">Мечта · из разговора с Аполлоном</div><p id="meDream" style="margin-top:8px;font:600 15px/1.45 var(--body)"></p></div>
+
+   <div class="card stack">
+    <div class="ey">Твой персонаж</div>
+    <div class="sm mut">Роль в мире</div>
+    <div class="arch" id="arch"></div>
+    <div class="sm mut" style="margin-top:4px">Три цвета образа <span class="dim">(ступень 4 «МАСКА»)</span></div>
+    <div class="swatches" id="swatches"></div>
+    <input class="field" id="motto" maxlength="160" placeholder="Девиз персонажа — одной фразой">
+    <textarea class="field" id="bio" maxlength="1200" placeholder="RP-биография: кто ты в этой игре, откуда пришёл и куда идёшь"></textarea>
+    <button class="btn primary block" id="saveProfile">Сохранить персонажа</button>
+    <p class="xs dim" id="profileNote">Фото и анкета хранятся на сервере TRIZNES в России.</p>
+   </div>
+
+   <div class="card" id="creator" hidden></div>
+
+   <div class="card">
+    <div class="ey" style="margin-bottom:10px">Настройки</div>
+    <div class="sm mut" style="margin-bottom:8px">Атмосфера</div>
+    <div class="themes" id="themes">
+     <button data-t="night"><i style="background:linear-gradient(135deg,#09051a,#3a1460 60%,#ff3dcb)"></i>Ночь</button>
+     <button data-t="dawn"><i style="background:linear-gradient(135deg,#fff3e6,#ffb38a 50%,#ff6fcf)"></i>Рассвет</button>
+     <button data-t="auto"><i style="background:linear-gradient(135deg,#09051a 0 50%,#ffb38a 50%)"></i>По времени</button>
+    </div>
+    <button class="set-row" id="visRow"><svg class="i"><use href="#i-eye"/></svg><div><b class="sm">Показывать меня игрокам</b><div class="xs dim">в чате и списке игроков</div></div><span class="sp"></span><span class="toggle on" id="visT"></span></button>
+    <a class="set-row" href="https://t.me/triznes_bot" target="_blank" rel="noopener"><svg class="i"><use href="#i-gift"/></svg><div><b class="sm">Клубная карта и вклад</b><div class="xs dim">в TRIZNES Assistant</div></div><span class="sp"></span><svg class="i"><use href="#i-chev"/></svg></a>
+    <a class="set-row" href="./privacy.html" target="_blank" rel="noopener"><svg class="i"><use href="#i-shield"/></svg><b class="sm">Политика обработки данных</b><span class="sp"></span><svg class="i"><use href="#i-chev"/></svg></a>
+    <button class="set-row" id="installRow" hidden><svg class="i"><use href="#i-upload"/></svg><div><b class="sm">Установить на экран</b><div class="xs dim" id="installHint"></div></div></button>
+    <button class="set-row" id="wipeRow"><svg class="i"><use href="#i-trash"/></svg><b class="sm">Удалить мои фото и сообщения</b></button>
+    <button class="set-row" id="logout" style="color:var(--pink)"><svg class="i" style="color:var(--pink)"><use href="#i-logout"/></svg><b class="sm">Выйти</b></button>
+   </div>
+   <p class="xs dim" style="text-align:center">TRIZNES v2 · карта © OpenStreetMap, OpenFreeMap</p>
+  </div></section>
+ </main>
+
+ <nav class="tabbar" id="tabs">
+  <button data-s="city" class="on"><svg class="i"><use href="#i-city"/></svg>Город</button>
+  <button data-s="path"><svg class="i"><use href="#i-path"/></svg>Путь</button>
+  <button data-s="feed"><svg class="i"><use href="#i-feed"/></svg>Лента</button>
+  <button data-s="chat"><svg class="i"><use href="#i-chat"/></svg>Чат<span class="badge" id="chatBadge" hidden>0</span></button>
+  <button data-s="me"><svg class="i"><use href="#i-me"/></svg>Я</button>
+ </nav>
+</div>
+
+<!-- переписка -->
+<section id="conv" aria-hidden="true">
+ <div class="conv-top">
+  <button class="ico-btn" id="convBack" aria-label="Назад"><svg class="i"><use href="#i-back"/></svg></button>
+  <div class="ava-s" id="convAva"></div>
+  <div style="min-width:0"><b id="convName"></b><div class="xs mut" id="convSub"></div></div>
+  <span class="sp"></span>
+  <button class="ico-btn" id="convMore" aria-label="Ещё" hidden><svg class="i"><use href="#i-flag"/></svg></button>
+ </div>
+ <div class="msgs" id="msgs"></div>
+ <div class="quick" id="quick"></div>
+ <form class="composer" id="composer"><textarea id="ctext" rows="1" placeholder="Напиши…" maxlength="2000"></textarea><button aria-label="Отправить"><svg class="i"><use href="#i-send"/></svg></button></form>
 </section>
 
-<!-- ВКЛАД -->
-<section class="screen" id="s-angel">
-  <div class="row" style="margin:6px 0 4px"><h2 style="font-size:22px">Вклад · Ангел</h2><span class="sp"></span><span class="chip gold">МЕЦЕНАТ</span></div>
-  <p class="muted" style="font-size:13px">Здесь видно, в кого и во что можно вложиться: персонажи, сборы мира и потребности платформы.</p>
-  <div class="card" style="border-color:rgba(244,207,122,.35)">
-    <span class="ey" style="color:var(--gold)">Честные условия</span>
-    <p style="font-size:13.5px;margin-top:6px">Поддержка персонажа — меценатство / спонсорство производства: <b>без доли, без процента от прибыли, без гарантированного дохода</b>. Ангел может предложить квест — его проверяют ментор, BEZLIKI и сам персонаж. Распределение бюджета раскрывается до оплаты. Любые инвестиции с доходом — только отдельным договором.</p>
-  </div>
-  <div id="angelLocked" class="card"><b>Войди как игрок</b><p class="muted" style="font-size:13px;margin-top:4px">Карточки персонажей и сборы видны участникам после входа.</p><button class="btn" style="margin-top:12px" onclick="go('me')">Войти</button></div>
-  <div id="angelBox" style="display:none">
-    <div class="card"><span class="ey">Персонажи · главы</span><div id="camps"></div></div>
-    <div class="card"><span class="ey">Сборы мира</span><div id="pools"></div></div>
-    <div class="card"><span class="ey">Что нужно платформе</span><div id="needs"></div></div>
-  </div>
-  <p class="foot">Поддержать — через TRIZNES Assistant: он оформит заявку, условия и чек от ИП Глазунов Д.&nbsp;Л.</p>
-</section>
+<div id="sheet"><div class="box" role="dialog" aria-modal="true"><div class="grab"></div><div id="sheetBody"></div></div></div>
+<div id="toast" role="status"></div>
+<div class="pv-banner" id="pvBanner" hidden>ПРЕВЬЮ · данные как у тебя в базе</div>
 
-<!-- ЯЧЕЙКИ -->
-<section class="screen" id="s-cells">
-  <div class="row" style="margin:6px 0 4px"><h2 style="font-size:22px">Мир TRIZNES</h2><span class="sp"></span><span class="chip gold">ЭКОСИСТЕМА</span></div>
-  <div class="card"><span class="ey">Сообщества</span><div id="comms"></div></div>
-  <p class="muted" style="font-size:13px;margin-top:14px">Ячейки — узлы реальной жизни: люди, место, дело. Нажми, чтобы открыть.</p>
-  <div class="legend"><span class="chip live">● подтверждено</span><span class="chip gold">◇ в подготовке</span><span class="chip pink">⏸ ждёт согласия</span></div>
-  <div class="cells" id="cells"></div>
-</section>
-
-<!-- МЕДИА -->
-<section class="screen" id="s-media" data-with="cells">
-  <div class="row" style="margin:6px 0 10px"><h2 style="font-size:22px">Медиа</h2><span class="sp"></span><span class="chip pink">PINK NOIZE PRODUCTION</span></div>
-  <div class="card">
-    <span class="ey">CHARACTER 001 · DANIEL / PLAYER 001</span>
-    <div class="vert" style="margin-top:12px"><video src="./media/player001_reel.mp4" poster="./art/player001_card.webp" controls playsinline preload="none"></video></div>
-  </div>
-  <div class="card">
-    <span class="ey">Трейлер мира</span>
-    <video src="./media/TRIZNES_trailer.mp4" poster="./art/02_live_to_game.webp" controls playsinline preload="none" style="margin-top:12px"></video>
-  </div>
-  <div class="card">
-    <span class="ey">Подкаст «Жизнь в игре» · голос Даниэля</span>
-    <div id="pods"></div>
-    <audio id="aud" preload="none"></audio>
-    <p class="muted" style="font-size:11.5px;margin-top:8px">Голос — клон голоса Даниэля (AI ASSISTED), тексты — команда TRIZNES.</p>
-  </div>
-</section>
-
-<!-- Я -->
-<section class="screen" id="s-me">
-  <div class="card" id="loginCard">
-    <span class="ey">Вход игрока</span>
-    <h2 style="font-size:20px;margin:6px 0">Войти в свой путь</h2>
-    <form id="loginForm" autocomplete="on">
-      <label for="lName">Имя персонажа</label>
-      <input id="lName" autocomplete="username" placeholder="Например, MILLIARDER" required>
-      <label for="lPin">Личный код (4 цифры)</label>
-      <input id="lPin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="current-password" placeholder="••••" required>
-      <button class="btn" style="margin-top:16px" id="lBtn">Войти</button>
-      <div class="status" id="lStatus"></div>
-    </form>
-    <a class="btn ghost" href="/register.html" style="margin-top:8px">Вход создателя и команды (защищённый)</a>
-    <a class="btn ghost" href="https://t.me/triznes_bot" style="margin-top:8px">Нет кода? Начать через TRIZNES Assistant</a>
-  </div>
-  <div class="card" id="meCard" style="display:none">
-    <span class="ey">Мой персонаж</span>
-    <h2 style="font-size:22px;margin:6px 0" id="meName"></h2>
-    <div class="role" style="color:var(--cyan);font-weight:700" id="meRole"></div>
-    <p class="muted" id="meIntent" style="margin-top:8px"></p>
-    <div class="legend" id="meRoles"></div>
-    <div class="legend" id="meCard2"></div>
-    <div id="creator" style="display:none;margin-top:14px"></div>
-    <button class="btn ghost" id="logout" style="margin-top:14px">Выйти</button>
-  </div>
-  <div class="card">
-    <span class="ey">Проводники в мир изобилия</span>
-    <div id="guides"></div>
-  </div>
-  <p class="foot">TRIZNES · ЖИЗНЬ В ИГРЕ · SOCHI // NODE 001<br>Производство: PINK NOIZE PRODUCTION · v1 · 11.11.2026</p>
-</section>
-</main>
-
-<div class="sheet" id="sheet"><div class="box"><div class="grab"></div><div id="sheetBody"></div><button class="btn ghost" id="sheetClose" style="margin-top:14px">Закрыть</button></div></div>
-
-<nav class="tabs" id="tabs">
-  <button class="on" data-s="path"><svg viewBox="0 0 24 24"><path d="M4 20c4-1 4-6 8-7s4-6 8-7"/><circle cx="4" cy="20" r="1.6"/><circle cx="20" cy="6" r="1.6"/></svg>Путь</button>
-  <button data-s="city"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Город</button>
-  <button data-s="angel"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg>Вклад</button>
-  <button data-s="cells"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>Мир</button>
-  <button data-s="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Я</button>
-</nav>
-
-<script>
-const SB='https://bbxhhtpmbtgfaxamgksf.supabase.co',ANON='sb_publishable_aFTiVGlsJxeeutL_gEZaKA_S9VyKaHS';
-const ACCESS=SB+'/functions/v1/triznes-platform-access',SKEY='triznes-platform-session';
-const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
-let W={levels:[],places:[],guides:[],news:[]},ME=null;
-
-/* --- ячейки: только подтверждённые факты + отдельно идеи --- */
-const CELLS=[
- {id:'pink',em:'🎛',t:'PINK NOIZE PRODUCTION',d:'Всё производство мира',st:'ok',glow:'rgba(255,53,200,.35)',wide:true,
-  facts:['Ведёт всё производство TRIZNES: музыка, клипы, сцены, подкасты, выкладка.','Работает вместе с TRIZNES Assistant по контенту и публикациям.','Музыка проекта — PINK NOIZE.'],ideas:['Студийные смены для игроков уровней 2 («ГОЛОС») и 10 («НОМЕР»).']},
- {id:'school',em:'🛠',t:'Школа ремонта',d:'Сочи ↔ Краснодар · Антон Симько',st:'wait',glow:'rgba(244,207,122,.35)',
-  facts:['Публично названа узлом TRIZNES в описании видео PINK NOIZE | TRIZNES от 01.10.2026: «Школа ремонта Краснодар (Антон Симько)» и «Школа ремонта Сочи».','Подготовлены сценарий цикла KOLAIDER «Школа ремонта Сочи ↔ Краснодар» и бриф выпуска 002 «Пространство тоже герой».','Смонтированы ролики «ШКОЛА РЕМОНТА — Мы не работаем, мы играем» и ALMAZ × Школа ремонта.'],
-  ideas:['Сериал «Кино реальных событий»: мастерство → люди → преобразованное место.','Старт с одного героя и одного объекта, без массовых обещаний.'],
-  note:'Видео с людьми появятся здесь после письменного согласия героев на публикацию.'},
- {id:'service',em:'🔧',t:'Ремонтный сервис',d:'Заявка на ремонт через мир TRIZNES',st:'plan',glow:'rgba(66,236,255,.3)',
-  facts:['Связан с узлами «Школа ремонта» и XPRO.'],
-  ideas:['Одна кнопка «Нужен ремонт» → заявка мастеру Школы ремонта (помещения) или XPRO (техника).','Каждый выполненный ремонт — сцена для хроники города (с согласия людей).'],
-  note:'Приём заявок пока не подключён: нужен утверждённый канал и условия от мастеров.'},
- {id:'xpro',em:'📱',t:'XPRO',d:'Ремонт телефонов и техники · Сочи',st:'wait',glow:'rgba(66,236,255,.35)',
-  facts:['Промо-ролик «XPRO × Сапфир (PINK NOIZE)» 9:16, 34,7 с, версия v4 — готов.','История: телефон сломался → XPRO → Лева за стойкой → снова на связи → TRIZNES MEDIAHUB.'],
-  ideas:['Точка XPRO на карте города и квест уровня 7 «ГОРОД».'],
-  note:'Публикация ролика — после оформления согласия Левы.'},
- {id:'hub',em:'🎬',t:'Media Hub TRIZNES',d:'Штаб съёмок и встреч',st:'ok',glow:'rgba(202,255,57,.3)',
-  facts:['Реальная точка мира: штаб и живая точка съёмок, встреч и событий TRIZNES.','Отмечена на карте города как REAL.']},
- {id:'tuz',em:'🎭',t:'Театр ТУЗ',d:'Ментор / Режиссёр · голос ДИОНИСА',st:'ok',glow:'rgba(255,53,200,.3)',
-  facts:['Всеволод Ким — ментор и режиссёр, голос ДИОНИСА в игре.','Принцип уровня 1 «СЛОВО»: сначала текст, потом эмоция.','Ведёт уровни 8 «КОЛЛАЙДЕР» и 9 «РЕЖИССУРА».']},
- {id:'mil',em:'💎',t:'Торговый дом «Миллиардер»',d:'Проводник ЧИВУРУНДУ',st:'ok',glow:'rgba(244,207,122,.35)',
-  facts:['Игрок «Миллиардер» — проводник ЧИВУРУНДУ и Торговый дом «Миллиардер».','Сфера: знакомства, новости, творческая искра и обмен ценностью.'],ideas:['Витрина работ игроков уровня 11 «ЦЕННОСТЬ».']},
- {id:'club',em:'📣',t:'Канал @triznes',d:'Новости мира в Telegram',st:'ok',glow:'rgba(66,236,255,.3)',
-  facts:['Официальный канал TRIZNES в Telegram.'],link:'https://t.me/triznes'}
-];
-const ST={ok:['live','● подтверждено'],plan:['gold','◇ в подготовке'],wait:['pink','⏸ ждёт согласия']};
-
-function drawCells(){
-  $('cells').innerHTML=CELLS.map(c=>`<button class="cell${c.wide?' wide':''}" style="--glow:${c.glow};text-align:left" data-c="${c.id}"><div><div class="em">${c.em}</div><h3>${esc(c.t)}</h3><p>${esc(c.d)}</p></div><span class="chip ${ST[c.st][0]}" style="align-self:flex-start;margin-top:10px">${ST[c.st][1]}</span></button>`).join('');
-  document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{const c=CELLS.find(x=>x.id===b.dataset.c);openSheet(`<span class="chip ${ST[c.st][0]}">${ST[c.st][1]}</span><h2>${c.em} ${esc(c.t)}</h2><p class="muted">${esc(c.d)}</p><span class="ey">Подтверждено</span><ul class="facts">${c.facts.map(f=>`<li>${esc(f)}</li>`).join('')}</ul>${c.ideas?`<span class="ey">Идеи · не подтверждено</span><ul class="facts idea">${c.ideas.map(f=>`<li>${esc(f)}</li>`).join('')}</ul>`:''}${c.note?`<p style="color:var(--gold);font-size:13px">${esc(c.note)}</p>`:''}${c.link?`<a class="btn cy" href="${c.link}" target="_blank" rel="noopener">Открыть</a>`:''}`)});
-}
-function openSheet(h){$('sheetBody').innerHTML=h;$('sheet').classList.add('on')}
-$('sheetClose').onclick=()=>$('sheet').classList.remove('on');
-$('sheet').onclick=e=>{if(e.target.id==='sheet')$('sheet').classList.remove('on')};
-
-/* --- путь --- */
-function drawPath(){
-  const lv=ME?ME.game.level:0;$('pathCount').textContent=lv+' / 13';
-  let html='',act='';
-  W.levels.forEach(l=>{if(l.act!==act){act=l.act;html+=`<div class="act">${esc(act)}</div>`}
-    const cls=l.no<lv?'done':l.no===lv+1?'cur':l.no===lv&&lv===13?'cur':l.no<=lv?'done':'lock';
-    html+=`<div class="node ${l.no<=lv?'done':''} ${(lv<13&&l.no===lv+1)||(lv===13&&l.no===13)?'cur':''} ${l.no>lv+1?'lock':''}" data-l="${l.no}"><div class="dot">${l.no<=lv?'✓':l.no}</div><div class="t"><h4>${String(l.no).padStart(2,'0')} · ${esc(l.title)}</h4><p>${esc(l.purpose)}</p><div class="open"><div class="task"><b>Задание</b>${esc(l.task)}</div><div class="task" style="background:rgba(255,53,200,.06);border-color:rgba(255,53,200,.22)"><b style="color:var(--pink)">Доказательство</b>${esc(l.proof)}</div></div></div></div>`});
-  $('path').innerHTML=html;
-  document.querySelectorAll('.node').forEach(n=>n.onclick=()=>n.classList.toggle('x'));
-  // текущий шаг
-  const next=W.levels.find(l=>l.no===Math.min(lv+1,13));
-  if(ME&&next){
-    const creator=lv>=13;
-    $('nowEy').textContent=creator?'Ты прошёл все 13 ступеней':'Следующая ступень';
-    $('nowTitle').textContent=creator?'CREATOR MODE · ТВОРЕЦ':`LEVEL ${String(next.no).padStart(2,'0')} — ${next.title}`;
-    $('nowPurpose').textContent=creator?'Ты прокладываешь маршрут другим: веди новичков через вход и уровни 1–3 и создавай маршруты сезонов.':next.purpose;
-    $('nowTask').textContent=creator?'Проведи нового игрока через вход и первые три ступени.':next.task;
-    $('nowProof').textContent=creator?'История новичка + маршрут сезона.':next.proof;
-  }
-}
-function drawHero(){
-  if(!ME){return}
-  const p=ME.player,g=ME.game;
-  $('pName').textContent=p.alias||p.name||'PLAYER';
-  $('pRole').textContent=p.role||'Игрок';
-  $('pLvl').textContent=String(g.level).padStart(2,'0');
-  $('ring').style.setProperty('--p',Math.round(g.level/13*100));
-  $('pXp').textContent=(g.xp||0).toLocaleString('ru-RU')+' XP';
-  $('xpBar').style.width=Math.min(100,Math.round(g.level/13*100))+'%';
-  $('pMission').textContent=g.mission||('LEVEL '+String(g.level).padStart(2,'0'));
-  $('heroTag').textContent=g.level>=13?'CREATOR MODE':'ИГРОК · В ПУТИ';
-  if(ME.quests&&ME.quests.length){$('questCard').style.display='';$('quests').innerHTML=ME.quests.map(q=>`<div class="quest"><div class="row"><b>${esc(q.title)}</b><span class="sp"></span><span class="xp">+${q.xp||0} XP</span></div><p class="muted" style="font-size:13px">${esc(q.description||'')}</p><span class="chip" style="margin-top:6px;display:inline-block">${esc(q.status||'')}</span></div>`).join('')}
-  $('loginCard').style.display='none';$('meCard').style.display='';
-  $('meName').textContent=p.alias&&p.name&&p.alias!==p.name?`${p.alias} · ${p.name}`:(p.alias||p.name);
-  $('meRole').textContent=p.role||'';
-  $('meIntent').textContent=p.intention?'Мечта / намерение: '+p.intention:'';
-  $('meRoles').innerHTML=(Array.isArray(p.roles)?p.roles:[]).map(r=>`<span class="chip cyan">${esc(r)}</span>`).join('');
-  $('meCard2').innerHTML=ME.card?`<span class="chip ${ME.card.status==='expired'?'pink':'gold'}">Карта ${esc(String(ME.card.tier||'').toUpperCase())} · ${ME.card.status==='expired'?'истекла':esc(ME.card.status||'')}</span>`:'';
-}
-
-/* --- город --- */
-const ICON={media_hub:'🎬',city_scene:'🌆',district:'🏘',creative_space:'🎨',nature_scene:'⛰'};
-function drawCity(){
-  $('map').querySelectorAll('.pin').forEach(x=>x.remove());
-  W.places.forEach(p=>{const d=document.createElement('button');d.className='pin'+(p.category==='media_hub'?' hub':'');d.style.left=(p.x*100)+'%';d.style.top=(p.y*100)+'%';d.innerHTML=`<span>${esc(p.name)}</span><i></i>`;d.onclick=()=>openSheet(`<span class="chip live">${esc(p.status||'REAL')}</span><h2>${ICON[p.category]||'📍'} ${esc(p.name)}</h2><p class="muted">${esc(p.description)}</p><a class="btn" href="./game/index.html">Пойти туда в 3D-городе</a>`);$('map').appendChild(d)});
-  $('places').innerHTML=W.places.map(p=>`<div class="place"><div class="ic">${ICON[p.category]||'📍'}</div><div><b>${esc(p.name)}</b><p class="muted" style="font-size:13px">${esc(p.description)}</p></div></div>`).join('');
-  if(W.news&&W.news.length){$('newsCard').style.display='';$('news').innerHTML=W.news.map(n=>`<a class="place" href="${esc(n.url||'#')}" target="_blank" rel="noopener"><div class="ic">📰</div><div><b>${esc(n.headline)}</b><p class="muted" style="font-size:12px">${esc(n.source||'')} · ${n.at?new Date(n.at).toLocaleDateString('ru-RU'):''}</p></div></a>`).join('')}
-}
-function drawGuides(){
-  $('guides').innerHTML=W.guides.map(g=>`<div class="guide"><div class="av">${esc((g.name||'?')[0])}</div><div><h4>${esc(g.name)}</h4><p>${esc(g.purpose)}</p></div></div>`).join('')+`<a class="btn cy" href="https://t.me/triznes_bot" style="margin-top:12px">Написать TRIZNES Assistant</a>`;
-}
-
-/* --- медиа --- */
-const PODS=[['01','Вход в игру'],['02','Город-сцена'],['03','Проводники'],['04','Изобилие']];
-function drawPods(){
-  $('pods').innerHTML=PODS.map(([n,t])=>`<button class="track" data-p="${n}" style="width:100%;text-align:left"><div class="pl">▶</div><div><h4>Выпуск ${n}</h4><small>${t}</small></div></button>`).join('');
-  const a=$('aud');let cur=null;
-  document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{const n=b.dataset.p;document.querySelectorAll('[data-p]').forEach(x=>{x.classList.remove('on');x.querySelector('.pl').textContent='▶'});if(cur===n&&!a.paused){a.pause();return}if(cur!==n){a.src=`./media/TRIZNES_podcast_${n}.mp3`;cur=n}a.play().catch(()=>{});b.classList.add('on');b.querySelector('.pl').textContent='❚❚'});
-  a.onended=()=>document.querySelectorAll('[data-p]').forEach(x=>{x.classList.remove('on');x.querySelector('.pl').textContent='▶'});
-}
-
-
-const rub=n=>n?Number(n).toLocaleString('ru-RU')+' ₽':'';
-const PRI={P0:'сейчас',P1:'скоро',P2:'после выручки'};
-function drawAngel(){
-  const S=ME&&ME.support;
-  $('angelLocked').style.display=S?'none':'';$('angelBox').style.display=S?'':'none';
-  if(!S)return;
-  $('camps').innerHTML=(S.campaigns||[]).map(c=>`<div class="quest"><div class="row"><b>${esc(c.title)}</b></div><p class="muted" style="font-size:13px;margin-top:4px">${esc(c.description)}</p><p style="font-size:13px;margin-top:6px"><span class="ey">Вектор</span><br>${esc(c.vector||'')}</p><p style="font-size:13px;margin-top:6px"><span class="ey">Следующий квест</span><br>${esc(c.next||'')}</p><div class="row" style="margin-top:8px;flex-wrap:wrap;gap:6px"><span class="chip gold">${rub(c.min)} – ${rub(c.max)}</span><span class="chip">${c.status==='review'?'на проверке':esc(c.status)}</span></div><a class="btn" style="margin-top:10px" href="https://t.me/triznes_bot" target="_blank" rel="noopener">Стать ангелом персонажа</a></div>`).join('')||'<p class="muted">Пока нет открытых глав.</p>';
-  $('pools').innerHTML=(S.pools||[]).map(p=>`<div class="place"><div class="ic">✨</div><div><b>${esc(p.name)}</b><p class="muted" style="font-size:13px">${esc(p.description||'')}</p></div></div>`).join('')||'<p class="muted">Нет открытых сборов.</p>';
-  $('needs').innerHTML=(S.needs||[]).map(n=>`<div class="quest"><div class="row"><b>${esc(n.title)}</b><span class="sp"></span><span class="chip ${n.priority==='P0'?'pink':''}">${PRI[n.priority]||esc(n.priority)}</span></div><p class="muted" style="font-size:13px;margin-top:4px">${esc(n.purpose||'')}</p><p style="font-size:12.5px;margin-top:4px">→ ${esc(n.unlocks||'')}</p>${(n.target||n.once||n.monthly)?`<span class="xp">${n.target?'цель '+rub(n.target):n.once?rub(n.once)+' разово':'до '+rub(n.monthly)+' / мес'}</span>`:''}</div>`).join('');
-}
-function drawComms(){
-  const R={music_production_and_tribe:'музыка, продакшн, племя',club_and_live_game:'клуб и живая игра',animation_circus_community:'анимация и цирк',trade_and_networking:'торговля и знакомства'};
-  $('comms').innerHTML=(W.communities||[]).map(c=>`<div class="place"><div class="ic">◎</div><div><b>${esc(c.name)}</b><p class="muted" style="font-size:13px">${esc(R[c.role]||c.role||'')}${c.city?' · '+esc(c.city):''}</p></div></div>`).join('')||'<p class="muted">—</p>';
-}
-function drawCreator(){
-  if(!ME||!ME.stats){$('creator').style.display='none';return}
-  const st=ME.stats,q=st.queue||{};
-  $('creator').style.display='';
-  $('creator').innerHTML=`<span class="ey" style="color:var(--lime)">Пульт создателя</span><div class="cells" style="margin-top:8px">${[['Игроков',st.players],['Активных карт',st.cards_active??st.cards],['Вышло за 7 дней',st.published_7d],['На проверке',q.review??st.review],['Согласий оформлено',st.consents_granted??st.consents]].map(([a,b])=>`<div class="cell" style="min-height:84px"><p>${a}</p><h3 style="font-size:24px">${b??0}</h3></div>`).join('')}</div>`;
-}
-
-/* --- данные --- */
-async function rpc(fn,body){const r=await fetch(`${SB}/rest/v1/rpc/${fn}`,{method:'POST',headers:{apikey:ANON,'Content-Type':'application/json'},body:JSON.stringify(body||{})});if(!r.ok)throw new Error('rpc_'+r.status);return r.json()}
-async function loadWorld(){
-  if(window.TRIZNES_PREVIEW){W=TRIZNES_PREVIEW.world;ME=TRIZNES_PREVIEW.me;$('pvBanner').style.display='block';$('net').textContent='● ПРЕВЬЮ';renderAll();return}
-  const cached=ls.get('triznes-app-world');
-  if(cached){try{W=JSON.parse(cached)}catch(e){}}
-  if(!W.levels.length){try{W=await (await fetch('./data/world.json')).json()}catch(e){}}
-  renderAll();
-  try{const w=await rpc('triznes_app_world');if(w&&w.levels&&w.levels.length){W=w;ls.set('triznes-app-world',JSON.stringify(w));renderAll()}$('net').textContent='● SOCHI // NODE 001';$('net').className='chip live'}catch(e){$('net').textContent='○ офлайн';$('net').className='chip'}
-}
-async function loadMe(){
-  if(window.TRIZNES_PREVIEW)return;
-  const t=ls.get(SKEY);if(!t)return;
-  const cached=ls.get('triznes-app-me');if(cached){try{ME=JSON.parse(cached);renderAll()}catch(e){}}
-  try{const m=await rpc('triznes_app_me',{p_session_token:t});if(m&&m.ok){ME=m;ls.set('triznes-app-me',JSON.stringify(m));renderAll()}else if(m&&m.error==='session_invalid'){ls.del(SKEY);ls.del('triznes-app-me');ME=null;location.reload()}}catch(e){}
-}
-function renderAll(){drawPath();drawHero();drawCity();drawGuides();drawAngel();drawComms();drawCreator()}
-
-$('loginForm').onsubmit=async e=>{e.preventDefault();const b=$('lBtn'),s=$('lStatus');b.disabled=true;s.textContent='Открываю путь…';
-  try{const r=await fetch(ACCESS,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'login',name:$('lName').value.trim(),pin:$('lPin').value.trim()})});const d=await r.json().catch(()=>({}));
-    if(!r.ok||!d.ok||!d.session_token){const er=d.error||'';if(/mfa|secure|admin/.test(er)){s.textContent='Для этой роли нужен защищённый вход — открываю…';setTimeout(()=>location.href='/register.html',900);return}throw new Error(er==='invalid_credentials'?'Проверь имя и код.':er==='pin_required'||er==='name_and_pin_required'?'Введи имя и 4 цифры кода.':er==='payment_required'?'Карта участника неактивна — напиши TRIZNES Assistant.':'Вход не удался. Попробуй ещё раз.')}
-    ls.set(SKEY,d.session_token);$('lPin').value='';s.textContent='';await loadMe();go('path')}
-  catch(err){s.textContent=String(err.message||err).includes('Failed to fetch')?'Вход работает в приложении на triznes.online.':err.message}finally{b.disabled=false}};
-$('logout').onclick=async()=>{const t=ls.get(SKEY);try{await fetch(ACCESS,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'logout',session_token:t})})}catch(e){}ls.del(SKEY);ls.del('triznes-app-me');location.reload()};
-
-/* --- навигация --- */
-function go(s){if(s==='media')s='cells';document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('on',x.id==='s-'+s||x.dataset.with===s));document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.s===s));scrollTo({top:0});if(location.hash!=='#'+s)history.replaceState(null,'','#'+s)}
-document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>go(b.dataset.s));
-if(/^#(path|city|angel|cells|media|me)$/.test(location.hash))go(location.hash.slice(1));
-
-/* --- установка --- */
-let deferred=null;const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
-const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
-if(!standalone){
-  if(ios){$('install').classList.add('on');$('installText').innerHTML='В Safari нажми <b>Поделиться</b> <span style="font-size:16px">⬆︎</span> → <b>«На экран Домой»</b> → <b>Добавить</b>. TRIZNES появится иконкой на телефоне.'}
-  addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('install').classList.add('on');$('installBtn').style.display='flex';$('installText').textContent='Одно нажатие — и TRIZNES на главном экране, на весь экран и без браузера.'});
-  $('installBtn').onclick=async()=>{if(!deferred)return;deferred.prompt();await deferred.userChoice.catch(()=>{});deferred=null;$('install').classList.remove('on')};
-}
-if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('./sw.js').catch(()=>{})}
-
-drawCells();drawPods();loadWorld().then(loadMe);
-</script>
+<script src="./vendor/maplibre-gl.js"></script>
+<script src="./js/app.js?v=2.0.0"></script>
+<script src="./js/city.js?v=2.0.0"></script>
 </body>
 </html>
