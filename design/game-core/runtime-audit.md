@@ -2,12 +2,10 @@
 **Проверено:** 2026-11-11 · **Тип:** read-only инвентаризация · **Изменений в production не выполнялось**
 
 ## Главный вывод
-Игровой backend уже существует. Нельзя начинать с создания нового Game Engine или дублирующих таблиц. Следующий этап — интеграция DIRTY PARADISE в существующий игровой контур и точечное расширение только после проверки реального API.
+Игровой backend уже существует и содержит канонический 13-уровневый путь. DIRTY PARADISE нужно наложить на него как сценарную вселенную, не создавая второй набор уровней, XP, квестов или AR-таблиц.
 
-## Подтверждённые существующие компоненты
-
-### Активная Edge Function
-`triznes-game-core` — ACTIVE, version 26, verify_jwt=false с отдельной проверкой внутреннего заголовка `x-triznes-internal`. Внутри использует таблицы/ RPC игрового контура и Gemini для генерации ежедневного квеста. Не менять без отдельного security review.
+## Активная Edge Function
+`triznes-game-core` — ACTIVE, version 26, `verify_jwt=false` с отдельной проверкой внутреннего заголовка `x-triznes-internal`. Функция использует таблицы/RPC игрового контура и Gemini для генерации ежедневного квеста. Не менять без отдельного security review.
 
 Поддерживаемые actions по фактическому GET response и коду:
 - status
@@ -21,54 +19,68 @@
 - review_proof
 - try_level_up
 
-### Игровой цикл
-- `platform_players` — игровой профиль, alias, intention, preferred_roles, privacy_settings, daily_quest_opt_in.
+## Канонический игровой маршрут — 13 активных уровней
+Read-only SELECT из `triznes_game_levels` вернул 13 активных записей `creator_path_v1`:
+1. СЛОВО — СТИХОТВОРЕНИЕ
+2. ГОЛОС — ПЕСНЯ
+3. СЦЕНА — ВЫСТУПИ
+4. МАСКА — ПЕРСОНАЖ
+5. ИМПРОВИЗАЦИЯ
+6. ДУЭТ
+7. ГОРОД — ЖИВАЯ СЦЕНА
+8. КОЛЛАЙДЕР
+9. РЕЖИССУРА
+10. НОМЕР
+11. ЦЕННОСТЬ — ПРОДАЖА
+12. СОБЫТИЕ
+13. АВТОР ИГРЫ
+
+Уровни имеют активные `slug`, `purpose`, `core_task`, `completion_signal`, а также поля `core_proof`, `min_level_xp`, `daily_quest_min`, `unlocks`. Это действующая механика; не менять семантику заданий при добавлении DIRTY PARADISE.
+
+## Существующие игровые таблицы
+- `platform_players` — профиль игрока, alias, intention, preferred_roles, privacy_settings, daily_quest_opt_in.
 - `apollon_player_game_state` — текущий уровень, статус, XP, миссия и состояние.
-- `triznes_game_levels` — описание уровня, цель, guidance, completion signal, core task/proof, XP threshold, unlocks.
+- `triznes_game_levels` — 13-уровневая конфигурация маршрута.
 - `apollon_level00_progress` — семишаговый входной маршрут.
 - `triznes_daily_quests` — ежедневные квесты.
 - `triznes_player_proofs` — доказательства, приватность, согласие, review и XP.
 - `apollon_game_events` — журнал игровых событий.
-- Связанные RPC, используемые функцией: `resolve_player_for_identity`, `sync_apollon_game_memory`, `complete_level00`, `recalculate_player_xp`, `try_player_level_up`, `link_identity_by_registration_code`.
 
-### Уже существующий мир и AR
-- `triznes_world_places` — места и координаты.
-- `triznes_world_map_layers` / `triznes_world_map_features` — слои карты и геометрия объектов.
-- `sochiwood_life_events` — жизненные/кинематографические события, включая `consent_filming`, `consent_ar`, `rights_status`, `visibility`, `ar_payload`.
-- `sochiwood_ar_layers` — AR-слои с типом якоря, anchor payload и content payload.
-- `triznes_dream_worlds` / `triznes_dream_events` — персональные миры и журнал событий.
+Связанные RPC, используемые функцией: `resolve_player_for_identity`, `sync_apollon_game_memory`, `complete_level00`, `recalculate_player_xp`, `try_player_level_up`, `link_identity_by_registration_code`.
+
+## Существующий WORLD / AR слой
+- `triznes_world_places` — реальные POI. Read-only выборка вернула 9 мест; 7 имеют координаты: Media Hub TRIZNES (Приморская, 6/4), Морской вокзал, Набережная Сочи, Мамайка, Красная Поляна, Ахун, Дагомыс. У Villa Poliana и «Мелодии» координат нет.
+- `triznes_world_map_layers` — 5 активных публичных слоёв: world-zones, places, communities, scenes, quests.
+- `triznes_world_map_features` — 3 активных публичных геометрии: центральная линия живого кино, центральная зона и горная ось. Геометрии имеют `reality_status=ARTISTIC_BRANCH`; это художественные игровые объекты, а не подтверждённая навигация.
+- `triznes_world_communities` — 5 активных публичных сообществ, включая PINK NOIZE, ТЕАТР ТУЗ и ЗА ЛЮБОВЬ.
+- `sochiwood_life_events` — одна найденная запись; она `status=rejected`, `visibility=private`, `rights_status=owner_only`. Это не опубликованная AR-сцена.
+- `sochiwood_ar_layers` — read-only выборка пока пустая; работающий AR-слой в production не подтверждён.
+- `triznes_dream_worlds` / `triznes_dream_events` — таблицы персональных миров и журнала событий; данные в проверенной выборке не возвращены.
 - `triznes_city_presence` / `triznes_city_connections` — добровольная видимость в городе и связи персонажей.
-- `triznes_world_profiles` / `triznes_world_communities` — публичная витрина персонажей и сообществ.
-- `locations` — пользовательская геолокация с точностью и consent_at; не путать с публичными POI.
+- `locations` — пользовательская геолокация с точностью и `consent_at`; не путать с публичными POI.
 
-### Связь с производством
-- `triznes_impulses` / `triznes_impulse_events` — уже существующий автобус импульсов.
+## Связь с производством
+- `triznes_impulses` / `triznes_impulse_events` — существующий автобус импульсов.
 - `triznes_character_artifacts`, `triznes_media_intake_events`, `neurofarm_request_sources`, `sochiwood_operator_jobs` — артефакты, медиа-приём и производственные задания.
 
-## Наблюдения по схеме
-В инвентаризации 11 ноября все перечисленные выше таблицы имели RLS enabled. Счётчики строк в list_tables показывали:
-- 2 записи в `apollon_level00_progress`, `triznes_daily_quests`, `apollon_player_game_state`, `apollon_game_events`;
-- 0 для `triznes_game_levels`, `triznes_world_places`, `triznes_world_map_layers`, `triznes_world_map_features`, `sochiwood_life_events`, `sochiwood_ar_layers`, `triznes_dream_worlds`, `triznes_dream_events`, `triznes_city_presence`, `triznes_city_connections`, `triznes_impulses`, `triznes_impulse_events`, `triznes_world_profiles`, `triznes_world_communities`.
-Эти счётчики — ориентир инвентаризации, а не доказательство отсутствия данных при всех возможных RLS/visibility контекстах. Перед наполнением нужно проверить выборки в правильном admin/service контексте и не копировать/перезаписывать существующие записи.
-
 ## Архитектурное решение
-1. Не создавать вторую таблицу игроков, глав, уровней, квестов, proof или событий.
-2. Сопоставить 6 глав и 13 уровней DIRTY PARADISE с существующим `triznes_game_levels` только после просмотра seed/config и текущей логики level-up. Не подменять существующие игровые уровни DP-уровнями.
-3. Использовать `sochiwood_life_events` и `sochiwood_ar_layers` для жизненных сцен и AR, если их действующие policies/API подходят.
-4. Использовать `triznes_world_places` и `triznes_world_map_features` для подтверждённых POI/геометрии; не писать координаты из визуальных макетов.
-5. Использовать текущий `triznes-game-core` для текущего игрового цикла. Новые actions добавлять обратно совместимо и после тестирования.
-6. Для Prompt-to-AR сначала определить/найти уже существующий backend route/Edge Function и контракт; не открывать прямой клиентский доступ к service role.
-7. V2V вынести в отдельный GPU worker/WebRTC service. Supabase хранит метаданные, согласия, ссылки и игровые события, но не видеокадры.
+1. Не создавать вторую таблицу игроков, уровней, квестов, proof, world places или AR layers.
+2. Шесть глав UI группируют существующие 13 уровней: 1 / 2–4 / 5–7 / 8–9 / 10–12 / 13. Это навигационная группировка, не новая схема XP.
+3. Четыре акта DIRTY PARADISE используют те же уровни: 1–3 / 4–6 / 7–10 / 11–13.
+4. Использовать существующие `sochiwood_life_events` и `sochiwood_ar_layers`, но сначала найти действующие policies/API; текущая выборка не доказывает готовность production AR.
+5. Использовать `triznes_world_places` и `triznes_world_map_features`; различать REAL POI и `ARTISTIC_BRANCH`. Не выдавать художественную линию за навигационный маршрут.
+6. Существующий `triznes-game-core` остаётся источником истины для текущего игрового цикла. Новые actions добавлять обратно совместимо и после тестирования.
+7. Для Prompt-to-AR сначала найти существующий backend route/Edge Function; не открывать клиентский доступ к service role.
+8. V2V вынести в отдельный GPU worker/WebRTC service. Supabase хранит метаданные, согласия, ссылки и события, но не видеокадры.
 
 ## Что не было сделано
 - Не менялись таблицы, policies, RPC, Edge Functions, secrets, storage, данные или production deployment.
 - Не выполнялись INSERT/UPDATE/DELETE.
-- Не подтверждались реальные POI координаты и доступность локаций.
+- Не создавались новые production POI или AR-события.
 - Не запускался live V2V/AR runtime и не измерялась задержка на устройстве.
 
-## Следующие read-only проверки перед первой backend-реализацией
-1. Прочитать определения `triznes_game_levels` и seed данных, сверить текущую модель уровней.
-2. Получить политики RLS и RPC definition для `sochiwood_life_events` и `sochiwood_ar_layers`.
-3. Проверить UI вызовы `triznes-game-core` и map data adapter.
-4. Найти существующие Edge Functions для AR/world event creation, чтобы избежать дублей.
-5. Сделать тестовый контракт на staging/dev branch; production менять только после прохождения тестов.
+## Следующие проверки перед первой backend-реализацией
+1. Получить RLS policies и RPC definitions для `sochiwood_life_events`, `sochiwood_ar_layers`, `triznes_world_map_features`.
+2. Проверить UI-вызовы `triznes-game-core` и map data adapter.
+3. Найти существующие Edge Functions для AR/world event creation.
+4. Сделать тестовый контракт на staging/dev branch; production менять только после прохождения тестов.
