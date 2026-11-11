@@ -1,0 +1,5 @@
+[functions.telegram-webhook]
+verify_jwt = false
+
+[functions.neurofarm-generate]
+verify_jwt = true
