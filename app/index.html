@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07040B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TRIZNES">
+<title>TRIZNES — Жизнь в игре</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icons/icon-180.png">
+<link rel="icon" href="./icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#FF35C8;--cyan:#42ECFF;--lime:#CAFF39;--gold:#F4CF7A;--bg:#07040B;--panel:rgba(18,10,28,.78);--line:rgba(255,255,255,.09);--text:#F6F1FB;--muted:#AFA3C2;--r:22px;--safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--text);font:15px/1.45 Manrope,system-ui,-apple-system,sans-serif;min-height:100%;overscroll-behavior-y:none}
+body{padding-top:var(--safe-t)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+h1,h2,h3,.u{font-family:Unbounded,Manrope,sans-serif;letter-spacing:-.01em}
+.bgfx{position:fixed;inset:0;z-index:-1;background:radial-gradient(120% 60% at 80% -10%,rgba(255,53,200,.22),transparent 60%),radial-gradient(90% 50% at -10% 30%,rgba(66,236,255,.14),transparent 60%),var(--bg)}
+.bgfx:after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:34px 34px;mask:linear-gradient(#000,transparent 70%)}
+header.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(var(--bg),rgba(7,4,11,.6));backdrop-filter:blur(14px)}
+.logo{font:800 17px Unbounded,sans-serif;letter-spacing:.06em}
+.logo b{color:var(--pink)}
+.chip{font:700 10.5px Manrope;letter-spacing:.12em;text-transform:uppercase;padding:6px 10px;border-radius:99px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--muted);white-space:nowrap}
+.chip.live{color:var(--lime);border-color:rgba(202,255,57,.35)}
+.chip.pink{color:var(--pink);border-color:rgba(255,53,200,.4)}
+.chip.cyan{color:var(--cyan);border-color:rgba(66,236,255,.35)}
+.chip.gold{color:var(--gold);border-color:rgba(244,207,122,.4)}
+main{padding:0 16px calc(96px + var(--safe-b));max-width:560px;margin:0 auto}
+.screen{display:none;animation:in .35s ease}
+.screen.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin:12px 0;backdrop-filter:blur(10px)}
+.ey{font:700 11px Manrope;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px 18px;border-radius:16px;font-weight:800;background:linear-gradient(135deg,var(--pink),#9a3bff);color:#fff;box-shadow:0 10px 30px -10px rgba(255,53,200,.7)}
+.btn.ghost{background:rgba(255,255,255,.06);box-shadow:none;border:1px solid var(--line)}
+.btn.cy{background:linear-gradient(135deg,#1fc8e6,#3a6bff);box-shadow:0 10px 30px -10px rgba(66,236,255,.6)}
+.row{display:flex;gap:10px;align-items:center}
+.sp{flex:1}
+/* hero */
+.hero{position:relative;border-radius:28px;overflow:hidden;margin-top:6px;min-height:360px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line)}
+.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.1)}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,4,11,.05) 20%,rgba(7,4,11,.92) 78%)}
+.hero .in{position:relative;z-index:2;padding:20px}
+.hero h1{font-size:30px;line-height:1.05;margin:8px 0 4px}
+.hero .role{color:var(--cyan);font-weight:700}
+.stats{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;margin-top:16px}
+.ring{--p:0;width:78px;height:78px;border-radius:50%;background:conic-gradient(var(--pink) calc(var(--p)*1%),rgba(255,255,255,.08) 0);display:grid;place-items:center}
+.ring div{width:64px;height:64px;border-radius:50%;background:#0d0716;display:grid;place-items:center;text-align:center;font:800 22px/1 Unbounded}
+.ring small{display:block;font:700 8.5px Manrope;letter-spacing:.14em;color:var(--muted);margin-top:3px}
+.bar{height:8px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden;margin:8px 0 4px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--lime));border-radius:9px}
+.mission{display:inline-block;margin-top:2px;font:800 12px Unbounded;color:var(--lime);letter-spacing:.04em}
+/* level card */
+.lvl-now h2{font-size:22px;margin:6px 0}
+.task{margin-top:12px;padding:14px;border-radius:16px;background:rgba(66,236,255,.06);border:1px solid rgba(66,236,255,.2)}
+.task b{color:var(--cyan);font:700 11px Manrope;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:4px}
+/* path */
+.path{position:relative;padding-left:8px;margin-top:6px}
+.act{font:800 11px Unbounded;letter-spacing:.08em;color:var(--gold);margin:18px 0 8px 2px;text-transform:uppercase}
+.node{position:relative;display:flex;gap:14px;padding:10px 0 10px 0}
+.node:before{content:"";position:absolute;left:21px;top:0;bottom:0;width:2px;background:rgba(255,255,255,.08)}
+.node.done:before{background:linear-gradient(var(--pink),var(--pink))}
+.dot{position:relative;z-index:1;flex:0 0 44px;height:44px;border-radius:14px;display:grid;place-items:center;font:800 15px Unbounded;background:#140b20;border:1px solid var(--line);color:var(--muted)}
+.node.done .dot{background:linear-gradient(135deg,var(--pink),#7b2cff);color:#fff;border:0}
+.node.cur .dot{background:#0d0716;border:2px solid var(--lime);color:var(--lime);box-shadow:0 0 0 6px rgba(202,255,57,.12),0 0 24px rgba(202,255,57,.4);animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 10px rgba(202,255,57,.06),0 0 34px rgba(202,255,57,.55)}}
+.node .t{flex:1;padding-top:2px}
+.node .t h4{font:700 14px Unbounded;letter-spacing:.02em}
+.node .t p{font-size:13px;color:var(--muted);margin-top:2px}
+.node.lock{opacity:.55}
+.node .open{display:none;margin-top:8px;font-size:13px}
+.node.x .open{display:block}
+/* map */
+.map{position:relative;aspect-ratio:3/4;border-radius:24px;overflow:hidden;border:1px solid var(--line);background:#0a0613}
+.map img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.28;filter:blur(1.5px) saturate(1.2)}
+.map .sea{position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(180deg,transparent,rgba(30,120,200,.35));}
+.pin{position:absolute;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:4px}
+.pin i{width:16px;height:16px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--pink);box-shadow:0 0 16px var(--pink)}
+.pin span{font:700 10.5px Manrope;background:rgba(7,4,11,.8);padding:3px 7px;border-radius:8px;white-space:nowrap;border:1px solid var(--line)}
+.pin.hub i{background:var(--lime);box-shadow:0 0 18px var(--lime)}
+.place{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.place:last-child{border:0}
+.place .ic{flex:0 0 40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(255,53,200,.12);font-size:18px}
+/* cells */
+.cells{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.cell{position:relative;border-radius:20px;padding:14px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid var(--line);background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.01));overflow:hidden}
+.cell.wide{grid-column:span 2;min-height:120px}
+.cell .em{font-size:26px}
+.cell h3{font-size:14px;margin-top:8px;line-height:1.15}
+.cell p{font-size:12px;color:var(--muted);margin-top:4px}
+.cell:before{content:"";position:absolute;right:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:var(--glow,rgba(255,53,200,.25));filter:blur(30px)}
+.sheet{position:fixed;inset:0;z-index:50;display:none;align-items:flex-end;background:rgba(0,0,0,.55);backdrop-filter:blur(6px)}
+.sheet.on{display:flex}
+.sheet .box{width:100%;max-width:560px;margin:0 auto;max-height:86vh;overflow:auto;background:#100819;border:1px solid var(--line);border-radius:26px 26px 0 0;padding:20px 18px calc(24px + var(--safe-b));animation:up .3s ease}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.sheet .grab{width:42px;height:5px;border-radius:9px;background:rgba(255,255,255,.2);margin:0 auto 14px}
+.sheet h2{font-size:20px;margin:6px 0 10px}
+.sheet p{margin:8px 0}
+.facts{margin:12px 0;padding:0;list-style:none}
+.facts li{padding:8px 0 8px 22px;position:relative;font-size:14px;border-bottom:1px dashed var(--line)}
+.facts li:before{content:"✓";position:absolute;left:0;color:var(--lime);font-weight:800}
+.facts.idea li:before{content:"◇";color:var(--gold)}
+/* media */
+.track{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line);margin:8px 0}
+.track .pl{flex:0 0 46px;height:46px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--pink),#7b2cff);font-size:16px}
+.track.on .pl{background:linear-gradient(135deg,var(--lime),#29c27a);color:#000}
+.track h4{font-size:14px;font-weight:800}
+.track small{color:var(--muted)}
+video{width:100%;border-radius:18px;background:#000;display:block}
+.vert{max-width:300px;margin:0 auto}
+/* profile */
+input{width:100%;padding:15px 16px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--text);font:600 16px Manrope;outline:none}
+input:focus{border-color:var(--pink)}
+label{display:block;margin:12px 0 6px;font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.06em}
+.guide{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.guide:last-child{border:0}
+.guide .av{flex:0 0 44px;height:44px;border-radius:14px;display:grid;place-items:center;font:800 15px Unbounded;background:linear-gradient(135deg,rgba(66,236,255,.25),rgba(255,53,200,.25))}
+.guide h4{font:700 13.5px Unbounded}
+.guide p{font-size:13px;color:var(--muted)}
+.status{font-size:13px;color:var(--pink);min-height:18px;margin-top:8px}
+/* nav */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:8px 10px calc(8px + var(--safe-b));background:rgba(10,6,16,.88);backdrop-filter:blur(18px);border-top:1px solid var(--line);display:flex;justify-content:space-around;max-width:100%}
+nav.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;color:var(--muted);font:700 10.5px Manrope;letter-spacing:.04em}
+nav.tabs button svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8}
+nav.tabs button.on{color:var(--text)}
+nav.tabs button.on svg{stroke:var(--pink);filter:drop-shadow(0 0 6px var(--pink))}
+.install{display:none;margin:12px 0;padding:14px;border-radius:18px;border:1px solid rgba(202,255,57,.3);background:rgba(202,255,57,.06)}
+.install.on{display:block}
+.quest{padding:12px 0;border-bottom:1px solid var(--line)}
+.quest:last-child{border:0}
+.xp{color:var(--lime);font-weight:800;font-size:12px}
+.foot{font-size:11.5px;color:var(--muted);text-align:center;margin:18px 0 6px;line-height:1.5}
+.legend{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="bgfx"></div>
+<header class="top">
+  <div class="logo">TRIZ<b>NES</b></div>
+  <div class="row" style="gap:6px"><span class="chip live" id="net">● SOCHI // NODE 001</span></div>
+</header>
+
+<main>
+<!-- ПУТЬ -->
+<section class="screen on" id="s-path">
+  <div class="hero">
+    <img class="bg" id="heroImg" src="./art/01_keyart_night.webp" alt="">
+    <div class="in">
+      <span class="chip pink" id="heroTag">ЖИЗНЬ В ИГРЕ</span>
+      <h1 id="pName">Твой персонаж</h1>
+      <div class="role" id="pRole">Войди, чтобы открыть свой игровой путь</div>
+      <div class="stats">
+        <div class="ring" id="ring" style="--p:0"><div><span id="pLvl">00</span><small>LEVEL</small></div></div>
+        <div>
+          <div class="row"><span class="ey">Опыт</span><span class="sp"></span><b id="pXp">0 XP</b></div>
+          <div class="bar"><i id="xpBar" style="width:0%"></i></div>
+          <span class="mission" id="pMission">LEVEL 00 · ВХОД В ИГРУ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="install" id="install">
+    <div class="row"><b>📲 Поставь TRIZNES на телефон</b></div>
+    <p class="muted" id="installText" style="font-size:13px;margin:6px 0 10px">Приложение откроется с иконки, на весь экран и без браузера.</p>
+    <button class="btn cy" id="installBtn" style="display:none">Установить приложение</button>
+  </div>
+
+  <div class="card lvl-now" id="nowCard">
+    <span class="ey" id="nowEy">Твой следующий шаг</span>
+    <h2 id="nowTitle">LEVEL 00 — ВХОД</h2>
+    <p class="muted" id="nowPurpose">Сформулируй мечту вместе с АПОЛЛОНОМ — он хранит её и подводит к первой ступени.</p>
+    <div class="task"><b>Задание</b><span id="nowTask">Войди в игру и назови свою мечту.</span></div>
+    <div class="task" style="background:rgba(255,53,200,.06);border-color:rgba(255,53,200,.22)"><b style="color:var(--pink)">Доказательство</b><span id="nowProof">Твоя мечта, записанная своими словами.</span></div>
+  </div>
+
+  <div class="card" id="questCard" style="display:none">
+    <span class="ey">Квесты дня · ДИОНИС</span>
+    <div id="quests"></div>
+  </div>
+
+  <div class="card">
+    <div class="row"><span class="ey">Игровой путь · 13 ступеней</span><span class="sp"></span><span class="chip" id="pathCount">0 / 13</span></div>
+    <div class="path" id="path"></div>
+  </div>
+  <p class="foot">Уровни, задания и доказательства — из ядра игры TRIZNES. Ступень засчитывается по реальному действию, а не по покупке.</p>
+</section>
+
+<!-- ГОРОД -->
+<section class="screen" id="s-city">
+  <div class="row" style="margin:6px 0 10px"><h2 style="font-size:22px">Город-сцена</h2><span class="sp"></span><span class="chip cyan">SOCHIWOOD</span></div>
+  <div class="map" id="map"><img src="./art/04_levels_map.webp" alt=""><div class="sea"></div></div>
+  <a class="btn" href="./game/index.html" style="margin-top:12px">🎮 Войти в 3D-город</a>
+  <div class="card">
+    <span class="ey">Реальные точки мира</span>
+    <div id="places"></div>
+  </div>
+  <div class="card" id="newsCard" style="display:none">
+    <span class="ey">Хроника города</span>
+    <div id="news"></div>
+  </div>
+  <p class="foot">Карта схематичная, не геоточная. Все точки отмечены как REAL — реальные места проекта.</p>
+</section>
+
+<!-- ЯЧЕЙКИ -->
+<section class="screen" id="s-cells">
+  <div class="row" style="margin:6px 0 4px"><h2 style="font-size:22px">Ячейки мира</h2><span class="sp"></span><span class="chip gold">ЭКОСИСТЕМА</span></div>
+  <p class="muted" style="font-size:13px">Каждая ячейка — узел реальной жизни: люди, место, дело. Нажми, чтобы открыть.</p>
+  <div class="legend"><span class="chip live">● подтверждено</span><span class="chip gold">◇ в подготовке</span><span class="chip pink">⏸ ждёт согласия</span></div>
+  <div class="cells" id="cells"></div>
+</section>
+
+<!-- МЕДИА -->
+<section class="screen" id="s-media">
+  <div class="row" style="margin:6px 0 10px"><h2 style="font-size:22px">Медиа</h2><span class="sp"></span><span class="chip pink">PINK NOIZE PRODUCTION</span></div>
+  <div class="card">
+    <span class="ey">CHARACTER 001 · DANIEL / PLAYER 001</span>
+    <div class="vert" style="margin-top:12px"><video src="./media/player001_reel.mp4" poster="./art/player001_card.webp" controls playsinline preload="none"></video></div>
+  </div>
+  <div class="card">
+    <span class="ey">Трейлер мира</span>
+    <video src="./media/TRIZNES_trailer.mp4" poster="./art/02_live_to_game.webp" controls playsinline preload="none" style="margin-top:12px"></video>
+  </div>
+  <div class="card">
+    <span class="ey">Подкаст «Жизнь в игре» · голос Даниэля</span>
+    <div id="pods"></div>
+    <audio id="aud" preload="none"></audio>
+    <p class="muted" style="font-size:11.5px;margin-top:8px">Голос — клон голоса Даниэля (AI ASSISTED), тексты — команда TRIZNES.</p>
+  </div>
+</section>
+
+<!-- Я -->
+<section class="screen" id="s-me">
+  <div class="card" id="loginCard">
+    <span class="ey">Вход игрока</span>
+    <h2 style="font-size:20px;margin:6px 0">Войти в свой путь</h2>
+    <form id="loginForm" autocomplete="on">
+      <label for="lName">Имя персонажа</label>
+      <input id="lName" autocomplete="username" placeholder="Например, MILLIARDER" required>
+      <label for="lPin">Личный код (4 цифры)</label>
+      <input id="lPin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="current-password" placeholder="••••" required>
+      <button class="btn" style="margin-top:16px" id="lBtn">Войти</button>
+      <div class="status" id="lStatus"></div>
+    </form>
+    <a class="btn ghost" href="/register.html" style="margin-top:8px">Вход создателя и команды (защищённый)</a>
+    <a class="btn ghost" href="https://t.me/triznes_bot" style="margin-top:8px">Нет кода? Начать через TRIZNES Assistant</a>
+  </div>
+  <div class="card" id="meCard" style="display:none">
+    <span class="ey">Мой персонаж</span>
+    <h2 style="font-size:22px;margin:6px 0" id="meName"></h2>
+    <div class="role" style="color:var(--cyan);font-weight:700" id="meRole"></div>
+    <p class="muted" id="meIntent" style="margin-top:8px"></p>
+    <div class="legend" id="meRoles"></div>
+    <div class="legend" id="meCard2"></div>
+    <button class="btn ghost" id="logout" style="margin-top:14px">Выйти</button>
+  </div>
+  <div class="card">
+    <span class="ey">Проводники в мир изобилия</span>
+    <div id="guides"></div>
+  </div>
+  <p class="foot">TRIZNES · ЖИЗНЬ В ИГРЕ · SOCHI // NODE 001<br>Производство: PINK NOIZE PRODUCTION · v1 · 11.11.2026</p>
+</section>
+</main>
+
+<div class="sheet" id="sheet"><div class="box"><div class="grab"></div><div id="sheetBody"></div><button class="btn ghost" id="sheetClose" style="margin-top:14px">Закрыть</button></div></div>
+
+<nav class="tabs" id="tabs">
+  <button class="on" data-s="path"><svg viewBox="0 0 24 24"><path d="M4 20c4-1 4-6 8-7s4-6 8-7"/><circle cx="4" cy="20" r="1.6"/><circle cx="20" cy="6" r="1.6"/></svg>Путь</button>
+  <button data-s="city"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Город</button>
+  <button data-s="cells"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>Ячейки</button>
+  <button data-s="media"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4.5-2.5z"/></svg>Медиа</button>
+  <button data-s="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Я</button>
+</nav>
+
+<script>
+const SB='https://bbxhhtpmbtgfaxamgksf.supabase.co',ANON='sb_publishable_aFTiVGlsJxeeutL_gEZaKA_S9VyKaHS';
+const ACCESS=SB+'/functions/v1/triznes-platform-access',SKEY='triznes-platform-session';
+const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
+let W={levels:[],places:[],guides:[],news:[]},ME=null;
+
+/* --- ячейки: только подтверждённые факты + отдельно идеи --- */
+const CELLS=[
+ {id:'pink',em:'🎛',t:'PINK NOIZE PRODUCTION',d:'Всё производство мира',st:'ok',glow:'rgba(255,53,200,.35)',wide:true,
+  facts:['Ведёт всё производство TRIZNES: музыка, клипы, сцены, подкасты, выкладка.','Работает вместе с TRIZNES Assistant по контенту и публикациям.','Музыка проекта — PINK NOIZE.'],ideas:['Студийные смены для игроков уровней 2 («ГОЛОС») и 10 («НОМЕР»).']},
+ {id:'school',em:'🛠',t:'Школа ремонта',d:'Сочи ↔ Краснодар · Антон Симько',st:'wait',glow:'rgba(244,207,122,.35)',
+  facts:['Публично названа узлом TRIZNES в описании видео PINK NOIZE | TRIZNES от 01.10.2026: «Школа ремонта Краснодар (Антон Симько)» и «Школа ремонта Сочи».','Подготовлены сценарий цикла KOLAIDER «Школа ремонта Сочи ↔ Краснодар» и бриф выпуска 002 «Пространство тоже герой».','Смонтированы ролики «ШКОЛА РЕМОНТА — Мы не работаем, мы играем» и ALMAZ × Школа ремонта.'],
+  ideas:['Сериал «Кино реальных событий»: мастерство → люди → преобразованное место.','Старт с одного героя и одного объекта, без массовых обещаний.'],
+  note:'Видео с людьми появятся здесь после письменного согласия героев на публикацию.'},
+ {id:'service',em:'🔧',t:'Ремонтный сервис',d:'Заявка на ремонт через мир TRIZNES',st:'plan',glow:'rgba(66,236,255,.3)',
+  facts:['Связан с узлами «Школа ремонта» и XPRO.'],
+  ideas:['Одна кнопка «Нужен ремонт» → заявка мастеру Школы ремонта (помещения) или XPRO (техника).','Каждый выполненный ремонт — сцена для хроники города (с согласия людей).'],
+  note:'Приём заявок пока не подключён: нужен утверждённый канал и условия от мастеров.'},
+ {id:'xpro',em:'📱',t:'XPRO',d:'Ремонт телефонов и техники · Сочи',st:'wait',glow:'rgba(66,236,255,.35)',
+  facts:['Промо-ролик «XPRO × Сапфир (PINK NOIZE)» 9:16, 34,7 с, версия v4 — готов.','История: телефон сломался → XPRO → Лева за стойкой → снова на связи → TRIZNES MEDIAHUB.'],
+  ideas:['Точка XPRO на карте города и квест уровня 7 «ГОРОД».'],
+  note:'Публикация ролика — после оформления согласия Левы.'},
+ {id:'hub',em:'🎬',t:'Media Hub TRIZNES',d:'Штаб съёмок и встреч',st:'ok',glow:'rgba(202,255,57,.3)',
+  facts:['Реальная точка мира: штаб и живая точка съёмок, встреч и событий TRIZNES.','Отмечена на карте города как REAL.']},
+ {id:'tuz',em:'🎭',t:'Театр ТУЗ',d:'Ментор / Режиссёр · голос ДИОНИСА',st:'ok',glow:'rgba(255,53,200,.3)',
+  facts:['Всеволод Ким — ментор и режиссёр, голос ДИОНИСА в игре.','Принцип уровня 1 «СЛОВО»: сначала текст, потом эмоция.','Ведёт уровни 8 «КОЛЛАЙДЕР» и 9 «РЕЖИССУРА».']},
+ {id:'mil',em:'💎',t:'Торговый дом «Миллиардер»',d:'Проводник ЧИВУРУНДУ',st:'ok',glow:'rgba(244,207,122,.35)',
+  facts:['Игрок «Миллиардер» — проводник ЧИВУРУНДУ и Торговый дом «Миллиардер».','Сфера: знакомства, новости, творческая искра и обмен ценностью.'],ideas:['Витрина работ игроков уровня 11 «ЦЕННОСТЬ».']},
+ {id:'club',em:'📣',t:'Канал @triznes',d:'Новости мира в Telegram',st:'ok',glow:'rgba(66,236,255,.3)',
+  facts:['Официальный канал TRIZNES в Telegram.'],link:'https://t.me/triznes'}
+];
+const ST={ok:['live','● подтверждено'],plan:['gold','◇ в подготовке'],wait:['pink','⏸ ждёт согласия']};
+
+function drawCells(){
+  $('cells').innerHTML=CELLS.map(c=>`<button class="cell${c.wide?' wide':''}" style="--glow:${c.glow};text-align:left" data-c="${c.id}"><div><div class="em">${c.em}</div><h3>${esc(c.t)}</h3><p>${esc(c.d)}</p></div><span class="chip ${ST[c.st][0]}" style="align-self:flex-start;margin-top:10px">${ST[c.st][1]}</span></button>`).join('');
+  document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{const c=CELLS.find(x=>x.id===b.dataset.c);openSheet(`<span class="chip ${ST[c.st][0]}">${ST[c.st][1]}</span><h2>${c.em} ${esc(c.t)}</h2><p class="muted">${esc(c.d)}</p><span class="ey">Подтверждено</span><ul class="facts">${c.facts.map(f=>`<li>${esc(f)}</li>`).join('')}</ul>${c.ideas?`<span class="ey">Идеи · не подтверждено</span><ul class="facts idea">${c.ideas.map(f=>`<li>${esc(f)}</li>`).join('')}</ul>`:''}${c.note?`<p style="color:var(--gold);font-size:13px">${esc(c.note)}</p>`:''}${c.link?`<a class="btn cy" href="${c.link}" target="_blank" rel="noopener">Открыть</a>`:''}`)});
+}
+function openSheet(h){$('sheetBody').innerHTML=h;$('sheet').classList.add('on')}
+$('sheetClose').onclick=()=>$('sheet').classList.remove('on');
+$('sheet').onclick=e=>{if(e.target.id==='sheet')$('sheet').classList.remove('on')};
+
+/* --- путь --- */
+function drawPath(){
+  const lv=ME?ME.game.level:0;$('pathCount').textContent=lv+' / 13';
+  let html='',act='';
+  W.levels.forEach(l=>{if(l.act!==act){act=l.act;html+=`<div class="act">${esc(act)}</div>`}
+    const cls=l.no<lv?'done':l.no===lv+1?'cur':l.no===lv&&lv===13?'cur':l.no<=lv?'done':'lock';
+    html+=`<div class="node ${l.no<=lv?'done':''} ${(lv<13&&l.no===lv+1)||(lv===13&&l.no===13)?'cur':''} ${l.no>lv+1?'lock':''}" data-l="${l.no}"><div class="dot">${l.no<=lv?'✓':l.no}</div><div class="t"><h4>${String(l.no).padStart(2,'0')} · ${esc(l.title)}</h4><p>${esc(l.purpose)}</p><div class="open"><div class="task"><b>Задание</b>${esc(l.task)}</div><div class="task" style="background:rgba(255,53,200,.06);border-color:rgba(255,53,200,.22)"><b style="color:var(--pink)">Доказательство</b>${esc(l.proof)}</div></div></div></div>`});
+  $('path').innerHTML=html;
+  document.querySelectorAll('.node').forEach(n=>n.onclick=()=>n.classList.toggle('x'));
+  // текущий шаг
+  const next=W.levels.find(l=>l.no===Math.min(lv+1,13));
+  if(ME&&next){
+    const creator=lv>=13;
+    $('nowEy').textContent=creator?'Ты прошёл все 13 ступеней':'Следующая ступень';
+    $('nowTitle').textContent=creator?'CREATOR MODE · ТВОРЕЦ':`LEVEL ${String(next.no).padStart(2,'0')} — ${next.title}`;
+    $('nowPurpose').textContent=creator?'Ты прокладываешь маршрут другим: веди новичков через вход и уровни 1–3 и создавай маршруты сезонов.':next.purpose;
+    $('nowTask').textContent=creator?'Проведи нового игрока через вход и первые три ступени.':next.task;
+    $('nowProof').textContent=creator?'История новичка + маршрут сезона.':next.proof;
+  }
+}
+function drawHero(){
+  if(!ME){return}
+  const p=ME.player,g=ME.game;
+  $('pName').textContent=p.alias||p.name||'PLAYER';
+  $('pRole').textContent=p.role||'Игрок';
+  $('pLvl').textContent=String(g.level).padStart(2,'0');
+  $('ring').style.setProperty('--p',Math.round(g.level/13*100));
+  $('pXp').textContent=(g.xp||0).toLocaleString('ru-RU')+' XP';
+  $('xpBar').style.width=Math.min(100,Math.round(g.level/13*100))+'%';
+  $('pMission').textContent=g.mission||('LEVEL '+String(g.level).padStart(2,'0'));
+  $('heroTag').textContent=g.level>=13?'CREATOR MODE':'ИГРОК · В ПУТИ';
+  if(ME.quests&&ME.quests.length){$('questCard').style.display='';$('quests').innerHTML=ME.quests.map(q=>`<div class="quest"><div class="row"><b>${esc(q.title)}</b><span class="sp"></span><span class="xp">+${q.xp||0} XP</span></div><p class="muted" style="font-size:13px">${esc(q.description||'')}</p><span class="chip" style="margin-top:6px;display:inline-block">${esc(q.status||'')}</span></div>`).join('')}
+  $('loginCard').style.display='none';$('meCard').style.display='';
+  $('meName').textContent=p.alias&&p.name&&p.alias!==p.name?`${p.alias} · ${p.name}`:(p.alias||p.name);
+  $('meRole').textContent=p.role||'';
+  $('meIntent').textContent=p.intention?'Мечта / намерение: '+p.intention:'';
+  $('meRoles').innerHTML=(Array.isArray(p.roles)?p.roles:[]).map(r=>`<span class="chip cyan">${esc(r)}</span>`).join('');
+  $('meCard2').innerHTML=ME.card?`<span class="chip gold">Карта ${esc(ME.card.tier||'')} · ${esc(ME.card.status||'')}</span>`:'';
+}
+
+/* --- город --- */
+const ICON={media_hub:'🎬',city_scene:'🌆',district:'🏘',creative_space:'🎨',nature_scene:'⛰'};
+function drawCity(){
+  $('map').querySelectorAll('.pin').forEach(x=>x.remove());
+  W.places.forEach(p=>{const d=document.createElement('button');d.className='pin'+(p.category==='media_hub'?' hub':'');d.style.left=(p.x*100)+'%';d.style.top=(p.y*100)+'%';d.innerHTML=`<span>${esc(p.name)}</span><i></i>`;d.onclick=()=>openSheet(`<span class="chip live">${esc(p.status||'REAL')}</span><h2>${ICON[p.category]||'📍'} ${esc(p.name)}</h2><p class="muted">${esc(p.description)}</p><a class="btn" href="./game/index.html">Пойти туда в 3D-городе</a>`);$('map').appendChild(d)});
+  $('places').innerHTML=W.places.map(p=>`<div class="place"><div class="ic">${ICON[p.category]||'📍'}</div><div><b>${esc(p.name)}</b><p class="muted" style="font-size:13px">${esc(p.description)}</p></div></div>`).join('');
+  if(W.news&&W.news.length){$('newsCard').style.display='';$('news').innerHTML=W.news.map(n=>`<a class="place" href="${esc(n.url||'#')}" target="_blank" rel="noopener"><div class="ic">📰</div><div><b>${esc(n.headline)}</b><p class="muted" style="font-size:12px">${esc(n.source||'')} · ${n.at?new Date(n.at).toLocaleDateString('ru-RU'):''}</p></div></a>`).join('')}
+}
+function drawGuides(){
+  $('guides').innerHTML=W.guides.map(g=>`<div class="guide"><div class="av">${esc((g.name||'?')[0])}</div><div><h4>${esc(g.name)}</h4><p>${esc(g.purpose)}</p></div></div>`).join('')+`<a class="btn cy" href="https://t.me/triznes_bot" style="margin-top:12px">Написать TRIZNES Assistant</a>`;
+}
+
+/* --- медиа --- */
+const PODS=[['01','Вход в игру'],['02','Город-сцена'],['03','Проводники'],['04','Изобилие']];
+function drawPods(){
+  $('pods').innerHTML=PODS.map(([n,t])=>`<button class="track" data-p="${n}" style="width:100%;text-align:left"><div class="pl">▶</div><div><h4>Выпуск ${n}</h4><small>${t}</small></div></button>`).join('');
+  const a=$('aud');let cur=null;
+  document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{const n=b.dataset.p;document.querySelectorAll('[data-p]').forEach(x=>{x.classList.remove('on');x.querySelector('.pl').textContent='▶'});if(cur===n&&!a.paused){a.pause();return}if(cur!==n){a.src=`./media/TRIZNES_podcast_${n}.mp3`;cur=n}a.play().catch(()=>{});b.classList.add('on');b.querySelector('.pl').textContent='❚❚'});
+  a.onended=()=>document.querySelectorAll('[data-p]').forEach(x=>{x.classList.remove('on');x.querySelector('.pl').textContent='▶'});
+}
+
+/* --- данные --- */
+async function rpc(fn,body){const r=await fetch(`${SB}/rest/v1/rpc/${fn}`,{method:'POST',headers:{apikey:ANON,'Content-Type':'application/json'},body:JSON.stringify(body||{})});if(!r.ok)throw new Error('rpc_'+r.status);return r.json()}
+async function loadWorld(){
+  const cached=ls.get('triznes-app-world');
+  if(cached){try{W=JSON.parse(cached)}catch(e){}}
+  if(!W.levels.length){try{W=await (await fetch('./data/world.json')).json()}catch(e){}}
+  renderAll();
+  try{const w=await rpc('triznes_app_world');if(w&&w.levels&&w.levels.length){W=w;ls.set('triznes-app-world',JSON.stringify(w));renderAll()}$('net').textContent='● SOCHI // NODE 001';$('net').className='chip live'}catch(e){$('net').textContent='○ офлайн';$('net').className='chip'}
+}
+async function loadMe(){
+  const t=ls.get(SKEY);if(!t)return;
+  const cached=ls.get('triznes-app-me');if(cached){try{ME=JSON.parse(cached);renderAll()}catch(e){}}
+  try{const m=await rpc('triznes_app_me',{p_session_token:t});if(m&&m.ok){ME=m;ls.set('triznes-app-me',JSON.stringify(m));renderAll()}else if(m&&m.error==='session_invalid'){ls.del(SKEY);ls.del('triznes-app-me');ME=null;location.reload()}}catch(e){}
+}
+function renderAll(){drawPath();drawHero();drawCity();drawGuides()}
+
+$('loginForm').onsubmit=async e=>{e.preventDefault();const b=$('lBtn'),s=$('lStatus');b.disabled=true;s.textContent='Открываю путь…';
+  try{const r=await fetch(ACCESS,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'login',name:$('lName').value.trim(),pin:$('lPin').value.trim()})});const d=await r.json().catch(()=>({}));
+    if(!r.ok||!d.ok||!d.session_token){const er=d.error||'';if(/mfa|secure|admin/.test(er)){s.textContent='Для этой роли нужен защищённый вход — открываю…';setTimeout(()=>location.href='/register.html',900);return}throw new Error(er==='invalid_credentials'?'Проверь имя и код.':er==='pin_required'||er==='name_and_pin_required'?'Введи имя и 4 цифры кода.':er==='payment_required'?'Карта участника неактивна — напиши TRIZNES Assistant.':'Вход не удался. Попробуй ещё раз.')}
+    ls.set(SKEY,d.session_token);$('lPin').value='';s.textContent='';await loadMe();go('path')}
+  catch(err){s.textContent=String(err.message||err).includes('Failed to fetch')?'Вход работает в приложении на triznes.online.':err.message}finally{b.disabled=false}};
+$('logout').onclick=async()=>{const t=ls.get(SKEY);try{await fetch(ACCESS,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'logout',session_token:t})})}catch(e){}ls.del(SKEY);ls.del('triznes-app-me');location.reload()};
+
+/* --- навигация --- */
+function go(s){document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('on',x.id==='s-'+s));document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.s===s));scrollTo({top:0});if(location.hash!=='#'+s)history.replaceState(null,'','#'+s)}
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>go(b.dataset.s));
+if(/^#(path|city|cells|media|me)$/.test(location.hash))go(location.hash.slice(1));
+
+/* --- установка --- */
+let deferred=null;const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+if(!standalone){
+  if(ios){$('install').classList.add('on');$('installText').innerHTML='В Safari нажми <b>Поделиться</b> <span style="font-size:16px">⬆︎</span> → <b>«На экран Домой»</b> → <b>Добавить</b>. TRIZNES появится иконкой на телефоне.'}
+  addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('install').classList.add('on');$('installBtn').style.display='flex';$('installText').textContent='Одно нажатие — и TRIZNES на главном экране, на весь экран и без браузера.'});
+  $('installBtn').onclick=async()=>{if(!deferred)return;deferred.prompt();await deferred.userChoice.catch(()=>{});deferred=null;$('install').classList.remove('on')};
+}
+if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('./sw.js').catch(()=>{})}
+
+drawCells();drawPods();loadWorld().then(loadMe);
+</script>
+</body>
+</html>

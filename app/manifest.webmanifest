@@ -1,0 +1,24 @@
+{
+  "id": "/app/",
+  "name": "TRIZNES — Жизнь в игре",
+  "short_name": "TRIZNES",
+  "description": "Игровой путь каждого игрока TRIZNES: персонаж, 13 ступеней, город-сцена Сочи, ячейки мира, медиа PINK NOIZE PRODUCTION.",
+  "start_url": "/app/?source=pwa",
+  "scope": "/app/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#07040B",
+  "theme_color": "#07040B",
+  "lang": "ru",
+  "categories": ["games", "lifestyle", "entertainment"],
+  "icons": [
+    {"src": "/app/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "/app/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "/app/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {"name": "Мой путь", "url": "/app/#path"},
+    {"name": "Город", "url": "/app/#city"},
+    {"name": "Ячейки", "url": "/app/#cells"}
+  ]
+}
