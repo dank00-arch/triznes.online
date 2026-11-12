@@ -1,0 +1,17 @@
+{
+  "name": "sochi-matrix-triznes-3d-engine",
+  "version": "2.0.0",
+  "description": "3D Real-Time Game Engine of Sochi (Two Worlds: Real Sochi SOCHIWOOD & Cyber Matrix TRIZNES)",
+  "private": true,
+  "dependencies": {
+    "@supabase/supabase-js": "^2.42.0",
+    "lucide-react": "^0.368.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "three": "^0.163.0"
+  },
+  "scripts": {
+    "start": "vite",
+    "build": "vite build"
+  }
+}
