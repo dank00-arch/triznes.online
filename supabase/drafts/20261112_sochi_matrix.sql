@@ -15,7 +15,7 @@ values
   '{"matrix":{"title":"КОРИДОР МАРШРУТОВ","level":7,"guide":"bezliki","color":"#caff39"}}'::jsonb),
  ('xpro-navaginskaya-7', 'XPRO · техно-станция', 'Сочи', 'partner_space', 'улица Навагинская, 7, Сочи', 43.58650, 39.72225, 'REAL', 'operator',
   'Сервис быстрого ремонта техники. Партнёрская техно-станция игроков в центре Сочи.', true, 'public', 'адрес от оператора 12.11.2026 · координаты OSM', 16,
-  '{"matrix":{"title":"ЛАБОРАТОРИЯ СВЯЗИ","level":6,"guide":null,"color":"#3399ff"}}'::jsonb)
+  '{"matrix":{"title":"ЛАБОРАТОРИЯ СВЯЗИ","level":0,"guide":null,"color":"#3399ff"}}'::jsonb)
 on conflict (slug) do nothing;
 
 create table if not exists public.triznes_world_pulses (
