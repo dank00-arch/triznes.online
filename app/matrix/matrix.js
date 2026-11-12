@@ -59,7 +59,7 @@ function init() {
   grid = new THREE.GridHelper(14000, 140, 0x42ecff, 0x0b2a33); grid.position.y = 0.6; grid.material.transparent = true; grid.material.opacity = .25; scene.add(grid);
 
   buildAreas(); buildRoads(); buildBuildings(); buildNodes(); buildFar(); buildChars(); buildArcs(); buildStreets();
-  buildChips(); bindUI(); bindControls(); startFeed();
+  buildChips(); bindUI(); bindControls(); startFeed(); live(); setInterval(live, 60000);
   setWorld(store('sochi3d-world') || 'synth', true);
   const [hx, hz] = centroid();
   cam.tx = hx; cam.tz = hz;
@@ -170,8 +170,8 @@ const beamMat = color => new THREE.ShaderMaterial({
   transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
 });
 const loader = new THREE.TextureLoader();
-function buildNodes() {
-  W.nodes.forEach((n, i) => {
+function buildNodes() { W.nodes.forEach(addNode) }
+function addNode(n) {
     const [x, z] = ll2m(n.lng, n.lat), h = 140 + n.level * 30, r = n.kind === 'hub' ? 16 : 11;
     const grp = new THREE.Group(); grp.position.set(x, 0, z);
     const beam = new THREE.Mesh(new THREE.CylinderGeometry(r * .55, r, h, 28, 1, true), beamMat(n.color)); beam.position.y = h / 2; grp.add(beam);
@@ -179,15 +179,14 @@ function buildNodes() {
     ring.rotation.x = -Math.PI / 2; ring.position.y = 1.2; grp.add(ring);
     const core = new THREE.Mesh(new THREE.OctahedronGeometry(n.kind === 'hub' ? 16 : 11, 0), new THREE.MeshBasicMaterial({ color: n.color, wireframe: true }));
     core.position.y = Math.min(h, 120) + 24; grp.add(core);
-    const g = W.guides[n.guide];
-    if (g) {
+    if (n.guide && W.guides[n.guide]) {
       const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: loader.load('./img/guide-' + n.guide + '.webp'), transparent: true, depthWrite: false }));
       sp.scale.set(34, 34, 1); sp.position.y = core.position.y + 34; grp.add(sp);
     }
     grp.userData = { n, beam, ring, core, h };
+    if (PAL[world]) beam.material.uniforms.op.value = PAL[world].beamOp;
     scene.add(grp); nodeObjs.push(grp);
-    tag(n.name, n.color, '', () => openNode(n), () => new THREE.Vector3(x, core.position.y + 62, z));
-  });
+    tag(n.name, n.color, '', () => openNode(n), () => new THREE.Vector3(x, core.position.y + (n.guide ? 62 : 96), z));
 }
 function buildFar() {
   W.far.forEach(f => {
@@ -258,14 +257,15 @@ function setWorld(w, instant) {
 /* ---------- карточки ---------- */
 function sheet(html) { $('sBody').innerHTML = html; $('sheet').classList.add('on'); const x = $('sBody').querySelector('.x'); x && (x.onclick = closeSheet) }
 function closeSheet() { $('sheet').classList.remove('on') }
-const lvl = n => n.level === 0 ? 'Ступень 00 · ВХОД' : `Ступень ${String(n.level).padStart(2, '0')} · ${W.levels[n.level - 1] || ''}`;
+const lvl = n => n.kind === 'partner' ? 'ПАРТНЁР · ' + (n.level ? 'ступень ' + n.level + ' · ' + (W.levels[n.level - 1] || '') : '') : n.level === 0 ? 'Ступень 00 · ВХОД' : `Ступень ${String(n.level).padStart(2, '0')} · ${W.levels[n.level - 1] || ''}`;
 function openNode(n) {
-  const g = W.guides[n.guide] || {}, [x, z] = ll2m(n.lng, n.lat);
+  const g = W.guides[n.guide] || null, [x, z] = ll2m(n.lng, n.lat);
   flyTo(x, z, 620, cam.theta, .82, 1600);
   sheet(`<div class="row"><h2 class="ey" style="color:${n.color}">${esc(lvl(n))}</h2><button class="x" aria-label="Закрыть">✕</button></div>
+    <img class="cover" src="./art/${esc(n.id)}.webp" alt="" onerror="this.remove()">
     <h3 id="sTitle">${esc(n.name)}</h3><p class="mut">${esc(n.desc)}</p>
     <div class="dual"><div><b>РЕАЛЬНЫЙ СОЧИ</b>${esc(n.real)}</div><div><b>МАТРИЦА</b>${esc(n.matrix)}</div></div>
-    ${g.name ? `<div class="guide"><img src="./img/guide-${esc(n.guide)}.webp" alt=""><div><b style="color:${g.color}">${esc(g.name)}</b><div class="xs mut">${esc(g.role)}</div></div></div>` : ''}
+    ${g && g.name ? `<div class="guide"><img src="./img/guide-${esc(n.guide)}.webp" alt=""><div><b style="color:${g.color}">${esc(g.name)}</b><div class="xs mut">${esc(g.role)}</div></div></div>` : ''}
     <p class="xs mut">Точка подтверждена: ${esc(n.geo)}</p>
     <div class="btns"><a class="btn pri" href="https://yandex.ru/maps/?pt=${n.lng},${n.lat}&z=17&l=map" target="_blank" rel="noopener">Маршрут в Яндекс Картах</a>
     <button class="btn" id="sOrbit">Облететь точку</button></div>`);
@@ -314,10 +314,35 @@ function wave(x, z, color) {
   m.rotation.x = -Math.PI / 2; m.position.set(x, 2, z); scene.add(m); waves.push({ m, t0: performance.now() });
 }
 
+/* ---------- живое ядро: точки, импульсы, новости Сочи ---------- */
+const SB = 'https://bbxhhtpmbtgfaxamgksf.supabase.co', ANON = 'sb_publishable_aFTiVGlsJxeeutL_gEZaKA_S9VyKaHS';
+const seenPulse = new Set(), seenNews = new Set(); let liveOk = false;
+async function live() {
+  let w; try { const r = await fetch(SB + '/rest/v1/rpc/triznes_app_world', { method: 'POST', headers: { apikey: ANON, 'Content-Type': 'application/json' }, body: '{}' }); if (!r.ok) return; w = await r.json() } catch (e) { return }
+  if (!liveOk) { liveOk = true; feed('<b>Ядро</b> на связи: точки, импульсы и новости Сочи идут вживую') }
+  let added = false;
+  (w.places || []).forEach(p => {
+    const m = p.matrix; if (!m || p.latitude == null || W.nodes.some(n => n.id === p.slug)) return;
+    const n = { id: p.slug, name: (p.name || '').toUpperCase(), real: p.address || p.name, matrix: m.title || '', lng: p.longitude, lat: p.latitude, level: m.level || 0, guide: m.guide || null, color: m.color || '#42ecff', kind: p.category, desc: p.description || '', geo: 'база triznes_world_places' };
+    W.nodes.push(n); addNode(n); added = true;
+  });
+  if (added) buildChips();
+  (w.pulses || []).slice().reverse().forEach(p => {
+    const k = p.place + p.at; if (seenPulse.has(k)) return; seenPulse.add(k);
+    const n = W.nodes.find(x => x.id === p.place); const g = W.guides[p.guide];
+    feed(`<b>${esc(g ? g.name : 'ЯДРО')}</b> · ${esc(p.title)}`);
+    if (n) { const [x, z] = ll2m(n.lng, n.lat); wave(x, z, n.color) }
+  });
+  (w.news || []).slice(0, 4).reverse().forEach(nw => {
+    if (!nw.headline || seenNews.has(nw.headline)) return; seenNews.add(nw.headline);
+    feed(`<b>Сочи сейчас</b> · ${nw.url ? `<a href="${esc(nw.url)}" target="_blank" rel="noopener" style="color:inherit">${esc(nw.headline)}</a>` : esc(nw.headline)}`);
+  });
+}
+
 /* ---------- интерфейс ---------- */
 function buildChips() {
-  $('chips').innerHTML = W.nodes.map((n, i) => `<button class="panel chip" data-i="${i}" style="--c:${n.color}"><small>${esc(n.level === 0 ? 'ВХОД' : 'СТУПЕНЬ ' + n.level)}</small>${esc(n.name)}</button>`).join('')
-    + `<button class="panel chip pend" data-p="1" style="--c:var(--gold)"><small>ЖДУТ АДРЕСА</small>${W.pending.length} узла Аргона</button>`;
+  $('chips').innerHTML = W.nodes.map((n, i) => `<button class="panel chip" data-i="${i}" style="--c:${n.color}"><small>${esc(n.kind === 'partner' ? 'ПАРТНЁР' : n.level === 0 ? 'ВХОД' : 'СТУПЕНЬ ' + n.level)}</small>${esc(n.name)}</button>`).join('')
+    + `<button class="panel chip pend" data-p="1" style="--c:var(--gold)"><small>ЖДУТ АДРЕСА</small>${W.pending.length} ${W.pending.length === 1 ? 'узел' : 'узла'} Аргона</button>`;
   $('chips').onclick = e => { const b = e.target.closest('button'); if (!b) return; if (b.dataset.p) openPending(); else openNode(W.nodes[+b.dataset.i]) };
 }
 function bindUI() {

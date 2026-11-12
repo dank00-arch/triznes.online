@@ -69,8 +69,9 @@ button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
 .btns{display:grid;gap:8px;margin-top:12px}
 .btn{display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:14px;border:1px solid var(--line);background:transparent;color:var(--fg);font:800 12px var(--disp);letter-spacing:.06em;text-decoration:none;cursor:pointer}
 .btn.pri{background:var(--pink);border-color:var(--pink);color:#12051a}
+.cover{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:16px;margin:10px 0 4px}
 .mut{color:var(--muted)}.xs{font-size:11px}
-.load{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:9;font:800 12px var(--disp);letter-spacing:.2em;color:var(--cyan);transition:opacity .6s}
+.load{position:fixed;inset:0;display:grid;place-items:end center;padding-bottom:18vh;background:var(--bg) url(./art/keyart.webp) center/cover no-repeat;text-shadow:0 0 12px #000;z-index:9;font:800 12px var(--disp);letter-spacing:.2em;color:var(--cyan);transition:opacity .6s}
 .load.off{opacity:0;pointer-events:none}
 @media (max-width:640px){.feed{display:none;position:fixed;right:12px;top:calc(max(12px,env(safe-area-inset-top)) + 112px)}.feed.show{display:block}.wide{display:none}.seg button{padding:0 6px;font-size:9px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
