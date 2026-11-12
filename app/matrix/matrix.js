@@ -264,7 +264,7 @@ function openNode(n) {
   sheet(`<div class="row"><h2 class="ey" style="color:${n.color}">${esc(lvl(n))}</h2><button class="x" aria-label="Закрыть">✕</button></div>
     <img class="cover" src="./art/${esc(n.id)}.webp" alt="" onerror="this.remove()">
     <h3 id="sTitle">${esc(n.name)}</h3><p class="mut">${esc(n.desc)}</p>
-    <div class="dual"><div><b>РЕАЛЬНЫЙ СОЧИ</b>${esc(n.real)}</div><div><b>МАТРИЦА</b>${esc(n.matrix)}</div></div>
+    <div class="dual"><div><b>РЕАЛЬНЫЙ СОЧИ</b>${esc(n.real)}</div><div><b>НОВЫЙ МИР</b>${esc(n.matrix)}</div></div>
     ${g && g.name ? `<div class="guide"><img src="./img/guide-${esc(n.guide)}.webp" alt=""><div><b style="color:${g.color}">${esc(g.name)}</b><div class="xs mut">${esc(g.role)}</div></div></div>` : ''}
     <p class="xs mut">Точка подтверждена: ${esc(n.geo)}</p>
     <div class="btns"><a class="btn pri" href="https://yandex.ru/maps/?pt=${n.lng},${n.lat}&z=17&l=map" target="_blank" rel="noopener">Маршрут в Яндекс Картах</a>

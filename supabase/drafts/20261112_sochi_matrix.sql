@@ -1,5 +1,5 @@
--- TRIZNES · SOCHI MATRIX · оператор дал «да» 12.11.2026. Применяется через Supabase (подтверждение в окне Supabase).
--- Не создаёт копий персонажей; RLS включён; живая геопозиция людей не пишется.
+-- TRIZNES · Сочи 3D «Новый мир» + пауза ClickUp · оператор дал «да» 12.11.2026.
+-- Как применить: Supabase Dashboard → SQL Editor → вставить весь файл → Run. Повторный запуск безопасен.
 update public.triznes_world_places set metadata = coalesce(metadata,'{}'::jsonb) || jsonb_build_object('matrix',
   case slug
     when 'mediahub-primorskaya' then '{"title":"ЦИТАДЕЛЬ ЯДРА · NEXUS-01","level":13,"guide":"triznes","color":"#42ecff"}'::jsonb
@@ -70,3 +70,7 @@ select jsonb_build_object(
  'pulses', coalesce((select jsonb_agg(p) from (select jsonb_build_object('place',place_slug,'guide',guide,'kind',kind,'title',title,'level',level_no,'at',created_at) p from triznes_world_pulses where visibility='public' and expires_at > now() order by created_at desc limit 20) s),'[]')
 );
 $function$;
+
+-- ClickUp выключен оператором 12.11.2026: ставим на паузу синхронизацию (обратимо: active := true)
+select cron.alter_job(jobid, active := false) from cron.job
+where jobname in ('triznes-clickup-outbox-fill-1m','triznes-clickup-pull-2m','triznes-clickup-resolve-fill-1m','triznes-assign-vsevolod-clickup','triznes-clickup-zone-route-2m');
