@@ -42,7 +42,13 @@ applyTheme(ls.get('triznes-theme') || 'auto');
 
 /* ---------- сеть ---------- */
 async function rpc(fn, body) { const r = await fetch(`${SB}/rest/v1/rpc/${fn}`, { method: 'POST', headers: { apikey: ANON, 'Content-Type': 'application/json' }, body: JSON.stringify(body || {}) }); if (!r.ok) throw new Error('rpc_' + r.status); return r.json() }
-async function gw(action, extra = {}) { const r = await fetch(GW, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action, session_token: TZ.token, ...extra }) }); const d = await r.json().catch(() => ({})); if (!r.ok && !d.error) d.error = 'http_' + r.status; return d }
+async function gw(action, extra = {}) {
+  if (window.TRIZNES_PERSONAL_AI_ENABLED === true && ['guide','apollon'].includes(action) && TZ.token && !PREVIEW) {
+    const personal = await import('./personal-ai.js');
+    const state = await personal.requestPersonalAI('status');
+    if (state.connected) return personal.requestPersonalAI('chat', {message: extra.message});
+  }
+  const r = await fetch(GW, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action, session_token: TZ.token, ...extra }) }); const d = await r.json().catch(() => ({})); if (!r.ok && !d.error) d.error = 'http_' + r.status; return d }
 async function rf(path, opt = {}) {
   const r = await fetch(RF + path, { ...opt, headers: { 'X-Triznes-Session': TZ.token || '', ...(opt.body && !(opt.body instanceof Blob) ? { 'Content-Type': 'application/json' } : {}), ...(opt.headers || {}) } });
   const ct = r.headers.get('content-type') || '';
@@ -354,6 +360,7 @@ const STATS = [['voice', 'Слово и голос'], ['stage', 'Сцена и �
 const LV_STAT = { 1: 'voice', 2: 'voice', 3: 'stage', 4: 'stage', 5: 'courage', 6: 'bonds', 7: 'bonds', 8: 'courage', 9: 'vision', 10: 'stage', 11: 'value', 12: 'bonds', 13: 'vision' };
 let draft = { archetype: null, colors: [] };
 function renderMe() {
+  if (window.TRIZNES_PERSONAL_AI_ENABLED === true && !PREVIEW) import('./personal-ai.js').then(m => m.mountPersonalAI()).catch(() => {});
   const p = TZ.ME && TZ.ME.player, g = TZ.ME && TZ.ME.game, lv = g ? g.level : 0, pr = TZ.RF && TZ.RF.profile;
   const name = p ? (p.alias || p.name) : 'PLAYER';
   $('meName').textContent = name; $('meRole').textContent = p ? (p.role || 'Игрок') : 'Игрок';
@@ -427,3 +434,4 @@ function start() {
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else setTimeout(start, 0);
 })();
+
