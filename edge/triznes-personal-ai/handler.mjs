@@ -43,9 +43,13 @@ export function createHandler(env, fetcher=fetch) {
       if(sessions.length!==1) throw new Fault('unauthorized',401);
       const owner=sessions[0].player_id;
       if(!/^[0-9a-f-]{36}$/i.test(owner)) throw new Fault('unauthorized',401);
+      // Preserve the platform's canonical identity, card and privileged MFA gates.
+      const gate=await fetcher(`${base}/functions/v1/triznes-platform-access`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'status',session_token:token}),signal:AbortSignal.timeout(15000)});
+      const access=await gate.json().catch(()=>({}));
+      if(!gate.ok || !access.ok || access.player?.id!==owner) throw new Fault('access_denied',403);
       const players=await db(`platform_players?select=id,display_name,intention,identity_id,registration_status&id=eq.${owner}&limit=1`);
       const player=players[0];
-      if(!player || /inactive|suspended|blocked|revoked|deleted/i.test(player.registration_status||'')) throw new Fault('access_denied',403);
+      if(!player || player.registration_status!=='registered') throw new Fault('access_denied',403);
       const raw=await req.text();
       if(enc.encode(raw).length>20000) throw new Fault('request_too_large',413);
       let body; try { body=JSON.parse(raw); } catch { throw new Fault('invalid_json'); }

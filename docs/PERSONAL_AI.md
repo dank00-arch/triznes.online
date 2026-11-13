@@ -37,7 +37,7 @@ Rollback: turn the feature flag off. Leave encrypted data intact for recovery; d
 
 ## Validation
 
-`node --test tests/personal-ai.test.mjs` — 9 tests passed: encryption and owner binding, missing/expired/revoked session, invalid-key replacement, owner spoofing, safe status, scoped quests/history, rate limit, foreign origin.
+`node --test tests/personal-ai.test.mjs` — 10 tests passed: encryption and owner binding, missing/expired/revoked session, invalid-key replacement, owner spoofing, safe status, scoped quests/history, rate limit, foreign origin, canonical platform/MFA denial.
 
 `node --check app/js/app.js` and `node --check app/js/personal-ai.js` passed.
 
