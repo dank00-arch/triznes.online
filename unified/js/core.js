@@ -155,6 +155,24 @@ TZ.avatar = {
     const m = TZ.state.me, s = size || 44, [a, b, c] = m.colors.map(this.hex);
     return `<span class="halo-ring" style="--a1:${a};--a2:${b};--a3:${c}"><span style="width:${s}px;height:${s}px;place-items:${m.shape === 'star' ? 'center' : 'end center'}">${this.figure(m.colors, Math.round(s * 0.92), m.shape)}</span></span>`;
   },
+  /* Зеркало TRIZNES ASSISTANT: у него нет своего лица — образ переходит между теми, кто в TRIZNES. Первый — сам пользователь. */
+  faces() { return [{ me: true, name: TZ.state.me.name || 'ТЫ' }].concat(TZ.profiles.map((p) => ({ profile: p, name: p.name }))); },
+  plain(f, size) {
+    if (f.me) return this.figure(TZ.state.me.colors, Math.round(size * 0.9), TZ.state.me.shape);
+    if (f.profile.portrait) return `<img class="portrait" src="${TZ.esc(TZ.asset(f.profile.portrait))}" alt="" style="width:${size}px;height:${size}px">`;
+    return this.figure(f.profile.accent, Math.round(size * 0.9));
+  },
+  mirror(size) { return `<span class="mirror" data-size="${size}" style="width:${size}px;height:${size}px">${this.plain(this.faces()[0], size)}</span>`; },
+  startMirror() {
+    if (this._mirror || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+    let i = 0;
+    this._mirror = setInterval(() => {
+      const els = document.querySelectorAll('.mirror'); if (!els.length || document.hidden) return;
+      const faces = this.faces(); i = (i + 1) % faces.length; const f = faces[i];
+      els.forEach((el) => { el.classList.add('out'); setTimeout(() => { el.innerHTML = this.plain(f, +el.dataset.size); el.classList.remove('out'); }, 320); });
+      document.querySelectorAll('[data-mirror-name]').forEach((el) => { el.textContent = f.me ? 'сейчас это ты' : 'сейчас: ' + f.name; });
+    }, 2600);
+  },
   planet(world, extra) {
     return `<span class="planet ${world.look}"></span>${world.ring ? '<span class="ringed front"></span>' : ''}${world.moon ? '<span class="moon"></span>' : ''}${extra || ''}`;
   }

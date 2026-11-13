@@ -36,7 +36,9 @@
   const statusChip = (s) => `<span class="status ${s.toLowerCase()}">${s}</span>`;
   const neuroAll = () => TZ.agents.concat(TZ.neuro || []);
   const findNeuro = (slug) => find(neuroAll(), slug);
-  const face = (n, size) => `<span class="mini gd" style="--g:${n.color};width:${size}px;height:${size}px"><img src="${TZ.asset(n.img)}" alt=""></span>`;
+  const face = (n, size) => n.mirror
+    ? `<span class="mini gd holo" style="--g:${n.color};width:${size}px;height:${size}px">${TZ.avatar.mirror(size - 4)}</span>`
+    : `<span class="mini gd" style="--g:${n.color};width:${size}px;height:${size}px"><img src="${TZ.asset(n.img)}" alt=""></span>`;
   const mascot = (slug, text) => { const n = findNeuro(slug); return `<div class="card mascot">${face(n, 60)}<p><b>${esc(n.name)}.</b> ${text}</p></div>`; };
   const typeName = { video: 'видео', text: 'текст', story_photo: 'история', photo: 'кадр' };
   const typeIcon = (t) => (t === 'video' ? I.play : t === 'text' ? I.text : I.photo);
@@ -421,10 +423,20 @@
       : n.artist ? (world ? `<button class="btn primary block" data-act="open" data-arg="w-${world.slug}">В мир ${esc(world.name)}</button>` : '')
       : `<button class="btn primary block" data-act="open" data-arg="chat-${n.slug}">Написать</button>`;
     return `${backBar()}
-      <div class="neurohero" style="--g:${n.color}"><img src="${TZ.asset(n.card)}" alt="${esc(n.name)}"><div class="cap"><p class="eyebrow">нейроперсонаж</p><h2 class="h2">${esc(n.name)}</h2><p>${esc(n.role)}</p></div></div>
-      <div class="card stack"><div class="row wrap"><span class="chip prov gen">GENERATED</span>${world ? worldChip(world.slug) : ''}</div>
+      ${n.mirror
+        ? `<div class="neurohero mirrorhero" style="--g:${n.color}"><div class="mirrorstage"><span class="mini gd holo" style="--g:${n.color};width:188px;height:188px">${TZ.avatar.mirror(184)}</span><p class="who-now" data-mirror-name>сейчас это ты</p></div><div class="cap"><p class="eyebrow">нейроперсонаж · зеркало</p><h2 class="h2">${esc(n.name)}</h2><p>${esc(n.role)}</p></div></div>`
+        : `<div class="neurohero" style="--g:${n.color}"><img src="${TZ.asset(n.card)}" alt="${esc(n.name)}"><div class="cap"><p class="eyebrow">нейроперсонаж</p><h2 class="h2">${esc(n.name)}</h2><p>${esc(n.role)}</p></div></div>`}
+      <div class="card stack"><div class="row wrap">${n.mirror ? '<span class="chip">ОБРАЗ — КАЖДЫЙ ИЗ НАС</span>' : '<span class="chip prov gen">GENERATED</span>'}${world ? worldChip(world.slug) : ''}</div>
         <p>${esc(n.look)}</p><p class="eyebrow" style="margin-top:4px">Дело</p><p>${esc(n.job)}</p>${action}</div>
       <p class="eyebrow">Все нейроперсонажи</p><div class="scroller">${neuroAll().filter((x) => x.slug !== n.slug).map((x) => `<button class="castcard" data-act="open" data-arg="n-${x.slug}">${face(x, 66)}<b>${esc(x.name)}</b><span>${esc(x.role.split('·')[0].trim())}</span></button>`).join('')}</div>`;
+  }
+  function viewPodcast() {
+    const pc = TZ.podcast, d = find(TZ.profiles, pc.profile), mm = (s) => Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+    return `${backBar()}
+      <div class="card row">${d ? `<button data-act="open" data-arg="p-${d.slug}">${TZ.avatar.ofProfile(d, 64)}</button>` : ''}<div class="grow"><p class="eyebrow">подкаст</p><h2 class="h3" style="margin-top:6px">${esc(pc.title)}</h2><p class="small">${esc(pc.author)} · ${pc.episodes.length} эпизода</p></div></div>
+      ${pc.episodes.map((e) => `<div class="card stack"><div class="row"><span class="level"><span class="no" style="width:40px;height:40px">${String(e.no).padStart(2, '0')}</span></span><div class="grow"><b style="font-weight:800">${esc(e.title)}</b><span class="small" style="display:block">${mm(e.sec)}</span></div></div>
+        ${TZ.assetMap ? `<a class="btn sm" href="${esc(e.media)}" target="_blank" rel="noopener" style="align-self:flex-start">${I.play}Слушать</a>` : `<audio controls preload="none" src="${esc(e.media)}" style="width:100%"></audio>`}</div>`).join('')}
+      <p class="note">Названия и длительность взяты из меток файлов. Происхождение голоса в метках не указано — до уточнения метка REAL / GENERATED не ставится.</p>`;
   }
   function viewSaved() {
     const items = feedItems().filter((x) => S().saves[x.id]);
@@ -459,6 +471,7 @@
     else if (r === 'city') { body = viewCity(); tab = 'sun'; }
     else if (r === 'farm') { body = viewFarm(); tab = 'sun'; }
     else if (r === 'worlds') { body = viewWorlds(); tab = 'sun'; }
+    else if (r === 'podcast') { body = viewPodcast(); tab = 'sun'; }
     else if (r.startsWith('w-')) { body = viewWorld(r.slice(2)); tab = 'sun'; }
     else if (r.startsWith('n-')) { body = viewNeuro(r.slice(2)); tab = 'dialogs'; }
     else if (r.startsWith('p-')) { body = viewProfile(r.slice(2)); tab = 'bonds'; }
@@ -488,9 +501,10 @@
       ${item('city', 'НАШ ГОРОД', 'карта мест · Сочи сейчас', W('sochi'))}
       ${item('worlds', 'МИРЫ', 'сообщества и планеты', W('pink-noize'))}
       ${item('farm', 'НЕЙРОФЕРМА', 'оригиналы, монтаж, заявки', W('sochiwood'))}
+      ${item('podcast', 'ПОДКАСТ', 'Жизнь в игре · 4 эпизода', W('za-lyubov'))}
       ${item('saved', 'Сохранённое', 'мои материалы', W('masskazhka-yana-rut'))}
       ${item('cards', 'Клубная карта', 'BLACK · SILVER · GOLD', W('andrey-dragunov-trading-house'))}
-      ${item('consents', 'Согласия', 'раздельно и с правом отзыва', W('za-lyubov'))}
+      ${item('consents', 'Согласия', 'раздельно и с правом отзыва', W('sochi'))}
       ${item('prefs', 'Настройки', 'оптика, источник данных')}
     </aside>`;
   }
@@ -595,6 +609,7 @@
   applyLens(lens());
   TZ.sky.start();
   render();
+  TZ.avatar.startMirror();
   intro(false);
   if (S().source === 'live') TZ.api.refreshWorld().then(render).catch(() => {});
 })();
