@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Сочи 3D · Два мира</title>
+<meta name="theme-color" content="#07040b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Manrope:wght@500;700;800&display=swap">
+<style>
+:root{
+  --bg:#07040b;--panel:rgba(12,7,22,.84);--line:rgba(120,90,170,.38);--fg:#f5f0fa;--muted:#b9aecb;
+  --pink:#ff3dcb;--cyan:#42ecff;--lime:#caff39;--gold:#ffd36e;
+  --disp:"Unbounded","Arial Black",system-ui,sans-serif;--ui:"Manrope",system-ui,-apple-system,sans-serif;
+  color-scheme:dark;
+}
+:root[data-world="real"]{--panel:rgba(255,250,244,.9);--line:rgba(80,60,110,.18);--fg:#22183a;--muted:#6b5f80}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--fg);font:14px/1.45 var(--ui)}
+#stage{position:fixed;inset:0;touch-action:none;cursor:grab}
+#stage:active{cursor:grabbing}
+canvas{display:block}
+.hud{position:fixed;left:0;right:0;pointer-events:none;padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
+.top{top:0;padding-top:max(12px,env(safe-area-inset-top));display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.brand{flex:0 1 420px;min-width:0}
+.panel{pointer-events:auto;background:var(--panel);border:1px solid var(--line);border-radius:16px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.brand{padding:10px 14px;max-width:min(420px,100%)}
+.brand .ey{font:800 10px var(--disp);letter-spacing:.24em;color:var(--cyan)}
+:root[data-world="real"] .brand .ey{color:#c2189a}
+.brand h1{margin:4px 0 2px;font:800 clamp(16px,4.6vw,20px)/1.15 var(--disp);letter-spacing:.02em}
+.brand p{margin:0;font-size:12px;color:var(--muted)}
+.seg{display:flex;gap:4px;padding:4px;margin-top:10px;border-radius:999px;border:1px solid var(--line)}
+.seg button{flex:1;min-height:40px;padding:0 10px;border:0;border-radius:999px;background:transparent;color:var(--muted);font:800 10px var(--disp);letter-spacing:.1em;cursor:pointer;white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--pink);color:#12051a}
+.seg button[data-w="matrix"][aria-pressed="true"]{background:var(--cyan)}
+.seg button[data-w="real"][aria-pressed="true"]{background:var(--gold)}
+button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.side{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.ico{pointer-events:auto;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font:800 11px var(--disp);color:var(--fg);cursor:pointer}
+.feed{padding:10px 12px;width:min(300px,calc(100vw - 24px));max-height:30vh;overflow:hidden}
+.feed h2,.sheet h2.ey{margin:0 0 6px;font:800 10px var(--disp);letter-spacing:.22em;color:var(--pink)}
+.ev{font-size:12px;padding:5px 0;border-top:1px solid var(--line);animation:in .5s ease}
+.ev b{color:var(--cyan)}:root[data-world="real"] .ev b{color:#0b7fa0}
+@keyframes in{from{opacity:0;transform:translateY(-4px)}}
+.bottom{bottom:0;padding-bottom:max(12px,env(safe-area-inset-bottom))}
+.chips{pointer-events:auto;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;min-height:48px;padding:6px 14px;border-radius:14px;text-align:left;cursor:pointer;color:var(--fg);font:700 13px var(--ui)}
+.chip small{display:block;font:800 9px var(--disp);letter-spacing:.14em;color:var(--c,var(--cyan))}
+.chip.pend{border-style:dashed;opacity:.85}
+.tag{position:fixed;left:0;top:0;pointer-events:auto;transform:translate(-50%,-100%);white-space:nowrap;padding:4px 10px;border-radius:999px;font:800 10px var(--disp);letter-spacing:.08em;color:#12051a;background:var(--c);box-shadow:0 0 18px color-mix(in srgb,var(--c) 60%,transparent);cursor:pointer;border:0}
+.tag.far{background:transparent;color:var(--c);border:1px dashed var(--c);box-shadow:none}
+.tag.ch{background:rgba(10,6,20,.8);color:var(--c);border:1px solid var(--c);font-size:9px;box-shadow:none}
+:root[data-world="real"] .tag.ch{background:#fff}
+.street{position:fixed;left:0;top:0;transform:translate(-50%,-50%);pointer-events:none;font:700 10px var(--ui);color:var(--muted);text-shadow:0 0 4px var(--bg);white-space:nowrap;opacity:.85}
+:root[data-world="real"] .street{text-shadow:0 0 4px #fff}
+.sheet{position:fixed;left:50%;bottom:0;transform:translate(-50%,105%);width:min(560px,100%);max-height:72vh;overflow:auto;padding:18px 18px max(18px,env(safe-area-inset-bottom));border-radius:22px 22px 0 0;transition:transform .35s cubic-bezier(.2,.8,.2,1);z-index:5}
+.sheet.on{transform:translate(-50%,0)}
+.sheet h3{margin:6px 0 4px;font:800 20px/1.2 var(--disp)}
+.sheet .row{display:flex;gap:10px;align-items:center;justify-content:space-between}
+.sheet .x{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--fg);font-size:18px;cursor:pointer}
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.dual div{padding:10px;border-radius:12px;border:1px solid var(--line);font-size:12px}
+.dual b{display:block;font:800 9px var(--disp);letter-spacing:.14em;color:var(--muted);margin-bottom:4px}
+.guide{display:flex;gap:12px;align-items:center;padding:10px;border-radius:14px;border:1px solid var(--line);margin:10px 0}
+.guide img{width:52px;height:52px;border-radius:14px;object-fit:cover;flex:none}
+.guide b{font:800 12px var(--disp);letter-spacing:.06em}
+.btns{display:grid;gap:8px;margin-top:12px}
+.btn{display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:14px;border:1px solid var(--line);background:transparent;color:var(--fg);font:800 12px var(--disp);letter-spacing:.06em;text-decoration:none;cursor:pointer}
+.btn.pri{background:var(--pink);border-color:var(--pink);color:#12051a}
+.cover{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:16px;margin:10px 0 4px}
+.mut{color:var(--muted)}.xs{font-size:11px}
+.load{position:fixed;inset:0;display:grid;place-items:end center;padding-bottom:18vh;background:var(--bg) url(./art/keyart.webp) center/cover no-repeat;text-shadow:0 0 12px #000;z-index:9;font:800 12px var(--disp);letter-spacing:.2em;color:var(--cyan);transition:opacity .6s}
+.load.off{opacity:0;pointer-events:none}
+@media (max-width:640px){.feed{display:none;position:fixed;right:12px;top:calc(max(12px,env(safe-area-inset-top)) + 112px)}.feed.show{display:block}.wide{display:none}.seg button{padding:0 6px;font-size:9px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body data-world="synth">
+<div id="stage" aria-label="3D-карта центра Сочи"></div>
+<div id="tags"></div>
+
+<div class="hud top">
+  <div class="panel brand">
+    <div class="ey">SOCHI · NODE 001 <span class="wide">· TRIZNES × SOCHIWOOD</span></div>
+    <h1 id="wTitle">СИНТЕЗ</h1>
+    <p id="wSub">Два мира сразу: город и его свет</p>
+    <div class="seg" role="group" aria-label="Слой мира">
+      <button type="button" data-w="real" aria-pressed="false">РЕАЛЬНЫЙ</button>
+      <button type="button" data-w="synth" aria-pressed="true">СИНТЕЗ</button>
+      <button type="button" data-w="matrix" aria-pressed="false">НОВЫЙ МИР</button>
+    </div>
+  </div>
+  <div class="side">
+    <a class="panel ico" id="bBack" href="../#city" aria-label="Назад в приложение" title="В приложение" hidden style="text-decoration:none">←</a>
+    <button class="panel ico" id="bHome" aria-label="Обзор города" title="Обзор">◎</button>
+    <button class="panel ico" id="bFeed" aria-label="Лента ядра" title="Лента">≡</button>
+    <div class="panel feed" id="feed"><h2>ЛЕНТА ЯДРА</h2><div id="evs"></div></div>
+  </div>
+</div>
+
+<div class="hud bottom"><div class="chips" id="chips"></div></div>
+
+<div class="panel sheet" id="sheet" role="dialog" aria-modal="false" aria-labelledby="sTitle"><div id="sBody"></div></div>
+<div class="load" id="load">СОБИРАЮ СОЧИ…</div>
+
+<script src="./three.min.js"></script>
+<script src="./matrix.js"></script>
+</body>
+</html>
