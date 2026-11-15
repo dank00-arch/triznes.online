@@ -66,13 +66,16 @@ $('gLogin').onsubmit = async e => {
   if (!name || pin.length !== 4) { s.textContent = 'Назови имя и 4 цифры кода.'; return }
   b.disabled = true; s.textContent = 'Аполлон узнаёт тебя…';
   try {
-    const r = await fetch(ACCESS, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'login', name, pin }) });
+    const r = await fetch(ACCESS, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'login', name, pin }), signal: AbortSignal.timeout(15000) });
     const d = await r.json().catch(() => ({}));
     if (!r.ok || !d.ok || !d.session_token) {
       const er = d.error || '';
       if (/mfa|secure|admin/.test(er)) { s.textContent = 'Для этой роли нужен защищённый вход — открываю…'; setTimeout(() => location.href = '/register.html', 900); return }
+      if (er === 'too_many_attempts') throw new Error('Слишком много попыток. Повтори через ' + Math.max(1, Math.ceil((d.retry_after_seconds || 60) / 60)) + ' мин.');
+      if (er === 'credentials_superseded') throw new Error('Запроси актуальные имя и PIN через /profile в Telegram.');
       throw new Error(er === 'invalid_credentials' ? 'Не узнаю. Проверь имя и код.' : /pin/.test(er) ? 'Нужны имя и 4 цифры кода.' : er === 'payment_required' ? 'Карта участника неактивна — напиши TRIZNES Assistant.' : 'Вход не удался. Попробуй ещё раз.');
     }
+    clearPersonalCache(); syncPersonalOwner(d.player?.id); TZ.ME = null; TZ.RF = null;
     ls.set(SKEY, d.session_token); TZ.token = d.session_token; pins.forEach(x => x.value = ''); s.textContent = '';
     enterApp(true);
   } catch (err) { s.textContent = String(err.message || err).includes('Failed to fetch') ? 'Вход работает в приложении на triznes.online.' : err.message }
@@ -83,7 +86,7 @@ function enterApp(fresh) {
   $('gate').hidden = true; $('app').hidden = false;
   if (fresh) toast('Аполлон: рад тебя видеть. Город открыт.');
   window.City && window.City.init();
-  loadWorld().then(loadMe).then(rfInit);
+  Promise.all([loadWorld(), loadMe()]).then(rfInit);
   feedLoad();
   setInterval(pollUnread, 30000);
 }
@@ -110,10 +113,9 @@ async function loadWorld() {
 }
 async function loadMe() {
   if (PREVIEW) { TZ.ME = PREVIEW.me; renderAll(); return }
-  const cached = ls.get('triznes-app-me'); if (cached) { try { TZ.ME = JSON.parse(cached); renderAll() } catch (e) { } }
   try {
     const m = await rpc('triznes_app_me', { p_session_token: TZ.token });
-    if (m && m.ok) { TZ.ME = m; ls.set('triznes-app-me', JSON.stringify(m)); renderAll() }
+    if (m && m.ok) { TZ.ME = m; renderAll() }
     else if (m && m.error === 'session_invalid') logout(true);
   } catch (e) { }
 }
@@ -405,9 +407,11 @@ $('wipeRow').onclick = () => {
   sheet(`<div class="ey pink">Удаление</div><h3 class="h2" style="margin:8px 0 10px">Удалить фото, анкету и переписку?</h3><p class="sm mut">С сервера в России удалятся твоё фото, анкета персонажа и все твои сообщения игрокам. Уровень, XP и разговоры с Аполлоном это не затронет.</p><button class="btn primary block" style="margin-top:16px" id="wipeGo">Удалить</button><button class="btn ghost block" style="margin-top:8px" data-close>Отмена</button>`);
   $('wipeGo').onclick = async () => { try { await rf('/me/delete', { method: 'POST', body: '{}' }); closeSheet(); toast('Удалено'); draft = { archetype: null, colors: [] }; await rfInit(); renderMe(); renderHud() } catch (e) { toast('Не получилось удалить') } };
 };
+function clearPersonalCache() { ['triznes-app-me', 'triznes-chat-guide', 'triznes-chat-apollon', 'triznes-personal-cache-player'].forEach(ls.del) }
+function syncPersonalOwner(playerId) { if (!playerId || ls.get('triznes-personal-cache-player') !== playerId) clearPersonalCache(); if (playerId) ls.set('triznes-personal-cache-player', playerId) }
 function logout(silent) {
   const t = TZ.token; if (t && !silent) fetch(ACCESS, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'logout', session_token: t }) }).catch(() => { });
-  [SKEY, 'triznes-app-me', 'triznes-chat-guide', 'triznes-chat-apollon'].forEach(ls.del); location.hash = ''; location.reload();
+  clearPersonalCache(); ls.del(SKEY); location.hash = ''; location.reload();
 }
 $('logout').onclick = () => logout(false);
 
@@ -420,9 +424,26 @@ if (!standalone) {
 if ('serviceWorker' in navigator && location.protocol === 'https:' && !PREVIEW) navigator.serviceWorker.register('./sw.js').catch(() => { });
 
 /* ---------- старт ---------- */
-function start() {
+async function start() {
   if (PREVIEW) { $('pvBanner').hidden = false; TZ.token = 'preview'; enterApp(false) }
-  else { TZ.token = ls.get(SKEY); if (TZ.token) enterApp(false) }
+  else {
+    TZ.token = ls.get(SKEY);
+    if (TZ.token) {
+      showLogin(true); $('lBtn').disabled = true; $('lStatus').textContent = 'Проверяю сессию…';
+      try {
+        const r = await fetch(ACCESS, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'status', session_token: TZ.token }), signal: AbortSignal.timeout(15000) });
+        const d = await r.json();
+        if (!r.ok || !d.ok) {
+          if (['session_invalid', 'player_not_found'].includes(d.error)) { ls.del(SKEY); clearPersonalCache(); TZ.token = null }
+          if (['secure_session_required', 'secure_login_required'].includes(d.error)) { location.replace('/register.html'); return }
+          throw new Error(d.error === 'session_invalid' ? 'Сессия закончилась. Введи имя и код.' : 'Не удалось проверить сессию. Повтори вход.');
+        }
+        syncPersonalOwner(d.player?.id);
+        enterApp(false);
+      } catch (err) { $('lStatus').textContent = err.message || 'Нет связи. Повтори вход.' }
+      finally { $('lBtn').disabled = false }
+    }
+  }
   const h = (location.hash || '').slice(1); if (/^(city|path|feed|chat|me)$/.test(h)) go(h);
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else setTimeout(start, 0);
