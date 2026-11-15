@@ -1,6 +1,6 @@
 // TRIZNES app v2 · офлайн-оболочка. Медиа (mp3/mp4), /rf-api/ и тайлы карты не кэшируются здесь.
-const CACHE='triznes-app-v2-20261112';
-const SHELL=['/app/','/app/index.html','/app/manifest.webmanifest','/app/css/app.css?v=2.0.0','/app/js/app.js?v=2.0.0','/app/js/city.js?v=2.0.0','/app/vendor/maplibre-gl.js','/app/vendor/maplibre-gl.css','/app/data/world.json','/app/fonts/unbounded-cyrillic-wght-normal.woff2','/app/fonts/manrope-cyrillic-wght-normal.woff2','/app/icons/icon-192.png','/app/icons/icon-512.png','/app/art/01_keyart_night.webp','/app/art/05_dawn_abundance.webp','/app/art/02_live_to_game.webp','/app/img/guide-apollon.webp','/app/img/guide-triznes.webp'];
+const CACHE='triznes-app-v2-20261115-access';
+const SHELL=['/app/','/app/index.html','/app/manifest.webmanifest','/app/css/app.css?v=2.0.0','/app/js/app.js?v=2.0.1','/app/js/city.js?v=2.0.0','/app/vendor/maplibre-gl.js','/app/vendor/maplibre-gl.css','/app/data/world.json','/app/fonts/unbounded-cyrillic-wght-normal.woff2','/app/fonts/manrope-cyrillic-wght-normal.woff2','/app/icons/icon-192.png','/app/icons/icon-512.png','/app/art/01_keyart_night.webp','/app/art/05_dawn_abundance.webp','/app/art/02_live_to_game.webp','/app/img/guide-apollon.webp','/app/img/guide-triznes.webp'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x.startsWith('triznes-app-')&&x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{
