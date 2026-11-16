@@ -61,17 +61,19 @@ footer{padding:38px 2px;color:var(--mute);display:flex;justify-content:space-bet
 "use strict";
 const items=[{id:"LL-HjXeOR4w",title:"СОЧИ. ИГРА НАЧАЛАСЬ | TRIZNES × PINK NOIZE",meta:"Опубликовано 26.10.2026 · YouTube TRIZNES · архив",kind:"youtube",rights:"published"}];
 let index=0,player=null,muted=true,loaded=false;
+const ENDPOINT="https://ldxysaezjkxmgbgcaama.supabase.co/functions/v1/triznes-cinema-gateway?action=playlist";
 const $=id=>document.getElementById(id);
 function renderList(){const e=$("playlist");e.textContent="";items.forEach((v,i)=>{const row=document.createElement("div");row.className="line";const num=document.createElement("span");num.className="id";num.textContent=String(i+1).padStart(2,"0");const data=document.createElement("div");const title=document.createElement("b");title.textContent=v.title;const p=document.createElement("p");p.textContent=v.meta;data.append(title,p);const btn=document.createElement("button");btn.textContent=i===index?"В ЭФИРЕ":"СМОТРЕТЬ";btn.type="button";btn.onclick=()=>show(i);row.append(num,data,btn);e.append(row)})}
-function show(i){index=(i+items.length)%items.length;const item=items[index];$("nowTitle").textContent=item.title;$("nowMeta").textContent=item.meta;renderList();if(player&&typeof player.loadVideoById==="function"){player.loadVideoById(item.id);if(muted)player.mute();else player.unMute();return;}init()}
+function show(i){index=(i+items.length)%items.length;const item=items[index];$("nowTitle").textContent=item.title;$("nowMeta").textContent=item.meta||"Реальная история TRIZNES · одобрено к показу";renderList();if(item.kind==="mp4"){if(player&&typeof player.destroy==="function")player.destroy();player=null;const mount=$("playerMount");mount.textContent="";const v=document.createElement("video");v.controls=true;v.autoplay=true;v.playsInline=true;v.muted=muted;v.src=item.url;v.onended=next;mount.append(v);$("splash").hidden=true;v.play().catch(()=>{});return;}if(player&&typeof player.loadVideoById==="function"){player.loadVideoById(item.id);if(muted)player.mute();else player.unMute();return;}const mount=$("playerMount");mount.textContent="";init()}
 function next(){show(index+1)}
 function ready(event){player=event.target;loaded=true;$("splash").hidden=true;player.mute();player.playVideo()}
 function init(){if(!window.YT||!YT.Player){fallback();return;}try{player=new YT.Player("playerMount",{width:"100%",height:"100%",videoId:items[index].id,playerVars:{autoplay:1,playsinline:1,controls:1,rel:0,origin:location.origin,modestbranding:1},events:{onReady:ready,onStateChange:e=>{if(e.data===0)next()},onError:()=>fallback()}})}catch(_){fallback()}}
 function fallback(){const wrap=$("playerMount");wrap.textContent="";const iframe=document.createElement("iframe");iframe.title="Архивный фильм города Сочи";iframe.allow="autoplay; encrypted-media; picture-in-picture";iframe.allowFullscreen=true;iframe.src="https://www.youtube-nocookie.com/embed/"+encodeURIComponent(items[index].id)+"?autoplay=1&mute=1&playsinline=1&loop=1&playlist="+encodeURIComponent(items[index].id);wrap.append(iframe);$("splash").hidden=true;loaded=true}
 window.onYouTubeIframeAPIReady=init;
 $("nextBtn").onclick=next;
-$("muteBtn").onclick=()=>{muted=!muted;if(player&&player.mute){muted?player.mute():player.unMute()}$("muteBtn").textContent=muted?"ЗВУК ВЫКЛ.":"ЗВУК ВКЛ.";$("muteBtn").setAttribute("aria-pressed",String(!muted))};
-renderList();const script=document.createElement("script");script.src="https://www.youtube.com/iframe_api";script.onerror=fallback;document.head.append(script);
+$("muteBtn").onclick=()=>{muted=!muted;if(player&&player.mute){muted?player.mute():player.unMute()}const v=$("playerMount").querySelector("video");if(v)v.muted=muted;$("muteBtn").textContent=muted?"ЗВУК ВЫКЛ.":"ЗВУК ВКЛ.";$("muteBtn").setAttribute("aria-pressed",String(!muted))};
+async function refreshProgram(){try{const r=await fetch(ENDPOINT,{cache:"no-store"});if(!r.ok)return;const d=await r.json();if(!d.ok||!Array.isArray(d.items))return;for(const v of d.items){if(v.kind!=="mp4"||!/^https:\/\//.test(v.url||"")||!v.id||items.some(x=>x.id===v.id))continue;items.push({id:v.id,title:String(v.title||"Кино TRIZNES").slice(0,150),meta:"Одобрено основателем · архив",kind:"mp4",url:v.url})}renderList()}catch(_){/* keep public YouTube fallback */}}
+renderList();refreshProgram();setInterval(refreshProgram,1800000);const script=document.createElement("script");script.src="https://www.youtube.com/iframe_api";script.onerror=fallback;document.head.append(script);
 })();
 </script>
 </body>
