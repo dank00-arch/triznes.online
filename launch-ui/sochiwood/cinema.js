@@ -26,7 +26,8 @@ async function loadApprovedNeuroMedia(){
       const id=String(asset.id||"");
       if(!APPROVED_NEURO_IDS.has(id)||movieById.has(id))continue;
       const source=String(asset.url||"");
-      if(!source.startsWith("https://")||!source.includes(".supabase.co/storage/"))continue;
+      let signed;try{signed=new URL(source)}catch(_){continue}
+      if(signed.protocol!=="https:"||signed.hostname!=="bbxhhtpmbtgfaxamgksf.supabase.co"||!signed.pathname.startsWith("/storage/v1/object/sign/triznes-media/"))continue;
       if(!String(asset.mime_type||"video/mp4").startsWith("video/"))continue;
       const title=String(asset.title||"Нейрофильм TRIZNES").slice(0,110);
       const film={id,title,subtitle:"Новый мир · авторский нейрофильм",desc:String(asset.description||"Авторский фильм Нейрофермы TRIZNES.").slice(0,350),date:"2026",format:"Нейрофильм",line:"TRIZNES / НЕЙРОФЕРМА",stamp:"AI ASSISTED",group:["neurofarm","sochi","films"],wide:true,poster:"./media/neuro-world.svg",kind:"video",url:source};
@@ -138,8 +139,9 @@ function renderSearch(){
 function showDetail(){const to=$("collections");if(to)to.scrollIntoView({behavior:"smooth",block:"start"})}
 function initHero(){
  const f=FILMS[0];$("hero-cover").style.backgroundImage="url('"+bigThumb(f.id)+"')";
- const image=new Image();image.onload=()=>{if(image.naturalWidth<800)$("hero-cover").style.backgroundImage="url('"+thumb(f.id)+"')"};
- image.onerror=()=>$("hero-cover").style.backgroundImage="url('"+thumb(f.id)+"')";image.src=bigThumb(f.id);
+ const scenic="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Top_view_of_the_pier_of_the_Seaport_of_Sochi.jpg/1280px-Top_view_of_the_pier_of_the_Seaport_of_Sochi.jpg";
+ const photo=new Image();photo.onload=()=>{if(photo.naturalWidth>=700){$("hero-cover").style.backgroundImage="url('"+scenic+"')";$("hero-photo-credit").hidden=false}};
+ photo.onerror=()=>{};photo.src=scenic;
  $("hero-title").textContent="СОЧИ."; $("hero-title2").textContent="ИГРА НАЧАЛАСЬ";
  $("hero-copy").textContent=f.desc;
  $("hero-play").onclick=()=>openFilm(f.id,$("hero-play"));
