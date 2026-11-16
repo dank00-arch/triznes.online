@@ -136,9 +136,10 @@ async function review(body:any,user:any) {
   const id=body.submission_id,decision=String(body.decision||"");
   if(!validUuid(id)||!["approve","reject"].includes(decision))throw Error("invalid_review");
   const note=simple(body.note,900);
-  const rightsRef=simple(body.rights_evidence_ref||note,250);
-  const consentsRef=simple(body.consent_evidence_ref||note,250);
-  if(note.length<20||rightsRef.length<20||consentsRef.length<20)throw Error("documented_review_required");
+  const rightsRef=simple(body.rights_evidence_ref,250);
+  const consentsRef=simple(body.consent_evidence_ref,250);
+  if(note.length<20)throw Error("documented_review_required");
+  if(decision==="approve"&&(rightsRef.length<12||consentsRef.length<12))throw Error("independent_rights_and_consent_evidence_required");
   const {data:row,error:rowErr}=await db.from("triznes_cinema_submissions")
     .select("id,identity_id,status,rights_declared,consents_declared")
     .eq("id",id).eq("status","submitted").maybeSingle();
