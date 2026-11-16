@@ -27,7 +27,7 @@ else{
   else if(returnedToken){
     button.disabled=true;message.textContent="Проверяем ссылку на сервере…";
     try{
-      const response=await fetch(url.replace(/\\/$/,"")+"/auth/v1/user",{headers:{"apikey":key,"Authorization":"Bearer "+returnedToken},cache:"no-store"});
+      const response=await fetch(url.replace(/\/$/,"")+"/auth/v1/user",{headers:{"apikey":key,"Authorization":"Bearer "+returnedToken},cache:"no-store"});
       if(!response.ok)throw Error("Ссылка недействительна или срок её действия истёк.");
       const user=await response.json();
       if(!user?.id||!user?.email)throw Error("Сервер не подтвердил пользователя.");
@@ -43,7 +43,7 @@ else{
     document.getElementById("account").hidden=true;
     document.getElementById("login").hidden=false;
     message.textContent="Тестовая сессия завершена.";
-    if(token)try{await fetch(url.replace(/\\/$/,"")+"/auth/v1/logout",{method:"POST",headers:{"apikey":key,"Authorization":"Bearer "+token}});}catch(_){/* local sign-out already complete */}
+    if(token)try{await fetch(url.replace(/\/$/,"")+"/auth/v1/logout",{method:"POST",headers:{"apikey":key,"Authorization":"Bearer "+token}});}catch(_){/* local sign-out already complete */}
   });
   document.getElementById("login").addEventListener("submit",async(event)=>{
     event.preventDefault();button.disabled=true;message.textContent="Отправляем ссылку…";
