@@ -1,0 +1,45 @@
+{
+  "version": "trinity-v2-media-2026-11-16",
+  "source": "TRIZNES CORE / public.triznes_media_catalog",
+  "public_playback_ready": false,
+  "reason": "No verified playback URLs or storage objects identified",
+  "items": [
+    {
+      "series": "НОВЫЙ МИР",
+      "kind": "video",
+      "content_class": "character",
+      "description": "Короткий нейроролик TRIZNES о городе, где люди становятся персонажами своей игры.",
+      "rights_status": "public_ok",
+      "visibility": "player",
+      "playback_url": null
+    },
+    {
+      "series": "НОВЫЙ МИР",
+      "kind": "video",
+      "content_class": "place",
+      "description": "Короткий нейроролик TRIZNES: Сочи как первый уровень большой игры.",
+      "rights_status": "public_ok",
+      "visibility": "player",
+      "playback_url": null
+    },
+    {
+      "series": "НОВЫЙ МИР",
+      "kind": "video",
+      "content_class": "world",
+      "description": "Большой нейроролик TRIZNES: Сочи превращается в город-игру и пространство нового мира.",
+      "rights_status": "public_ok",
+      "visibility": "player",
+      "playback_url": null
+    },
+    {
+      "series": "НОВЫЙ МИР",
+      "kind": "video",
+      "content_class": "world",
+      "description": "Нейрофильм TRIZNES о выборе войти в Новый мир и начать создавать реальность через игру.",
+      "rights_status": "public_ok",
+      "visibility": "player",
+      "playback_url": null
+    }
+  ],
+  "policy": "Do not render a playable media control until verified URL and rights for intended audience are available; do not publish consent_needed or internal media automatically."
+}
