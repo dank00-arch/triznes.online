@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#080609">
+<meta name="theme-color" content="#07060b">
 <meta name="description" content="TRIZNES КИНО 24/7 — Сочи и реальные истории сообщества. Архивный эфир и кино персонажей.">
 <title>TRIZNES · КИНО 24/7 · СОЧИ</title>
 <style>
@@ -41,18 +41,20 @@ h1{font-size:clamp(42px,8vw,104px);line-height:.91;letter-spacing:-.075em;margin
 footer{padding:38px 2px;color:var(--mute);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12px}
 @media(max-width:850px){.intro{display:block}.intro .pill{margin-top:20px}.layout{grid-template-columns:1fr}.shell{width:min(100% - 22px,720px)}.panel{padding:19px}.controls{padding:15px}.actions{width:100%}.actions button{flex:1}}
 </style>
+<link rel="stylesheet" href="./neurofarm-unified.css?v=20261116-neurofarm-v1">
 </head>
-<body>
+<body class="nf-cinema">
 <div class="shell">
-<header><a class="logo" href="./entry.html" aria-label="TRIZNES домой">TRIZNES <em>×</em> PINK NOIZE</a><nav><a href="./entry.html">МИР</a><a href="./home.html">ПЕРСОНАЖИ</a><a href="../register.html">ВХОД ДЛЯ АВТОРОВ</a></nav></header>
-<section class="intro"><div><div class="ey">SOCHIWOOD ENTERTAINMENT / КИНО ЖИВОГО ГОРОДА</div><h1>КИНО <i>24/7</i></h1><p>Сочи — не фон. Каждый человек создаёт свою историю. Смотрим подтверждённые видео сообщества и постепенно собираем единый кинопоток из реальных моментов.</p></div><div class="pill" id="streamBadge"><span class="lamp"></span>АРХИВНЫЙ ЦИКЛ · НЕ LIVE</div></section>
+<header><a class="logo" href="./entry.html" aria-label="TRIZNES домой">TRIZNES <em>×</em> PINK NOIZE</a><nav aria-label="Навигация"><a href="./entry.html">МИР</a><a href="./home.html">ПЕРСОНАЖИ</a><a href="https://bbxhhtpmbtgfaxamgksf.supabase.co/functions/v1/neurofarm-member-web" target="_blank" rel="noopener noreferrer">НЕЙРОФЕРМА ↗</a><a href="../register.html">ВХОД ДЛЯ АВТОРОВ</a></nav></header>
+<section class="intro"><div><div class="ey">NEUROFARM / SOCHIWOOD / КИНО ЖИВОГО ГОРОДА</div><h1>КИНО<br><i>24/7</i></h1><p>Сочи — не фон. Каждый человек создаёт свою историю. Смотрим подтверждённые видео сообщества и постепенно собираем единый кинопоток из реальных моментов.</p></div><div class="pill" id="streamBadge"><span class="lamp"></span>АРХИВНЫЙ ЦИКЛ · НЕ LIVE</div></section>
+<div class="nf-flow" aria-label="Как создаётся кино TRIZNES"><div class="nf-step active"><b>01</b><span>СОЧИ В КАДРЕ</span></div><div class="nf-step"><b>02</b><span>ИСТОРИИ ЛЮДЕЙ</span></div><div class="nf-step"><b>03</b><span>НЕЙРОФЕРМА / МОНТАЖ</span></div><div class="nf-step"><b>04</b><span>ПРОВЕРКА / ПРЕМЬЕРА</span></div></div>
 <section class="stage" aria-label="TRIZNES кинотеатр">
   <div class="screen" id="screen"><div class="splash" id="splash"><div><b>СОЧИ · ГОРОД В КАДРЕ</b><p><span>Открываем архивный фильм…</span></p></div></div><div id="playerMount"></div></div>
-  <div class="controls"><div class="now"><div class="play-icon">▶</div><div><b id="nowTitle">СОЧИ. ИГРА НАЧАЛАСЬ</b><small id="nowMeta">Реальный опубликованный фильм TRIZNES · архивная запись</small></div></div><div class="actions"><button id="muteBtn" type="button" aria-pressed="false">ЗВУК ВЫКЛ.</button><button id="nextBtn" type="button">СЛЕДУЮЩИЙ →</button></div></div>
+  <div class="controls"><div class="now"><div class="play-icon">▶</div><div><b id="nowTitle">СОЧИ. ИГРА НАЧАЛАСЬ</b><small id="nowMeta">Реальный опубликованный фильм TRIZNES · архивная запись</small></div></div><div class="actions"><a id="nfFallbackLink" class="nf-fallback-link" href="https://www.youtube.com/watch?v=LL-HjXeOR4w" target="_blank" rel="noopener noreferrer">НА YOUTUBE ↗</a><button id="muteBtn" type="button" aria-pressed="false">ЗВУК ВЫКЛ.</button><button id="nextBtn" type="button">СЛЕДУЮЩИЙ →</button></div></div>
 </section>
 <div class="layout">
-<section class="panel"><div class="ey">КИНОПРОГРАММА</div><h2>Что идёт в эфире</h2><div id="playlist"></div><div class="note">Это не трансляция камеры в реальном времени. 24/7 означает непрерывное воспроизведение разрешённого архива в открытом окне зрителя. Реальный LIVE появится только при подключении проверенного источника с правами на трансляцию.</div></section>
-<aside><section class="panel" style="margin-bottom:20px"><div class="ey">ГОРОДСКАЯ КАМЕРА / SOCHI LIVE</div><h2>Окно прямого эфира</h2><div class="screen" style="border-radius:12px;border:1px solid var(--line);display:grid;place-items:center;padding:24px;text-align:center;aspect-ratio:16/9;background:radial-gradient(circle at 45% 40%,#392130,#09090f 75%)"><div><div class="ey" style="color:var(--pink)">LIVE НЕ ПОДКЛЮЧЁН</div><p class="help">Нет проверенного источника городской камеры с правом ретрансляции. Здесь появится настоящий эфир после подключения.</p></div></div><p class="help" style="font-size:12px">Не выдаём архивную запись за прямой эфир. Включение камеры — только с подтверждением источника и разрешения.</p></section><section class="panel"><div class="ey">ОТ ЗРИТЕЛЯ — К СОЗДАТЕЛЮ</div><h2>Загрузить свою историю</h2><p class="help">Сейчас открыт публичный просмотр. Загрузка исходников готовится в отдельной защищённой операторской студии. Для будущей подачи ролика понадобится вход на платформу; право предложить публикацию будет проверяться по действующей <strong>чёрной карте PINK NOIZE</strong>. Финальное решение остаётся у основателя.</p><a class="button primary" style="display:inline-block;margin-top:12px" href="../register.html">ВОЙТИ В TRIZNES · ПОДГОТОВИТЬ РОЛИК</a><p class="help" style="margin-top:19px">Мы сохраняем настоящие лица, указываем источник, различаем REAL / ARCHIVE / AI ASSISTED / GENERATED. Никакого автоматического обнародования загруженного файла.</p></section></aside>
+<section class="panel"><div class="ey">КИНОПРОГРАММА / НЕЙРОФЕРМА</div><div class="nf-program-head"><h2>Сейчас в программе</h2><span class="nf-program-meta" id="programCount">4 фильма · согласованный архив</span></div><div id="playlist"></div><div class="note">Это не трансляция камеры в реальном времени. 24/7 означает непрерывное воспроизведение разрешённого архива в открытом окне зрителя. Реальный LIVE появится только при подключении проверенного источника с правами на трансляцию.</div></section>
+<aside><section class="panel" style="margin-bottom:20px"><div class="ey">ГОРОДСКАЯ КАМЕРА / SOCHI LIVE</div><h2>Окно прямого эфира</h2><div class="nf-live-box" role="status" aria-label="Настоящий прямой эфир Сочи пока не подключён" style="text-align:center;padding:23px"><div><div class="ey" style="color:var(--pink)">LIVE НЕ ПОДКЛЮЧЁН</div><p class="help">Нет проверенного источника городской камеры с правом ретрансляции. Здесь появится настоящий эфир после подключения.</p></div></div><p class="help" style="font-size:12px">Не выдаём архивную запись за прямой эфир. Включение камеры — только с подтверждением источника и разрешения.</p></section><section class="panel"><div class="ey">ОТ ЗРИТЕЛЯ — К СОЗДАТЕЛЮ</div><h2>Загрузить свою историю</h2><p class="help">Сейчас открыт публичный просмотр. Загрузка исходников готовится в отдельной защищённой операторской студии. Для будущей подачи ролика понадобится вход на платформу; право предложить публикацию будет проверяться по действующей <strong>чёрной карте PINK NOIZE</strong>. Финальное решение остаётся у основателя.</p><a class="button primary" style="display:inline-block;margin-top:12px" href="../register.html">ВОЙТИ В TRIZNES · ПОДГОТОВИТЬ РОЛИК</a><p class="help" style="margin-top:19px">Мы сохраняем настоящие лица, указываем источник, различаем REAL / ARCHIVE / AI ASSISTED / GENERATED. Никакого автоматического обнародования загруженного файла.</p></section></aside>
 </div>
 <footer><span>TRIZNES · ЖИЗНЬ В ИГРЕ · СОЧИ</span><span>КИНО 24/7 · PINK NOIZE PRODUCTION · SOCHIWOOD</span></footer>
 </div>
@@ -68,16 +70,30 @@ const items=[
 let index=0,player=null,muted=true,loaded=false;
 // Public preview uses a curated list of previously published videos only.
 const $=id=>document.getElementById(id);
-function renderList(){const e=$("playlist");e.textContent="";items.forEach((v,i)=>{const row=document.createElement("div");row.className="line";const num=document.createElement("span");num.className="id";num.textContent=String(i+1).padStart(2,"0");const data=document.createElement("div");const title=document.createElement("b");title.textContent=v.title;const p=document.createElement("p");p.textContent=v.meta;data.append(title,p);const btn=document.createElement("button");btn.textContent=i===index?"В ЭФИРЕ":"СМОТРЕТЬ";btn.type="button";btn.onclick=()=>show(i);row.append(num,data,btn);e.append(row)})}
-function show(i){index=(i+items.length)%items.length;const item=items[index];$("nowTitle").textContent=item.title;$("nowMeta").textContent=item.meta||"Реальная история TRIZNES · одобрено к показу";renderList();if(item.kind==="mp4"){if(player&&typeof player.destroy==="function")player.destroy();player=null;const mount=$("playerMount");mount.textContent="";const v=document.createElement("video");v.controls=true;v.autoplay=true;v.playsInline=true;v.muted=muted;v.src=item.url;v.onended=next;mount.append(v);$("splash").hidden=true;v.play().catch(()=>{});return;}if(player&&typeof player.loadVideoById==="function"){player.loadVideoById(item.id);if(muted)player.mute();else player.unMute();return;}const mount=$("playerMount");mount.textContent="";init()}
+function renderList(){
+ const e=$("playlist");e.textContent="";
+ $("programCount").textContent=items.length+" фильма · подтверждённый архив";
+ items.forEach((v,i)=>{
+  const row=document.createElement("div");row.className="line";
+  const num=document.createElement("span");num.className="id";num.textContent=String(i+1).padStart(2,"0");
+  const thumb=document.createElement("img");thumb.className="nf-thumb";thumb.loading="lazy";thumb.decoding="async";thumb.alt="";thumb.src="https://i.ytimg.com/vi/"+encodeURIComponent(v.id)+"/mqdefault.jpg";
+  const data=document.createElement("div");data.className="nf-details";
+  const title=document.createElement("b");title.textContent=v.title;
+  const p=document.createElement("p");p.textContent=v.meta;data.append(title,p);
+  const btn=document.createElement("button");btn.textContent=i===index?"В ПРОГРАММЕ":"СМОТРЕТЬ";btn.type="button";btn.setAttribute("aria-current",String(i===index));btn.setAttribute("aria-label","Смотреть: "+v.title);
+  btn.onclick=()=>show(i);
+  row.append(num,thumb,data,btn);e.append(row);
+ })
+}
+function show(i){index=(i+items.length)%items.length;const item=items[index];$("nowTitle").textContent=item.title;$("nowMeta").textContent=item.meta||"Реальная история TRIZNES · одобрено к показу";renderList();$("nfFallbackLink").href="https://www.youtube.com/watch?v="+encodeURIComponent(item.id);if(item.kind==="mp4"){if(player&&typeof player.destroy==="function")player.destroy();player=null;const mount=$("playerMount");mount.textContent="";const v=document.createElement("video");v.controls=true;v.autoplay=true;v.playsInline=true;v.muted=muted;v.src=item.url;v.onended=next;mount.append(v);$("splash").hidden=true;v.play().catch(()=>{});return;}if(player&&typeof player.loadVideoById==="function"){player.loadVideoById(item.id);if(muted)player.mute();else player.unMute();return;}const mount=$("playerMount");mount.textContent="";init()}
 function next(){show(index+1)}
-function ready(event){player=event.target;loaded=true;$("splash").hidden=true;player.mute();player.playVideo()}
+function ready(event){player=event.target;loaded=true;$("splash").hidden=true;if(muted)player.mute();else player.unMute();player.playVideo()}
 function init(){if(!window.YT||!YT.Player){fallback();return;}try{player=new YT.Player("playerMount",{width:"100%",height:"100%",videoId:items[index].id,playerVars:{autoplay:1,playsinline:1,controls:1,rel:0,origin:location.origin,modestbranding:1},events:{onReady:ready,onStateChange:e=>{if(e.data===0)next()},onError:()=>fallback()}})}catch(_){fallback()}}
 function fallback(){const wrap=$("playerMount");wrap.textContent="";const iframe=document.createElement("iframe");iframe.title="Архивный фильм города Сочи";iframe.allow="autoplay; encrypted-media; picture-in-picture";iframe.allowFullscreen=true;iframe.src="https://www.youtube-nocookie.com/embed/"+encodeURIComponent(items[index].id)+"?autoplay=1&mute=1&playsinline=1&loop=1&playlist="+encodeURIComponent(items[index].id);wrap.append(iframe);$("splash").hidden=true;loaded=true}
 window.onYouTubeIframeAPIReady=init;
 $("nextBtn").onclick=next;
 $("muteBtn").onclick=()=>{muted=!muted;if(player&&player.mute){muted?player.mute():player.unMute()}const v=$("playerMount").querySelector("video");if(v)v.muted=muted;$("muteBtn").textContent=muted?"ЗВУК ВЫКЛ.":"ЗВУК ВКЛ.";$("muteBtn").setAttribute("aria-pressed",String(!muted))};
-renderList();const script=document.createElement("script");script.src="https://www.youtube.com/iframe_api";script.onerror=fallback;document.head.append(script);
+renderList();$("nfFallbackLink").href="https://www.youtube.com/watch?v="+encodeURIComponent(items[0].id);const script=document.createElement("script");script.src="https://www.youtube.com/iframe_api";script.onerror=fallback;document.head.append(script);
 })();
 </script>
 </body>
