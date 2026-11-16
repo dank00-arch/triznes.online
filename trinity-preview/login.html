@@ -7,7 +7,7 @@
 <p>Вход по электронной почте через Supabase Auth. Белая карта, профиль и мечта будут доступны только после проверки связи аккаунта с персонажем.</p>
 <form id="login"><label for="email">Электронная почта</label><input id="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com"><button id="send" type="submit">Получить ссылку для входа</button></form>
 <p id="message" role="status" aria-live="polite"></p>
-<p><small>Это тестовый экран. Ввод PIN персонажа и выдача карты здесь намеренно отключены. Мы не запрашиваем API-ключи Gemini.</small></p>
+<p><small>Это тестовый экран. Письмо может прийти, но обработчик возвращённой сессии пока не реализован. Ввод PIN персонажа и выдача карты здесь намеренно отключены. Мы не запрашиваем API-ключи Gemini.</small></p>
 <a href="./index.html">← К демонстрации TRIZNES</a>
 </main>
 <script type="module">
@@ -22,7 +22,7 @@ else{
     event.preventDefault();button.disabled=true;message.textContent="Отправляем ссылку…";
     try{
       const email=document.getElementById("email").value.trim();
-      const response=await fetch(url.replace(/\/$/,"")+"/auth/v1/otp",{method:"POST",headers:{"Content-Type":"application/json","apikey":key},body:JSON.stringify({email,create_user:true})});
+      const response=await fetch(url.replace(/\/$/,"")+"/auth/v1/otp",{method:"POST",headers:{"Content-Type":"application/json","apikey":key},body:JSON.stringify({email,create_user:true,email_redirect_to:new URL("./login.html",location.href).href})});
       if(!response.ok)throw Error("Ссылка не отправлена. Проверь адрес или попробуй позже.");
       message.textContent="Если этот адрес может получить письмо, ссылка для входа отправлена. Проверь почту.";
     }catch(e){message.textContent=e.message||"Ошибка соединения. Попробуй позже.";}finally{button.disabled=false;}
