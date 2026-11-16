@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07060b">
+<meta name="description" content="SOCHIWOOD — кинотеатр настоящих историй. Фильмы, герои, музыка и город Сочи. TRIZNES × PINK NOIZE Production.">
+<meta property="og:title" content="SOCHIWOOD — кинотеатр Сочи">
+<meta property="og:description" content="Город в кадре. Люди, истории и кино от TRIZNES × PINK NOIZE Production.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://i.ytimg.com/vi/LL-HjXeOR4w/hqdefault.jpg">
+<title>SOCHIWOOD CINEMA — отдельная киноплатформа TRIZNES</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://i.ytimg.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./cinema.css?v=20261116-universe-v2">
+<script defer src="./cinema.js?v=20261116-universe-v2"></script>
+</head>
+<body>
+<header id="top">
+  <a class="brand" href="./" aria-label="SOCHIWOOD — главная">
+    <span class="brand-emblem" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="sw-grad" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#ff3cc7"/><stop offset=".52" stop-color="#9c72ff"/><stop offset="1" stop-color="#42efff"/></linearGradient></defs>
+        <circle cx="16" cy="16" r="12" stroke="url(#sw-grad)" stroke-width="2"/>
+        <circle cx="16" cy="16" r="6.8" stroke="url(#sw-grad)" stroke-width="1.3" opacity=".65"/>
+        <path d="M14 11.7 22 16l-8 4.3v-8.6Z" fill="url(#sw-grad)"/>
+      </svg>
+    </span>
+    <span class="brand-text"><b>SOCHI<span>WOOD</span></b><small>TRIZNES × PINK NOIZE</small></span>
+  </a>
+  <nav class="main-nav" aria-label="Каталог кинотеатра">
+    <button type="button" data-nav="home" class="selected" aria-current="page">Главная</button>
+    <button type="button" data-nav="premiere">Фильмы</button>
+    <button type="button" data-nav="sochi">Сочи</button>
+    <button type="button" data-nav="people">Герои</button>
+    <button type="button" data-nav="shorts">Короткий метр</button>
+    <button type="button" data-nav="saved">Моё</button>
+  </nav>
+  <div class="right-nav">
+    <a class="header-watch" href="../entry.html" aria-label="Вернуться в главную вселенную TRIZNES">← TRIZNES WORLD</a>
+    <button type="button" id="search-trigger" class="search-trigger" aria-label="Поиск фильмов" aria-controls="search-bar" aria-expanded="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.7" cy="10.7" r="6.7"/><path d="m16 16 5.2 5.2"/></svg>
+    </button>
+  </div>
+</header>
+
+<div id="search-bar" class="hide" role="search" aria-label="Поиск по кинотеатру">
+  <div class="search-wrap">
+    <span aria-hidden="true" style="color:#42efff;font-size:22px">⌕</span>
+    <label class="sr" for="search-input">Название, персонаж или тема фильма</label>
+    <input id="search-input" type="search" placeholder="Найти фильм, историю, персонажа…" autocomplete="off">
+    <button type="button" id="close-search" aria-label="Закрыть поиск">✕</button>
+  </div>
+</div>
+
+<section id="hero" aria-labelledby="hero-heading">
+  <div class="hero-back" aria-hidden="true"><div class="hero-cover" id="hero-cover"></div></div>
+  <div class="hero-holo" aria-hidden="true"></div><div class="cinema-world-stamp" aria-hidden="true">SOCHIWOOD<br><span>OUR CITY / OUR CINEMA</span></div>
+  <div class="hero-content">
+    <div class="eyebrow">SOCHIWOOD / ОТДЕЛЬНАЯ КИНОВСЕЛЕННАЯ</div>
+    <div class="hero-tags" aria-label="О фильме">
+      <span class="chip real">НАСТОЯЩИЙ СОЧИ</span>
+      <span class="chip">2026</span>
+      <span class="chip">КИНО О ЖИЗНИ</span>
+      <span class="chip neuro">TRIZNES ORIGINAL</span>
+    </div>
+    <h1 id="hero-heading"><span id="hero-title">СОЧИ.</span><span id="hero-title2">ИГРА НАЧАЛАСЬ</span></h1>
+    <p id="hero-copy" class="hero-desc">Сочи становится историей, которую мы создаём вместе. Люди, идеи, встречи и кино настоящей жизни.</p>
+    <div class="hero-buttons">
+      <button type="button" id="hero-play" class="btn btn-primary">▶ &nbsp; СМОТРЕТЬ ФИЛЬМ</button>
+      <button type="button" id="hero-detail" class="btn">↓ &nbsp; КАТАЛОГ</button>
+      <button type="button" id="hero-fav" class="btn btn-fav" data-saved="false" aria-label="Добавить фильм Сочи. Игра началась в избранное">＋ В ИЗБРАННОЕ</button>
+    </div>
+  </div>
+  <div class="hero-bottom">
+    <span class="scroll-cue">ОТКРОЙ СВОЮ ИСТОРИЮ ↓ &nbsp; SOCHI · STORIES · CINEMA</span>
+    <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+  </div>
+</section>
+
+<main id="catalog">
+  <section id="search-result-wrap" class="hide" aria-live="polite" aria-label="Результаты поиска">
+    <span class="eyebrow">ПОИСК В SOCHIWOOD</span>
+    <h2>Найти своё кино</h2>
+    <p class="shelf-sub" id="results-count"></p>
+    <div id="search-grid"></div>
+  </section>
+  <div id="collections"></div>
+  <section class="spotlight" id="spotlight" aria-labelledby="spotlight-title">
+    <div>
+      <div class="eyebrow">ЛЮДИ И ИХ СОБСТВЕННЫЕ ИДЕИ</div>
+      <h2 id="spotlight-title">Каждая встреча может стать кино.</h2>
+      <p>Не актёры в чужих ролях, а настоящие люди, которые создают собственные истории. SOCHIWOOD собирает наше кино из реальных моментов: от маленькой улыбки до большого общего проекта.</p>
+      <button type="button" id="spotlight-watch" class="btn btn-primary">▶ &nbsp; ОДНА УЛЫБКА — СМОТРЕТЬ</button>
+    </div>
+    <div class="spotlight-art" aria-hidden="true">
+      <img src="https://i.ytimg.com/vi/Jq0qKr0U9GU/hqdefault.jpg" loading="lazy" decoding="async" alt="">
+      <span>SOCHI / REAL STORIES / 2026</span>
+    </div>
+  </section>
+  <section class="shelf hide" id="favorites-section" aria-labelledby="favorites-heading">
+    <div class="shelf-head">
+      <div class="shelf-title">
+        <span class="eyebrow">МОЯ КОЛЛЕКЦИЯ</span>
+        <h2 id="favorites-heading">Избранные фильмы</h2>
+        <p class="shelf-sub">Истории, к которым хочется вернуться</p>
+      </div>
+      <div class="shelf-controls">
+        <button type="button" id="favorite-left" aria-label="Листать избранное назад">‹</button>
+        <button type="button" id="favorite-right" aria-label="Листать избранное вперёд">›</button>
+      </div>
+    </div>
+    <div id="favorites-rail" class="rail"></div>
+  </section>
+</main>
+
+<footer>
+  <div><b>SOCHIWOOD CINEMA</b><p>Наш город. Наши люди. Наши истории.</p></div>
+  <div class="foot-links"><a href="../entry.html">TRIZNES WORLD ↗</a><span>PINK NOIZE Production</span><span>SOCHIWOOD Entertainment</span></div>
+</footer>
+
+<div id="player-overlay" role="dialog" aria-modal="true" aria-labelledby="player-title" hidden>
+  <div class="player-top">
+    <div class="player-identity">
+      <span id="player-line">SOCHIWOOD / КИНО</span>
+      <h2 id="player-title">Название фильма</h2>
+    </div>
+    <button type="button" class="icon-button" id="close-player" aria-label="Закрыть фильм и вернуться в каталог">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5 19 19M19 5 5 19"/></svg>
+    </button>
+  </div>
+  <div class="player-frame">
+    <div id="video-mount"></div>
+  </div>
+  <p id="player-status" role="status" aria-live="polite"></p>
+  <div class="player-bottom">
+    <div class="detail" id="player-detail"></div>
+    <div class="player-actions">
+      <button type="button" id="player-prev">← Назад</button>
+      <a id="external-youtube" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+      <button type="button" id="player-next" class="next">Следующий фильм →</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
