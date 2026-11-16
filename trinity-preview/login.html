@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080611">
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080611"><meta name="triznes-supabase-url" content="https://ldxysaezjkxmgbgcaama.supabase.co"><meta name="triznes-supabase-publishable-key" content="sb_publishable_OluYWJBezI-7QWHWnGIZoA_hwTuT-Bg">
 <title>TRIZNES · Безопасный вход · STAGING</title>
 <style>
 :root{font-family:Manrope,system-ui,sans-serif;color:#f7f1fc;background:#080611}*{box-sizing:border-box}body{margin:0;min-height:100dvh;display:grid;place-items:center;background:radial-gradient(ellipse at 80% 10%,#6d174a66,transparent 60%),radial-gradient(ellipse at 10% 80%,#c9a02833,transparent 60%),#080611}main{width:min(100% - 28px,480px);padding:30px;border:1px solid #d9b65866;border-radius:28px;background:#15101dd9;box-shadow:0 28px 90px #0009}h1{font-size:clamp(26px,7vw,38px);letter-spacing:.07em;color:#ffdb76;margin:8px 0}p{line-height:1.6;color:#c8bfd1}.eyebrow{color:#ff4ca7;font-weight:800;letter-spacing:.15em;font-size:12px}label{display:block;margin:16px 0 7px;font-size:13px;font-weight:700}input{width:100%;border:1px solid #ffffff40;background:#0d0b13;color:white;border-radius:13px;padding:15px;font-size:16px}button{width:100%;padding:15px;border:0;border-radius:13px;font-weight:800;font-size:15px;cursor:pointer;margin-top:18px;background:linear-gradient(100deg,#ffd86a,#ff70b6);color:#140b14}button:disabled{opacity:.6;cursor:wait}#message{min-height:48px;white-space:pre-wrap;overflow-wrap:anywhere}a{color:#ffdb76}small{color:#bdb0c8}</style></head><body><main>
@@ -12,7 +12,7 @@
 </main>
 <script type="module">
 const message=document.getElementById("message"),button=document.getElementById("send");
-const params=new URLSearchParams(location.search);
+
 const url=document.querySelector('meta[name="triznes-supabase-url"]')?.content || "";
 const key=document.querySelector('meta[name="triznes-supabase-publishable-key"]')?.content || "";
 const configured= /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(url) && /^(sb_publishable_|eyJ)/.test(key);
