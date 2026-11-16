@@ -240,6 +240,8 @@ function setup(){
   if(playing&&e.key==="ArrowLeft"){e.preventDefault();nextFilm(-1)}
  });
  document.addEventListener("scroll",()=>{$("top").classList.toggle("scrolled",window.scrollY>30)},{passive:true});
+ const deepLink=new URLSearchParams(location.search).get("watch");
+ if(deepLink&&movieById.has(deepLink)){openFilm(deepLink);}
  const favPrev=$("favorite-left"),favNext=$("favorite-right"),rail=$("favorites-rail");
  favPrev.onclick=()=>rail.scrollBy({left:-rail.clientWidth*.75,behavior:"smooth"});
  favNext.onclick=()=>rail.scrollBy({left:rail.clientWidth*.75,behavior:"smooth"});
