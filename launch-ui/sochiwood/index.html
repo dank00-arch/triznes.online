@@ -14,8 +14,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://i.ytimg.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./cinema.css?v=20261116-universe-v2">
-<script defer src="./cinema.js?v=20261116-universe-v2"></script>
+<link rel="stylesheet" href="./cinema.css?v=20261116-final-v3">
+<script defer src="./cinema.js?v=20261116-final-v3"></script>
 </head>
 <body>
 <header id="top">
@@ -36,6 +36,9 @@
     <button type="button" data-nav="sochi">Сочи</button>
     <button type="button" data-nav="people">Герои</button>
     <button type="button" data-nav="shorts">Короткий метр</button>
+    <button type="button" data-nav="neurofarm">Нейроферма</button>
+    <button type="button" data-nav="mediahub">Медиахаб</button>
+    <button type="button" data-nav="pinknoize">PINK NOIZE</button>
     <button type="button" data-nav="saved">Моё</button>
   </nav>
   <div class="right-nav">
@@ -78,6 +81,7 @@
     <span class="scroll-cue">ОТКРОЙ СВОЮ ИСТОРИЮ ↓ &nbsp; SOCHI · STORIES · CINEMA</span>
     <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
   </div>
+  <small class="hero-photo-credit" id="hero-photo-credit" hidden>Фото Сочи: Aleda12 · <a href="https://commons.wikimedia.org/wiki/File:Top_view_of_the_pier_of_the_Seaport_of_Sochi.jpg" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a> · цветовое оформление</small>
 </section>
 
 <main id="catalog">
@@ -87,12 +91,38 @@
     <p class="shelf-sub" id="results-count"></p>
     <div id="search-grid"></div>
   </section>
+  <section id="featured-stories" class="featured-stories" aria-labelledby="featured-title">
+    <div class="featured-heading">
+      <div><span class="eyebrow">СЕЗОН 01 / РЕДАКЦИЯ SOCHIWOOD</span><h2 id="featured-title">Истории, которые меняют пространство.</h2><p>Море, люди, музыка и мечты — настоящие исходники и авторские визуальные концепции.</p></div>
+      <div class="feature-counter"><span>SOCHIWOOD</span><b>ORIGINALS</b></div>
+    </div>
+    <div class="feature-grid">
+      <article class="feature-block family-block">
+        <div class="feature-layer" aria-hidden="true"></div>
+        <div class="feature-badges"><span>НОВАЯ ПУБЛИКАЦИЯ · 16.11.2026</span><span>ARCHIVE / AI ASSISTED</span></div>
+        <div class="feature-content"><span class="eyebrow">TRIZNES / MEDIAHUB</span><h3>Семейный<br>праздник</h3><p>Медиахаб Сочи: пространство, в котором рождаются истории. Авторское киноэссе на архивных фотографиях, а не репортаж о состоявшемся событии.</p>
+        <button id="family-feature-watch" class="feature-button" type="button">▶ Смотреть киноэссе</button></div>
+      </article>
+      <article class="feature-block neural-block" id="neuro-spotlight">
+        <div class="feature-layer" aria-hidden="true"></div>
+        <div class="feature-badges"><span>НЕЙРОФЕРМА</span><span>NEW WORLD / ORIGINAL VISUAL</span></div>
+        <div class="feature-content"><span class="eyebrow">SOCHIWOOD / NEW WORLD</span><h3>Новый<br>мир</h3><p>Четыре нейрофильма из подтверждённого публичного каталога TRIZNES. Реальные идеи, художественная нейрографика и свободный выбор своего пути.</p>
+        <p id="neuro-source-state" class="feature-state" role="status">Проверяем доступность нейрофильмов…</p>
+        <button id="neuro-jump" class="feature-button" type="button">↗ Открыть подборку</button></div>
+      </article>
+    </div>
+    <div class="signal-strip">
+      <img src="./media/pink-noize.svg" alt="Оригинальная графическая иллюстрация PINK NOIZE: цветовой звуковой сигнал" loading="lazy">
+      <div><span class="eyebrow">PINK NOIZE PRODUCTION</span><strong>Звук. Энергия. Наше кино.</strong><p>Авторская музыка, оригинальные фильмы и живые истории сообщества.</p></div>
+      <button id="pink-jump" class="signal-cta" type="button">КИНО И МУЗЫКА ↗</button>
+    </div>
+  </section>
   <div id="collections"></div>
   <section class="spotlight" id="spotlight" aria-labelledby="spotlight-title">
     <div>
       <div class="eyebrow">ЛЮДИ И ИХ СОБСТВЕННЫЕ ИДЕИ</div>
-      <h2 id="spotlight-title">Каждая встреча может стать кино.</h2>
-      <p>Не актёры в чужих ролях, а настоящие люди, которые создают собственные истории. SOCHIWOOD собирает наше кино из реальных моментов: от маленькой улыбки до большого общего проекта.</p>
+      <h2 id="spotlight-title">Кино начинается с настоящей встречи.</h2>
+      <p>Не люди в чужих ролях, а авторы собственной жизни. Каждая встреча в Сочи — повод услышать друг друга, увидеть новую идею и снять настоящую историю.</p>
       <button type="button" id="spotlight-watch" class="btn btn-primary">▶ &nbsp; ОДНА УЛЫБКА — СМОТРЕТЬ</button>
     </div>
     <div class="spotlight-art" aria-hidden="true">

@@ -95,3 +95,26 @@ body.tc.page-entry .portal-hero{position:relative;width:100%;margin:0;min-height
  .page-entry .portal-photo-credit{max-width:210px}
 }
 @media(prefers-reduced-motion:reduce){.page-entry .portal-view{animation:none!important}.page-entry .portal-btn,.page-entry .portal-destination{transition:none!important}}
+
+/* Real published cinema media fills the TRIZNES portal without blurring editorial roles. */
+.page-entry .portal-media{width:min(1360px,calc(100% - 40px));margin:44px auto 66px;color:#fff}
+.page-entry .portal-media-heading{display:flex;align-items:end;justify-content:space-between;gap:25px;margin-bottom:22px}
+.page-entry .portal-media-heading>div>span{display:block;font:900 10px/1.4 ui-monospace,monospace;letter-spacing:.2em;color:#42efff}
+.page-entry .portal-media-heading h2{font:850 clamp(27px,3.8vw,55px)/1.14 "NF Unbounded",system-ui,sans-serif;letter-spacing:-.065em;color:#fff;margin:12px 0}
+.page-entry .portal-media-heading p{font:600 13px/1.65 "NF Manrope",system-ui,sans-serif;color:#bcb5c7;max-width:675px;margin:0}
+.page-entry .portal-media-more{flex:none;padding:13px 16px;border-radius:12px;border:1px solid rgba(66,239,255,.42);font:900 10px ui-monospace,monospace;letter-spacing:.09em;color:#42efff;text-decoration:none;white-space:nowrap}
+.page-entry .portal-media-more:hover{background:rgba(66,239,255,.1)}
+.page-entry .portal-media-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.page-entry .portal-media-card{display:block;min-width:0;text-decoration:none;color:#fff;border-radius:19px;transition:transform .2s}
+.page-entry .portal-media-card:hover{transform:translateY(-5px)}
+.page-entry .portal-media-photo{display:block;position:relative;aspect-ratio:16/10;overflow:hidden;border-radius:17px;border:1px solid rgba(255,255,255,.16);background:#15101e;box-shadow:0 15px 37px rgba(0,0,0,.25)}
+.page-entry .portal-media-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 28%,rgba(5,4,11,.73))}
+.page-entry .portal-media-photo img{width:100%;height:100%;object-fit:cover;transition:transform .4s,filter .3s}
+.page-entry .portal-media-card:hover .portal-media-photo img{transform:scale(1.065);filter:saturate(1.2)}
+.page-entry .portal-media-type{position:absolute;z-index:2;left:11px;bottom:12px;padding:6px 8px;border:1px solid rgba(66,239,255,.25);border-radius:7px;background:rgba(6,4,15,.75);font:900 9px/1.3 ui-monospace,monospace;letter-spacing:.06em;color:#b7f8ff}
+.page-entry .portal-media-meta{display:grid;gap:6px;padding:14px 3px}
+.page-entry .portal-media-meta b{font:800 14px/1.35 "NF Manrope",system-ui,sans-serif;color:#fff}
+.page-entry .portal-media-meta small{font:600 11px/1.35 "NF Manrope",system-ui,sans-serif;color:#a7a1b6}
+.page-entry .portal-media-card:hover .portal-media-meta b{color:#42efff}
+@media(max-width:1030px){.page-entry .portal-media-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.page-entry .portal-media{width:calc(100% - 28px);margin:28px auto 44px}.page-entry .portal-media-heading{display:block}.page-entry .portal-media-heading h2{font-size:clamp(23px,5.5vw,36px)}.page-entry .portal-media-heading p{font-size:12px}.page-entry .portal-media-more{display:inline-flex;margin-top:16px;font-size:9px}.page-entry .portal-media-grid{gap:11px}.page-entry .portal-media-meta{padding:10px 2px}.page-entry .portal-media-type{left:7px;bottom:8px;font-size:8px;letter-spacing:0;padding:5px 6px}.page-entry .portal-media-meta b{font-size:12px}.page-entry .portal-media-meta small{font-size:10px}}
