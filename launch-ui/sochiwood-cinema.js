@@ -27,7 +27,7 @@ function thumb(id){return "https://i.ytimg.com/vi/"+encodeURIComponent(id)+"/hqd
 function bigThumb(id){return "https://i.ytimg.com/vi/"+encodeURIComponent(id)+"/maxresdefault.jpg"}
 function formatLabel(f){return f.date+" · "+f.format+" · "+f.line}
 function safeLocalSave(){try{localStorage.setItem(storageKey,JSON.stringify([...saved]))}catch(_){}}
-function updateSaved(){const h=$("hero-fav"),f=FILMS[0];h.dataset.saved=String(saved.has(f.id));h.textContent=saved.has(f.id)?"✓ В ИЗБРАННОМ":"＋ В ИЗБРАННОЕ";const b=$("saved-count");if(b)b.textContent=String(saved.size)}
+function updateSaved(){const h=$("hero-fav"),f=FILMS[0];h.dataset.saved=String(saved.has(f.id));h.textContent=saved.has(f.id)?"✓ В ИЗБРАННОМ":"＋ В ИЗБРАННОЕ";h.setAttribute("aria-label",saved.has(f.id)?"Удалить фильм "+f.title+" из избранного":"Добавить фильм "+f.title+" в избранное");document.querySelectorAll("[data-save-film]").forEach(b=>{const on=saved.has(b.dataset.saveFilm);b.textContent=on?"✓":"＋";b.setAttribute("aria-pressed",String(on));b.setAttribute("aria-label",(on?"Убрать из избранного: ":"Добавить в избранное: ")+(movieById.get(b.dataset.saveFilm)?.title||"фильм"))});}
 function toggleSaved(id){if(saved.has(id))saved.delete(id);else saved.add(id);safeLocalSave();updateSaved();renderFavorites();if(selectedTab==="saved")showSavedOnly();if(searchText)renderSearch()}
 function createCard(f,portrait){
  const btn=document.createElement("button");btn.type="button";btn.className="movie-card";btn.setAttribute("aria-label","Смотреть: "+f.title);
@@ -41,7 +41,10 @@ function createCard(f,portrait){
  const meta=document.createElement("small");meta.textContent=f.subtitle;
  info.append(title,meta);btn.append(art,info);
  btn.onclick=()=>openFilm(f.id,btn);
- return btn;
+ const tile=document.createElement("div");tile.className="movie-tile";
+ const fav=document.createElement("button");fav.className="movie-save";fav.type="button";fav.dataset.saveFilm=f.id;fav.textContent=saved.has(f.id)?"✓":"＋";fav.setAttribute("aria-pressed",String(saved.has(f.id)));fav.setAttribute("aria-label",(saved.has(f.id)?"Убрать из избранного: ":"Добавить в избранное: ")+f.title);
+ fav.onclick=()=>toggleSaved(f.id);tile.append(btn,fav);
+ return tile;
 }
 function renderCollections(){
  const target=$("collections");target.textContent="";
@@ -168,6 +171,7 @@ function closeFilm(){
 }
 function setup(){
  renderCollections();initHero();renderFavorites();
+ $("spotlight-watch").onclick=()=>openFilm("Jq0qKr0U9GU",$("spotlight-watch"));
  document.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>{if(searchOpen)setSearch(false);setTab(b.dataset.nav)});
  $("search-trigger").onclick=()=>setSearch(!searchOpen);
  $("close-search").onclick=()=>setSearch(false);
