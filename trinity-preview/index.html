@@ -166,7 +166,7 @@
         <span class="brand-sub">ТРИЕДИНСТВО · SOCHIWOOD · PINK NOIZE</span>
       </div>
     </a>
-    <div id="cardStatusPill" class="card-pill">Открытый вход игрока · Все 14 персонажей доступны</div>
+    <div id="cardStatusPill" class="card-pill">Демонстрационный просмотр · 14 концептов</div>
   </header>
 
 
@@ -184,7 +184,7 @@
           <span class="formula-tag">5. Память</span>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="btn btn-gold" id="activateWhiteBtn" type="button">Активировать Белую карту (7 дней бесплатно)</button>
+          <button class="btn btn-gold" id="activateWhiteBtn" type="button">Белая карта · ожидает подключения</button>
           <button class="btn btn-ghost" id="toggleLensBtn" type="button">Переключить линзу: REAL ↔ CYBER</button>
         </div>
       </div>
@@ -194,7 +194,7 @@
         <img class="lens-layer layer-real" src="./assets/sochiwood-location.jpg" alt="Подлинный архивный кадр локации Сочи" onerror="this.style.display='none'" />
         <img class="lens-layer layer-cyber" src="./assets/sochi-cyber-concept.jpg" alt="Художественный кибер-концепт Сочи" onerror="this.style.display='none'" />
         <div class="lens-controls">
-          <span class="badge-origin" id="lensBadge">REAL · ПОДЛИННЫЙ АРХИВ СОЧИ</span>
+          <span class="badge-origin" id="lensBadge">REAL · АРХИВНЫЙ СЛОЙ · ИСТОЧНИК НЕ ПОДКЛЮЧЁН</span>
           <span class="badge-origin" style="color:#FFD700;">УРОВЕНЬ 00 → 01</span>
         </div>
         <div style="position:relative;z-index:2;background:rgba(7,4,11,0.78);padding:14px;border-radius:16px;border:1px solid rgba(255,255,255,0.12);">
@@ -236,7 +236,7 @@
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
         <div>
           <div class="eyebrow" id="activeGuideLabel">ПРОВОДНИК: АПОЛЛОН · ШАГ: WELCOME</div>
-          <h2 style="font-family:var(--font-display);font-size:19px;margin:6px 0 0;">Живой диалог TRIZNES (Голос + Текст)</h2>
+          <h2 style="font-family:var(--font-display);font-size:19px;margin:6px 0 0;">Прототип диалога (Голос + Текст)</h2>
         </div>
         <button class="btn btn-ghost" id="voiceBtn" type="button">🎙️ Сказать голосом</button>
       </div>
@@ -244,7 +244,7 @@
       <div class="chat-controls">
         <input class="chat-input" id="chatInput" type="text" placeholder="Напиши своё имя или расскажи о своей мечте..." />
         <button class="btn btn-pink" id="sendBtn" type="button">Отправить сигнал</button>
-        <button class="btn btn-gold" id="confirmDreamBtn" type="button" style="display:none;">Подтвердить и сохранить мечту</button>
+        <button class="btn btn-gold" id="confirmDreamBtn" type="button" style="display:none;">Сохранение мечты · скоро</button>
       </div>
     </section>
   </main>
@@ -277,7 +277,7 @@
       rawDream: "",
       suggestedGoal: null,
       whiteCardIssued: false,
-      telemetry: JSON.parse(localStorage.getItem("triznes-self-evolution") || "[]")
+      telemetry: []
     };
 
 
@@ -302,12 +302,7 @@
       div.textContent = text;
       log.appendChild(div);
       log.scrollTop = log.scrollHeight;
-      if (who === "ai" && "speechSynthesis" in window) {
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text);
-        u.lang = "ru-RU";
-        window.speechSynthesis.speak(u);
-      }
+
     }
 
 
@@ -335,7 +330,7 @@
       state.lens = lens;
       document.getElementById("lensStage").dataset.lens = lens;
       document.getElementById("lensBadge").textContent = lens === "REAL"
-        ? "REAL · ПОДЛИННЫЙ АРХИВ СОЧИ"
+        ? "REAL · ИСТОЧНИК НЕ ПОДКЛЮЧЁН"
         : "CYBER · ХУДОЖЕСТВЕННЫЙ КОНЦЕПТ";
       try { localStorage.setItem("triznes-world-lens-v2", lens); } catch (_) {}
     }
@@ -364,7 +359,7 @@
         document.getElementById("confirmDreamBtn").style.display = "none";
         appendMsg(`Твой первый квест от персонажа «${state.selectedChar.name}»: ${state.selectedChar.quest} Когда сделаешь — напиши, что получилось в реальности!`, "ai");
       } else {
-        appendMsg(`Принято в память TRIZNES! Твоя история развивается: Я + Ты + Мир. Можешь выбрать следующего персонажа или сменить лепесток Триединства.`, "ai");
+        appendMsg(`Это демонстрационный диалог без серверного сохранения. Твоя история развивается: Я + Ты + Мир. Можешь выбрать следующего персонажа или сменить лепесток Триединства.`, "ai");
       }
       recordSelfEvolution(state.step, true);
     }
