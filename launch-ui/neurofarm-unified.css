@@ -100,7 +100,7 @@ body.tc.nf-launch{--brand-500:#7e5cff;--pink:#ff3cc7;--cyan:#42efff;--violet:#9c
 .tc.nf-launch .nf-cinema-entry{display:inline-flex;align-items:center;justify-content:center;min-height:46px;gap:9px;border-radius:14px;padding:0 14px;border:1px solid rgba(66,239,255,.33);background:linear-gradient(115deg,rgba(66,239,255,.1),rgba(156,114,255,.12),rgba(255,60,199,.09));color:#eafaff;font-weight:850;text-decoration:none}
 /* Actual v2 app: scoped chrome and existing feed visuals, no change to route/auth. */
 body.nf-app{--pink:#ff3cc7;--cyan:#42efff;--violet:#9c72ff;--lime:#caff39;--gold:#ffd66b;--neon:linear-gradient(115deg,#ff3cc7,#9c72ff 55%,#42efff);--body:var(--nf-body);--display:var(--nf-heading)}
-body.nf-app[data-theme=night]{--bg:#07060b;--bg2:#11101a;--bg3:#171522;--glass:rgba(17,16,26,.79);--glass2:rgba(25,20,37,.75);--line:rgba(255,255,255,.11);--mut:#aaa5b5}
+html[data-theme=night] body.nf-app{--bg:#07060b;--bg2:#11101a;--bg3:#171522;--glass:rgba(17,16,26,.79);--glass2:rgba(25,20,37,.75);--line:rgba(255,255,255,.11);--mut:#aaa5b5}
 body.nf-app .card{border-color:rgba(255,255,255,.12);background:rgba(17,16,26,.79);backdrop-filter:blur(18px)}
 body.nf-app .btn.primary{background:var(--nf-neon);box-shadow:0 12px 35px rgba(255,60,199,.17)}
 body.nf-app .tabbar{border-color:rgba(156,114,255,.3);background:rgba(17,16,26,.83);box-shadow:0 20px 66px rgba(0,0,0,.3)}
