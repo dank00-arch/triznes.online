@@ -15,9 +15,10 @@
 <link rel="preconnect" href="https://i.ytimg.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./cinema.css?v=20261116-final-v3">
+<link rel="stylesheet" href="../triznes-unified-v7.css?v=20261116-unified-v7">
 <script defer src="./cinema.js?v=20261116-final-v3"></script>
 </head>
-<body>
+<body class="sw-app">
 <header id="top">
   <a class="brand" href="./" aria-label="SOCHIWOOD — главная">
     <span class="brand-emblem" aria-hidden="true">
@@ -30,15 +31,11 @@
     </span>
     <span class="brand-text"><b>SOCHI<span>WOOD</span></b><small>TRIZNES × PINK NOIZE</small></span>
   </a>
-  <nav class="main-nav" aria-label="Каталог кинотеатра">
+  <nav class="main-nav" aria-label="Разделы киноплатформы">
     <button type="button" data-nav="home" class="selected" aria-current="page">Главная</button>
     <button type="button" data-nav="premiere">Фильмы</button>
     <button type="button" data-nav="sochi">Сочи</button>
-    <button type="button" data-nav="people">Герои</button>
-    <button type="button" data-nav="shorts">Короткий метр</button>
     <button type="button" data-nav="neurofarm">Нейроферма</button>
-    <button type="button" data-nav="mediahub">Медиахаб</button>
-    <button type="button" data-nav="pinknoize">PINK NOIZE</button>
     <button type="button" data-nav="saved">Моё</button>
   </nav>
   <div class="right-nav">
@@ -62,15 +59,13 @@
   <div class="hero-back" aria-hidden="true"><div class="hero-cover" id="hero-cover"></div></div>
   <div class="hero-holo" aria-hidden="true"></div><div class="cinema-world-stamp" aria-hidden="true">SOCHIWOOD<br><span>OUR CITY / OUR CINEMA</span></div>
   <div class="hero-content">
-    <div class="eyebrow">SOCHIWOOD / ОТДЕЛЬНАЯ КИНОВСЕЛЕННАЯ</div>
+    <div class="eyebrow">SOCHIWOOD · ORIGINAL CINEMA</div>
     <div class="hero-tags" aria-label="О фильме">
-      <span class="chip real">НАСТОЯЩИЙ СОЧИ</span>
-      <span class="chip">2026</span>
-      <span class="chip">КИНО О ЖИЗНИ</span>
+      <span class="chip real">СОЧИ · 2026</span>
       <span class="chip neuro">TRIZNES ORIGINAL</span>
     </div>
     <h1 id="hero-heading"><span id="hero-title">СОЧИ.</span><span id="hero-title2">ИГРА НАЧАЛАСЬ</span></h1>
-    <p id="hero-copy" class="hero-desc">Сочи становится историей, которую мы создаём вместе. Люди, идеи, встречи и кино настоящей жизни.</p>
+    <p id="hero-copy" class="hero-desc">Настоящие истории города. Кино, которое рождается из жизни.</p>
     <div class="hero-buttons">
       <button type="button" id="hero-play" class="btn btn-primary">▶ &nbsp; СМОТРЕТЬ ФИЛЬМ</button>
       <button type="button" id="hero-detail" class="btn">↓ &nbsp; КАТАЛОГ</button>
@@ -90,6 +85,12 @@
     <h2>Найти своё кино</h2>
     <p class="shelf-sub" id="results-count"></p>
     <div id="search-grid"></div>
+  </section>
+  <section id="world-tiles" class="sw-world-tiles" aria-label="Миры SOCHIWOOD">
+    <button class="sw-world-tile" type="button" data-nav="premiere" style="--tile-art:url('https://i.ytimg.com/vi/LL-HjXeOR4w/hqdefault.jpg')"><small>01 / PREMIERES</small><strong>Кинотеатр</strong><span aria-hidden="true">↗</span></button>
+    <button class="sw-world-tile" type="button" data-nav="mediahub" style="--tile-art:url('https://i.ytimg.com/vi/pMlQt1HWUTI/hqdefault.jpg')"><small>02 / MEDIAHUB</small><strong>Медиахаб</strong><span aria-hidden="true">↗</span></button>
+    <button class="sw-world-tile" type="button" data-nav="pinknoize" style="--tile-art:url('./media/pink-noize.svg')"><small>03 / ORIGINAL SOUND</small><strong>PINK NOIZE</strong><span aria-hidden="true">↗</span></button>
+    <button class="sw-world-tile" type="button" data-nav="daniel" style="--tile-art:url('https://i.ytimg.com/vi/ILy7GiNvG6U/hqdefault.jpg')"><small>04 / PERSONAL STORY</small><strong>DANIEL / APOLLON</strong><span aria-hidden="true">↗</span></button>
   </section>
   <section id="featured-stories" class="featured-stories" aria-labelledby="featured-title">
     <div class="featured-heading">
@@ -151,6 +152,12 @@
   <div class="foot-links"><a href="../entry.html">TRIZNES WORLD ↗</a><span>PINK NOIZE Production</span><span>SOCHIWOOD Entertainment</span></div>
 </footer>
 
+<nav class="sw-mobile-tabs" aria-label="Мобильная навигация кинотеатра">
+  <button data-nav="home" type="button" class="selected" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8M5 10v11h14V10"/></svg>Главная</button>
+  <button data-nav="premiere" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 4v16m10-16v16M9 10l5 2-5 2z"/></svg>Фильмы</button>
+  <button data-nav="neurofarm" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/></svg>Новый мир</button>
+  <button data-nav="saved" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-8-4.5-8-10a4.4 4.4 0 0 1 8-2.4A4.4 4.4 0 0 1 20 10c0 5.5-8 10-8 10Z"/></svg>Моё</button>
+</nav>
 <div id="player-overlay" role="dialog" aria-modal="true" aria-labelledby="player-title" hidden>
   <div class="player-top">
     <div class="player-identity">

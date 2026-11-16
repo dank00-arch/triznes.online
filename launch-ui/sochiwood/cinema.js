@@ -115,6 +115,7 @@ function setTab(name){
  $("collections").classList.toggle("hide",isSaved);
  $("spotlight").classList.toggle("hide",isSaved);
  $("featured-stories").classList.toggle("hide",isSaved);
+ $("world-tiles").classList.toggle("hide",isSaved);
  $("favorites-section").classList.toggle("hide",!isSaved && !saved.size);
  $("search-result-wrap").classList.add("hide");
  if(isSaved){showSavedOnly();$("favorites-section").scrollIntoView({behavior:"smooth",block:"start"});return}
@@ -128,7 +129,7 @@ function showSavedOnly(){
  if(!arr.length){const p=document.createElement("div");p.className="empty";p.textContent="Пока нет фильмов в избранном. Нажми «В избранное» у понравившейся истории.";rail.append(p);return}
  arr.forEach(f=>rail.append(createCard(f,false)));
 }
-function setSearch(open){searchOpen=open;$("search-bar").classList.toggle("hide",!open);$("search-trigger").setAttribute("aria-expanded",String(open));if(open){$("search-input").focus();$("search-result-wrap").classList.remove("hide");$("hero").classList.add("hide");$("collections").classList.add("hide");$("spotlight").classList.add("hide");$("featured-stories").classList.add("hide");$("favorites-section").classList.add("hide");$("search-result-wrap").scrollIntoView({behavior:"auto",block:"start"});renderSearch();}else{searchText="";$("search-input").value="";setTab(selectedTab)}}
+function setSearch(open){searchOpen=open;$("search-bar").classList.toggle("hide",!open);$("search-trigger").setAttribute("aria-expanded",String(open));if(open){$("search-input").focus();$("search-result-wrap").classList.remove("hide");$("hero").classList.add("hide");$("collections").classList.add("hide");$("spotlight").classList.add("hide");$("featured-stories").classList.add("hide");$("world-tiles").classList.add("hide");$("favorites-section").classList.add("hide");$("search-result-wrap").scrollIntoView({behavior:"auto",block:"start"});renderSearch();}else{searchText="";$("search-input").value="";setTab(selectedTab)}}
 function renderSearch(){
  const root=$("search-grid");root.textContent="";const q=searchText.toLocaleLowerCase("ru").trim();
  const result=FILMS.filter(f=>!q||[f.title,f.subtitle,f.format,f.line,f.desc].join(" ").toLocaleLowerCase("ru").includes(q));
