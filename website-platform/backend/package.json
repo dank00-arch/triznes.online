@@ -1,0 +1,17 @@
+{
+  "name": "triznes-telegram-mvp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "bot": "node bot.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.1",
+    "dotenv": "^17.4.2",
+    "express": "^4.19.2",
+    "livekit-server-sdk": "^2.13.3",
+    "node-telegram-bot-api": "^0.66.0"
+  }
+}

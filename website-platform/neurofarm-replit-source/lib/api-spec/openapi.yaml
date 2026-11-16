@@ -1,0 +1,612 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: farm
+    description: Personal content studio operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /farm/jobs:
+    get:
+      operationId: listJobs
+      tags: [farm]
+      summary: List content jobs
+      responses:
+        "200":
+          description: Content jobs
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobList"
+        "500":
+          $ref: "#/components/responses/Error"
+    post:
+      operationId: createJob
+      tags: [farm]
+      summary: Create a content job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobInput"
+      responses:
+        "201":
+          description: Created content job
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
+        "400":
+          $ref: "#/components/responses/Error"
+        "500":
+          $ref: "#/components/responses/Error"
+  /farm/jobs/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getJob
+      tags: [farm]
+      summary: Get a content job
+      responses:
+        "200":
+          description: Content job
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
+        "404":
+          $ref: "#/components/responses/Error"
+        "500":
+          $ref: "#/components/responses/Error"
+    patch:
+      operationId: updateJob
+      tags: [farm]
+      summary: Update a content job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobUpdate"
+      responses:
+        "200":
+          description: Updated content job
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "500":
+          $ref: "#/components/responses/Error"
+    delete:
+      operationId: deleteJob
+      tags: [farm]
+      summary: Delete a content job
+      responses:
+        "204":
+          description: Content job deleted
+        "404":
+          $ref: "#/components/responses/Error"
+        "500":
+          $ref: "#/components/responses/Error"
+  /farm/jobs/{id}/action:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: runJobAction
+      tags: [farm]
+      summary: Run a content job action
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobAction"
+      responses:
+        "200":
+          description: Updated content job
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "500":
+          $ref: "#/components/responses/Error"
+  /farm/overview:
+    get:
+      operationId: getFarmOverview
+      tags: [farm]
+      summary: Get content studio overview
+      responses:
+        "200":
+          description: Content studio counts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FarmOverview"
+        "500":
+          $ref: "#/components/responses/Error"
+  /farm/integrations:
+    get:
+      operationId: getFarmIntegrations
+      tags: [farm]
+      summary: Get integration statuses
+      responses:
+        "200":
+          description: Integration statuses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IntegrationStatusList"
+        "500":
+          $ref: "#/components/responses/Error"
+  /farm/settings:
+    get:
+      operationId: getFarmSettings
+      tags: [farm]
+      summary: Get content studio settings
+      responses:
+        "200":
+          description: Content studio settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FarmSettings"
+        "500":
+          $ref: "#/components/responses/Error"
+    patch:
+      operationId: updateFarmSettings
+      tags: [farm]
+      summary: Update content studio settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FarmSettingsUpdate"
+      responses:
+        "200":
+          description: Updated content studio settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FarmSettings"
+        "400":
+          $ref: "#/components/responses/Error"
+        "500":
+          $ref: "#/components/responses/Error"
+  /farm/session:
+    get:
+      operationId: getFarmSession
+      tags: [farm]
+      summary: Get content studio session
+      responses:
+        "200":
+          description: Session status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FarmSession"
+        "500":
+          $ref: "#/components/responses/Error"
+  /farm/images:
+    get:
+      operationId: listImages
+      tags: [farm]
+      responses:
+        "200":
+          description: Own generated images
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FarmImage"
+    post:
+      operationId: createImage
+      tags: [farm]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ImageInput"
+      responses:
+        "201":
+          description: Image draft
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FarmImage"
+  /farm/images/{id}/generate:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      operationId: generateImage
+      tags: [farm]
+      responses:
+        "200":
+          description: Reserved and generated image
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FarmImage"
+  /farm/montages:
+    get:
+      operationId: listMontages
+      tags: [farm]
+      responses:
+        "200":
+          description: Own montages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Montage"
+    post:
+      operationId: createMontage
+      tags: [farm]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MontageInput"
+      responses:
+        "201":
+          description: Draft
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Montage"
+        "400":
+          $ref: "#/components/responses/Error"
+  /farm/montages/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getMontage
+      tags: [farm]
+      responses:
+        "200":
+          description: Own montage, with refreshed provider status when available
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Montage"
+        "404":
+          $ref: "#/components/responses/Error"
+    patch:
+      operationId: updateMontage
+      tags: [farm]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MontageInput"
+      responses:
+        "200":
+          description: Updated draft
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Montage"
+        "409":
+          $ref: "#/components/responses/Error"
+  /farm/montages/{id}/render:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: renderMontage
+      tags: [farm]
+      summary: Owner-only paid render, never automatically retried
+      responses:
+        "200":
+          description: Reserved and submitted montage
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Montage"
+        "403":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+components:
+  responses:
+    Error:
+      description: Request failed
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  schemas:
+    ImageInput:
+      type: object
+      required: [title, prompt, format, model]
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+        prompt:
+          type: string
+          minLength: 10
+          maxLength: 2000
+        format:
+          type: string
+          enum: ["1:1", "16:9", "9:16"]
+        model:
+          type: string
+          enum: [gemini-3.1-flash-image, gemini-3-pro-image]
+    FarmImage:
+      type: object
+      required: [id, title, prompt, format, model, status, error, description, imageUrl, createdAt]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        prompt:
+          type: string
+        format:
+          type: string
+          enum: ["1:1", "16:9", "9:16"]
+        model:
+          type: string
+          enum: [gemini-3.1-flash-image, gemini-3-pro-image]
+        status:
+          type: string
+          enum: [draft, processing, completed, failed, interrupted]
+        error:
+          type: [string, "null"]
+        description:
+          type: [string, "null"]
+        imageUrl:
+          type: [string, "null"]
+        createdAt:
+          type: string
+          format: date-time
+    MontageClip:
+      type: object
+      required: [url, seek, duration]
+      properties:
+        url:
+          type: string
+          maxLength: 2048
+        seek:
+          type: number
+          minimum: 0
+        duration:
+          type: number
+          exclusiveMinimum: 0
+          maximum: 120
+    MontageInput:
+      type: object
+      required: [title, format, clips]
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+        format:
+          type: string
+          enum: ["16:9", "9:16", "1:1"]
+        clips:
+          type: array
+          minItems: 1
+          maxItems: 12
+          items:
+            $ref: "#/components/schemas/MontageClip"
+    Montage:
+      type: object
+      required: [id, title, format, clips, status, projectId, videoUrl, error, createdAt]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        format:
+          type: string
+          enum: ["16:9", "9:16", "1:1"]
+        clips:
+          type: array
+          items:
+            $ref: "#/components/schemas/MontageClip"
+        status:
+          type: string
+          enum: [draft, submitting, processing, completed, failed]
+        projectId:
+          type: [string, "null"]
+        videoUrl:
+          type: [string, "null"]
+        error:
+          type: [string, "null"]
+        createdAt:
+          type: string
+          format: date-time
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    Job:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        brief:
+          type: string
+        kind:
+          type: string
+          enum: [text, video]
+        format:
+          type: string
+          enum: ["9:16", "16:9", "1:1"]
+        status:
+          type: string
+          enum: [draft, script_ready, approved, processing, completed, failed]
+        script:
+          type: string
+        error:
+          type: [string, "null"]
+        driveUrl:
+          type: [string, "null"]
+        videoUrl:
+          type: [string, "null"]
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, title, brief, kind, format, status, script, error, driveUrl, videoUrl, createdAt]
+    JobList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Job"
+    JobInput:
+      type: object
+      properties:
+        title:
+          type: string
+        brief:
+          type: string
+        kind:
+          type: string
+          enum: [text, video]
+        format:
+          type: string
+          enum: ["9:16", "16:9", "1:1"]
+      required: [title, brief, kind, format]
+    JobUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        brief:
+          type: string
+        script:
+          type: string
+    JobAction:
+      type: object
+      properties:
+        action:
+          type: string
+          enum: [generate_script, approve, generate_video, export_drive]
+      required: [action]
+    FarmOverview:
+      type: object
+      properties:
+        total:
+          type: integer
+        drafts:
+          type: integer
+        completed:
+          type: integer
+        active:
+          type: integer
+      required: [total, drafts, completed, active]
+    IntegrationStatus:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+          enum: [connected, missing, unavailable]
+        detail:
+          type: string
+      required: [id, name, status, detail]
+    IntegrationStatusList:
+      type: array
+      items:
+        $ref: "#/components/schemas/IntegrationStatus"
+    FarmSettings:
+      type: object
+      properties:
+        workspaceName:
+          type: string
+        dailyLimit:
+          type: integer
+          minimum: 1
+          maximum: 100
+      required: [workspaceName, dailyLimit]
+    FarmSettingsUpdate:
+      type: object
+      properties:
+        workspaceName:
+          type: string
+        dailyLimit:
+          type: integer
+          minimum: 1
+          maximum: 100
+    FarmSession:
+      type: object
+      properties:
+        authenticated:
+          type: boolean
+        configured:
+          type: boolean
+        owner:
+          type: boolean
+      required: [authenticated, configured, owner]
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+
