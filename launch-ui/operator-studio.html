@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080609">
+<title>TRIZNES · Студия оператора</title>
+<style>
+:root{--gold:#edce85;--pink:#ff53c4;--sub:#b4aab8;--line:#ffffff23;font-family:Inter,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:#080609;color:#fff}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 13% 1%,#47263b70,transparent 45%),radial-gradient(ellipse at 83% 14%,#8151202e,transparent 45%),#080609}
+a{color:var(--gold)}.shell{width:min(1070px,calc(100% - 30px));margin:auto;padding:26px 0 80px}
+header{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:5px 0 25px;border-bottom:1px solid var(--line)}header a{text-decoration:none}header b{letter-spacing:.2em;font-size:15px}header b span{color:var(--pink)}header small{font-size:12px;font-weight:700}
+.ey{color:var(--gold);font:800 11px ui-monospace,monospace;letter-spacing:.19em}h1{font-size:clamp(37px,6vw,76px);line-height:1.0;letter-spacing:-.055em;margin:17px 0}h1 i{font-style:normal;color:var(--pink)}h2{font-size:21px;letter-spacing:-.03em;margin:0 0 16px}
+.lead{color:#c5bfc8;line-height:1.65;max-width:730px;font-size:14px}
+.grid{display:grid;grid-template-columns:1.4fr .86fr;gap:18px;margin-top:35px}
+.panel{background:#18141bbb;border:1px solid var(--line);border-radius:20px;padding:26px;min-width:0}
+label{display:block;color:#e4dce7;font-size:13px;font-weight:750;margin:16px 0 8px}
+input[type=text],textarea{width:100%;background:#0a0910;border:1px solid #ffffff29;border-radius:11px;color:#fff;font:inherit;font-size:14px;padding:13px 14px;outline:none}textarea{min-height:96px;resize:vertical}input:focus,textarea:focus{border-color:var(--gold)}
+.drop{display:block;padding:38px 15px;border:2px dashed #b49a736e;border-radius:16px;text-align:center;cursor:pointer;background:#f5d79309}.drop strong{display:block;color:var(--gold);font-size:16px;margin:9px 0}.drop span{display:block;color:#b9abb8;font-size:12px}.drop input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+video{width:100%;max-height:340px;background:#000;object-fit:contain;border-radius:10px;display:none;margin-top:14px}
+.ck{display:flex;align-items:flex-start;gap:11px;line-height:1.55;color:#c9c0cc;font-size:12px;margin:16px 0}.ck input{accent-color:var(--gold);margin-top:3px}
+button,.btn{font:800 13px inherit;border:1px solid var(--gold);border-radius:11px;padding:13px 19px;color:#140f15;background:linear-gradient(120deg,#edce85,#d9a05d);cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}.btn.secondary{background:transparent;color:var(--gold);display:inline-block;text-decoration:none}
+.status{border-left:3px solid var(--gold);padding:12px 14px;background:#edce8511;font-size:13px;line-height:1.5;color:#f4e4c3;margin:16px 0}
+.dim{font-size:12px;color:var(--sub);line-height:1.6}.step{display:flex;gap:12px;align-items:flex-start;padding:15px 0;border-top:1px solid var(--line)}.num{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;border:1px solid #edce8555;color:var(--gold);font-weight:900;flex:none}
+.step b{display:block;font-size:13px}.step p{font-size:12px;color:var(--sub);line-height:1.5;margin:6px 0 0}
+#admin{display:none;margin-top:20px}#queue .item{border-top:1px solid var(--line);padding:16px 0}.item b{display:block;font-size:14px}.item button{margin-top:8px;margin-right:8px}
+button:focus-visible,a:focus-visible,.drop:focus-within{outline:2px solid var(--pink);outline-offset:3px}
+@media(max-width:780px){.grid{grid-template-columns:1fr}.panel{padding:21px}header{flex-wrap:wrap}}
+</style>
+</head><body>
+<div class="shell">
+<header><a href="./cinema-24-7.html"><b>TRIZNES <span>×</span> PINK NOIZE</b></a><a href="./cinema-24-7.html"><small>← КИНО 24/7</small></a></header>
+<div class="ey" style="margin-top:42px">ОПЕРАТОРСКАЯ СТУДИЯ · КИНО ЖИЗНИ</div>
+<h1>ТВОИ КАДРЫ.<br><i>НАШЕ КИНО.</i></h1>
+<p class="lead">Передай свой ролик в закрытую редакцию TRIZNES. Все могут смотреть кино, а зарегистрированные персонажи передают оригиналы на проверку. Право предложить публикацию требует действующей чёрной карты PINK NOIZE. Финальная публикация — только после одобрения основателем.</p>
+<div class="grid">
+<section class="panel">
+<div class="ey">01 / ДОСТУП</div><h2 style="margin-top:8px">Загрузить оригинал</h2>
+<div id="authStatus" class="status" role="status">Проверяем авторизацию и право загрузки…</div>
+<form id="form">
+<label class="drop"><span style="font-size:32px">🎬</span><strong>Выбрать видео из галереи</strong><span>MP4 / MOV / WEBM · до 100 МБ · горизонтальные и вертикальные</span><input id="file" type="file" accept=".mp4,.mov,.webm,video/mp4,video/quicktime,video/webm" required></label>
+<video id="preview" controls playsinline preload="metadata"></video><p id="fileSummary" class="dim"></p>
+<label for="title">Название фильма / сцены</label><input id="title" type="text" maxlength="130" required placeholder="Например: Сочи. История одной встречи">
+<label for="description">О чём этот момент?</label><textarea id="description" maxlength="1500" placeholder="Место, участники, идея, дата съёмки…"></textarea>
+<label class="ck"><input id="rights" type="checkbox" required><span>У меня есть права на загрузку этого видео и используемый звук; чужие материалы указаны и разрешены.</span></label>
+<label class="ck"><input id="consents" type="checkbox" required><span>Я укажу всех узнаваемых участников; понимаю, что публикация требует отдельной проверки согласий.</span></label>
+<button id="send" type="submit" disabled>ПЕРЕДАТЬ НА ПРОВЕРКУ</button><div class="status" id="result" role="status" hidden></div>
+</form>
+<p class="dim" style="margin-top:18px">Файл до одобрения не виден другим пользователям. Загрузка не равна публикации. Исходники не используются для обучения или генерации лиц без отдельного согласия.</p>
+</section>
+<aside>
+<div class="panel"><div class="ey">ПУТЬ РОЛИКА</div><h2 style="margin-top:10px">От сцены до экрана</h2>
+<div class="step"><div class="num">01</div><div><b>ТВОЙ ОРИГИНАЛ</b><p>Авторизованный участник загружает видео только в приватный приёмник.</p></div></div>
+<div class="step"><div class="num">02</div><div><b>КАРТА + ПРАВА</b><p>Сервер проверяет действующую BLACK CARD, качество, людей и согласия.</p></div></div>
+<div class="step"><div class="num">03</div><div><b>РЕШЕНИЕ ДАНИЭЛЯ</b><p>Основатель отдельно утверждает конкретный файл и его описание.</p></div></div>
+<div class="step"><div class="num">04</div><div><b>КИНО 24/7</b><p>Только утверждённые фильмы попадают в открытый цикл. Отзыв согласия — немедленная остановка.</p></div></div>
+<a class="btn secondary" href="../register.html">ВОЙТИ В TRIZNES</a></div>
+<div class="panel" id="admin"><div class="ey">ТОЛЬКО ОСНОВАТЕЛЬ / МОДЕРАТОР</div><h2 style="margin-top:12px">Ожидают решения</h2><div id="queue"></div></div>
+</aside>
+</div>
+</div>
+<script>
+(function(){
+"use strict";
+const API="https://ldxysaezjkxmgbgcaama.supabase.co/functions/v1/triznes-cinema-gateway";
+const KEY="triznes-platform-session";
+const $=id=>document.getElementById(id);
+let token="",canUpload=false,canReview=false,previewUrl=null;
+try{token=localStorage.getItem(KEY)||""}catch(_){}
+async function request(action,extra){const r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json","X-Triznes-Session":token},body:JSON.stringify(Object.assign({action},extra||{}))});let d={};try{d=await r.json()}catch(_){}if(!r.ok||d.ok===false)throw Error(d.error||"server_unavailable");return d}
+function message(text){$("result").hidden=false;$("result").textContent=text}
+async function auth(){if(!token){$("authStatus").textContent="Нужен вход персонажа. Перейди в TRIZNES, введи имя и код, затем вернись сюда.";return}try{const d=await request("me");canUpload=!!d.can_upload;canReview=!!d.can_review;$("send").disabled=!canUpload;$("authStatus").textContent=canUpload?(d.black_card_active?"Доступ подтверждён. Чёрная карта активна; ролик всё равно ждёт одобрения.":"Вход подтверждён. Можно передать черновик, но без активной чёрной карты его не опубликуют."):"Вход есть, но доступ к загрузке не подтверждён сервером.";if(canReview){$("admin").style.display="block";loadQueue()}}catch(e){$("authStatus").textContent="Защищённый шлюз пока не подтверждает сессию ("+e.message+"). Загрузка закрыта, файл остаётся только на твоём устройстве."}}
+$("file").onchange=()=>{const f=$("file").files[0];if(previewUrl){URL.revokeObjectURL(previewUrl);previewUrl=null}if(!f){$("preview").style.display="none";return}if(!/^video\/(mp4|quicktime|webm)$/.test(f.type)||f.size>100*1024*1024){message("Нужен MP4 / MOV / WEBM до 100 МБ.");$("file").value="";return}previewUrl=URL.createObjectURL(f);$("preview").src=previewUrl;$("preview").style.display="block";$("fileSummary").textContent=f.name+" · "+(f.size/(1024*1024)).toFixed(1)+" МБ · локальный просмотр"};
+$("form").onsubmit=async e=>{e.preventDefault();if(!canUpload||!token){message("Сначала войди на платформу и подтверди доступ.");return}
+const f=$("file").files[0];if(!f||!$("rights").checked||!$("consents").checked){message("Выбери оригинал и заполни подтверждения.");return}
+$("send").disabled=true;message("Получаем приватный адрес для загрузки…");
+try{const d=await request("start_upload",{title:$("title").value.trim(),description:$("description").value.trim(),filename:f.name,mime_type:f.type,size_bytes:f.size,rights_declared:true,consents_declared:true});if(!d.upload_url||!d.submission_id)throw Error("upload_ticket_missing");message("Загружаем оригинальный файл в закрытое хранилище…");const up=await fetch(d.upload_url,{method:"PUT",headers:{"Content-Type":f.type,"x-upsert":"false"},body:f});if(!up.ok)throw Error("upload_failed_"+up.status);const fin=await request("finalize_upload",{submission_id:d.submission_id});message(fin.black_card_active?"Файл получен! Передан на закрытую редакционную проверку. Право публикации подтвердят отдельно.":"Файл получен как закрытый черновик. Для рассмотрения публикации потребуется действующая BLACK CARD.");$("form").reset();$("preview").style.display="none"}catch(err){message("Передача не завершена: "+err.message+". Публичного доступа нет.")}finally{$("send").disabled=!canUpload}};
+async function loadQueue(){try{const d=await request("review_queue");const root=$("queue");root.textContent="";for(const v of d.items||[]){const div=document.createElement("div");div.className="item";const b=document.createElement("b");b.textContent=v.title;const p=document.createElement("p");p.className="dim";p.textContent=v.status+" · "+new Date(v.created_at).toLocaleDateString("ru-RU");div.append(b,p);if(v.status==="submitted"){const open=document.createElement("button");open.textContent="Проверить оригинал";open.onclick=()=>{if(v.review_url)window.open(v.review_url,"_blank","noopener")};div.append(open);for(const decision of ["approve","reject"]){const btn=document.createElement("button");btn.textContent=decision==="approve"?"Одобрить для программы":"Отклонить";btn.onclick=async()=>{const note=prompt("Обоснование редакционного решения (от 20 символов):")||"";if(note.trim().length<20)return;const rights_evidence_ref=decision==="approve"?(prompt("Ссылка/номер подтверждения прав на видео и звук:")||""):"";const consent_evidence_ref=decision==="approve"?(prompt("Ссылка/номер согласий всех узнаваемых участников:")||""):"";if(decision==="approve"&&(rights_evidence_ref.trim().length<12||consent_evidence_ref.trim().length<12)){alert("Нужны отдельные подтверждения прав и согласий.");return}try{await request("review",{submission_id:v.id,decision,note,rights_evidence_ref,consent_evidence_ref});loadQueue()}catch(e){alert("Проверка не выполнена: "+e.message)}};div.append(btn)}}root.append(div)}if(!root.childNodes.length)root.textContent="Нет материалов на проверке."}catch(e){$("queue").textContent="Очередь недоступна: "+e.message}}
+auth();
+})();
+</script>
+</body></html>
