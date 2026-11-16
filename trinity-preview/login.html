@@ -6,8 +6,8 @@
 <div class="eyebrow">TRIZNES · ЗАЩИЩЁННЫЙ ВХОД · STAGING</div><h1>Твоя история начинается здесь.</h1>
 <p>Вход по электронной почте через Supabase Auth. Белая карта, профиль и мечта будут доступны только после проверки связи аккаунта с персонажем.</p>
 <form id="login"><label for="email">Электронная почта</label><input id="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com"><button id="send" type="submit">Получить ссылку для входа</button></form>
-<p id="message" role="status" aria-live="polite"></p>
-<p><small>Это тестовый экран. Письмо может прийти, но обработчик возвращённой сессии пока не реализован. Ввод PIN персонажа и выдача карты здесь намеренно отключены. Мы не запрашиваем API-ключи Gemini.</small></p>
+<p id="message" role="status" aria-live="polite"></p><section id="account" hidden><p id="identity"></p><button id="signout" type="button">Завершить тестовую сессию</button></section>
+<p><small>Это тестовый экран. Письмо может прийти; после перехода по ссылке токен проверяется на сервере Auth. Тестовая сессия хранится только в памяти страницы и пропадёт после обновления. Ввод PIN персонажа и выдача карты здесь намеренно отключены. Мы не запрашиваем API-ключи Gemini.</small></p>
 <a href="./index.html">← К демонстрации TRIZNES</a>
 </main>
 <script type="module">
@@ -15,9 +15,36 @@ const message=document.getElementById("message"),button=document.getElementById(
 
 const url=document.querySelector('meta[name="triznes-supabase-url"]')?.content || "";
 const key=document.querySelector('meta[name="triznes-supabase-publishable-key"]')?.content || "";
+let activeToken=null;
 const configured= /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(url) && /^(sb_publishable_|eyJ)/.test(key);
 if(!configured){button.disabled=true;message.textContent="Сервер входа ещё не настроен для этого тестового экрана. Никакие данные не отправляются.";}
 else{
+  const fragment=new URLSearchParams(location.hash.slice(1));
+  const returnedToken=fragment.get("access_token");
+  const authError=fragment.get("error_description")||fragment.get("error");
+  if(location.hash){history.replaceState(null,"",location.pathname+location.search);}
+  if(authError){message.textContent="Ошибка входа: "+authError.slice(0,180);}
+  else if(returnedToken){
+    button.disabled=true;message.textContent="Проверяем ссылку на сервере…";
+    try{
+      const response=await fetch(url.replace(/\\/$/,"")+"/auth/v1/user",{headers:{"apikey":key,"Authorization":"Bearer "+returnedToken},cache:"no-store"});
+      if(!response.ok)throw Error("Ссылка недействительна или срок её действия истёк.");
+      const user=await response.json();
+      if(!user?.id||!user?.email)throw Error("Сервер не подтвердил пользователя.");
+      activeToken=returnedToken;
+      document.getElementById("login").hidden=true;
+      document.getElementById("account").hidden=false;
+      document.getElementById("identity").textContent="Вход подтверждён для "+user.email+". Персонаж пока не привязан, карты и мечты недоступны.";
+      message.textContent="Тестовая авторизация подтверждена. Токен не сохранён на устройстве.";
+    }catch(error){message.textContent=error.message||"Не удалось проверить вход.";}finally{button.disabled=false;}
+  }
+  document.getElementById("signout").addEventListener("click",async()=>{
+    const token=activeToken;activeToken=null;
+    document.getElementById("account").hidden=true;
+    document.getElementById("login").hidden=false;
+    message.textContent="Тестовая сессия завершена.";
+    if(token)try{await fetch(url.replace(/\\/$/,"")+"/auth/v1/logout",{method:"POST",headers:{"apikey":key,"Authorization":"Bearer "+token}});}catch(_){/* local sign-out already complete */}
+  });
   document.getElementById("login").addEventListener("submit",async(event)=>{
     event.preventDefault();button.disabled=true;message.textContent="Отправляем ссылку…";
     try{
