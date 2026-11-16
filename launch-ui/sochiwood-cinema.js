@@ -93,7 +93,7 @@ function showSavedOnly(){
  if(!arr.length){const p=document.createElement("div");p.className="empty";p.textContent="Пока нет фильмов в избранном. Нажми «В избранное» у понравившейся истории.";rail.append(p);return}
  arr.forEach(f=>rail.append(createCard(f,false)));
 }
-function setSearch(open){searchOpen=open;$("search-bar").classList.toggle("hide",!open);$("search-trigger").setAttribute("aria-expanded",String(open));if(open){$("search-input").focus();$("search-result-wrap").classList.remove("hide");$("hero").classList.add("hide");$("collections").classList.add("hide");$("spotlight").classList.add("hide");$("favorites-section").classList.add("hide");$("search-result-wrap").scrollIntoView({behavior:"instant",block:"start"});renderSearch();}else{searchText="";$("search-input").value="";setTab(selectedTab)}}
+function setSearch(open){searchOpen=open;$("search-bar").classList.toggle("hide",!open);$("search-trigger").setAttribute("aria-expanded",String(open));if(open){$("search-input").focus();$("search-result-wrap").classList.remove("hide");$("hero").classList.add("hide");$("collections").classList.add("hide");$("spotlight").classList.add("hide");$("favorites-section").classList.add("hide");$("search-result-wrap").scrollIntoView({behavior:"auto",block:"start"});renderSearch();}else{searchText="";$("search-input").value="";setTab(selectedTab)}}
 function renderSearch(){
  const root=$("search-grid");root.textContent="";const q=searchText.toLocaleLowerCase("ru").trim();
  const result=FILMS.filter(f=>!q||[f.title,f.subtitle,f.format,f.line,f.desc].join(" ").toLocaleLowerCase("ru").includes(q));
@@ -178,7 +178,6 @@ function setup(){
  $("close-player").onclick=closeFilm;
  $("player-next").onclick=()=>nextFilm(1);
  $("player-prev").onclick=()=>nextFilm(-1);
- $("favorite-scroll").onclick=()=>{if(searchOpen)setSearch(false);setTab("saved")};
  window.addEventListener("keydown",e=>{
   if(e.key==="Escape"){if(playing)closeFilm();else if(searchOpen)setSearch(false);return}
   if(e.key==="/"&&!playing&&!searchOpen&&e.target.tagName!=="INPUT"){e.preventDefault();setSearch(true)}
