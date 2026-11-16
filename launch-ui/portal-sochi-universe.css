@@ -5,7 +5,7 @@
 .page-entry .screen{width:100%!important;margin:0!important;max-width:none!important;padding:0 0 80px!important;display:block!important}
 body.tc.page-entry{background:#05040a}
 body.tc.page-entry .portal-hero{position:relative;width:100%;margin:0;min-height:820px;height:100svh;max-height:1120px;overflow:hidden;background:#090916;color:#fff;isolation:isolate;display:flex;align-items:center}
-.page-entry .portal-view{position:absolute;z-index:-5;inset:0;background-image:url("https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Top_view_of_the_pier_of_the_Seaport_of_Sochi.jpg/1280px-Top_view_of_the_pier_of_the_Seaport_of_Sochi.jpg");background-size:cover;background-position:center 51%;filter:saturate(1.1) contrast(1.1);transform:scale(1.035);animation:portal-breathe 32s ease-in-out infinite alternate}
+.page-entry .portal-view{position:absolute;z-index:-5;inset:0;background-image:url("https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Top_view_of_the_pier_of_the_Seaport_of_Sochi.jpg/1280px-Top_view_of_the_pier_of_the_Seaport_of_Sochi.jpg"),url("https://i.ytimg.com/vi/LL-HjXeOR4w/hqdefault.jpg");background-size:cover;background-position:center 51%;filter:saturate(1.1) contrast(1.1);transform:scale(1.035);animation:portal-breathe 32s ease-in-out infinite alternate}
 .page-entry .portal-hero::after{content:"";z-index:-3;position:absolute;inset:0;background:
  linear-gradient(90deg,rgba(3,4,12,.98) 0%,rgba(4,5,16,.9) 34%,rgba(7,5,18,.57) 70%,rgba(4,5,14,.52) 100%),
  linear-gradient(0deg,#05040a 0%,transparent 40%,rgba(2,3,11,.48) 100%),
