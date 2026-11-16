@@ -15,9 +15,10 @@
 <link rel="preload" href="./fonts/unbounded-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="./vendor/maplibre-gl.css">
 <link rel="stylesheet" href="./css/app.css?v=2.0.0">
+<link rel="stylesheet" href="../launch-ui/neurofarm-unified.css?v=20261116-neurofarm-v1">
 <script>try{var t=localStorage.getItem('triznes-theme')||'auto';if(t==='auto'){var h=new Date().getHours();t=(h>=7&&h<18)?'dawn':'night'}document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='night'}</script>
 </head>
-<body>
+<body class="nf-app">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
  <defs>
   <linearGradient id="gNeon" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff3dcb"/><stop offset=".55" stop-color="#8e5bff"/><stop offset="1" stop-color="#33e6ff"/></linearGradient>
@@ -156,7 +157,7 @@
   <section class="screen" id="s-feed"><div class="wrap">
    <div class="top"><div><div class="ey cyan">Сочи · TRIZNES · PINK NOIZE</div><h1 class="h1">Лента</h1></div></div>
    <div class="seg" id="feedSeg"><button class="on" data-f="all">Всё</button><button data-f="sochi">Сочи</button><button data-f="triznes">TRIZNES</button><button data-f="video">Видео</button><button data-f="audio">Аудио</button></div>
-   <a class="btn block" href="../launch-ui/cinema-24-7.html" style="display:block;text-align:center;text-decoration:none;margin:8px 0 15px;border:1px solid rgba(237,206,133,.7);background:linear-gradient(110deg,rgba(237,206,133,.15),rgba(255,83,196,.10));color:#fff">🎬 КИНО 24/7 · СМОТРЕТЬ СОЧИ</a>
+   <a class="nf-feed-cinema" href="../launch-ui/cinema-24-7.html" aria-label="Открыть кинотеатр TRIZNES 24/7 — Сочи"><span class="nf-label">SOCHIWOOD / NEUROFARM · АРХИВНЫЙ ЦИКЛ</span><b>КИНО 24/7 · СОЧИ</b><small>Реальные истории и фильмы участников, в одном непрерывном просмотре. Смотреть без входа →</small></a>
    <div id="feedVideo" class="stack"></div>
    <div id="feedList" class="stack"></div>
    <div class="ey" style="margin-top:6px">Каналы мира</div>
