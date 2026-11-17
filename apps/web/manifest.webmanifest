@@ -1,0 +1,48 @@
+{
+  "id": "/?source=pwa",
+  "name": "TRIZNES · Жизнь в игре и игра в жизни",
+  "short_name": "TRIZNES",
+  "description": "Единая мобильная платформа Сочи: кинозал SOCHIWOOD, музыка PINK NOIZE, навигатор APOLLON, квесты DIONYSUS и контуры ART / TRADE / CORE.",
+  "start_url": "/entry.html?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#07040B",
+  "theme_color": "#07040B",
+  "lang": "ru",
+  "categories": ["entertainment", "lifestyle", "social"],
+  "icons": [
+    {
+      "src": "/assets/icons/triznes-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/triznes-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Игровой Кокпит APOLLON",
+      "short_name": "Кокпит",
+      "url": "/home.html",
+      "icons": [{ "src": "/assets/icons/triznes-icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Кинозал SOCHIWOOD",
+      "short_name": "Кинозал",
+      "url": "/sochiwood/index.html",
+      "icons": [{ "src": "/assets/icons/triznes-icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Карта Сочи",
+      "short_name": "Карта",
+      "url": "/world-map.html",
+      "icons": [{ "src": "/assets/icons/triznes-icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
