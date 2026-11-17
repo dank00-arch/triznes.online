@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#07040B" />
+  <title>TRIZNES · Профиль, Регистрация и Синхронизация Telegram</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Unbounded:wght@600;700;800&display=swap" />
+  <link rel="stylesheet" href="/src/styles/triznes-unified.css" />
+</head>
+<body>
+  <header class="tz-header">
+    <div class="tz-header-inner">
+      <a class="tz-brand" href="/entry.html"><span class="tz-brand-title">TRIZNES · IDENTITY</span></a>
+      <nav class="tz-nav">
+        <a class="tz-btn" href="/entry.html">Портал</a>
+        <a class="tz-btn" href="/home.html">Кокпит</a>
+        <a class="tz-btn" href="/sochiwood/index.html">Кинозал</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <main class="tz-main">
+    <section class="tz-grid-2">
+      <!-- Вход и регистрация через 6-значный код Telegram -->
+      <div class="tz-card">
+        <div style="font:800 10px/1.2 var(--tz-font-body);letter-spacing:0.18em;color:#FFD700;">ВХОД И РЕГИСТРАЦИЯ TRIZNES</div>
+        <h1 style="font-family:var(--tz-font-display);font-size:20px;margin:6px 0 14px;">Личный кабинет участника</h1>
+
+
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <input type="email" class="tz-input" id="authEmail" placeholder="Email" />
+          <input type="password" class="tz-input" id="authPassword" placeholder="Пароль" />
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button type="button" class="tz-btn tz-btn--gold" id="btnLogin">Войти</button>
+            <button type="button" class="tz-btn" id="btnLogout">Выйти</button>
+          </div>
+        </div>
+
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.12);margin:18px 0;" />
+
+
+        <div style="font:800 10px/1.2 var(--tz-font-body);letter-spacing:0.18em;color:#8CEFFF;">НОВАЯ РЕГИСТРАЦИЯ (С 6-ЗНАЧНЫМ КОДОМ @TRIZNES_BOT)</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px;">
+          <input type="text" class="tz-input" id="regName" placeholder="Имя или псевдоним" />
+          <input type="tel" class="tz-input" id="regPhone" placeholder="Телефон" />
+          <input type="text" class="tz-input" id="regCode" maxlength="6" placeholder="6-значный код из Telegram-бота" />
+          <button type="button" class="tz-btn tz-btn--magenta" id="btnRegister">Создать профиль и активировать Белую карту</button>
+        </div>
+        <div id="authNotice" style="margin-top:12px;font-size:13px;color:#FFD700;"></div>
+      </div>
+
+
+      <!-- Фото профиля (triznes-media) и 6-значный код привязки к Telegram -->
+      <div class="tz-card">
+        <div style="font:800 10px/1.2 var(--tz-font-body);letter-spacing:0.18em;color:#FF007F;">МЕДИА ПРОФИЛЯ И TELEGRAM</div>
+        <h2 style="font-family:var(--tz-font-display);font-size:18px;margin:6px 0 12px;">Фотография и синхронизация с ботом</h2>
+
+
+        <p style="font-size:13px;color:var(--tz-muted);">Загружай только реальное собственное фото (бакет <code>triznes-media</code> с изоляцией по <code>auth.uid()</code>).</p>
+        <input type="file" id="avatarFileInput" accept="image/jpeg,image/png,image/webp" class="tz-input" />
+        <button type="button" class="tz-btn tz-btn--gold" id="uploadPhotoBtn" style="margin-top:10px;">Загрузить фото в профиль</button>
+        <div id="photoNotice" style="margin-top:8px;font-size:12px;color:#8CEFFF;"></div>
+
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.12);margin:18px 0;" />
+
+
+        <div style="font-size:13px;margin-bottom:10px;">Привязать действующий веб-аккаунт к <strong>@TRIZNES_BOT</strong>:</div>
+        <button type="button" class="tz-btn" id="generateTgCodeBtn">Сгенерировать 6-значный код привязки</button>
+        <div id="tgCodeOutput" style="margin-top:10px;font-family:var(--tz-font-display);font-size:18px;color:#FFD700;"></div>
+      </div>
+    </section>
+  </main>
+
+
+  <nav class="tz-mobile-dock">
+    <a href="/entry.html">Портал</a>
+    <a href="/home.html">Кокпит</a>
+    <a href="/sochiwood/index.html">Кинозал</a>
+    <a href="/world-map.html">Карта</a>
+    <a href="/profile.html" class="is-active">Профиль</a>
+  </nav>
+
+
+  <script src="/src/js/triznes-core-sdk.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const sdk = window.TRIZNES_SDK;
+      const auth = new sdk.TriznesAuthSession();
+      const notice = document.getElementById('authNotice');
+
+
+      document.getElementById('btnLogin').addEventListener('click', async () => {
+        try {
+          const email = document.getElementById('authEmail').value.trim();
+          const pass = document.getElementById('authPassword').value;
+          await auth.signInWithPassword(email, pass);
+          notice.textContent = 'Вход выполнен. Перейди в Кокпит для активации или проверки карты.';
+        } catch (e) {
+          notice.textContent = e.message;
+        }
+      });
+
+
+      document.getElementById('btnLogout').addEventListener('click', () => {
+        auth.signOut();
+        notice.textContent = 'Сессия завершена.';
+      });
+
+
+      document.getElementById('btnRegister').addEventListener('click', async () => {
+        try {
+          await auth.signUpWithTelegramCode({
+            email: document.getElementById('authEmail').value.trim(),
+            password: document.getElementById('authPassword').value,
+            firstName: document.getElementById('regName').value.trim(),
+            phone: document.getElementById('regPhone').value.trim(),
+            registrationCode: document.getElementById('regCode').value.trim()
+          });
+          notice.textContent = 'Регистрация подтверждена! Открой Кокпит для активации 7-дневной Белой карты.';
+        } catch (e) {
+          notice.textContent = e.message;
+        }
+      });
+
+
+      document.getElementById('uploadPhotoBtn').addEventListener('click', async () => {
+        const file = document.getElementById('avatarFileInput').files?.[0];
+        const session = auth.getSession();
+        const photoNotice = document.getElementById('photoNotice');
+        if (!session?.access_token || !session?.user?.id) {
+          photoNotice.textContent = 'Требуется авторизация.';
+          return;
+        }
+        if (!file) {
+          photoNotice.textContent = 'Выбери изображение (JPG, PNG или WebP).';
+          return;
+        }
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+        const objectPath = `${session.user.id}/avatar_${Date.now()}_${safeName}`;
+        const uploadRes = await fetch(`${sdk.ENDPOINTS.storageUpload}/${objectPath}`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+            'Content-Type': file.type
+          },
+          body: file
+        });
+        photoNotice.textContent = uploadRes.ok
+          ? `Фото загружено в защищённый контур: ${objectPath}`
+          : `Ошибка загрузки (${uploadRes.status})`;
+      });
+
+
+      document.getElementById('generateTgCodeBtn').addEventListener('click', async () => {
+        const token = auth.getAccessToken();
+        const out = document.getElementById('tgCodeOutput');
+        if (!token || !sdk.ENDPOINTS.telegramSync) {
+          out.textContent = 'Войди в аккаунт для генерации кода.';
+          return;
+        }
+        const res = await fetch(sdk.ENDPOINTS.telegramSync, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: '{}'
+        });
+        const data = await res.json();
+        out.textContent = data.ok ? `Код: ${data.code} (отправь его @TRIZNES_BOT в течение 15 мин)` : `Ошибка: ${data.error}`;
+      });
+    });
+  </script>
+</body>
+</html>
