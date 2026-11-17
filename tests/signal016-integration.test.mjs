@@ -16,6 +16,8 @@ test('Signal 016: existing entry remains intact', () => {
 
 test('Signal 016: PWA manifest is valid and installable', () => {
   const m=JSON.parse(file('launch-ui/manifest.webmanifest'));
+  assert.equal(m.short_name, 'Smiles');
+  assert.match(m.name, /TRIZNES.*PINK NOIZE/);
   assert.ok(m.name && m.short_name);
   assert.equal(m.display,'standalone');
   assert.ok(Array.isArray(m.icons) && m.icons.length>0);
@@ -34,6 +36,9 @@ test('Signal 016: frontend SDK does not hardcode privileged credentials', () => 
 test('Signal 016: current landing page routes to the existing entry', () => {
   const html=file('index.html');
   assert.match(html,/launch-ui/);
+  const shell=file('launch-ui/index.html');
+  assert.match(shell, /Smiles/);
+  assert.match(shell, /entry\.html/);
 });
 
 test('Signal 016: no production DB changes in this PR', () => {
