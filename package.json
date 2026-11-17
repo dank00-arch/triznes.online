@@ -1,0 +1,21 @@
+{
+  "name": "triznes-unified-platform",
+  "version": "13.0.0",
+  "private": true,
+  "description": "TRIZNES × Three Snails × SOCHIWOOD × PINK NOIZE — Unified Mobile-First PWA Platform",
+  "type": "module",
+  "scripts": {
+    "dev": "vite apps/web --port 8080 --host",
+    "dev:pult": "vite apps/pult --port 8081 --host",
+    "build": "vite build apps/web --outDir ../../dist/web && vite build apps/pult --outDir ../../dist/pult",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "db:test:staging": "psql \"$SUPABASE_STAGING_DB_URL\" -v ON_ERROR_STOP=1 -f supabase/tests/20261117_identity_rls_card_test.sql"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "jsdom": "^25.0.1",
+    "vite": "^6.0.0",
+    "vitest": "^2.1.5"
+  }
+}

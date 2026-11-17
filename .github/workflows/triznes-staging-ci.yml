@@ -1,0 +1,41 @@
+name: TRIZNES Staging CI & PWA Smoke
+
+
+on:
+  pull_request:
+    branches:
+      - main
+      - 'feature/**'
+  push:
+    branches:
+      - 'feature/triznes-master-build-013'
+
+
+jobs:
+  unit-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+
+      - name: Install dependencies
+        run: npm ci
+
+
+      - name: Signal 016 non-destructive integration checks
+        run: node --test tests/signal016-integration.test.mjs
+
+      - name: Run unit & security invariant tests
+        run: npm run test:unit
+
+
+      - name: Build unified PWA web & pult bundles
+        run: npm run build
