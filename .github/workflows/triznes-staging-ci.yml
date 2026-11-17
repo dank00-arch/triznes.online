@@ -30,6 +30,9 @@ jobs:
         run: npm ci
 
 
+      - name: Signal 016 non-destructive integration checks
+        run: node --test tests/signal016-integration.test.mjs
+
       - name: Run unit & security invariant tests
         run: npm run test:unit
 
