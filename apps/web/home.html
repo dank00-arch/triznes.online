@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#07040B" />
+  <title>TRIZNES · Игровой Кокпит (APOLLON / DIONYSUS / BEZLIKI)</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Unbounded:wght@600;700;800&display=swap" />
+  <link rel="stylesheet" href="/src/styles/triznes-unified.css" />
+</head>
+<body>
+  <header class="tz-header">
+    <div class="tz-header-inner">
+      <a class="tz-brand" href="/entry.html">
+        <span class="tz-brand-title">TRIZNES · COCKPIT</span>
+      </a>
+      <nav class="tz-nav">
+        <a class="tz-btn" href="/entry.html">Портал</a>
+        <a class="tz-btn" href="/sochiwood/index.html">Кинозал</a>
+        <a class="tz-btn" href="/world-map.html">Карта Сочи</a>
+        <a class="tz-btn" href="/profile.html">Профиль</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <main class="tz-main">
+    <!-- Статус клубной карты и прогресс 00 -> 13 -->
+    <section class="tz-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;">
+      <div>
+        <div style="font:800 10px/1.2 var(--tz-font-body);letter-spacing:0.18em;color:#8CEFFF;">УРОВЕНЬ 00 → 13 · THREE SNAILS</div>
+        <h1 style="font-family:var(--tz-font-display);font-size:clamp(20px,3.2vw,28px);margin:4px 0 0;">Пульт твоей истории в Сочи</h1>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <span class="tz-badge" id="cardStatusBadge" data-origin="ARCHIVE">КАРТА: ГОСТЕВОЙ РЕЖИМ</span>
+        <button type="button" class="tz-btn tz-btn--gold" id="activateWhiteCardBtn">Активировать Белую карту (7 дней)</button>
+      </div>
+    </section>
+
+
+    <section class="tz-grid-2">
+      <!-- Левая панель: Роль без навязывания маски, три направления ART/TRADE/CORE и личный AI-ключ -->
+      <div class="tz-card">
+        <div style="font:800 10px/1.2 var(--tz-font-body);letter-spacing:0.18em;color:#FFD700;">1. СВОБОДА ВЫБОРА РОЛИ</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px;" id="roleGroup">
+          <button type="button" class="tz-btn" data-role="guest">Гость</button>
+          <button type="button" class="tz-btn" data-role="viewer">Зритель</button>
+          <button type="button" class="tz-btn tz-btn--gold" data-role="participant">Человек / Участник</button>
+          <button type="button" class="tz-btn" data-role="character">Персонаж</button>
+        </div>
+
+
+        <div style="font:800 10px/1.2 var(--tz-font-body);letter-spacing:0.18em;color:#FF007F;">2. НАПРАВЛЕНИЯ ВЗАИМОДЕЙСТВИЯ (ART / TRADE / CORE)</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px;" id="pillarGroup">
+          <button type="button" class="tz-btn tz-btn--gold" data-pillar="CORE">◉ CORE · Живое Ядро (Приморская 6/4)</button>
+          <button type="button" class="tz-btn" data-pillar="ART">✦ ART · SOCHIWOOD · PINK NOIZE · ТУЗ</button>
+          <button type="button" class="tz-btn" data-pillar="TRADE">◇ TRADE · Торговый Дом и Партнёры</button>
+        </div>
+
+
+        <div style="font:800 10px/1.2 var(--tz-font-body);letter-spacing:0.18em;color:#8CEFFF;">3. ИНДИВИДУАЛЬНЫЙ GEMINI API-КЛЮЧ (СЕРВЕРНОЕ ШИФРОВАНИЕ)</div>
+        <p style="font-size:12px;color:var(--tz-muted);margin:6px 0 10px;">Ключ передаётся по TLS и шифруется на сервере Supabase (не хранится в браузере).</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <input type="password" class="tz-input" id="personalGeminiKeyInput" placeholder="AIzaSy... (опционально)" style="flex:1;min-width:180px;" />
+          <button type="button" class="tz-btn" id="savePersonalKeyBtn">Сохранить в Vault</button>
+        </div>
+        <div id="personalKeyStatus" style="font-size:11px;color:#FFD700;margin-top:6px;"></div>
+      </div>
+
+
+      <!-- Правая панель: APOLLON (голос/текст) + DIONYSUS (квесты) + BEZLIKI (QC) -->
+      <div class="tz-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+          <div>
+            <div style="font:800 10px/1.2 var(--tz-font-body);letter-spacing:0.18em;color:#8CEFFF;" id="stepIndicator">APOLLON · ШАГ 1/6 (WELCOME)</div>
+            <h2 style="font-family:var(--tz-font-display);font-size:17px;margin:4px 0 0;">Диалог и квесты DIONYSUS</h2>
+          </div>
+          <button type="button" class="tz-btn tz-btn--magenta" id="voiceBtn">🎙️ Голос</button>
+        </div>
+
+
+        <div id="chatStream" style="max-height:250px;overflow-y:auto;margin:14px 0;padding:12px;border-radius:16px;background:rgba(0,0,0,0.42);display:flex;flex-direction:column;gap:8px;" aria-live="polite"></div>
+
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <input type="text" class="tz-input" id="chatInput" placeholder="Напиши ответ APOLLON или нажми 🎙️..." style="flex:1;min-width:190px;" />
+          <button type="button" class="tz-btn tz-btn--gold" id="chatSendBtn">Отправить</button>
+        </div>
+
+
+        <div id="dreamConsentBox" style="display:none;margin-top:12px;padding:12px;border-radius:14px;border:1px solid rgba(255,215,0,0.35);background:rgba(255,215,0,0.08);">
+          <div style="font-size:12px;margin-bottom:8px;">Сохранить мечту в твоём профиле? (Отказ не блокирует квест DIONYSUS):</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button type="button" class="tz-btn tz-btn--gold" id="dreamSaveYes">Сохранить в профиль</button>
+            <button type="button" class="tz-btn" id="dreamSaveNo">Продолжить без сохранения</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Реестр 14 персонажей и проводников -->
+    <section class="tz-card" style="margin-top:20px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;">
+        <h2 style="font-family:var(--tz-font-display);font-size:18px;margin:0;">Персонажи, проводники и маршруты Сочи</h2>
+        <span style="font-size:12px;color:var(--tz-muted);">DANIEL и НЕО разделены · Проверка BEZLIKI QC</span>
+      </div>
+      <div class="tz-grid-3" id="charactersContainer"></div>
+    </section>
+  </main>
+
+
+  <nav class="tz-mobile-dock" aria-label="Мобильная навигация">
+    <a href="/entry.html">Портал</a>
+    <a href="/home.html" class="is-active">Кокпит</a>
+    <a href="/sochiwood/index.html">Кинозал</a>
+    <a href="/world-map.html">Карта</a>
+    <a href="/profile.html">Профиль</a>
+  </nav>
+
+
+  <script src="/src/js/triznes-core-sdk.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const sdk = window.TRIZNES_SDK;
+      if (!sdk) return;
+      sdk.initPwaInstaller();
+
+
+      const auth = new sdk.TriznesAuthSession();
+      const cockpit = new sdk.TriznesCockpitController(auth);
+
+
+      const chatStream = document.getElementById('chatStream');
+      const chatInput = document.getElementById('chatInput');
+      const stepIndicator = document.getElementById('stepIndicator');
+      const dreamConsentBox = document.getElementById('dreamConsentBox');
+      const cardStatusBadge = document.getElementById('cardStatusBadge');
+      const charsContainer = document.getElementById('charactersContainer');
+
+
+      function addMessage(text, sender) {
+        const bubble = document.createElement('div');
+        bubble.style.padding = '10px 13px';
+        bubble.style.borderRadius = '13px';
+        bubble.style.fontSize = '13px';
+        bubble.style.maxWidth = '90%';
+        if (sender === 'ai') {
+          bubble.style.background = 'rgba(255, 215, 0, 0.12)';
+          bubble.style.border = '1px solid rgba(255, 215, 0, 0.28)';
+          bubble.style.alignSelf = 'flex-start';
+        } else {
+          bubble.style.background = 'rgba(255, 0, 127, 0.18)';
+          bubble.style.border = '1px solid rgba(255, 0, 127, 0.35)';
+          bubble.style.alignSelf = 'flex-end';
+        }
+        bubble.textContent = text;
+        chatStream.appendChild(bubble);
+        chatStream.scrollTop = chatStream.scrollHeight;
+      }
+
+
+      function renderCharacters() {
+        charsContainer.innerHTML = '';
+        sdk.CHARACTER_ROSTER.forEach((ch) => {
+          const el = document.createElement('article');
+          el.className = 'tz-card';
+          el.style.padding = '15px';
+          el.style.cursor = 'pointer';
+          if (cockpit.selectedChar.slug === ch.slug) el.style.borderColor = '#FF007F';
+          el.innerHTML = `
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;">
+              <span class="tz-badge" data-origin="${ch.origin}">${ch.origin} · ${ch.pillar}</span>
+              <small style="font-size:10px;color:#ABA3BC;">${ch.verified ? 'VERIFIED' : 'CONSENT GATE'}</small>
+            </div>
+            <strong style="display:block;margin:8px 0 4px;font-size:14px;">${ch.name}</strong>
+            <p style="margin:0 0 8px;font-size:12px;color:#ABA3BC;">${ch.role}</p>
+            <div style="font-size:11px;color:#FFD700;">Квест DIONYSUS: ${ch.quest}</div>
+          `;
+          el.addEventListener('click', () => {
+            cockpit.selectCharacter(ch.slug);
+            renderCharacters();
+            addMessage(`Выбрана линия: ${ch.name}. Рекомендуемый шаг BEZLIKI: ${ch.quest}`, 'ai');
+          });
+          charsContainer.appendChild(el);
+        });
+      }
+
+
+      async function refreshCardAndVault() {
+        if (!auth.getAccessToken()) return;
+        try {
+          const cardRes = await cockpit.callGateway({ action: 'get_card_status' });
+          if (cardRes?.card) {
+            const tier = String(cardRes.card.tier || 'unpaid').toUpperCase();
+            cardStatusBadge.textContent = `КАРТА: ${tier} (${cardRes.card.status})`;
+          }
+          const keyRes = await cockpit.callGateway({ action: 'get_user_ai_key_status' });
+          if (keyRes?.has_personal_key) {
+            document.getElementById('personalKeyStatus').textContent = `Активен личный ключ: ${keyRes.key_hint}`;
+          }
+        } catch {}
+      }
+
+
+      async function handleStep(text, confirmedByUser = null, issueWhiteCard = false) {
+        if (text) addMessage(text, 'user');
+        try {
+          const res = await cockpit.nextApollonStep({ message: text, confirmedByUser, issueWhiteCard });
+          stepIndicator.textContent = `${res.guide} · ШАГ: ${res.state} · ${res.pillar}`;
+          dreamConsentBox.style.display = res.state === 'CONSENT' ? 'block' : 'none';
+          if (res.assistant?.reply_text) addMessage(res.assistant.reply_text, 'ai');
+          if (res.card?.tier && res.card.tier !== 'guest') {
+            cardStatusBadge.textContent = `КАРТА: ${String(res.card.tier).toUpperCase()} (${res.card.status})`;
+          }
+          if (res.dream_saved) {
+            addMessage('Подтверждено Supabase: твоя мечта сохранена в профиле.', 'ai');
+          }
+        } catch (err) {
+          addMessage(`Ошибка шлюза: ${err.message}`, 'ai');
+        }
+      }
+
+
+      document.getElementById('chatSendBtn').addEventListener('click', () => {
+        const val = chatInput.value.trim();
+        if (!val) return;
+        chatInput.value = '';
+        handleStep(val);
+      });
+
+
+      document.getElementById('dreamSaveYes').addEventListener('click', () => handleStep('Сохранить мечту', true));
+      document.getElementById('dreamSaveNo').addEventListener('click', () => handleStep('Продолжить без сохранения', false));
+
+
+      document.getElementById('activateWhiteCardBtn').addEventListener('click', () => {
+        if (!auth.getAccessToken()) {
+          addMessage('Белая карта на 7 дней активируется сервером после входа в профиль (/profile.html), чтобы защитить твою идентичность.', 'ai');
+          return;
+        }
+        handleStep('Активировать Белую карту на 7 дней', null, true);
+      });
+
+
+      document.getElementById('savePersonalKeyBtn').addEventListener('click', async () => {
+        const keyVal = document.getElementById('personalGeminiKeyInput').value.trim();
+        if (!auth.getAccessToken()) {
+          document.getElementById('personalKeyStatus').textContent = 'Сначала выполните вход в профиль.';
+          return;
+        }
+        try {
+          const res = await cockpit.callGateway({ action: 'set_user_ai_key', api_key: keyVal });
+          document.getElementById('personalGeminiKeyInput').value = '';
+          document.getElementById('personalKeyStatus').textContent = `Сохранено в серверный Vault: ${res.key_hint}`;
+        } catch (e) {
+          document.getElementById('personalKeyStatus').textContent = `Ошибка: ${e.message}`;
+        }
+      });
+
+
+      document.querySelectorAll('#roleGroup [data-role]').forEach((b) => {
+        b.addEventListener('click', () => {
+          document.querySelectorAll('#roleGroup [data-role]').forEach((x) => x.classList.remove('tz-btn--gold'));
+          b.classList.add('tz-btn--gold');
+          cockpit.setMode(b.dataset.role);
+        });
+      });
+
+
+      document.querySelectorAll('#pillarGroup [data-pillar]').forEach((b) => {
+        b.addEventListener('click', () => {
+          document.querySelectorAll('#pillarGroup [data-pillar]').forEach((x) => x.classList.remove('tz-btn--gold'));
+          b.classList.add('tz-btn--gold');
+          cockpit.setPillar(b.dataset.pillar);
+        });
+      });
+
+
+      document.getElementById('voiceBtn').addEventListener('click', () => {
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SR) {
+          addMessage('Голосовой ввод не поддерживается в этом браузере — используй текстовое поле.', 'ai');
+          return;
+        }
+        const rec = new SR();
+        rec.lang = 'ru-RU';
+        rec.onresult = (ev) => {
+          const spoken = ev.results?.[0]?.[0]?.transcript || '';
+          if (spoken) handleStep(spoken);
+        };
+        rec.start();
+      });
+
+
+      renderCharacters();
+      await refreshCardAndVault();
+      addMessage('Добро пожаловать в TRIZNES. Как тебя называть? Ты можешь остаться гостем/зрителем или выбрать образ персонажа.', 'ai');
+    });
+  </script>
+</body>
+</html>
